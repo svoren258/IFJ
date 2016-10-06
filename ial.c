@@ -1,35 +1,27 @@
-/********************************************************************/
-/*Projekt:Implementace interpretu imperativního jazyka IFJ14        */
-/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
-/*                  Patrik Roman, Martin Chudý                      */
-/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
-/********************************************************************/
 #include "ial.h"
 
 
 
 
-void find(char *str, Tnode *root, Tnode *pos, Tnode **par){
+void find(char *str, Tnode *root, Tnode **pos, Tnode **par){
 	Tnode *end;
 
 	//nothing in the table so far, no root
 	if(root == NULL)
 	{
-		printf("No root\n");
 		*par = NULL;
 		return;
 	}
 	
-	//the new symbol is identic with the only one existing
+	//the strings mathch
 	if( !strcmp(str,root->name) )
 	{
-		printf("Found!! %s\n", root->name);
-		*pos = *root;
+		*pos = root;
 	}
 
 	//check nodes and find place for the new symbol
 	*par = root;
-	//printf("%s\n",*par->name);
+	
 	if( strcmp(root->name,str) < 0)
 	{
 		end = root->childR;
@@ -39,14 +31,17 @@ void find(char *str, Tnode *root, Tnode *pos, Tnode **par){
 		end = root->childL;
 	}
 
+	//binary search
 	while(end != NULL)
 	{
-
+		//if the strings math
 		if( !strcmp(end->name,str) )
 		{
-			*par = end;
+			*pos = end;
 			return;
 		}
+		
+		//save the node to which new string will be append
 		*par = end;
 		if( strcmp(end->name,str) < 0)
 		{
@@ -59,12 +54,11 @@ void find(char *str, Tnode *root, Tnode *pos, Tnode **par){
 			end = end->childL;
 		}
 	}
-	pos = NULL;
+	*pos = NULL;
 }
 
 
 void insert(char *str, Ttable **table){
-	//printf("%s\n",(*table)->root->name);
 
 	Tnode  *par, *pos, *new;
 	
@@ -73,23 +67,27 @@ void insert(char *str, Ttable **table){
 	new->childR = NULL;
 	new->childL = NULL;
 
-	find(str, (*table)->root, pos, &par);
+	find(str, (*table)->root, &pos, &par);
 	if(par == NULL)
 	{
 		(*table)->root = new;
 		return;
 	}
 
+	if(pos != NULL)
+	{
+		fprintf(stderr, "Such string already in the tree!\n");
+		return;
+	}
+
 	if( strcmp(par->name,new->name) < 0)
 	{
-		printf("parrent: %s\n",par->name);
 		par->childR = new;
 		return;
 	}
 	else 
 	{
 		par->childL = new;
-		printf("%s\n",new->name);
 	}
 
 }

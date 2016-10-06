@@ -4,7 +4,6 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +27,7 @@ typedef struct table Ttable;
 typedef struct node Tnode;
 
 /*Find string(str) in a binary tree with root(root). If found save to (pos) else save parrent(par) to which new node should be added*/
-void find(char *str, Tnode *root, Tnode *pos, Tnode **par);
+void find(char *str, Tnode *root, Tnode **pos, Tnode **par);
 
 /*Insert string into table(binary tree)*/
 void insert(char *str, Ttable **table);
