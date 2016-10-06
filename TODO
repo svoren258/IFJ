@@ -1,9 +1,17 @@
-TOKENTYPE | TERMINALS
+
+Token type in context of this project contains 3 variables
+	Token type
+	Token name
+	Line number of the token's occurence
+
+
+TOKENTYPE | TOKEN_NAME
 
 SIGN | +, -, *, /
 EXPR
 FUNC_DECL | [a-z0-9]
 FUNC_DECL_PARAMS | [a-z0-9]
+???FUNC_CALL | [a-z0-9]???
 IDENTIFIER [a-z0-9]
 L_BRACKET_ROUND | (
 R_BRACKET_ROUND | )
@@ -13,5 +21,9 @@ L_BRACKER_SQUARE | [
 R_BRACKEf_SQUARE | ]
 L_BRACKET_CHEVRON | <
 R_BRACKET_CHEVRON | >
+EOF | [eof sign]
+CLASS_DECL | [a-z0-9]
+.... add more....
+
 
 
