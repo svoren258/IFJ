@@ -2,7 +2,7 @@
 /*Projekt:Implementace interpretu imperativního jazyka IFJ14        */
 /*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
 /*                  Patrik Roman, Martin Chudý                      */
-/*Loginy řešitelů: xsvore01, xkisel02, xrudik00                     */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 
 #include <stdio.h>
