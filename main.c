@@ -24,7 +24,6 @@ int main(){
 	insert("abc",&keywords_table);
 	insert("def",&keywords_table);
 	insert("ghj",&keywords_table);
-	// printf("%s\n",keywords_table->root->name);
 	 // printf("%s\n",keywords_table->root->childR->name);
 	printf("%s\n",keywords_table->root->childR->childR->name);
 
