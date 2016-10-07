@@ -1,3 +1,5 @@
+FILES=main.c ial.c parser.c
+
 all:
-	gcc main.c ial.c -o ifj
+	gcc $(FILES) -o ifj
 

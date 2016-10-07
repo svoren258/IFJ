@@ -1,0 +1,2 @@
+/*Syntactic analysis*/
+void parse();

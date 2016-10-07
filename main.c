@@ -11,27 +11,12 @@
 #include <limits.h>
 #include <stdbool.h>
 #include "ial.h"
-
+#include "parser.h"
 
 
 int main(){
 	
-	Ttable *keywords;
-	keywords = create_table();	
+	parse();
 
-	Ttable *functions;
-	functions = create_table();
-	insert_table_symbol("abc",&keywords);
-	insert_table_symbol("def",&keywords);
-	insert_table_symbol("ghj",&keywords);
-	 // printf("%s\n",table->root->childR->name);
-
-	free(keywords->root->childR->childR);
-	free(keywords->root->childR);
-	free(keywords->root);
-	free(keywords);
-	free(functions);
-	//printf("%s\n",keywords->root->childR->childR->name);
-
-	return 1;
+	return 0;
 }

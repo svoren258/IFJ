@@ -32,11 +32,11 @@ void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 	
 	if( strcmp(root->name,str) < 0)
 	{
-		end = root->childR;
+		end = root->Rchild;
 	}
 	else
 	{
-		end = root->childL;
+		end = root->Lchild;
 	}
 
 	//binary search
@@ -54,12 +54,12 @@ void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 		if( strcmp(end->name,str) < 0)
 		{
 			*par = end;
-			end = end->childR;
+			end = end->Rchild;
 		}
 		else
 		{	
 			*par = end;
-			end = end->childL;
+			end = end->Lchild;
 		}
 	}
 	*pos = NULL;
@@ -73,8 +73,8 @@ void insert_table_symbol(char *str, Ttable **table)
 	
 	new = malloc(sizeof(Tnode));
 	new->name = str;
-	new->childR = NULL;
-	new->childL = NULL;
+	new->Rchild = NULL;
+	new->Lchild = NULL;
 
 	find_table_symbol(str, (*table)->root, &pos, &par);
 	if(par == NULL)
@@ -91,18 +91,33 @@ void insert_table_symbol(char *str, Ttable **table)
 
 	if( strcmp(par->name,new->name) < 0)
 	{
-		par->childR = new;
+		par->Rchild = new;
 		return;
 	}
 	else 
 	{
-		par->childL = new;
+		par->Lchild = new;
 	}
 }
 
-/*destroy table and all its nodes*/
+
+void destroy_tree(Tnode *root)
+{
+	while(1)
+	{
+		if((root)!=NULL)
+		{
+			destroy_tree(root->Rchild);
+			destroy_tree(root->Lchild);
+		}
+		free(root);
+		break;
+	}
+}
+
 void destroy_table(Ttable **table)
 {
-
+	destroy_tree((*table)->root);
+	free(*table);
 }
 

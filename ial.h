@@ -12,10 +12,12 @@
 #include <stdbool.h>
 #define debug() printf("debug \n");
 
+typedef char * string;
+
 struct node {
 	char *name;
-	struct node *childL;
-	struct node *childR;
+	struct node *Lchild;
+	struct node *Rchild;
 };
 
 struct table {
@@ -28,8 +30,17 @@ typedef struct node Tnode;
 /*creates new symbols table implemented by a binary tree*/
 Ttable *create_table();
 
+/*frees all the memory allocated for the tree and all its nodes*/
+void destroy_table();
+
 /*Find string(str) in a binary tree with root(root). If found save to (pos) else save parrent(par) to which new node should be added*/
 void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par);
 
 /*Insert string into table(binary tree)*/
 void insert_table_symbol(char *str, Ttable **table);
+
+/*Destroys all nodes within a table*/
+void destroy_tree(Tnode *root);
+
+/*Destroys the symbol table*/
+void destroy_table(Ttable **table);
