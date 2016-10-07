@@ -19,15 +19,17 @@ struct node {
 };
 
 struct table {
-	char *name;
 	struct node *root;
 };
 
 typedef struct table Ttable;
 typedef struct node Tnode;
 
+/*creates new symbols table implemented by a binary tree*/
+Ttable *create_table();
+
 /*Find string(str) in a binary tree with root(root). If found save to (pos) else save parrent(par) to which new node should be added*/
-void find(char *str, Tnode *root, Tnode **pos, Tnode **par);
+void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par);
 
 /*Insert string into table(binary tree)*/
-void insert(char *str, Ttable **table);
+void insert_table_symbol(char *str, Ttable **table);

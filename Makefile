@@ -1,3 +1,3 @@
 all:
-	main.c ial.c -o ifj
+	gcc main.c ial.c -o ifj
 

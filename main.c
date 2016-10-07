@@ -16,16 +16,22 @@
 
 int main(){
 	
-	
-	Ttable * keywords_table;
-	keywords_table = malloc(sizeof(Ttable));
-	keywords_table->name = "Keywords";
-	
-	insert("abc",&keywords_table);
-	insert("def",&keywords_table);
-	insert("ghj",&keywords_table);
-	 // printf("%s\n",keywords_table->root->childR->name);
-	printf("%s\n",keywords_table->root->childR->childR->name);
+	Ttable *keywords;
+	keywords = create_table();	
+
+	Ttable *functions;
+	functions = create_table();
+	insert_table_symbol("abc",&keywords);
+	insert_table_symbol("def",&keywords);
+	insert_table_symbol("ghj",&keywords);
+	 // printf("%s\n",table->root->childR->name);
+
+	free(keywords->root->childR->childR);
+	free(keywords->root->childR);
+	free(keywords->root);
+	free(keywords);
+	free(functions);
+	//printf("%s\n",keywords->root->childR->childR->name);
 
 	return 1;
 }

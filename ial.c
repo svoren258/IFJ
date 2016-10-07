@@ -1,9 +1,17 @@
 #include "ial.h"
 
 
+Ttable * create_table()
+{
+	Ttable * new_table;
+	new_table = malloc(sizeof(Ttable));
+	if(new_table == NULL)
+		return false;
+	return new_table;
+}
 
-
-void find(char *str, Tnode *root, Tnode **pos, Tnode **par){
+void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
+{
 	Tnode *end;
 
 	//nothing in the table so far, no root
@@ -58,7 +66,8 @@ void find(char *str, Tnode *root, Tnode **pos, Tnode **par){
 }
 
 
-void insert(char *str, Ttable **table){
+void insert_table_symbol(char *str, Ttable **table)
+{
 
 	Tnode  *par, *pos, *new;
 	
@@ -67,7 +76,7 @@ void insert(char *str, Ttable **table){
 	new->childR = NULL;
 	new->childL = NULL;
 
-	find(str, (*table)->root, &pos, &par);
+	find_table_symbol(str, (*table)->root, &pos, &par);
 	if(par == NULL)
 	{
 		(*table)->root = new;
@@ -89,6 +98,11 @@ void insert(char *str, Ttable **table){
 	{
 		par->childL = new;
 	}
+}
+
+/*destroy table and all its nodes*/
+void destroy_table(Ttable **table)
+{
 
 }
 
