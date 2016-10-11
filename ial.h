@@ -13,9 +13,32 @@
 #define debug() printf("debug \n");
 
 typedef char * string;
+typedef struct table Ttable;
+typedef struct node Tnode;
+typedef struct new_function TFunction;
+typedef struct new_variable TVariable;
+
+struct new_function {
+	int somestuff;
+	char * someotherstuff;
+};
+
+struct new_variable {
+	union{
+		int i;
+		double d;
+		char *c;
+	}value;
+	
+};
 
 struct node {
 	char *name;
+	int type;
+	union{
+		TFunction f;
+		TVariable v;
+	}data;
 	struct node *Lchild;
 	struct node *Rchild;
 };
@@ -24,8 +47,7 @@ struct table {
 	struct node *root;
 };
 
-typedef struct table Ttable;
-typedef struct node Tnode;
+
 
 /*creates new symbols table implemented by a binary tree*/
 Ttable *create_table();

@@ -1,22 +1,18 @@
 #include "ial.h"
 
+
+void init(){
+
+}
+
 void parse(){
 
-Ttable *keywords;
-	keywords = create_table();	
+	Ttable* globalSTable;
+	globalSTable = create_table();	
 
-	string words[5];
-	words[0] = "IF";
-	words[1] = "THEN";
-	words[2] = "ELSE";
-	words[3] = "VOID";
-	words[4] = "MAIN";
-
-	for(int i=0; i<5; i++)	
-	insert_table_symbol(words[i],&keywords);
-	
+	insert_table_symbol("test", &globalSTable);
+	insert_table_symbol("string", &globalSTable);
 
 
-
-	destroy_table(&keywords);
+	destroy_table(&globalSTable);
 }

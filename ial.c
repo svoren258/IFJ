@@ -25,6 +25,7 @@ void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 	if( !strcmp(str,root->name) )
 	{
 		*pos = root;
+		return;
 	}
 
 	//check nodes and find place for the new symbol
@@ -75,11 +76,13 @@ void insert_table_symbol(char *str, Ttable **table)
 	new->name = str;
 	new->Rchild = NULL;
 	new->Lchild = NULL;
+	
 
 	find_table_symbol(str, (*table)->root, &pos, &par);
 	if(par == NULL)
 	{
 		(*table)->root = new;
+
 		return;
 	}
 
@@ -107,6 +110,7 @@ void destroy_tree(Tnode *root)
 	{
 		if((root)!=NULL)
 		{
+			printf("%s\n",root->name);
 			destroy_tree(root->Rchild);
 			destroy_tree(root->Lchild);
 		}
