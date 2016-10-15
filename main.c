@@ -4,18 +4,15 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <limits.h>
-#include <stdbool.h>
+
 #include "ial.h"
 #include "parser.h"
-
+#include "lex.h"
 
 int main(){
 	
+	lex_init();
+
 	parse();
 
 	return 0;

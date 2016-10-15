@@ -1,14 +1,27 @@
 #include "ial.h"
+#include "lex.h"
 
 
-void init(){
+Ttable* globTable;
+Ttable* locTable;
 
+void parser_init(){
+
+	globTable = create_table();	
+	locTable = create_table();	
 }
+
+/*--------------------automat-----------------------*/
+
+
+
+
+/*--------------------/automat-----------------------*/
 
 void parse(){
 
-	Ttable* globalSTable;
-	globalSTable = create_table();	
+
+	Ttoken *token = get_token();
 
 	insert_table_symbol("test", &globalSTable);
 	insert_table_symbol("string", &globalSTable);

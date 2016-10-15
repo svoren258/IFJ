@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
+
 #define debug() printf("debug \n");
 
 typedef char * string;
