@@ -4,6 +4,8 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#ifndef Ttypes
+#define Ttypes
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,18 +15,24 @@
 
 #define debug() printf("debug \n");
 
+
 typedef char * string;
 typedef struct table Ttable;
 typedef struct node Tnode;
-typedef struct new_function TFunction;
-typedef struct new_variable TVariable;
+typedef struct new_func TFunction;
+typedef struct new_var TVariable;
 
-struct new_function {
+
+struct new_func {
+	char *name;
+	int type;
 	int somestuff;
 	char * someotherstuff;
 };
 
-struct new_variable {
+struct new_var {
+	char *name;
+	int type;
 	union{
 		int i;
 		double d;
@@ -47,7 +55,7 @@ struct node {
 struct table {
 	struct node *root;
 };
-
+#endif
 
 
 /*creates new symbols table implemented by a binary tree*/
@@ -60,7 +68,7 @@ void destroy_table();
 void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par);
 
 /*Insert string into table(binary tree)*/
-void insert_table_symbol(char *str, Ttable **table);
+void insert_table_symbol(TFunction *f, TVariable *v, Ttable **table);
 
 /*Destroys all nodes within a table*/
 void destroy_tree(Tnode *root);

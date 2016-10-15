@@ -8,7 +8,7 @@ void lex_init(){
 }
 
 Ttoken *get_token(){
-	token->data = "if";
+	token->name = "if";
 	token->type = TOKEN_IF;
 	
 	return token;

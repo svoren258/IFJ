@@ -13,18 +13,19 @@ Ttable * create_table()
 void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 {
 	Tnode *end;
-
 	//nothing in the table so far, no root
 	if(root == NULL)
 	{
 		*par = NULL;
 		return;
 	}
-	
-	//the strings mathch
+
+	//ERROR already in the table
 	if( !strcmp(str,root->name) )
 	{
+		*par = root;
 		*pos = root;
+
 		return;
 	}
 
@@ -43,7 +44,7 @@ void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 	//binary search
 	while(end != NULL)
 	{
-		//if the strings math
+		//ERROR already in the table
 		if( !strcmp(end->name,str) )
 		{
 			*pos = end;
@@ -67,28 +68,33 @@ void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par)
 }
 
 
-void insert_table_symbol(char *str, Ttable **table)
+void insert_table_symbol(TFunction *f, TVariable *v, Ttable **table)
 {
+
 
 	Tnode  *par, *pos, *new;
 	
 	new = malloc(sizeof(Tnode));
-	new->name = str;
+	if(f)
+		new->name = f->name;
+	if(v)
+		new->name = v->name;
+		
 	new->Rchild = NULL;
 	new->Lchild = NULL;
 	
 
-	find_table_symbol(str, (*table)->root, &pos, &par);
+	find_table_symbol(new->name, (*table)->root, &pos, &par);
 	if(par == NULL)
 	{
 		(*table)->root = new;
-
+		
 		return;
 	}
 
 	if(pos != NULL)
 	{
-		fprintf(stderr, "Such string already in the tree!\n");
+		fprintf(stderr, "Redeclaration error of \"%s\"\n",new->name);
 		return;
 	}
 
@@ -110,7 +116,8 @@ void destroy_tree(Tnode *root)
 	{
 		if((root)!=NULL)
 		{
-			printf("%s\n",root->name);
+
+			printf("delete %s\n",root->name);
 			destroy_tree(root->Rchild);
 			destroy_tree(root->Lchild);
 		}

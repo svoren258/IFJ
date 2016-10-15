@@ -1,3 +1,5 @@
+#ifndef TTokens
+#define TTokens
 enum tokens {
 	TOKEN_IF = 0,
 	TOKEN_ELSE,
@@ -5,10 +7,11 @@ enum tokens {
 };
 
 typedef struct token{
-	char* data;
+	char* name;
 	int type;
 }Ttoken;
 
 
 void lex_init();
 Ttoken *get_token();
+#endif
