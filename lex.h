@@ -12,6 +12,44 @@ typedef struct token{
 }Ttoken;
 
 
+
+typedef enum
+{
+PLUS,
+MINUS,
+MUL,
+DIV,
+MOD,
+EQUATE,
+EQUALS,
+GREATER,
+LESSER,
+GR_EQ,
+LE_EQ,
+EXPL,
+N_EQ,
+DOT,
+SEM_CL,
+COLON,
+QUOTE,
+OR_A,
+OR_B,
+AND_A,
+AND_B,
+LB,
+PB,
+LSB,
+PSB,
+LDB,
+PDB,
+N_DEC,
+N_DEC_E,
+DEC,
+DEC_E,
+COM,
+B_COM,
+}tState;
+
 void lex_init();
 Ttoken *get_token();
 #endif
