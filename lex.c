@@ -16,7 +16,3 @@ Ttoken *get_token(){
 	token->type = TOKEN_IF;	
 	return token;
 }
-int main(){
-
-
-}
