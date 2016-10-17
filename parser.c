@@ -1,6 +1,5 @@
 #include "parser.h"
 
-
 Ttable* globTable;
 Ttable* locTable;
 Ttoken *token;
@@ -9,7 +8,7 @@ void parser_init(){
 	globTable = create_table();	
 	locTable = create_table();	
 	
-
+	printf("%s\n",keywords[1]);
 }
 
 TFunction *new_function(Ttoken *token){

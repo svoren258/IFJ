@@ -1,10 +1,16 @@
-#ifndef TTokens
-#define TTokens
+#include "defs.h"
+
+#ifndef LexDefs
+#define LexDefs
 enum tokens {
 	TOKEN_IF = 0,
 	TOKEN_ELSE,
 
 };
+
+const char *keywords[]={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
+	"String","static","true","void","while"};
+
 
 typedef struct token{
 	char* name;
