@@ -6,8 +6,8 @@
 /********************************************************************/
 
 #include "ial.h"
-#include "parser.h"
 #include "lex.h"
+#include "parser.h"
 #include "defs.h"
 
 int main(){

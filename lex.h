@@ -8,8 +8,7 @@ enum tokens {
 
 };
 
-const char *keywords[]={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
-	"String","static","true","void","while"};
+extern char *keywords[];
 
 
 typedef struct token{
