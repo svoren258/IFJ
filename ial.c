@@ -76,10 +76,15 @@ void insert_table_symbol(TFunction *f, TVariable *v, Ttable **table)
 	
 	new = malloc(sizeof(Tnode));
 	if(f)
+	{
 		new->name = f->name;
+		new->data.f = f;
+	}
 	if(v)
+	{
 		new->name = v->name;
-		
+		new->data.v = *v;
+	}
 	new->Rchild = NULL;
 	new->Lchild = NULL;
 	
@@ -116,7 +121,15 @@ void destroy_tree(Tnode *root)
 	{
 		if((root)!=NULL)
 		{
-
+			if(root->data.f->type == RET_INT)
+			{
+				printf("DELETE THIS TABLE %s\n",root->name);
+				TFunction *f;
+				f = root->data.f;
+				// db();
+				root = f->table->root;
+				destroy_table(&(f)->table);
+			}
 			printf("delete %s\n",root->name);
 			destroy_tree(root->Rchild);
 			destroy_tree(root->Lchild);

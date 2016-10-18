@@ -7,8 +7,8 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#define debug() printf("debug \n");
-
+#define db() printf("debug \n");
+#define TRUE 1
 
 typedef char * string;
 typedef struct table Ttable;
@@ -16,15 +16,35 @@ typedef struct node Tnode;
 typedef struct new_func TFunction;
 typedef struct new_var TVariable;
 
+typedef enum
+{
+	TYPE_INT,
+	TYPE_FLOAT,
+	TYPE_STRING,
+	TYPE_KEYWORD,
+	TYPE_VOID
 
-struct new_func {
+}Ttype;
+
+enum
+{
+	RET_INT,
+	RET_FLOAT,
+	RET_STRING
+};
+
+struct new_func
+{
+	char *params;
 	char *name;
 	int type;
 	int somestuff;
 	char * someotherstuff;
+	Ttable *table;
 };
 
-struct new_var {
+struct new_var 
+{
 	char *name;
 	int type;
 	union{
@@ -35,18 +55,20 @@ struct new_var {
 	
 };
 
-struct node {
+struct node 
+{
 	char *name;
 	int type;
 	union{
-		TFunction f;
+		TFunction *f;
 		TVariable v;
 	}data;
 	struct node *Lchild;
 	struct node *Rchild;
 };
 
-struct table {
+struct table 
+{
 	struct node *root;
 };
 #endif
