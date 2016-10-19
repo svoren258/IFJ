@@ -79,6 +79,7 @@ void parse()
 
 	token->name = "a";
 	token->type = TYPE_INT;
+
 	TVariable *v;
 	v = new_variable(token);
 	store_variable(v,f->table);

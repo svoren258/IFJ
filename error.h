@@ -5,32 +5,21 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 
-#include<stdio.h>
-#include "ial.h"
-#include "lex.h"
-#include "parser.h"
-#include "defs.h"
+#ifndef PROJEKT_IFJ_ERROR_H
+#define PROJEKT_IFJ_ERROR_H
 
-//#define FILE_ERROR 5
+enum error_values{
+    LEX_ERROR = 1,
+    SYNTAX_ERROR = 2,
+    SEMANTIC_DEF_ERROR = 3,
+    SEMANTIC_TYPE_ERROR = 4,
+    //FILE_ERROR = 5,
+    SEMANTIC_OTHER_ERROR = 6,
+    INPUT_READ_ERROR = 7,
+    UNINIT_VAR_ERROR = 8,
+    ZERO_DIV_ERROR = 9,
+    OTHER_RUNTIME_ERROR = 10,
+    INTERNAL_ERROR = 99
+};
 
-int main(int argc, char** argv){
-
-//	FILE *f;
-//	if (argc == 1)
-//	{
-//		printf("Missing input file\n");
-//		return FILE_ERROR;
-//	}
-//	if ((f = fopen(argv[1], "r")) == NULL)
-//	{
-//		printf("Error while opening file\n");
-//		return FILE_ERROR;
-//	}
-
-	lex_init();
-
-	parse();
-
-//	fclose(f);
-	return 0;
-}
+#endif //PROJEKT_IFJ_ERROR_H
