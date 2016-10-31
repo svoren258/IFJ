@@ -36,7 +36,7 @@ int BSTExists (tTablePtr RootPtr, tTablePtr node)	{
 } 
 
 
-void BSTInsert (tTablePtr* RootPtr, char *K)	{	
+void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{	
 	
 	
 	printf("INSERT INTO %s\n",K);
@@ -44,10 +44,11 @@ void BSTInsert (tTablePtr* RootPtr, char *K)	{
 
 	if( !(*RootPtr) )
 	{
-		(*RootPtr) = malloc(sizeof(struct tTable));
-		(*RootPtr)->name = K;
-		(*RootPtr)->LPtr = NULL;
-		(*RootPtr)->RPtr = NULL;
+		(*new) = malloc(sizeof(struct tTable));
+		(*new)->name = K;
+		(*new)->LPtr = NULL;
+		(*new)->RPtr = NULL;
+		(*RootPtr) = (*new);
 		return;
 	}
 
@@ -60,10 +61,10 @@ void BSTInsert (tTablePtr* RootPtr, char *K)	{
 	}
 
 	if( strcmp(K, (*RootPtr)->name) < 0 )
-		BSTInsert(&(*RootPtr)->LPtr, K);
+		BSTInsert(&(*RootPtr)->LPtr, &(*new), K);
 	
 	if( strcmp(K, (*RootPtr)->name) > 0 )
-		BSTInsert(&(*RootPtr)->RPtr, K);
+		BSTInsert(&(*RootPtr)->RPtr, &(*new), K);
 	
 }
 
@@ -149,8 +150,8 @@ void BSTDispose (tTablePtr *RootPtr) {
 
 		//printf("DROP TABLE %s\n",(*RootPtr)->name);
 	
-		if((*RootPtr)->data.v)
-			dbr;
+		// if((*RootPtr)->data.v)
+		// 	dbr;
 
 		free(*RootPtr);
 		(*RootPtr) = NULL;

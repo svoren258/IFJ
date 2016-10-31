@@ -28,7 +28,7 @@ typedef struct tTable {
 
 void BSTInit   (tTablePtr *);
 int BSTSearch (tTablePtr RootPtr, tTablePtr node);
-void BSTInsert (tTablePtr *, char*);
+void BSTInsert (tTablePtr *, tTablePtr *, char*);
 void BSTDelete (tTablePtr *, char*);
 void BSTDispose(tTablePtr *);
 //tTable BSTPrepare ();

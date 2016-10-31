@@ -23,7 +23,7 @@ void parser_init()
 	
 	
 	BSTInit(&globTable);
-	BSTInsert(&globTable, "GlobTable");
+	BSTInsert(&globTable, &globTable, "GlobTable");
 
 	/*keywords to globtable*/
 	keywords_init();
@@ -40,13 +40,12 @@ TFunction *new_function(Ttoken *token)
 	TFunction *f;
 	f = malloc(sizeof(TFunction));
 
-	/*create local symbol table*/
-	struct tTable *table;
-	table = malloc(sizeof(struct 	tTable));
+	tTablePtr loc_table;
+	BSTInit(&loc_table);
 
 	/*assign the table to the function*/
 	f->type = RET_INT;
-	f->table = table;
+	f->table = loc_table;
 	f->name = token->name;
 	return f;
 }
@@ -62,7 +61,10 @@ TVariable *new_variable(Ttoken *token)
 }
 void store_function(/*stack*/TFunction *f, tTablePtr *table)
 {
-	//BSTInsert(globTable,f);
+	tTablePtr new_func;
+	BSTInit(&new_func);
+
+	BSTInsert(table, &new_func, f->name);
 }
 void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 {
@@ -70,9 +72,11 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 	tTablePtr new_var;
 	BSTInit(&new_var);
 	
-	
-	BSTInsert(table, v->name);
+	BSTInsert(table, &new_var, v->name);
+
 	new_var->data.v = v;
+	printf("VAR:%d\n", new_var->data.v->type);
+		
 
 }
 
