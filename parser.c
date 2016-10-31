@@ -1,6 +1,6 @@
 #include "parser.h"
 
-Ttable* globTable;
+tTablePtr globTable;
 Ttoken *token;
 
 void keywords_init()
@@ -8,22 +8,31 @@ void keywords_init()
 	int i = 0;
 	while(keywords[i])
 	{	
-		token->name = keywords[i];
-		TVariable *v = new_variable(token);
-		v->type = TYPE_KEYWORD;
-		store_variable(v, globTable);
-		i++;
+		 token->name = keywords[i];
+		 TVariable *v = new_variable(token);
+		 v->type = TYPE_KEYWORD;
+
+		 store_variable(v, &globTable);
+		 i++;
 	}
 
 }
 
 void parser_init()
 {
-	globTable = create_table();	
 	
-	/*keywords*/
+	
+	BSTInit(&globTable);
+	BSTInsert(&globTable, "GlobTable");
+
+	/*keywords to globtable*/
 	keywords_init();
 	
+}
+
+void parser_finish()
+{
+	BSTDispose(&globTable);
 }
 
 TFunction *new_function(Ttoken *token)
@@ -32,8 +41,8 @@ TFunction *new_function(Ttoken *token)
 	f = malloc(sizeof(TFunction));
 
 	/*create local symbol table*/
-	Ttable *table;
-	table = malloc(sizeof(Ttable));
+	struct tTable *table;
+	table = malloc(sizeof(struct 	tTable));
 
 	/*assign the table to the function*/
 	f->type = RET_INT;
@@ -51,13 +60,20 @@ TVariable *new_variable(Ttoken *token)
 	return v;
 
 }
-void store_function(/*stack*/TFunction *f)
+void store_function(/*stack*/TFunction *f, tTablePtr *table)
 {
-	insert_table_symbol(f,NULL,&globTable);
+	//BSTInsert(globTable,f);
 }
-void store_variable(/*stack*/TVariable *v, Ttable *table)
+void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 {
-	insert_table_symbol(NULL, v, &table);
+
+	tTablePtr new_var;
+	BSTInit(&new_var);
+	
+	
+	BSTInsert(table, v->name);
+	new_var->data.v = v;
+
 }
 
 
@@ -71,28 +87,7 @@ void store_variable(/*stack*/TVariable *v, Ttable *table)
 void parse()
 {
 	parser_init();
-	token = get_token();
-	token->name = "count";
 
-	TFunction *f;
-	f = new_function(token);
+	parser_finish();
 
-	token->name = "a";
-	token->type = TYPE_INT;
-
-	TVariable *v;
-	v = new_variable(token);
-	store_variable(v,f->table);
-
-	token->name = "b";
-	token->type = TYPE_INT;
-	
-	v = new_variable(token);
-
-	store_variable(v, f->table);
-	store_function(f);
-
-	//printf("%s\n",f->table->root->name);
-	
-	destroy_table(&globTable);
 }

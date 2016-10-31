@@ -10,34 +10,34 @@
 void ret_error(int error){
     switch(error)
     {
-        case(LEX_ERROR);
+        case(LEX_ERROR):
             fprintf(stderr,"Lexical error!\n");
             break;
-        case(SYNTAX_ERROR);
-            fprint(stderr,"Syntax error!\n");
+        case(SYNTAX_ERROR):
+            fprintf(stderr,"Syntax error!\n");
             break;
-        case(SEMANTIC_DEF_ERROR);
+        case(SEMANTIC_DEF_ERROR):
             fprintf(stderr,"Semantic definition error!\n");
             break;
-        case(SEMANTIC_TYPE_ERROR);
+        case(SEMANTIC_TYPE_ERROR):
             fprintf(stderr,"Semantic type error!\n");
             break;
-        case(SEMANTIC_OTHER_ERROR);
+        case(SEMANTIC_OTHER_ERROR):
             fprintf(stderr,"Semantic error!\n");
             break;
-        case(INPUT_READ_ERROR);
+        case(INPUT_READ_ERROR):
             fprintf(stderr,"Error while input reading!\n");
             break;
-        case(UNINIT_VAR_ERROR);
+        case(UNINIT_VAR_ERROR):
             fprintf(stderr,"Uninitialized variable!\n");
             break;
-        case(ZERO_DIV_ERROR);
+        case(ZERO_DIV_ERROR):
             fprintf(stderr,"Division by zero!\n");
             break;
-        case(OTHER_RUNTIME_ERROR);
+        case(OTHER_RUNTIME_ERROR):
             fprintf(stderr,"Runtime error!\n");
             break;
-        case(INTERNAL_ERROR);
+        case(INTERNAL_ERROR):
             fprintf(stderr,"Internal error!\n");
             break;
     }

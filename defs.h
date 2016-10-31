@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
+#include "ial.h" 
 
 #define db() printf("debug \n");
 #define TRUE 1
@@ -40,7 +41,7 @@ struct new_func
 	int type;
 	int somestuff;
 	char * someotherstuff;
-	Ttable *table;
+	tTablePtr table;
 };
 
 struct new_var 
@@ -55,20 +56,20 @@ struct new_var
 	
 };
 
-struct node 
-{
-	char *name;
-	int type;
-	union{
-		TFunction *f;
-		TVariable v;
-	}data;
-	struct node *Lchild;
-	struct node *Rchild;
-};
+// struct node 
+// {
+// 	char *name;
+// 	int type;
+// 	union{
+// 		TFunction *f;
+// 		TVariable v;
+// 	}data;
+// 	struct node *Lchild;
+// 	struct node *Rchild;
+// };
 
-struct table 
-{
-	struct node *root;
-};
+// struct table 
+// {
+// 	struct node *root;
+// };
 #endif

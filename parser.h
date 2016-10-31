@@ -8,8 +8,8 @@
 
 TFunction *new_function(Ttoken *token);
 TVariable *new_variable(Ttoken *token);
-void store_function(/*stack*/TFunction *f);
-void store_variable(/*stack*/TVariable *v, Ttable *table);
+void store_function(/*stack*/TFunction *f, tTablePtr *table);
+void store_variable(/*stack*/TVariable *v, tTablePtr *table);
 void keywords_init();
 
 /*--------------------automat-----------------------*/
