@@ -16,6 +16,10 @@ extern int errflg;
 extern int solved;
  
 typedef struct tDLElem {                 /* prvek dvousměrně vázaného seznamu */ 
+        int operation;
+        void * add1;
+        void * add2;
+        void * add3;
         int data;                                            /* užitečná data */
         struct tDLElem *lptr;          /* ukazatel na předchozí prvek seznamu */
         struct tDLElem *rptr;        /* ukazatel na následující prvek seznamu */
@@ -31,7 +35,7 @@ typedef struct {                                  /* dvousměrně vázaný sezna
 void DLInitList (tDLList *);
 void DLDisposeList (tDLList *);
 void DLInsertFirst (tDLList *, int);
-void DLInsertLast(tDLList *, int);
+void DLInsertLast(tDLList *, int, void*, void*, void*);
 void DLFirst (tDLList *);
 void DLLast (tDLList *);
 void DLCopyFirst (tDLList *, int *);
