@@ -1,6 +1,10 @@
-FILES=main.c ial.c parser.c lex.c error.c
+FILES=main.c ial.c stack.c parser.c lex.c error.c list.c
 CFLAGS= -Wall -Werror -pedantic
+
 
 all:
 	gcc -std=c99 $(FILES) $(CFLAGS) -o ifj
+	
+clean:
+	rm ifj
 

@@ -4,12 +4,13 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-
+#include "defs.h"
 
 #ifndef _STACK_H_
 #define _STACK_H_
 
-#include <stdio.h>
+
+
 
 #define MAX_STACK 20
 extern int STACK_SIZE; 
@@ -32,17 +33,17 @@ extern int err_flag;                   /* Indikuje, zda operace volala chybu. */
 
                              /* ADT zásobník implementovaný ve statickém poli */
 typedef struct {
-	char arr[MAX_STACK];                             /* pole pro uložení hodnot */
+    int capacity;
+	void** data;                             /* pole pro uložení hodnot */
 	int top;                                /* index prvku na vrcholu zásobníku */
 } tStack;
 
                                   /* Hlavičky funkcí pro práci se zásobníkem. */
 void stackError ( int error_code );
-void stackInit ( tStack* s );
+tStack* stackInit ();
 int stackEmpty ( const tStack* s );
-int stackFull ( const tStack* s );
-void stackTop ( const tStack* s, char* c );
+void* stackTop ( const tStack* s);
 void stackPop ( tStack* s );
-void stackPush ( tStack* s, char c );
+void stackPush ( tStack* s, void*);
 
 #endif

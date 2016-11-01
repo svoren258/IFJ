@@ -7,10 +7,14 @@
 #include <limits.h>
 #include <stdbool.h>
 #include "ial.h" 
+#include "stack.h"
+#include "error.h"
 
-#define db() printf("debug \n");
+#define dbl printf("Left debug\n")
+#define dbr printf("Right debug\n")
+
 #define TRUE 1
-
+#define FALSE 0
 typedef char * string;
 typedef struct table Ttable;
 typedef struct node Tnode;
@@ -24,7 +28,6 @@ typedef enum
 	TYPE_STRING,
 	TYPE_KEYWORD,
 	TYPE_VOID
-
 }Ttype;
 
 enum
@@ -39,8 +42,9 @@ struct new_func
 	char *params;
 	char *name;
 	int type;
-	int somestuff;
-	char * someotherstuff;
+	int defined;
+	tStack *stack;
+	
 	tTablePtr table;
 };
 
@@ -48,6 +52,7 @@ struct new_var
 {
 	char *name;
 	int type;
+	int inicialized;
 	union{
 		int i;
 		double d;

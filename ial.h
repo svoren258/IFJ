@@ -8,8 +8,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define dbl printf("Left debug\n")
-#define dbr printf("Right debug\n")
+
 
 #ifndef ialh
 #define ialh
@@ -28,8 +27,9 @@ typedef struct tTable {
 
 void BSTInit   (tTablePtr *);
 int BSTSearch (tTablePtr RootPtr, tTablePtr node);
-void BSTInsert (tTablePtr *, tTablePtr *, char*);
-void BSTDelete (tTablePtr *, char*);
+int BSTExists (tTablePtr RootPtr, char* node);
+void BSTInsert (tTablePtr *, tTablePtr *, char* key);
+void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
 //tTable BSTPrepare ();
 

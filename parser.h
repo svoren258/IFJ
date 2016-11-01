@@ -2,6 +2,7 @@
 #include "ial.h"
 #include "lex.h"
 #include "defs.h"
+#include "error.h"
 
 #ifndef ParserDefs
 #define ParserDefs
