@@ -39,7 +39,7 @@ int BSTExists (tTablePtr RootPtr, tTablePtr node)	{
 void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{	
 	
 	
-	printf("INSERT INTO %s\n",K);
+	//printf("INSERT INTO %s\n",K);
 
 
 	if( !(*RootPtr) )
@@ -146,14 +146,18 @@ void BSTDispose (tTablePtr *RootPtr) {
 			printf("TOBE DELETED %s\n",(*RootPtr)->name);
 			BSTDispose(&(*RootPtr)->RPtr);
 			BSTDispose(&(*RootPtr)->LPtr);
-		}
 
-		//printf("DROP TABLE %s\n",(*RootPtr)->name);
+			if((*RootPtr)->data.v)
+			{
+				TVariable *freeVar;
+				freeVar = (*RootPtr)->data.v;
+				free(freeVar);
+			}
 	
-		// if((*RootPtr)->data.v)
-		// 	dbr;
+			//printf("%s deleted\n",(*RootPtr)->name);
+			free(*RootPtr);
+			(*RootPtr) = NULL;
 
-		free(*RootPtr);
-		(*RootPtr) = NULL;
-
+			
+		}
 }

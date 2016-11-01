@@ -31,6 +31,7 @@ int main(int argc, char** argv){
 
 	parse();
 
+	lex_finish();
 //	fclose(f);
 	return 0;
 }

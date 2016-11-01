@@ -8,10 +8,11 @@ void keywords_init()
 	int i = 0;
 	while(keywords[i])
 	{	
+		
 		 token->name = keywords[i];
 		 TVariable *v = new_variable(token);
 		 v->type = TYPE_KEYWORD;
-
+		
 		 store_variable(v, &globTable);
 		 i++;
 	}
@@ -75,7 +76,7 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 	BSTInsert(table, &new_var, v->name);
 
 	new_var->data.v = v;
-	printf("VAR:%d\n", new_var->data.v->type);
+	//printf("VAR:%d\n", new_var->data.v->type);
 		
 
 }

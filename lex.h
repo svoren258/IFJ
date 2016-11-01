@@ -55,6 +55,7 @@ COM,
 B_COM,
 }tState;
 
+void lex_finish();
 void lex_init();
 Ttoken *get_token();
 #endif
