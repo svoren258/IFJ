@@ -8,6 +8,8 @@
 #ifndef PROJEKT_IFJ_ERROR_H
 #define PROJEKT_IFJ_ERROR_H
 
+void ret_error(int error);
+
 enum error_values{
     LEX_ERROR = 1,
     SYNTAX_ERROR = 2,

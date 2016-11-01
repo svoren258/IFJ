@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "error.h"
 
 Ttable* globTable;
 Ttoken *token;
@@ -62,9 +63,116 @@ void store_variable(/*stack*/TVariable *v, Ttable *table)
 
 
 /*--------------------automat-----------------------*/
+void starter(){
+    Ttoken *token = get_token();
+    if(token->type == TOKEN_CLASS){
+        token = get_token();
+        if(token->type == TOKEN_MAIN){
+            token = get_token();
+            if(token->type == L_BRACKET){
+                token = get_token();
+                if(token->type == TOKEN_STATIC) {
+                    globalDecl(token);
+                }
 
+                void globalDecl(Ttoken token) {
+                    while (token->type == TOKEN_STATIC) { //deklaracie globalnych premennych
+                        token = get_token();
+                        declare(globTable, token);
+                    }
+                }
 
+                void declare(Ttable table, Ttoken token) {
+                    if(token->type == TOKEN_INT || token->type == TOKEN_STRING ||
+                        token->type == TOKEN_DOUBLE) {
+                        token = get_token();
+                        if (token->type == TOKEN_ID) {
+                            if (search_Id(globTable, token)) {
 
+                            }
+                            else {
+                                add_Id(globTable, token);
+                            }
+                            token = get_token();
+                            if (token->type == L_ROUND_BRACKET) {
+                                token = get_token();
+                                params(token);
+                            }
+                            if (token->type == TOKEN_SEMICOLON) {
+                                token = get_token();
+                            }
+                        }
+                    }
+                    if(token->type == TOKEN_VOID){
+                        token = get_token();
+                        if(token->type == TOKEN_RUN){
+                            token = get_token();
+                            if(token->type == L_ROUND_BRACKET) {
+                                token = get_token();
+                                if (token->type == R_ROUND_BRACKET) {
+                                    func_definition();
+                                }
+                            }
+                        }
+                        else {
+                            if(token->type == TOKEN_ID){
+                                token = get_token();
+                                if(token->type == L_ROUND_BRACKET){
+                                    token = get_token();
+                                }
+                                params(token);
+                             }
+
+                        }
+                    }
+
+                }
+
+            void params(Ttoken token){
+                while(token->type != R_ROUND_BRACKET){
+                    token = get_token();
+                    if (token->type == TOKEN_INT || token->type == TOKEN_STRING ||
+                        token->type == TOKEN_DOUBLE) {
+                        token = get_token();
+                        if (token->type == TOKEN_ID) {
+                            if (search_Id(localTable, token)) {
+                                continue;
+                            }
+                            else {
+                                add_Id(localTable, token);
+                            }
+                            token = get_token();
+                            if(token->type == TOKEN_COLON){
+                                continue;
+                            }
+                        }
+                    }
+                    else{
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
+                }
+            }
+            void func_definition(){
+                token = get_token();
+                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING){
+                    declare(localTable, token);
+                }
+                if(token->type == TOKEN_ID){
+                    token = get_token();
+                    if(token->type == TOKEN_ASSIGN){
+
+                    }
+                }
+
+            }
+            void assign(){
+
+            }
+
+                }
+            }
+        }
+    }
 
 /*--------------------/automat-----------------------*/
 
