@@ -6,20 +6,31 @@
 /********************************************************************/
 #include "defs.h"
 
-/*creates new symbols table implemented by a binary tree*/
-Ttable *create_table();
+#define TRUE 1
+#define FALSE 0
 
-/*frees all the memory allocated for the tree and all its nodes*/
-void destroy_table();
 
-/*Find string(str) in a binary tree with root(root). If found save to (pos) else save parrent(par) to which new node should be added*/
-void find_table_symbol(char *str, Tnode *root, Tnode **pos, Tnode **par);
+#ifndef ialh
+#define ialh
+typedef struct tTable {
+	char *name;
+	union
+	{
+		struct new_func *f;
+		struct new_var *v;
+	}data;			                                                      /* klíč */
+	struct tTable * LPtr;                                    /* levý podstrom */
+	struct tTable * RPtr;                                   /* pravý podstrom */
+} *tTablePtr;	
 
-/*Insert string into table(binary tree)*/
-void insert_table_symbol(TFunction *f, TVariable *v, Ttable **table);
+/* prototypy funkcí */
 
-/*Destroys all nodes within a table*/
-void destroy_tree(Tnode *root);
+void BSTInit   (tTablePtr *);
+int BSTSearch (tTablePtr RootPtr, tTablePtr node);
+int BSTExists (tTablePtr RootPtr, char* node);
+void BSTInsert (tTablePtr *, tTablePtr *, char* key);
+void BSTDelete (tTablePtr *, char* key);
+void BSTDispose(tTablePtr *);
+//tTable BSTPrepare ();
 
-/*Destroys the symbol table*/
-void destroy_table(Ttable **table);
+#endif

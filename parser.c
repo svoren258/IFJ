@@ -1,29 +1,42 @@
 #include "parser.h"
 #include "error.h"
 
-Ttable* globTable;
+tTablePtr globTable;
 Ttoken *token;
+tStack *gStack;
 
 void keywords_init()
 {
 	int i = 0;
 	while(keywords[i])
 	{	
-		token->name = keywords[i];
-		TVariable *v = new_variable(token);
-		v->type = TYPE_KEYWORD;
-		store_variable(v, globTable);
-		i++;
+		
+		 token->name = keywords[i];
+		 TVariable *v = new_variable(token);
+		 v->type = TYPE_KEYWORD;
+		
+		 store_variable(v, &globTable);
+		 i++;
 	}
 
 }
 
 void parser_init()
 {
-	globTable = create_table();	
 	
-	/*keywords*/
+	gStack = stackInit();
+	
+	BSTInit(&globTable);
+	BSTInsert(&globTable, &globTable, "GlobTable");
+
+	/*keywords to globtable*/
 	keywords_init();
+	
+}
+
+void parser_finish()
+{
+	BSTDispose(&globTable);
 	
 }
 
@@ -32,13 +45,16 @@ TFunction *new_function(Ttoken *token)
 	TFunction *f;
 	f = malloc(sizeof(TFunction));
 
-	/*create local symbol table*/
-	Ttable *table;
-	table = malloc(sizeof(Ttable));
+	tTablePtr loc_table;
+	BSTInit(&loc_table);
 
+	tStack *stack = stackInit();
+	
+	f->stack = stack;
 	/*assign the table to the function*/
+	f->defined = FALSE;
 	f->type = RET_INT;
-	f->table = table;
+	f->table = loc_table;
 	f->name = token->name;
 	return f;
 }
@@ -48,17 +64,34 @@ TVariable *new_variable(Ttoken *token)
 	TVariable *v;
 	v = malloc(sizeof(TVariable));
 	
+	v->inicialized = FALSE;
 	v->name = token->name;
 	return v;
 
 }
-void store_function(/*stack*/TFunction *f)
+void store_function(/*stack*/TFunction *f, tTablePtr *table)
 {
-	insert_table_symbol(f,NULL,&globTable);
+	tTablePtr new_func;
+	BSTInit(&new_func);
+
+	BSTInsert(table, &new_func, f->name);
+	stackPush(gStack, f);
 }
-void store_variable(/*stack*/TVariable *v, Ttable *table)
+void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 {
-	insert_table_symbol(NULL, v, &table);
+	
+	if( BSTExists(*table, v->name) )
+	{
+		ret_error(SYNTAX_ERROR);
+	}
+		
+	tTablePtr new_var;
+	BSTInit(&new_var);
+
+	BSTInsert(table, &new_var, v->name);
+	new_var->data.v = v;
+	
+	
 }
 
 
@@ -179,28 +212,8 @@ void starter(){
 void parse()
 {
 	parser_init();
-	token = get_token();
-	token->name = "count";
 
-	TFunction *f;
-	f = new_function(token);
 
-	token->name = "a";
-	token->type = TYPE_INT;
+	parser_finish();
 
-	TVariable *v;
-	v = new_variable(token);
-	store_variable(v,f->table);
-
-	token->name = "b";
-	token->type = TYPE_INT;
-	
-	v = new_variable(token);
-
-	store_variable(v, f->table);
-	store_function(f);
-
-	//printf("%s\n",f->table->root->name);
-	
-	destroy_table(&globTable);
 }

@@ -6,10 +6,15 @@
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
+#include "ial.h" 
+#include "stack.h"
+#include "error.h"
 
-#define db() printf("debug \n");
+#define dbl printf("Left debug\n")
+#define dbr printf("Right debug\n")
+
 #define TRUE 1
-
+#define FALSE 0
 typedef char * string;
 typedef struct table Ttable;
 typedef struct node Tnode;
@@ -23,7 +28,6 @@ typedef enum
 	TYPE_STRING,
 	TYPE_KEYWORD,
 	TYPE_VOID
-
 }Ttype;
 
 enum
@@ -38,15 +42,17 @@ struct new_func
 	char *params;
 	char *name;
 	int type;
-	int somestuff;
-	char * someotherstuff;
-	Ttable *table;
+	int defined;
+	tStack *stack;
+	
+	tTablePtr table;
 };
 
 struct new_var 
 {
 	char *name;
 	int type;
+	int inicialized;
 	union{
 		int i;
 		double d;
@@ -55,20 +61,20 @@ struct new_var
 	
 };
 
-struct node 
-{
-	char *name;
-	int type;
-	union{
-		TFunction *f;
-		TVariable v;
-	}data;
-	struct node *Lchild;
-	struct node *Rchild;
-};
+// struct node 
+// {
+// 	char *name;
+// 	int type;
+// 	union{
+// 		TFunction *f;
+// 		TVariable v;
+// 	}data;
+// 	struct node *Lchild;
+// 	struct node *Rchild;
+// };
 
-struct table 
-{
-	struct node *root;
-};
+// struct table 
+// {
+// 	struct node *root;
+// };
 #endif
