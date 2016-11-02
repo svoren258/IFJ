@@ -31,6 +31,5 @@ int BSTExists (tTablePtr RootPtr, char* node);
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
-//tTable BSTPrepare ();
 
 #endif
