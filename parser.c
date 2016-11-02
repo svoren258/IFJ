@@ -10,7 +10,7 @@ void keywords_init()
 	while(keywords[i])
 	{	
 		
-		 token->name = keywords[i];
+		 token->data = keywords[i];
 		 TVariable *v = new_variable(token);
 		 v->type = TYPE_KEYWORD;
 		
@@ -54,7 +54,7 @@ TFunction *new_function(Ttoken *token)
 	f->defined = FALSE;
 	f->type = RET_INT;
 	f->table = loc_table;
-	f->name = token->name;
+	f->name = token->data;
 	return f;
 }
 
@@ -64,7 +64,7 @@ TVariable *new_variable(Ttoken *token)
 	v = malloc(sizeof(TVariable));
 	
 	v->inicialized = FALSE;
-	v->name = token->name;
+	v->name = token->data;
 	return v;
 
 }
@@ -104,7 +104,7 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 void parse()
 {
 	parser_init();
-
+expression(token);
 
 	parser_finish();
 

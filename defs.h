@@ -61,20 +61,5 @@ struct new_var
 	
 };
 
-// struct node 
-// {
-// 	char *name;
-// 	int type;
-// 	union{
-// 		TFunction *f;
-// 		TVariable v;
-// 	}data;
-// 	struct node *Lchild;
-// 	struct node *Rchild;
-// };
 
-// struct table 
-// {
-// 	struct node *root;
-// };
 #endif

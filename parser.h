@@ -3,6 +3,7 @@
 #include "lex.h"
 #include "defs.h"
 #include "error.h"
+#include "expression.h"
 
 #ifndef ParserDefs
 #define ParserDefs
