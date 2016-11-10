@@ -12,7 +12,7 @@ extern char *keywords[];
 
 
 typedef struct token{
-	char* name;
+	char* data;
 	int type;
 	int row;
 	int order;
