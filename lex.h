@@ -22,6 +22,8 @@ typedef struct token{
 
 typedef enum
 {
+INIT,			// počáteční stav
+END,			// koncový stav
 PLUS,			// +
 MINUS,			// -
 MUL,			// *
@@ -43,8 +45,8 @@ OR_A,			// |
 OR_B,			// ||
 AND_A,			// &
 AND_B,			// &&
-LB,				// (
-PB,				// )
+LB,			// (
+PB,			// )
 LSB,			// [
 PSB,			// ]
 LDB,			// {
@@ -56,7 +58,7 @@ DEC_E,			// [0-9.0-9e0-9]
 COM,			// //
 B_COM_A,		// /*
 B_COM_B,		// */
-ID,				// [a-Z0-9]
+ID,			// [a-Z0-9]
 STRNG,			// string
 INTGR,			// integer
 DBLE			// double
