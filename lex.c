@@ -58,7 +58,15 @@ Ttoken *get_token(Ttoken *token)
 		{
 			case INIT:
 			{
-				if(c == '.')
+				if((isalpha(c))||(c=='_'))
+				{
+					type = ID;
+				}
+				else if(isdigit(c))
+				{
+					type = N_DEC;
+				}
+				else if(c == '.')
 				{
 					type = DOT;
 				}
@@ -112,7 +120,7 @@ Ttoken *get_token(Ttoken *token)
 				break;
 			}
 
-			case GREATER
+			case GREATER:
 			{
 				if (c == '=')
             	{
@@ -133,7 +141,7 @@ Ttoken *get_token(Ttoken *token)
             	break;
 			}
 
-			case LESSER
+			case LESSER:
 			{
 				if (c == '=')
             	{
@@ -154,7 +162,7 @@ Ttoken *get_token(Ttoken *token)
             	break;
 			}
 
-			case EXPL
+			case EXPL:
 			{
 				if (c == '=')
             	{
@@ -175,7 +183,7 @@ Ttoken *get_token(Ttoken *token)
             	break;
 			}
 
-			case EQUATE
+			case EQUATE:
 			{
 				if (c == '=')
             	{
@@ -196,7 +204,7 @@ Ttoken *get_token(Ttoken *token)
             	break;
 			}
 
-			case AND_A
+			case AND_A:
 			{
 				if (c == '&')
             	{
@@ -217,7 +225,7 @@ Ttoken *get_token(Ttoken *token)
             	break;
 			}
 
-			case OR_A
+			case OR_A:
 			{
 				if (c == '|')
             	{
@@ -236,6 +244,89 @@ Ttoken *get_token(Ttoken *token)
             	}
 
             	break;
+			}
+			case N_DEC:
+			{
+				if(isdigit(c))
+				{
+					type = N_DEC;
+					ExtendToken(&token, lenght);
+				}
+				else if (c == '.')
+				{
+					type = DEC;
+					ExtendToken(&token, lenght);
+				}
+				else if((c == 'e') || (c == 'E'))
+				{
+					type = N_DEC_E;
+					ExtendToken(&token, lenght);
+				}
+				else //dodělat
+				{
+					token->type=INTGR;
+					type = END;
+                	if (!isspace(c))
+                	{
+        				ungetc(c, file);
+                	}
+				}
+			}
+			case N_DEC_E:
+			{
+				if(isdigit(c))
+				{
+					type N_DEC_E;
+					ExtendToken(&token, lenght);
+				}
+				else //dodělat
+				{
+					token->type=INTGR;
+					type = END;
+                	if (!isspace(c))
+                	{
+        				ungetc(c, file);
+                	}
+				}
+			}
+			case DEC:
+			{
+				if(isdigit(c))
+				{
+					type DEC;
+					ExtendToken(&token, lenght);
+				}
+				else if((c == 'e')||(c == 'E'))
+				{
+					type DEC_E;
+					ExtendToken(&token, lenght);
+				}
+				else //dodělat
+				{
+					token->type=DBLE;
+					type = END;
+                	if (!isspace(c))
+                	{
+        				ungetc(c, file);
+                	}
+				}
+			}
+			case DEC_E:
+			{
+				if(isdigit(c))
+				{
+					type DEC_E;
+					ExtendToken(&token, lenght);
+				}
+				else //dodělat
+				{
+					token->type=DBLE;
+					type = END;
+                	if (!isspace(c))
+                	{
+        				ungetc(c, file);
+                	}
+				}
 			}
 		}
 	}	
