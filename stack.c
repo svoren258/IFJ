@@ -87,5 +87,5 @@ void stackPush ( tStack* s, void *data ) {
 	}
 
 	s->data[s->top] = data;
-	s->top = 5;
+	
 }
