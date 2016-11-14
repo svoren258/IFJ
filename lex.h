@@ -2,11 +2,7 @@
 
 #ifndef LexDefs
 #define LexDefs
-enum tokens {
-	TOKEN_IF = 0,
-	TOKEN_ELSE,
 
-};
 
 extern char *keywords[];
 

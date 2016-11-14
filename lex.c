@@ -18,7 +18,6 @@ void lex_finish()
 }
 
 Ttoken *get_token(){
-	token->data = "if";
-	token->type = TOKEN_IF;	
+
 	return token;
 }

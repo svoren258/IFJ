@@ -1,6 +1,6 @@
 #include "expression.h"
 
-char predence_table[12][12] =
+char precedence_table[12][12] =
 {/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
 /* + */{'>','>','<','<','>','>','>','>','>','>','>','<'},
 /* - */{'>','>','<','<','>','>','>','>','>','>','>','<'},
@@ -12,15 +12,15 @@ char predence_table[12][12] =
 /*>= */{'<','<','<','<','<','<','<','>','>','>','>','<'},
 /*== */{'<','<','<','<','<','<','<','<','>','<','>','<'},
 /*!= */{'<','<','<','<','<','<','<','<','<','>','>','<'},
-/* ( */{'<','<','<','<','<','<','<','<','<','<','>','<'},
-/* ) */{'>','>','>','>','>','>','>','>','>','>','>','<'}
+/* ( */{'<','<','<','<','<','<','<','<','<','<','<','<'},
+/* ) */{'>','>','>','>','>','>','>','>','>','>','>','>'}
 
     
 };
 
-tStack *postfix, *opstack;
+tStack *postfixStack, *opStack;
 Ttoken *token;
-Ttoken * token2;
+
 
 
 int token_to_type(Ttoken *token)
@@ -49,27 +49,40 @@ int token_to_type(Ttoken *token)
             return OP_EQUAL;
     }
    printf("BUG\n");
-    return 44;
+    return 42;
+}
+
+Ttoken *store_token(Ttoken * token)
+{
+    Ttoken * token_store;
+    token_store = malloc(sizeof(Ttoken));
+    token_store->data = token->data;
+    token_store->type = token->type;
+    return token_store;
 }
 
 int has_bigger_prio()
 {
-   printf("%c\n",predence_table[ token_to_type(stackTop(opstack)) ][ token_to_type(token2) ]);
-    printf("%d %d\n",token_to_type(stackTop(opstack)), token_to_type(token2) );
-    return 55;
+   printf("%c\n", precedence_table[ token_to_type(stackTop(opStack)) ][ token_to_type(token) ] );
+    if( precedence_table[ token_to_type(stackTop(opStack)) ][ token_to_type(token) ] == '>' )
+        return FALSE;
+    return TRUE;
 }
 
 void expression(Ttoken *token)
 {
-    opstack = stackInit();
-    postfix = stackInit();
+    opStack = stackInit();
+    postfixStack = stackInit();
+    
+    token->type = PLUS;
+    stackPush(opStack,store_token(token));
+    
     
     token->type = MUL;
-    stackPush(opstack,token);
-    
-    token2 = malloc(sizeof(Ttoken));
-    token2->type = PLUS;
     //printf("%d %d\n",MUL, PLUS);
-    has_bigger_prio();
+    if( has_bigger_prio() )
+        printf("is bigger prio\n");
+    else
+        printf("is lower prio\n");
     
 }
