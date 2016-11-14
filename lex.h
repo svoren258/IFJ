@@ -2,26 +2,14 @@
 
 #ifndef LexDefs
 #define LexDefs
-enum tokens {
-	TOKEN_IF = 0,
-	TOKEN_ELSE,
-
-};
 
 extern char *keywords[];
 
 
-typedef struct token{
-	char* data;
-	int type;
-	int row;
-	int order;
-}Ttoken;
-
-
-
+//stavy automatu
 typedef enum
 {
+KEYWORDS,		// klíčová slova
 INIT,			// počáteční stav
 END,			// koncový stav
 PLUS,			// +
@@ -45,8 +33,8 @@ OR_A,			// |
 OR_B,			// ||
 AND_A,			// &
 AND_B,			// &&
-LB,			// (
-PB,			// )
+LB,				// (
+PB,				// )
 LSB,			// [
 PSB,			// ]
 LDB,			// {
@@ -58,13 +46,20 @@ DEC_E,			// [0-9.0-9e0-9]
 COM,			// //
 B_COM_A,		// /*
 B_COM_B,		// */
-ID,			// [a-Z0-9]
+ID,				// [a-Z0-9]
 STRNG,			// string
 INTGR,			// integer
 DBLE			// double
 }tState;
 
-void lex_finish();
-void lex_init();
+
+//struktura pro token
+typedef struct token{
+	char* data;
+	tState type;
+}Ttoken;
+
+
+//prototyp funkce
 Ttoken *get_token();
 #endif
