@@ -26,8 +26,8 @@ typedef struct tTable {
 /* prototypy funkcí */
 
 void BSTInit   (tTablePtr *);
-int BSTSearch (tTablePtr RootPtr, tTablePtr node);
-int BSTExists (tTablePtr RootPtr, char* node);
+tTablePtr BSTSearch (tTablePtr RootPtr, char*);
+//int BSTExists (tTablePtr RootPtr, char* node);
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);

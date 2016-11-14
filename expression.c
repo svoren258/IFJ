@@ -1,4 +1,6 @@
 #include "expression.h"
+#include "list.h"
+#include "defs.h"
 
 char precedence_table[12][12] =
 {/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
@@ -18,12 +20,22 @@ char precedence_table[12][12] =
     
 };
 
-tStack *postfixStack, *opStack;
+tStack *postfixStack, *opStack, *varStack;
 Ttoken *token;
 
+void generator(){
+    
+}
 
+TVariable *generateVar()
+{
+    TVariable *newVar;
+    newVar = malloc(sizeof(TVariable));
+    stackPush(varStack, newVar);
+    return newVar;
+}
 
-int token_to_type(Ttoken *token)
+int tokenToType(Ttoken *token)
 {
     switch(token->type)
     {
@@ -48,11 +60,11 @@ int token_to_type(Ttoken *token)
         case EQUALS:
             return OP_EQUAL;
     }
-   printf("BUG\n");
+   
     return 42;
 }
 
-Ttoken *store_token(Ttoken * token)
+Ttoken *storeToken(Ttoken * token)
 {
     Ttoken * token_store;
     token_store = malloc(sizeof(Ttoken));
@@ -61,28 +73,70 @@ Ttoken *store_token(Ttoken * token)
     return token_store;
 }
 
-int has_bigger_prio()
+//returns true if current Token has bigger priority than the top of the opStack
+int hasBiggerPrio()
 {
-   printf("%c\n", precedence_table[ token_to_type(stackTop(opStack)) ][ token_to_type(token) ] );
-    if( precedence_table[ token_to_type(stackTop(opStack)) ][ token_to_type(token) ] == '>' )
+   printf("%c\n", precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] );
+    if( precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] == '>' )
         return FALSE;
     return TRUE;
+}
+
+void infixToPostfix()
+{
+    token->type = ID;
+    while( token->type != SEM_CL )
+    //get token
+    {
+        switch(token->type)
+        {
+            case INTGR:
+            case DBLE:
+            case ID:
+                printf("LOL\n");
+                break;
+            case PLUS:
+            case MINUS:
+            case DIV:
+            case MUL:
+            case MOD:
+                printf("sign\n");
+                break;
+            default:
+                printf("default\n");
+        }
+        token->type = SEM_CL;
+    }
 }
 
 void expression(Ttoken *token)
 {
     opStack = stackInit();
     postfixStack = stackInit();
+    varStack = stackInit();
     
-    token->type = PLUS;
-    stackPush(opStack,store_token(token));
+    TVariable *var;
+    var = generateVar();
     
+    var->name = "Variable";
+    var = generateVar();
+    var->name = "variable2";
+    var = stackTop(varStack);
+    printf("%s\n",var->name);
+    stackPop(varStack);
+    var = stackTop(varStack);
+    printf("%s\n",var->name);
+    // tList *insList;
+    // insList = malloc(sizeof(tList));
+    // InitList(insList);
     
-    token->type = MUL;
-    //printf("%d %d\n",MUL, PLUS);
-    if( has_bigger_prio() )
-        printf("is bigger prio\n");
-    else
-        printf("is lower prio\n");
+    // tElemPtr newItem;
+    // newItem = malloc(sizeof(struct tElem));
+    // newItem->operation = MUL;
+    // printf("%d\n",newItem->operation);
+    // newItem->add3 = token->data;
     
+    // printf("%s\n",newItem->add3);
+    
+    infixToPostfix();
 }

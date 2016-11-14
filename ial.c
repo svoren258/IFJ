@@ -14,25 +14,25 @@ void BSTInit (tTablePtr *RootPtr) {
 
 
 
-int BSTExists (tTablePtr RootPtr, char*  node)	{
+tTablePtr BSTSearch (tTablePtr RootPtr, char*  node)	{
 
 	if( !RootPtr || !node  )
-		return FALSE;
+		return NULL;
 
 	if( !strcmp(node, RootPtr->name) )
 	{
-		return TRUE;
+		return RootPtr;
 	}
 
 	if( strcmp(node, RootPtr->name) < 0)
-		if(BSTExists(RootPtr->LPtr, node))
-			return TRUE;
+		if(BSTSearch(RootPtr->LPtr, node))
+			return RootPtr;
 
 	if( strcmp(node, RootPtr->name) > 0)
-		if(BSTExists(RootPtr->RPtr, node))
-			return TRUE;
+		if(BSTSearch(RootPtr->RPtr, node))
+			return RootPtr;
 
-	return FALSE;
+	return NULL;
 } 
 
 
@@ -156,7 +156,7 @@ void BSTDispose (tTablePtr *RootPtr) {
 	
 			if((*RootPtr))
 			{
-				printf("Delete %s\n",(*RootPtr)->name);
+				//printf("Delete %s\n",(*RootPtr)->name);
 				free(*RootPtr);
 				(*RootPtr) = NULL;	
 			}

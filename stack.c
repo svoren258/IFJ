@@ -46,7 +46,7 @@ tStack* stackInit () {
 int stackEmpty ( const tStack* s ) {
 
 	//returns true if the stack is empty
-	return ( s->top == -1) ? 1 : 0;
+	return ( s->top == -1) ? TRUE : FALSE;
 
 }
 

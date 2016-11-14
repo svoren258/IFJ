@@ -79,7 +79,7 @@ void store_function(/*stack*/TFunction *f, tTablePtr *table)
 void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 {
 	
-	if( BSTExists(*table, v->name) )
+	if( BSTSearch(*table, v->name) )
 	{
 		ret_error(SYNTAX_ERROR);
 	}
