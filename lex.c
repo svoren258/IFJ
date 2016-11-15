@@ -1,12 +1,14 @@
 #include "lex.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define COUNT_OF_KEYWORDS 17
 
 //globalni promene
 Ttoken *token;
-File *file;
+FILE *file;
 
 //klicova slova
 char *keywords[] ={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
@@ -18,7 +20,7 @@ void IsKeyword(Ttoken *token)
 	{
 		if(!(strcmp(token->data,keywords[i])))
 		{
-			token->type = KEYWORD;
+			token->type = KEYWORDS;
 			return;
 		}
 	}
@@ -39,12 +41,12 @@ int ExtendToken(Ttoken *token, int lenght)
 }
 
 //funkce nastavujici vstupni soubor
-void SetFile(File *soubor)
+void SetFile(FILE *soubor)
 {
 	file = soubor;
 }	
 
-Ttoken *get_token(Ttoken *token)
+int get_token(Ttoken *token)
 {
 	tState type = INIT;
 	bool cont = false;
@@ -172,7 +174,7 @@ Ttoken *get_token(Ttoken *token)
 					break;
 				}
 
-				ExtendToken(&token, lenght);
+				ExtendToken(token, lenght);
 				break;
 			}
 
@@ -181,7 +183,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '=')
             	{
                		type = GR_EQ;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -190,7 +192,7 @@ Ttoken *get_token(Ttoken *token)
                 	type = END;
                 	if (!isspace(c))
                 	{
-        				ungetc(c, file);
+        			ungetc(c, file);
                 	}
             	}
 
@@ -202,7 +204,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '=')
             	{
                		type = LE_EQ;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -223,7 +225,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '=')
             	{
                		type = N_EQ;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -244,7 +246,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '=')
             	{
                		type = EQUALS;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -265,7 +267,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '&')
             	{
                		type = AND_B;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -286,7 +288,7 @@ Ttoken *get_token(Ttoken *token)
 				if (c == '|')
             	{
                		type = OR_B;
-                	ExtendToken(&token, lenght);
+                	ExtendToken(token, lenght);
 
             	}
             	else
@@ -307,17 +309,17 @@ Ttoken *get_token(Ttoken *token)
 				if(isdigit(c))
 				{
 					type = N_DEC;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else if (c == '.')
 				{
 					type = DEC;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else if((c == 'e') || (c == 'E'))
 				{
 					type = N_DEC_E;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else 
 				{
@@ -335,8 +337,8 @@ Ttoken *get_token(Ttoken *token)
 			{
 				if(isdigit(c))
 				{
-					type N_DEC_E;
-					ExtendToken(&token, lenght);
+					type = N_DEC_E;
+					ExtendToken(token, lenght);
 				}
 				else 
 				{
@@ -354,13 +356,13 @@ Ttoken *get_token(Ttoken *token)
 			{
 				if(isdigit(c))
 				{
-					type DEC;
-					ExtendToken(&token, lenght);
+					type = DEC;
+					ExtendToken(token, lenght);
 				}
 				else if((c == 'e')||(c == 'E'))
 				{
-					type DEC_E;
-					ExtendToken(&token, lenght);
+					type = DEC_E;
+					ExtendToken(token, lenght);
 				}
 				else 
 				{
@@ -378,8 +380,8 @@ Ttoken *get_token(Ttoken *token)
 			{
 				if(isdigit(c))
 				{
-					type DEC_E;
-					ExtendToken(&token, lenght);
+					type = DEC_E;
+					ExtendToken(token, lenght);
 				}
 				else 
 				{
@@ -398,7 +400,7 @@ Ttoken *get_token(Ttoken *token)
 				if(c == '/')
 				{
 					token->type = B_COM_B;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else
 				{
@@ -417,12 +419,12 @@ Ttoken *get_token(Ttoken *token)
 				if(c == '/')
 				{
 					token->type = COM;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else if(c == '*')
 				{
 					token->type = B_COM_A;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else
 				{
@@ -441,11 +443,11 @@ Ttoken *get_token(Ttoken *token)
 				if ((isalpha(c) || isdigit(c) || (c == '_')))
 				{
 					token->type = type;
-					ExtendToken(&token, lenght);
+					ExtendToken(token, lenght);
 				}
 				else
 				{
-					token->type = IsKeyword(&token)
+					IsKeyword(token);
 					type = END;
 					if (!isspace(c))
                 	{
@@ -460,7 +462,7 @@ Ttoken *get_token(Ttoken *token)
 			case LB:
 			case PB:
 			case LSB:
-			case LPB:
+			case PSB:
 			case LDB:
 			case PDB:
 			case MOD:
@@ -473,8 +475,6 @@ Ttoken *get_token(Ttoken *token)
 			case N_EQ:
 			case LE_EQ:
 			case GR_EQ:
-			case MUL:
-			case DIV:
 			case COM:
 			case B_COM_A:
 			case B_COM_B:
@@ -506,6 +506,8 @@ Ttoken *get_token(Ttoken *token)
 			break;
 		}*/
 	}
-	return *token; //to záleží	
+	return 0; //to záleží	
 }
+
+
 
