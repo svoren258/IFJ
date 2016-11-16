@@ -35,7 +35,7 @@ void First (tList *);
 void CopyFirst (tList *, int *);
 void DeleteFirst (tList *);
 void PostDelete (tList *);
-void PostInsert (tList *, int);
+void PostInsert (tList *, int,void*,void*,void*);
 void Succ (tList *);
 void Copy (tList *, int *);	
 void Actualize (tList *, int);

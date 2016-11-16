@@ -157,7 +157,7 @@ void PostDelete (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void PostInsert (tList *L, int val) {
+void PostInsert (tList *L, int op, void *add1, void *add2, void *add3) {
 	//if no active item exists EXIT
 	if(!L->Act)
 		return;
@@ -171,7 +171,10 @@ void PostInsert (tList *L, int val) {
 		return;
 	}
 	//malloc successful, assign data
-	new->data = val;
+	new->operation = op;
+	new->add1 = add1;
+	new->add2 = add2;
+	new->add3 = add3;
 	new->ptr = L->Act->ptr;
 	L->Act->ptr = new;
 

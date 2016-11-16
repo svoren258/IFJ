@@ -1,21 +1,16 @@
-#include "defs.h"
+//#include "defs.h"
 
 #ifndef LexDefs
 #define LexDefs
 
-
 extern char *keywords[];
 
 
-typedef struct token{
-	char* data;
-	int type;
-}Ttoken;
-
-
-
+char *printToken();
+//stavy automatu
 typedef enum
 {
+KEYWORDS,		// klíčová slova
 INIT,			// počáteční stav
 END,			// koncový stav
 PLUS,			// +
@@ -55,10 +50,19 @@ B_COM_B,		// */
 ID,				// [a-Z0-9]
 STRNG,			// string
 INTGR,			// integer
-DBLE			// double
+DBLE,			// double
+COMMA,			// ,
 }tState;
 
-void lex_finish();
-void lex_init();
-Ttoken *get_token();
+
+//struktura pro token
+typedef struct{
+	char* data;
+	tState type;
+	unsigned len;
+}Ttoken;
+
+
+//prototyp funkce
+int get_token(Ttoken *token);
 #endif

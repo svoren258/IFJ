@@ -1,6 +1,7 @@
 #include "expression.h"
 #include "list.h"
 #include "defs.h"
+#include "error.h"
 
 char precedence_table[12][12] =
 {/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
@@ -23,6 +24,36 @@ char precedence_table[12][12] =
 tStack *postfixStack, *opStack, *varStack;
 Ttoken *token;
 
+#define DEBUG
+#ifdef DEBUG
+void printStacks(){
+    printf("Postfix\n");
+    while(!stackEmpty(postfixStack))
+    {
+        token = stackTop(postfixStack);
+        stackPop(postfixStack);
+        printf("%s %d\n",token->data, token->type);
+    }
+    
+    printf("opStack\n");
+    while(!stackEmpty(opStack))
+    {
+        token = stackTop(opStack);
+        stackPop(opStack);
+        printf("%s %d\n",token->data, token->type);
+    }
+    
+    printf("varstack\n");
+    while(!stackEmpty(varStack))
+    {
+        token = stackTop(varStack);
+        stackPop(varStack);
+        printf("%s %d\n",token->data, token->type);
+    }
+        
+        
+}
+#endif
 void generator(){
     
 }
@@ -84,24 +115,66 @@ int hasBiggerPrio()
 
 void infixToPostfix()
 {
-    token->type = ID;
-    while( token->type != SEM_CL )
+    
+   int lbracket = 0;
+    while( 1 )
     //get token
     {
+        Ttoken *helper;
         switch(token->type)
         {
+            
             case INTGR:
             case DBLE:
             case ID:
-                printf("LOL\n");
+            case N_DEC_E:
+            case DEC_E:
+            case DEC:
+                stackPush(postfixStack, storeToken(token));
                 break;
             case PLUS:
             case MINUS:
             case DIV:
             case MUL:
-            case MOD:
-                printf("sign\n");
+                if( hasBiggerPrio() )
+                {
+                    stackPush(opStack, storeToken(token));
+                   
+                    break;
+                } 
+                else
+                {
+                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
+                    {
+                        stackPush(postfixStack, stackTop(opStack));
+                        stackPop(opStack);
+                    }
+                
+                    break;
+                }
+            case LB:
+                lbracket++;
+                stackPush(opStack, storeToken(token));
                 break;
+            case PB:
+                while( 1 )
+                {
+                    helper = stackTop(opStack);
+                    if( helper->type == LB)
+                    {
+                        stackPush(postfixStack, helper);
+                        stackPop(opStack);
+                        lbracket--;
+                        break;
+                    }
+                    if( stackEmpty(opStack) )
+                    {
+                        //unget token
+                        break;
+                    }
+                }
+            case SEM_CL:
+                
             default:
                 printf("default\n");
         }
@@ -115,28 +188,9 @@ void expression(Ttoken *token)
     postfixStack = stackInit();
     varStack = stackInit();
     
-    TVariable *var;
-    var = generateVar();
+    //token = get_token();
     
-    var->name = "Variable";
-    var = generateVar();
-    var->name = "variable2";
-    var = stackTop(varStack);
-    printf("%s\n",var->name);
-    stackPop(varStack);
-    var = stackTop(varStack);
-    printf("%s\n",var->name);
-    // tList *insList;
-    // insList = malloc(sizeof(tList));
-    // InitList(insList);
-    
-    // tElemPtr newItem;
-    // newItem = malloc(sizeof(struct tElem));
-    // newItem->operation = MUL;
-    // printf("%d\n",newItem->operation);
-    // newItem->add3 = token->data;
-    
-    // printf("%s\n",newItem->add3);
     
     infixToPostfix();
+    printStacks();
 }
