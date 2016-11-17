@@ -8,570 +8,461 @@
 #define COUNT_OF_KEYWORDS 17
 
 //globalni promene
-Ttoken token;
+Ttoken *token;
 FILE *file;
+TBuffer *buffer;
 
 char *printToken();
 
-
+#define line printf("LINE:%d\n",__LINE__);
 
 //klicova slova
 char *keywords[] ={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
 	"String","static","true","void","while"};
 
-void IsKeyword(Ttoken *token)
+int isKeyword(TBuffer *buffer)
 {
 
 	for(int i = 0; i < COUNT_OF_KEYWORDS; i++)
 	{
-		if(!(strcmp(token->data,keywords[i])))
+		if(!(strcmp(buffer->data,keywords[i])))
 		{
-			token->type = KEYWORDS;
-			return;
+			buffer->data = keywords[i];
+			return i;
 		}
 	}
+	return -1;
+}
+
+TBuffer *bufferInit(TBuffer *buffer)
+{
+	buffer = malloc(sizeof(TBuffer));
+	buffer->capacity = 1;
+	buffer->used = 0;
+	return buffer;
 }
 
 //funkce rozsiri token
-int ExtendToken(Ttoken *token, unsigned length)
+TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
-	if(length >= token->len){
-		token->len += 20;
-		token->data = realloc(token->data, token->len);
-		if(token->data == NULL)
+	//printf("%c\n",c);
+	
+		buffer->data = realloc(buffer->data, buffer->capacity);
+		if(buffer == NULL)
 		{
-			return -1;
+			return NULL;
 		}
-		else
-		{
-
-			return 0;
-		}
-	}
-	return -23402459;
+		
+		buffer->data[buffer->used] = c;
+		buffer->capacity++;
+		buffer->used++;
+		
+	return buffer;
 	//FIX THIS!!!
 }
 
-//funkce nastavujici vstupni soubor
-void SetFile(FILE *soubor)
-{
-	file = soubor;
-}	
 
-int get_token(Ttoken *token)
-{
-	tState type = INIT;
-	bool cont = false;
-	int length = 0;
+Ttoken *getToken(){
+	int state = STATE_INIT;
+	
 	int c;
-
-	token->len = 20;
-	token->data = malloc(20);
-
-	while(!cont && (c = getc(file)))
+	token = malloc(sizeof(Ttoken));
+	buffer = bufferInit(buffer);
+	
+	while( 1 )
 	{
-		switch(type)
+		c = fgetc(file);
+		//printf("%c\n",c);
+		switch( state )
 		{
-			case INIT:
+			
+			case STATE_INIT:
 			{
-				if((isalpha(c))||(c=='_'))
+				//printf("%c is to come\n",c);
+				if( c == EOF )
 				{
-					type = ID;
+					token->type = TOKEN_EOF;
+					token->data = "END OF FILE";
+					return token;
 				}
-				else if(isdigit(c))
+				if( c == ' ' )
+					break;
+				if( isdigit(c) )
 				{
-					type = N_DEC;
-				}
-				else if(c == '.')
-				{
-					type = DOT;
-				}
-				else if(c == ',')
-				{
-					type = COMMA;
-				}
-				else if(c == '(')
-				{
-					type = LB;
-				}
-				else if(c == ')')
-				{
-					type = PB;
-				}
-				else if(c == '[')
-				{
-					type = LSB;
-				}
-				else if(c == ']')
-				{
-					type = PSB;
-				}
-				else if(c == '{')
-				{
-					type = LDB;
-				}
-				else if(c == '}')
-				{
-					type = PDB;
-				}
-				else if(c == '%')
-				{
-					type = MOD;
-				}
-				else if(c == ':')
-				{
-					type = SEM_CL;
-				}
-				else if(c == '"')
-				{
-					type = QUOTE;
-				}
-				else if(c == ';')
-				{
-					type = COLON;
+					extendBuffer(buffer, c);
+					state		= STATE_INT;
+					token->type = TOKEN_INT;
 					break;
 				}
-				else if(c == EOF)
+				if( isalpha(c) )
 				{
-					type = END;
+					extendBuffer(buffer, c);
+					state		= STATE_ID;
+					token->type = TOKEN_ID;
 					break;
 				}
-				else if(c == '<')
+				if( c == '{' )
 				{
-					type = LESSER;
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_L_CURLY;
+					return token;
+				}
+				if( c == '}' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_R_CURLY;
+					return token;
+				}
+				if( c == '(' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_L_ROUND;
+					return token;
+				}
+				if( c == ')' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_R_ROUND;
+					return token;
+				}
+				if( c == '[' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_L_SQUARE;
+					return token;
+				}
+				if( c == ']' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_R_SQUARE;
+					return token;
+				}
+				if( c == '.' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_DOT;
+					return token;
+				}
+				if( c == '+' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_PLUS;
+					return token;
+				}
+				if( c == '-' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_MINUS;
+					return token;
+				}
+				
+				if( c == '*' )
+				{
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_MUL;
+					return token;
+				}
+				if( c == '/' )
+				{
+					extendBuffer(buffer, c);
+					state		= STATE_DIV;
+					token->type = TOKEN_DIV;
 					break;
 				}
-				else if(c == '>')
+				if( c == ';' )
 				{
-					type = GREATER;
+					extendBuffer(buffer, c);
+					token->data = buffer->data;
+					token->type = TOKEN_SEM_CL;
+					return token;
+				}
+				
+				if( c == '<' )
+				{
+					extendBuffer(buffer, c);
+					state = STATE_LESSER;
 					break;
 				}
-				else if(c == '!')
+				
+				if( c == '>' )
 				{
-					type = EXPL;
+					extendBuffer(buffer, c);
+					state = STATE_GREATER;
 					break;
 				}
-				else if(c == '=')
+				if( c == '=' )
 				{
-					type = EQUATE;
+					extendBuffer(buffer, c);
+					state = STATE_ASSIGN;
 					break;
 				}
-				else if(c == '&')
+				
+				if( c == '!' )
 				{
-					type = AND_A;
+					extendBuffer(buffer, c);
+					state = STATE_EXCL_MARK;
 					break;
 				}
-				else if(c == '|')
+				if( c == '"' )
 				{
-					type = OR_A;
+					//not sure, should the apostrophe be included in the string?
+					state = STATE_STRING;
 					break;
-				}
-				else if(c == '+')
-				{
-					type = PLUS;
-					break;
-				}
-				else if(c == '-')
-				{
-					type = MINUS;
-					break;
-				}
-				else if(c == '*')
-				{
-					type = MUL;
-					break;
-				}
-				else if(c == '/')
-				{
-					type = DIV;
-					break;
-				}
-
-				if(ExtendToken(token, length)) return 99;
-				break;
-			}
-
-			case GREATER:
-			{
-				if (c == '=')
-            	{
-               		type = GR_EQ;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case LESSER:
-			{
-				if (c == '=')
-            	{
-               		type = LE_EQ;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case EXPL:
-			{
-				if (c == '=')
-            	{
-               		type = N_EQ;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case EQUATE:
-			{
-				if (c == '=')
-            	{
-               		type = EQUALS;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case AND_A:
-			{
-				if (c == '&')
-            	{
-               		type = AND_B;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case OR_A:
-			{
-				if (c == '|')
-            	{
-               		type = OR_B;
-                	if(ExtendToken(token, length)) return 99;
-
-            	}
-            	else
-            	{
-                	token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-            	}
-
-            	break;
-			}
-
-			case N_DEC:
-			{
-				if(isdigit(c))
-				{
-					type = N_DEC;
-					if(ExtendToken(token, length)) return 99;
-				}
-				else if (c == '.')
-				{
-					type = DEC;
-					if(ExtendToken(token, length)) return 99;
-				}
-				else if((c == 'e') || (c == 'E'))
-				{
-					type = N_DEC_E;
-					if(ExtendToken(token, length)) return 99;
-				}
-				else 
-				{
-					token->type = INTGR;
-					type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
 				}
 				break;
+				
 			}
-
-			case N_DEC_E:
+/********************************END FIRST STATE*****************************/
+/********************************BEGIN NEXT STATE***************************/
+			case STATE_INT:
 			{
-				if(isdigit(c))
+				if( isdigit(c) )
 				{
-					type = N_DEC_E;
-					if(ExtendToken(token, length)) return 99;
+					extendBuffer(buffer, c);
+					break;
 				}
-				else 
+				if( c == '.' )
 				{
-					token->type = INTGR;
-					type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
+					state = STATE_FUT_DOUBLE;
+					break;
 				}
+				token->type = TOKEN_INT;
+				return token;
+				
+				line
+				ret_error(LEX_ERROR);
+			}
+			
+			case STATE_FUT_DOUBLE:
+			{
+				if( isdigit(c) )
+				{
+					token->type = TOKEN_DOUBLE;
+					extendBuffer(buffer, c);
+					break;
+				}
+				line
+				ret_error(SYNTAX_ERROR);
+				
+			}
+			
+			case STATE_ID:
+			{
+				token->type = TOKEN_ID;
+				if( isalnum(c) )
+				{
+					extendBuffer(buffer, c);
+					break;
+				}
+				
+				if( isKeyword(buffer) > 0 )
+				{
+					token->type = isKeyword(buffer);
+				}
+				token->data = buffer->data;
+				ungetc(c, file);
+				return token;
 				break;
 			}
-
-			case DEC:
+			
+			// case STATE_PLUS:
+			// {
+			// 	if( c == '+')
+			// 	{
+			// 		extendBuffer(buffer, c);
+			// 		state		= STATE_INC;
+			// 		token->type = TOKEN_INC;
+			// 		break;
+			// 	}
+			// 	state = STATE_END;
+			// 	break;
+				
+			// }
+			
+			// case STATE_MINUS:
+			// {
+			// 	if( c == '-' )
+			// 	{
+			// 		extendBuffer(buffer, c);
+			// 		state		= STATE_DEC;
+			// 		token->type = TOKEN_DEC;
+			// 		break;
+			// 	}
+			// 	state = STATE_END;
+			// 	break;
+				
+			// }
+			
+			// case STATE_INC:
+			// {
+			// 	if( c == ';' )
+			// 	{
+			// 		ungetc(c, file);
+			// 		state = STATE_END;
+			// 		break;
+			// 	}
+			// 	line
+			// 	ret_error(SYNTAX_ERROR);
+			// }
+			
+			// case STATE_DEC:
+			// {
+			// 	if( c == ';' )
+			// 	{
+			// 		ungetc(c, file);
+			// 		state = STATE_END;
+			// 		break;
+			// 	}
+			// 	line
+			// 	ret_error(SYNTAX_ERROR);
+			// }
+			
+			case STATE_DIV:
 			{
-				if(isdigit(c))
+				if( c == '/' )
 				{
-					type = DEC;
-					if(ExtendToken(token, length)) return 99;
+					state = STATE_LINE_COM;
+					break;
 				}
-				else if((c == 'e')||(c == 'E'))
+				if( c == '*' )
 				{
-					type = DEC_E;
-					if(ExtendToken(token, length)) return 99;
+					state = STATE_BEGIN_COM;
+					break;
 				}
-				else 
-				{
-					token->type = DBLE;
-					type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-				}
+				state = STATE_END;
 				break;
 			}
-
-			case DEC_E:
+			
+			case STATE_LINE_COM:
 			{
-				if(isdigit(c))
+				if( c == '\n' )
 				{
-					type = DEC_E;
-					if(ExtendToken(token, length)) return 99;
+					state = STATE_INIT;
+					break;
 				}
-				else 
-				{
-					token->type = DBLE;
-					type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-				}
-				break;
 			}
-
-			case MUL:
+			
+			case STATE_BEGIN_COM:
 			{
-				if(c == '/')
+				if( c == '/' )
 				{
-					token->type = B_COM_B;
-					if(ExtendToken(token, length)) return 99;
+					state = STATE_INIT;
+					break;
 				}
-				else
-				{
-					token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-				}
-				break;
 			}
-
-			case DIV:
+			
+			case STATE_LESSER:
 			{
-				if(c == '/')
+				if( c == '=' )
 				{
-					token->type = COM;
-					if(ExtendToken(token, length)) return 99;
+					extendBuffer(buffer, c);
+					token->type = TOKEN_LE_EQ;
+					token->data = buffer->data;
+					return token;
 				}
-				else if(c == '*')
-				{
-					token->type = B_COM_A;
-					if(ExtendToken(token, length)) return 99;
-				}
-				else
-				{
-					token->type = type;
-                	type = END;
-                	if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-				}
-				break;
+				ungetc(c, file);
+				token->type = TOKEN_LESSER;
+				token->data = buffer->data;
+				return token;
 			}
-
-			case ID:
+			
+			case STATE_GREATER:
 			{
-				if ((isalpha(c) || isdigit(c) || (c == '_')))
+				if( c == '=' )
 				{
-					token->type = type;
-					if(ExtendToken(token, length)) return 99;
+					extendBuffer(buffer, c);
+					token->type = TOKEN_GR_EQ;
+					token->data = buffer->data;
+					return token;
 				}
-				else
+				ungetc(c, file);
+				token->type = TOKEN_GREATER;
+				token->data = buffer->data;
+				return token;
+			}
+			
+			case STATE_ASSIGN:
+			{
+				if( c == '=' )
 				{
-					IsKeyword(token);
-					type = END;
-					if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
+					extendBuffer(buffer, c);
+					token->type = TOKEN_EQUALS;
+					token->data = buffer->data;
+					return token;
 				}
-				break;
+				ungetc(c, file);
+				token->type = TOKEN_ASSIGN;
+				token->data = buffer->data;
+				return token;
 			}
-
-			case DOT:
-			case COMMA:
-			case LB:
-			case PB:
-			case LSB:
-			case PSB:
-			case LDB:
-			case PDB:
-			case MOD:
-			case AND_B:
-			case OR_B:
-			case SEM_CL:
-			case QUOTE:
-			case COLON:
-			case EQUALS:
-			case N_EQ:
-			case LE_EQ:
-			case GR_EQ:
-			case COM:
-			case B_COM_A:
-			case B_COM_B:
-			case KEYWORDS:
-
+			
+			case STATE_EXCL_MARK:
 			{
-				token->type = type;
-				type = END;
-				if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-                break;
+				if( c == '=' )
+				{
+					extendBuffer(buffer, c);
+					token->type = TOKEN_NOT_EQ;
+					token->data = buffer->data;
+					return token;
+				}
+				line
+				ret_error(SYNTAX_ERROR);
+				////////NOT SURE
 			}
-
-			case END:
+			
+			case STATE_STRING:
 			{
-				if (!isspace(c))
-                	{
-        				ungetc(c, file);
-                	}
-                cont = true;
-                break;
+				if( c != '"' )
+				{
+					extendBuffer(buffer, c);
+				}
+				token->type = TOKEN_STRING;
+				token->data = buffer->data;
+				return token;
+				line
+				ret_error(SYNTAX_ERROR);
+				////////NOT SURE
 			}
+			
+			
+			case STATE_END:
+			{
+				// if( buffer->used > 0 )
+				// 	token->data = buffer->data;
+				// free(buffer);
+				return token;
+			}
+			
 			default:
-			break;//PROBABLY WRONG FIX THIS!!!
+			{
+				line
+				ret_error(LEX_ERROR);	
+			}
+			
+			
+			
+			
+			
 		}
-
-		/*if(error)
-		{
-			break;
-		}*/
+			
+		
 	}
-	return 0; //to záleží	
-}
-
-
-char *printToken()
-{
-
-	switch(token.type)
-	{
-		case KEYWORDS: 	return "keywords";	// klíčová slova
-		case PLUS: 		return "+";			// +
-		case MINUS:		return	"-";		// -
-		case MUL:		return	"*";		// *
-		case DIV:		return	"/";		// /
-		case MOD:		return	"%%";		// %
-		case EQUATE:	return	"=";		// =
-		case EQUALS:	return	"==";		// ==
-		case GREATER:	return	">";		// >
-		case LESSER:	return	"<";		// <
-		case GR_EQ:		return	">=";		// >=
-		case LE_EQ:		return	"<=";		// <=
-		case EXPL:		return	"!";		// !
-		case N_EQ:		return	"!=";		// !=
-		case DOT:		return	".";		// .
-		case SEM_CL:	return	";";		// ;
-		case COLON:		return	":";		// :
-		case QUOTE:		return	"\"";		// "
-		case OR_A:		return	"|";		// |
-		case OR_B:		return	"||";		// ||
-		case AND_A:		return	"&";		// &
-		case AND_B:		return	"&&";		// &&
-		case LB:		return	"(";		// (
-		case PB:		return	")";		// )
-		case LSB:		return	"[";		// [
-		case PSB:		return	"]";		// ]
-		case LDB:		return	"{";		// {
-		case PDB:		return	"}";		// }
-		case N_DEC:		return	"[0-9]";		// [0-9]
-		case N_DEC_E:	return	"[0-9e0-9]";		// [0-9e0-9]
-		case DEC:		return	"[0-9.0-9]";		// [0-9.0-9]
-		case DEC_E:		return	"[0-9.0-9e0-9]";	// [0-9.0-9e0-9]
-		case COM:		return	"//";				// //
-		case B_COM_A:	return	"/*";			// /*
-		case B_COM_B:	return	"*/";		// */
-		case ID:		return	token.data;	// [a-Z0-9]
-		case STRNG:		return	"string";	// string
-		case INTGR:		return	"integer";	// integer
-		case DBLE:		return	"double";	// double
-		case COMMA:		return	",";		// ,
-		case INIT:		return "INIT";
-		case END:		return "END";
-	}
-	return "ERROR";//CORRECT? FIX THIS!!!
+	printf("%s\n",buffer->data);
+	free(buffer);
+	free(token);
+	fclose(file);
+	
+	printf("%d the last\n",c);
+	printf("The end\n");
+	return token;
 }

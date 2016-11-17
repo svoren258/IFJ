@@ -27,7 +27,8 @@ Ttoken *token;
 #define DEBUG
 #ifdef DEBUG
 void printStacks(){
-    printf("Postfix\n");
+    printf("-----\nPostfix\n");
+    printf("vvvvvvvvvvvvv\n");
     while(!stackEmpty(postfixStack))
     {
         token = stackTop(postfixStack);
@@ -35,7 +36,8 @@ void printStacks(){
         printf("%s %d\n",token->data, token->type);
     }
     
-    printf("opStack\n");
+    printf("-----\nopStack\n");
+    printf("vvvvvvvvvvvvv\n");
     while(!stackEmpty(opStack))
     {
         token = stackTop(opStack);
@@ -43,7 +45,8 @@ void printStacks(){
         printf("%s %d\n",token->data, token->type);
     }
     
-    printf("varstack\n");
+    printf("-----\nvarstack\n");
+    printf("vvvvvvvvvvvvv\n");
     while(!stackEmpty(varStack))
     {
         token = stackTop(varStack);
@@ -70,26 +73,27 @@ int tokenToType(Ttoken *token)
 {
     switch(token->type)
     {
-        case PLUS: 
+        case TOKEN_PLUS: 
             return OP_PLUS;
-        case MINUS:
+        case TOKEN_MINUS:
             return OP_MINUS;
-        case MUL:
+        case TOKEN_MUL:
             return OP_MUL;
-        case DIV:
+        case TOKEN_DIV:
             return OP_DIVISION;
-        case GREATER:
+        case TOKEN_GREATER:
             return OP_GREATER;
-        case LESSER:
+        case TOKEN_LESSER:
             return OP_LESSER;
-        case GR_EQ:
+        case TOKEN_GR_EQ:
             return OP_GREQUAL;
-        case LE_EQ:
+        case TOKEN_LE_EQ:
             return OP_LEQUAL;
-        case N_EQ:
+        case TOKEN_NOT_EQ:
             return OP_NOTEQUAL;
-        case EQUALS:
+        case TOKEN_EQUALS:
             return OP_EQUAL;
+        default:break;
     }
    
     return 42;
@@ -116,70 +120,72 @@ int hasBiggerPrio()
 void infixToPostfix()
 {
     
-   int lbracket = 0;
-    while( 1 )
-    //get token
-    {
-        Ttoken *helper;
-        switch(token->type)
-        {
+   //int lbracket = 0;
+    // while( 1 )
+    // //get token
+    // {
+    //     Ttoken *helper;
+    //     switch(token->type)
+    //     {
             
-            case INTGR:
-            case DBLE:
-            case ID:
-            case N_DEC_E:
-            case DEC_E:
-            case DEC:
-                stackPush(postfixStack, storeToken(token));
-                break;
-            case PLUS:
-            case MINUS:
-            case DIV:
-            case MUL:
-                if( hasBiggerPrio() )
-                {
-                    stackPush(opStack, storeToken(token));
+    //         case INTGR:
+    //         case DBLE:
+    //         case ID:
+    //         case N_DEC_E:
+    //         case DEC_E:
+    //         case DEC:
+    //             stackPush(postfixStack, storeToken(token));
+    //             break;
+    //         case PLUS:
+    //         case MINUS:
+    //         case DIV:
+    //         case MUL:
+    //             if( hasBiggerPrio() )
+    //             {
+    //                 stackPush(opStack, storeToken(token));
                    
-                    break;
-                } 
-                else
-                {
-                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
-                    {
-                        stackPush(postfixStack, stackTop(opStack));
-                        stackPop(opStack);
-                    }
+    //                 break;
+    //             } 
+    //             else
+    //             {
+    //                 while( !hasBiggerPrio() && !stackEmpty(opStack) )
+    //                 {
+    //                     stackPush(postfixStack, stackTop(opStack));
+    //                     stackPop(opStack);
+    //                 }
                 
-                    break;
-                }
-            case LB:
-                lbracket++;
-                stackPush(opStack, storeToken(token));
-                break;
-            case PB:
-                while( 1 )
-                {
-                    helper = stackTop(opStack);
-                    if( helper->type == LB)
-                    {
-                        stackPush(postfixStack, helper);
-                        stackPop(opStack);
-                        lbracket--;
-                        break;
-                    }
-                    if( stackEmpty(opStack) )
-                    {
-                        //unget token
-                        break;
-                    }
-                }
-            case SEM_CL:
-                
-            default:
-                printf("default\n");
-        }
-        token->type = SEM_CL;
-    }
+    //                 break;
+    //             }
+    //         case LB:
+    //             lbracket++;
+    //             stackPush(opStack, storeToken(token));
+    //             break;
+    //         case PB:
+    //             while( 1 )
+    //             {
+    //                 helper = stackTop(opStack);
+    //                 if( helper->type == LB)
+    //                 {
+    //                     stackPush(postfixStack, helper);
+    //                     stackPop(opStack);
+    //                     lbracket--;
+    //                     break;
+    //                 }
+    //                 if( stackEmpty(opStack) )
+    //                 {
+    //                     //unget token
+    //                     break;
+    //                 }
+    //             }
+    //         case SEM_CL:
+    //             //unget token
+    //             break;
+    //         default:
+    //             printf("default\n");
+    //             break;
+    //     }
+    //     token->type = SEM_CL;
+    // }
 }
 
 void expression(Ttoken *token)
@@ -188,9 +194,23 @@ void expression(Ttoken *token)
     postfixStack = stackInit();
     varStack = stackInit();
     
-    //token = get_token();
     
+    // token->data = "ahoj";
+    // stackPush(opStack, storeToken(token));
+    // token->data = "ahog";
+    // stackPush(opStack, storeToken(token));
+    // token->data = "ahoh";
+    // stackPush(opStack, storeToken(token));
     
-    infixToPostfix();
-    printStacks();
+    // token->data = "POSTFIXTSKA";
+    // stackPush(postfixStack, storeToken(token));
+    
+    // while(!stackEmpty(opStack))
+    // {
+    //     stackPush(postfixStack, stackTop(opStack));
+    //     stackPop(opStack);
+    // }
+    
+    //infixToPostfix();
+    // printStacks();
 }

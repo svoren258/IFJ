@@ -14,32 +14,31 @@
 //#define FILE_ERROR 5
 Ttoken *token;
 FILE *file;
+TBuffer * buffer;
 
 
 int main(int argc, char **argv)
 {
-// 	if(argc != 2) return EXIT_FAILURE;
+	if(argc != 2) return EXIT_FAILURE;
 	
-// 	file = fopen(argv[1], "r");
+	file = fopen(argv[1], "r");
 	
 	
-// 	if(!file)
-// 	{ 
-// 		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
-// 		return EXIT_FAILURE; 
-// 	}
+	if(!file)
+	{ 
+		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
+		return EXIT_FAILURE; 
+	}
 	
-token = malloc(sizeof(Ttoken));
-
-// 	get_token(&token);
-// 	while (token.type != END ){
-		
-// 		printf("%s\n",printToken());
-// 		get_token(&token);
-//	}
-//lex_init();
-
-parse();
+token = getToken();
+int i = 0;
+while(token->type != EOF)
+{
+	i++;
+	printf("%s \n",token->data);
+	token = getToken();
+}
+//parse();
 
 //lex_finish();
 	return 0;
