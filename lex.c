@@ -236,6 +236,7 @@ Ttoken *getToken(){
 					token->data = buffer->data;
 					return token;
 				}
+				//TODO \n \t \" a podobne srandy
 				break;
 				
 			}
