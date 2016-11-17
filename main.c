@@ -32,10 +32,10 @@ int main(int argc, char **argv)
 	
 token = getToken();
 int i = 0;
-while(token->type != EOF)
+while(token->type != TOKEN_EOF)
 {
 	i++;
-	printf("%s \n",token->data);
+	printf("%s %d\n",token->data, token->type);
 	token = getToken();
 }
 //parse();

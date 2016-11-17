@@ -67,6 +67,9 @@ Ttoken *getToken(){
 	
 	int c;
 	token = malloc(sizeof(Ttoken));
+	if(buffer){
+		free(buffer);
+	}
 	buffer = bufferInit(buffer);
 	
 	while( 1 )
@@ -233,9 +236,11 @@ Ttoken *getToken(){
 				}
 				if( c == '.' )
 				{
+					extendBuffer(buffer, c);
 					state = STATE_FUT_DOUBLE;
 					break;
 				}
+				token->data = buffer->data;
 				token->type = TOKEN_INT;
 				return token;
 				
@@ -422,9 +427,11 @@ Ttoken *getToken(){
 			
 			case STATE_STRING:
 			{
+				
 				if( c != '"' )
 				{
 					extendBuffer(buffer, c);
+					break;
 				}
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
