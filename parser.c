@@ -4,21 +4,21 @@ tTablePtr globTable;
 Ttoken *token;
 tStack *gStack;
 
-void keywords_init()
-{
-	int i = 0;
-	while(keywords[i])
-	{	
+// void keywords_init()
+// {
+// 	int i = 0;
+// 	while(keywords[i])
+// 	{	
 		
-		 token->data = keywords[i];
-		 TVariable *v = new_variable(token);
-		 v->type = TYPE_KEYWORD;
+// 		 token->data = keywords[i];
+// 		 TVariable *v = new_variable(token);
+// 		 v->type = TYPE_KEYWORD;
 		
-		 store_variable(v, &globTable);
-		 i++;
-	}
+// 		 store_variable(v, &globTable);
+// 		 i++;
+// 	}
 
-}
+// }
 
 void parser_init()
 {
@@ -26,10 +26,11 @@ void parser_init()
 	gStack = stackInit();
 	
 	BSTInit(&globTable);
+	
 	BSTInsert(&globTable, &globTable, "GlobTable");
-
+	
 	/*keywords to globtable*/
-	keywords_init();
+	// keywords_init();
 	
 }
 
@@ -103,9 +104,10 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 
 void parse()
 {
+	
 	parser_init();
-expression(token);
-
+	
+//expression(token);
 	parser_finish();
 
 }

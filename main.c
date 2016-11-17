@@ -22,24 +22,21 @@ int main(int argc, char **argv)
 	if(argc != 2) return EXIT_FAILURE;
 	
 	file = fopen(argv[1], "r");
-	
-	
+
 	if(!file)
 	{ 
 		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
 		return EXIT_FAILURE; 
 	}
 	
-token = getToken();
-int i = 0;
-while(token->type != TOKEN_EOF)
-{
-	i++;
-	printf("%s %d\n",token->data, token->type);
 	token = getToken();
-}
-//parse();
+	while(token->type != TOKEN_EOF)
+	{
+		printf("%s\n",token->data);
+		token = getToken();
+	}
+parse();
 
-//lex_finish();
+
 	return 0;
 }

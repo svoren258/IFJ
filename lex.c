@@ -88,6 +88,8 @@ Ttoken *getToken(){
 					token->data = "END OF FILE";
 					return token;
 				}
+				if( c == '\n' )
+					break;
 				if( c == ' ' )
 					break;
 				if( isdigit(c) )
@@ -219,8 +221,20 @@ Ttoken *getToken(){
 				if( c == '"' )
 				{
 					//not sure, should the apostrophe be included in the string?
-					state = STATE_STRING;
+					state = STATE_STRING_DOUBLE;
 					break;
+				}
+				if( c == '\'' )
+				{
+					state = STATE_STRING_SINGLE;
+					break;
+				}
+				if( c == ',' )
+				{
+					extendBuffer(buffer, c);
+					token->type = TOKEN_COLON;
+					token->data = buffer->data;
+					return token;
 				}
 				break;
 				
@@ -344,26 +358,40 @@ Ttoken *getToken(){
 					state = STATE_BEGIN_COM;
 					break;
 				}
-				state = STATE_END;
 				break;
 			}
 			
 			case STATE_LINE_COM:
 			{
-				if( c == '\n' )
+				if( c == '\n' || c == EOF )
 				{
+					buffer = bufferInit(buffer);
 					state = STATE_INIT;
 					break;
 				}
+				break;
 			}
 			
 			case STATE_BEGIN_COM:
 			{
+				if( c == '*' )
+				{
+					state = STATE_END_COM;
+					break;
+				}
+				break;
+			}
+			
+			case STATE_END_COM:
+			{
 				if( c == '/' )
 				{
+					buffer = bufferInit(buffer);
 					state = STATE_INIT;
 					break;
 				}
+				state = STATE_BEGIN_COM;
+				break;
 			}
 			
 			case STATE_LESSER:
@@ -425,10 +453,26 @@ Ttoken *getToken(){
 				////////NOT SURE
 			}
 			
-			case STATE_STRING:
+			case STATE_STRING_DOUBLE:
 			{
 				
 				if( c != '"' )
+				{
+					extendBuffer(buffer, c);
+					break;
+				}
+				token->type = TOKEN_STRING;
+				token->data = buffer->data;
+				return token;
+				line
+				ret_error(SYNTAX_ERROR);
+				////////NOT SURE
+			}
+			
+			case STATE_STRING_SINGLE:
+			{
+				
+				if( c != '\'' )
 				{
 					extendBuffer(buffer, c);
 					break;
