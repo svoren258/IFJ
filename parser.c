@@ -8,25 +8,17 @@
 #include "parser.h"
 #include "error.h"
 
-tTablePtr globTable;
-Ttoken *token;
-TStack *gStack;
+tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
+Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok getToken();
+TStack *gStack;//zasobnik, pravdepodobne na prehladu o tom, ktora funkcia sa prave spracuvava
 
-// void keywords_init()
-// {
-// 	int i = 0;
-// 	while(keywords[i])
-// 	{	
-		
-// 		 token->data = keywords[i];
-// 		 TVariable *v = new_variable(token);
-// 		 v->type = TYPE_KEYWORD;
-		
-// 		 store_variable(v, &globTable);
-// 		 i++;
-// 	}
-
-// }
+tTablePtr create_class_table(char* name)//navratova hodnota - uzol stromu
+{
+    tTablePtr classTable;//vytvorenie pointera
+    BSTInit(&classTable);//inicializacia(uzol = NULL)
+    BSTInsert(&classTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
+    return classTable;//vrati uzol tabulky triedy
+}
 
 void parser_init()
 {
@@ -104,7 +96,7 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 
 /*--------------------automat-----------------------*/
 void starter() {
-    Ttoken token = get_token();
+    token = get_token();
     while (token->type == KEYWORD_CLASS) {  //token->type == TOKEN_CLASS
 
         token = get_token();
@@ -114,7 +106,7 @@ void starter() {
         if (BSTSearch(classTable, token->data)) {
             ret_error(SEMANTIC_DEF_ERROR);
         }
-        Ttable *table = create_class_table(token->data);    //vytvorit create_class_table()!!!
+        tTablePtr table = create_class_table(token->data);    //vytvorit create_class_table()!!!
         token = get_token();
         if (token->type != TOKEN_L_CURLY) {
             ret_error(SYNTAX_ERROR);

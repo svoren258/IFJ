@@ -26,11 +26,12 @@ typedef struct{
 }Ttoken;
 
 Ttoken *getTokenFromStack();
-Ttoken *getToken();
+Ttoken *get_token();
 TBuffer *extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
 void lexFinish();
-void ungetToken(Ttoken*);
+void lexStart();
+void unget_token(Ttoken*);
 
 
 //char *printToken();
@@ -148,6 +149,4 @@ TOKEN_TYPE,
 
 
 
-//prototyp funkce
-int get_token(Ttoken *token);
 #endif

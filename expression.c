@@ -99,7 +99,8 @@ int tokenToType(Ttoken *token)
             return OP_NOTEQUAL;
         case TOKEN_EQUALS:
             return OP_EQUAL;
-        default:break;
+        default:
+            break;
     }
    
     return 42;
@@ -130,7 +131,7 @@ void infixToPostfix()
     while( 1 )
     //get token
     {
-        token = getToken();
+        token = get_token();
         // Ttoken *helper;
         switch(token->type)
         {
@@ -184,7 +185,7 @@ void infixToPostfix()
             //         }
             //     }
             case TOKEN_SEM_CL:
-                ungetToken(token);
+                unget_token(token);
                 return;
             default:
                 break;
@@ -196,12 +197,12 @@ int functionNewCall()
 {
     if(token->type != TOKEN_ID)
         return FALSE;
-    token = getToken();
+    token = get_token();
     
     if(token->type != TOKEN_L_ROUND)
         return FALSE;
         
-    token = getToken();
+    token = get_token();
     if(token->type != TOKEN_R_ROUND)
         return FALSE;
         
@@ -214,19 +215,19 @@ int functionBuiltIn()
     if(token->type != TOKEN_ID)
         return FALSE;
     
-    token = getToken();
+    token = get_token();
     if(token->type != TOKEN_DOT)
         return FALSE;
         
-    token = getToken();
+    token = get_token();
     if(token->type != TOKEN_ID)
         return FALSE;
         
-    token = getToken();
+    token = get_token();
     if(token->type != TOKEN_L_ROUND)
         return FALSE;
         
-    token = getToken();
+    token = get_token();
     if(token->type == TOKEN_R_ROUND)
         return TRUE;
     return FALSE;

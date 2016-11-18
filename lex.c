@@ -32,28 +32,30 @@ char *keywords[] ={"boolean","break","class","continue","do","double","else","fa
 
 int isKeyword(TBuffer *buffer)
 {
+	if(buffer->used < 2)
+		return -1;
 
     for(int i = 0; i < COUNT_OF_KEYWORDS; i++)
     {
         if(!(strcmp(buffer->data,keywords[i])))
         {
-            buffer->data = keywords[i];
+            //buffer->data = keywords[i];
             return i;
         }
     }
     return -1;
 }
 
-TBuffer *bufferInit(TBuffer *buffer)
+TBuffer *bufferInit()
 {
 
     buffer = malloc(sizeof(TBuffer));
     if(!buffer)
     {
-        ;
         ret_error(INTERNAL_ERROR);
     }
-
+	
+	buffer->data = NULL;
     buffer->capacity = 1;
     buffer->used = 0;
     return buffer;
@@ -61,10 +63,13 @@ TBuffer *bufferInit(TBuffer *buffer)
 
 TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
-    buffer->data = realloc(buffer->data, buffer->capacity);
+	char* temp = realloc(buffer->data,  buffer->capacity );
+	if(!temp)
+		ret_error(INTERNAL_ERROR);
+    buffer->data = temp;
     if(!buffer)
     {
-        line;
+        // line;
         ret_error(INTERNAL_ERROR);
     }
 
@@ -74,27 +79,41 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
     return buffer;
 }
 
-void ungetToken(Ttoken * token)
+void unget_token(Ttoken * token)
 {
     stackPush(tokenStack, token);
 }
 
+Ttoken * getTokenFromStack()
+{
+	token = stackTop(tokenStack);
+	stackPop(tokenStack);
+	return token;
+}
+
+void lexStart()
+{
+	if(!tokenStack)
+		tokenStack = stackInit();
+	if(!token)		
+		token = malloc(sizeof(Ttoken));
+	if(!buffer)
+		buffer = bufferInit();
+}
 
 void lexFinish()
 {
+	
 	free(buffer);
 	free(token);
 	free(tokenStack);
 	fclose(file);
 }
 
-Ttoken *getToken(){
+Ttoken *get_token(){
 
 
-	if(!tokenStack)
-	{
-		tokenStack = stackInit();
-	}
+
 	if(!stackEmpty(tokenStack))
 	{
 		return getTokenFromStack();
@@ -103,11 +122,13 @@ Ttoken *getToken(){
 	int state = STATE_INIT;
 	int c;
 	
-	if(!token)
-		token = malloc(sizeof(Ttoken));
 	
-	
-	free(buffer);
+	if(buffer)
+	{
+		char* let = buffer->data;
+		free(let);
+		free(buffer);	
+	}
 	buffer = bufferInit(buffer);
 	
 	
@@ -378,20 +399,19 @@ Ttoken *getToken(){
 					extendBuffer(buffer, c);
 					break;
 				}
-				
-				if( isKeyword(buffer) > 0 )
-				{
-					token->type = isKeyword(buffer);
-					switch(token->type)
-					{
-						case KEYWORD_INT:
-						case KEYWORD_DOUBLE:
-						case KEYWORD_STRING:
-							token->data = buffer->data;
-							token->type = TOKEN_TYPE;
-							return token;
-					}
-				}
+				// if( isKeyword(buffer) > 0 )
+				// {
+				// 	token->type = isKeyword(buffer);
+				// 	switch(token->type)
+				// 	{
+				// 		case KEYWORD_INT:
+				// 		case KEYWORD_DOUBLE:
+				// 		case KEYWORD_STRING:
+				// 			token->data = buffer->data;
+				// 			token->type = TOKEN_TYPE;
+				// 			return token;
+				// 	}
+				// }
 				
 				token->data = buffer->data;
 				ungetc(c, file);
