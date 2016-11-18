@@ -18,31 +18,32 @@ extern int solved;
 extern int errflg;
                                                              /* Prvek seznamu */
                                                 /* Definition of list element */
-typedef struct tElem {
-    struct tElem *ptr;
+typedef struct TElem {
+    struct tElem *next;
     int data;
     int operation;
     void *add1;
     void *add2;
     void *add3;
-} *tElemPtr;	               
+} *TListItem;	               
                                                             /* Vlastní seznam */
                                                         /* Definition of list */
 typedef struct { 
-    tElemPtr Act;
-    tElemPtr First;
-} tList;
+    TListItem Act;
+    TListItem First;
+} TList;
                                                    /* Funkce pro implementaci */
                                                /* Functions to be implemented */
-void InitList (tList *);
-void DisposeList (tList *);
-void InsertFirst (tList *, int);
-void First (tList *);
-void CopyFirst (tList *, int *);
-void DeleteFirst (tList *);
-void PostDelete (tList *);
-void PostInsert (tList *, int,void*,void*,void*);
-void Succ (tList *);
-void Copy (tList *, int *);	
-void Actualize (tList *, int);
-int  Active (tList *);
+void InitList (TList *);
+void DisposeList (TList *);
+void InsertFirst (TList *, int);
+void First (TList *);
+void CopyFirst (TList *, int *);
+void DeleteFirst (TList *);
+void PostDelete (TList *);
+TListItem PostInsert (TList *, int op,void* add1,void* add2,void* add3);
+void Succ (TList *);
+void Copy (TList *, int *);	
+void Actualize (TList *, int);
+int  Active (TList *);
+TListItem insertInstruction(TList*, int op, void* add1, void* add2, void* add3);

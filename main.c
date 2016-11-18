@@ -35,7 +35,7 @@ lexStart();
 // 	while(token->type != TOKEN_EOF)
 // 	{
 // // 		printf("%s \t <%d>\n",token->data, token->type);
-// 		token = getToken();
+// 		token = get_Token();
 // 	}
 	
 parse();

@@ -18,7 +18,14 @@ void Error() {
     errflg = TRUE;                      /* globální proměnná -- příznak chyby */
 }
 
-void InitList (tList *L) {
+TListItem insertInstruction(TList* list, int operation, void* ad1, void* ad2, void* ad3)
+{
+	TElem * ins;
+	ins = PostInsert( list, operation, ad1, ad2, ad3);
+	return ins;
+}
+
+void InitList (TList *L) {
 
 	//initialize the empty list
 	L->First = NULL;
@@ -35,7 +42,7 @@ void InitList (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void DisposeList (tList *L) {
+void DisposeList (TList *L) {
 	//exit if the list is empty
 	if(!L->First)
 		return;
@@ -57,13 +64,13 @@ void DisposeList (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void InsertFirst (tList *L, int val) {
+void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	
 	//create a pointer
-	struct tElem *first ;
+	struct TElem *first ;
 	
 	//alloc space for the data
-	if((first = malloc(sizeof(struct tElem))) == NULL)
+	if((first = malloc(sizeof(struct TElem))) == NULL)
 	{//allocation unsuccessful
 		Error();
 		return;
@@ -71,8 +78,12 @@ void InsertFirst (tList *L, int val) {
 
 	
 	//set the data
-	first->data = val;
-	first->ptr = L->First;
+	first->operation = operation;
+	first->add1 = ad1;
+	first->add2 = ad2;
+	first->add3 = ad3;
+	
+	first->next = L->First;
 	L->First = first;
 	
 /*
@@ -85,7 +96,7 @@ void InsertFirst (tList *L, int val) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void First (tList *L) {
+void First (TList *L) {
 	//set activity to the first item
 	L->Act = L->First;
 /*
@@ -98,7 +109,7 @@ void First (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void CopyFirst (tList *L, int *val) {
+void CopyFirst (TList *L, int *val) {
 	//if the list has no active nor first item, EXIT
 	if(!L->First && !L->Act)
 	{
@@ -116,13 +127,13 @@ void CopyFirst (tList *L, int *val) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void DeleteFirst (tList *L) {
+void DeleteFirst (TList *L) {
 	//create a helper variable that will be used to free the space
-	tElemPtr ptr = L->First;
+	TListItem ptr = L->First;
 	if(ptr)
 	{
 		//if first item of a list exists, let's delete it and change activity, based on its current state
-		L->First = ptr->ptr;
+		L->First = ptr->next;
 		L->Act == ptr ? L->Act = NULL : (L->Act = L->Act);
 		free(ptr);
 		ptr = L->First;
@@ -142,16 +153,16 @@ void DeleteFirst (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }	
 
-void PostDelete (tList *L) {
+void PostDelete (TList *L) {
 	//if no active item exists, or the item after the current one does not exists, EXIT
-	if(!L->Act || !L->Act->ptr)
+	if(!L->Act || !L->Act->next)
 		return;
 	//create helper variable to free space
-	tElemPtr del;
-	del = L->Act->ptr;
+	TListItem del;
+	del = L->Act->next;
 
 	//redirect pointer of the current active item to the next one
-	L->Act->ptr = L->Act->ptr->ptr;
+	L->Act->next = L->Act->next->next
 	free(del);
 /* 
 ** Zruší prvek seznamu L za aktivním prvkem a uvolní jím používanou paměť.
@@ -163,14 +174,14 @@ void PostDelete (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void PostInsert (tList *L, int op, void *add1, void *add2, void *add3) {
+TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
 	//if no active item exists EXIT
 	if(!L->Act)
 		return;
 
 	//create a helper variable to free the space
-	struct tElem *new = NULL;
-	if((new = malloc(sizeof(struct tElem))) == NULL)
+	struct TElem *new = NULL;
+	if((new = malloc(sizeof(struct TElem))) == NULL)
 	{
 		//unsuccessful malloc, exit function
 		Error();
@@ -181,8 +192,9 @@ void PostInsert (tList *L, int op, void *add1, void *add2, void *add3) {
 	new->add1 = add1;
 	new->add2 = add2;
 	new->add3 = add3;
-	new->ptr = L->Act->ptr;
-	L->Act->ptr = new;
+	new->next = L->Act->next;
+	L->Act->next = new;
+	return new;
 
 /*
 ** Vloží prvek s hodnotou val za aktivní prvek seznamu L.
@@ -195,7 +207,7 @@ void PostInsert (tList *L, int op, void *add1, void *add2, void *add3) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void Copy (tList *L, int *val) {
+void Copy (TList *L, int *val) {
 	//if no active item, exit function
 	if(!L->Act)
 	{
@@ -214,7 +226,7 @@ void Copy (tList *L, int *val) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void Actualize (tList *L, int val) {
+void Actualize (TList *L, int val) {
 	//set data to the active item, if no active item, exit function!
 	if(!L->Act)
 		return;
@@ -228,11 +240,11 @@ void Actualize (tList *L, int val) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void Succ (tList *L) {
+void Succ (TList *L) {
 	//if active item exists, set activity to the next one(if it exists)
 	if(!L->Act)
 		return;
-	tElemPtr act;
+	TListItem act;
 	act = L->Act;
 	L->Act = act->ptr;
 /*
@@ -245,7 +257,7 @@ void Succ (tList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-int Active (tList *L) {		
+int Active (TList *L) {		
 /*
 ** Je-li seznam L aktivní, vrací nenulovou hodnotu, jinak vrací 0.
 ** Tuto funkci je vhodné implementovat jedním příkazem return. 

@@ -79,7 +79,7 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
     return buffer;
 }
 
-void ungetToken(Ttoken * token)
+void unget_token(Ttoken * token)
 {
     stackPush(tokenStack, token);
 }
@@ -110,7 +110,7 @@ void lexFinish()
 	fclose(file);
 }
 
-Ttoken *getToken(){
+Ttoken *get_token(){
 
 
 
