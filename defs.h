@@ -48,6 +48,7 @@ typedef struct new_func TFunction;
 struct new_func
 {
 	char params[MAX_PARAMS_COUNT];
+	char *className;
 	char *name;
 	int type;
 	int defined;
@@ -60,6 +61,7 @@ struct new_func
 typedef struct new_var TVariable;
 struct new_var 
 {
+	char *className;
 	char *name;
 	int type;
 	int defined;
