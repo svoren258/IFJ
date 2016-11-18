@@ -120,6 +120,7 @@ void parse()
 	var = new_variable(token);
 	
 	expression(token,var);
+	
 	parser_finish();
 
 }

@@ -392,10 +392,12 @@ Ttoken *getToken(){
 						case KEYWORD_INT:
 						case KEYWORD_DOUBLE:
 						case KEYWORD_STRING:
+							token->data = buffer->data;
 							token->type = TOKEN_TYPE;
 							return token;
 					}
 				}
+				
 				token->data = buffer->data;
 				ungetc(c, file);
 				return token;

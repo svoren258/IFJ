@@ -32,11 +32,11 @@ int main(int argc, char **argv)
 	token = getToken();
 	while(token->type != TOKEN_EOF)
 	{
-		printf("%s\n",token->data);
+		printf("%s %d\n ",token->data, token->type);
 		token = getToken();
 	}
 	
-parse();
+// parse();
 lexFinish();
 	return 0;
 }
