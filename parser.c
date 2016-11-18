@@ -185,8 +185,15 @@ void Declaration(tTable *table, Ttoken *token) {
 
 void variableDecl(tTable *table, Ttoken *tokenID, char *type) {
     TVariable *var;
-    var = new_variable(tokenID);
-    var->type = type;
+    tTablePtr node = NULL;
+    node = BSTSearch(table, tokedID->data);
+    if(node == NULL){
+        var = new_variable(tokenID);
+        var->type = type;
+    }
+    else{
+        var = node.data->v;
+    }
 
     Ttoken *token = get_token();
     if (token->type == TOKEN_ASSIGN) {
@@ -242,7 +249,6 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
 
     switch (token->type) {
         case TOKEN_ID:
-            //char *type = NULL;
             Ttoken *tokenID = token;
             tTablePtr node = NULL;
             node = BSTSearch(f->table, token->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
@@ -257,52 +263,61 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
                         //funcCall(f, table, tokenID, NULL);
                     }
                     else if(token->type == TOKEN_ASSIGN){
-                        //expression();
-                        //variableDecl(f->table, tokenID, NULL);
+                        //ungetToken();
+                        variableDecl(f->table, tokenID, NULL);
                     }
 
 
-                    //unget_token();
+
                 }
                 else {
                     token = get_token();
                     if (token->type == TOKEN_ASSIGN) {
-                        TVariable *var = node->data.v;
-                        token = get_token();
-                        expression(&var, tokenID);
+                        //ungetToken();
+                        variableDecl(table, tokenID, NULL);
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
                         }
                     } else if (token->type == TOKEN_L_ROUND) {
+                        //expression();
                         //TFunction *f = node->data.f;
+//                        token = get_token();
+//                        if (token->type != TOKEN_ID) {
+//                            ret_error(SYNTAX_ERROR);
+//                        }
+//                        tokenID = token;
+//                        funcCall(f, table, tokenID, type);
                         token = get_token();
-                        if (token->type != TOKEN_ID) {
+                        if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
                         }
-                        tokenID = token;
-                        funcCall(f, table, tokenID, type);
                     }
                 }
             } else {
 
                 token = get_token();
                 if (token->type == TOKEN_ASSIGN) {
-                    TVariable *var = node->data.v;
-                    token = get_token();
-                    expression(&var, tokenID);
+                    //ungetToken();
+                    variableDecl(f->table, tokenID, NULL);
                     token = get_token();
                     if (token->type != TOKEN_SEM_CL) {
                         ret_error(SYNTAX_ERROR);
                     }
                 } else if (token->type == TOKEN_L_ROUND) {
+                    //expression();
                     //TFunction *f = node->data.f;
+
+//                    token = get_token();
+//                    if (token->type != TOKEN_ID) {
+//                        ret_error(SYNTAX_ERROR);
+//                    }
+//                    tokenID = token;
+//                    funcCall(f, table, tokenID, type);
                     token = get_token();
-                    if (token->type != TOKEN_ID) {
+                    if (token->type != TOKEN_SEM_CL) {
                         ret_error(SYNTAX_ERROR);
                     }
-                    tokenID = token;
-                    funcCall(f, table, tokenID, type);
                 }
             } else {
         ret_error(SYNTAX_ERROR);
