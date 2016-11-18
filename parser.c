@@ -155,16 +155,13 @@ void Declaration(tTable *table, Ttoken *token) {
             if (node->data.v->declared == 1) {
                 ret_error(SEMANTIC_DEF_ERROR);
             }
-//            else{
-//                node->declared = 1;
-//            }
         }
         token = get_token();
         if (token->type != TOKEN_L_ROUND) {
             ret_error(SYNTAX_ERROR);
         }
-        funcDef(table, tokenID, type);
-        //node->declared = 1;
+        TFunction *f = funcDef(table, tokenID, type);
+        f->defined = 1;
     } else {
         type = token->data;   //typ premennej resp funkcie
 
@@ -179,22 +176,19 @@ void Declaration(tTable *table, Ttoken *token) {
             if (node->data.v->declared == 1) {
                 ret_error(SEMANTIC_DEF_ERROR);
             }
-//            else {
-//                node->declared = 1;
-//            }
         }
 
         token = get_token();
         if (token->type != TOKEN_L_ROUND) {
-            variableDecl(table, tokenID, type);
-            //v->declared = 1;
+            TVariable *v = variableDecl(table, tokenID, type);
+            v->declared = 1;
         }
-        funcDef(table, tokenID, type);
-        //f->defined = 1;
+        TFunction *f = funcDef(table, tokenID, type);
+        f->defined = 1;
     }
 }
 
-void variableDecl(tTable *table, Ttoken *tokenID, char *type) {
+TVariable *variableDecl(tTable *table, Ttoken *tokenID, char *type) {
     TVariable *var;
     tTablePtr node = NULL;
     node = BSTSearch(table, tokedID->data);
@@ -203,7 +197,7 @@ void variableDecl(tTable *table, Ttoken *tokenID, char *type) {
         var->type = type;
     }
     else{
-        var = node.data->v;
+        var = node->data.v;
     }
 
     Ttoken *token = get_token();
@@ -218,11 +212,15 @@ void variableDecl(tTable *table, Ttoken *tokenID, char *type) {
         ret_error(SEMANTIC_DEF_ERROR);
     }
     store_variable(var, &table);
+
+    return var;
 }
 
 
-void funcDef(tTable *table, TToken *tokenID, char *type) {
+TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
     TFunction *f;
+    TVariable *v;
+    char *type = NULL;
     f = new_function(tokenID);
     f->type = type;
 
@@ -244,7 +242,7 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
     }
     token = get_token();
     while (token->type == TOKEN_TYPE) { //deklaracie a definicie lokalnych premennych
-        char *type = token->data;
+        type = token->data;
         token = get_token();
 
         if (token->type != TOKEN_ID) {
@@ -254,7 +252,8 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
         if((BSTSearch(f->table, tokenID->data))){
             ret_error(SEMANTIC_DEF_ERROR);
         }
-        variableDecl(f->table, tokenID, type);
+        v = variableDecl(f->table, tokenID, type);
+        v->declared = 1;
         token = get_token();
     }
 
@@ -262,20 +261,37 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
         case TOKEN_ID:
             Ttoken *tokenID = token;
             tTablePtr node = NULL;
+            token = get_token();
+            if(token->type == TOKEN_DOT){
+                token = getToken();
+                if(token->type == TOKEN_ID) {
+                    //char *classname = token->data;
+                    //table = classname->table;
+                    node = BSTSearch(table, token->data);
+                    if(node == NULL){
+                        //pozriet sa do tabuliek inych tried
+                        ret_error(SEMANTIC_DEF_ERROR);
+                    }
+
+                }
+            }
+
+
             node = BSTSearch(f->table, token->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
             if (node == NULL) {
                 node = BSTSearch(table, token->data);
                 if (node == NULL) {
-                    node->declared = 0;
 
                     Ttoken *token = get_token();
                     if (token->type == TOKEN_L_ROUND) {
                         //expression();
                         //funcCall(f, table, tokenID, NULL);
+                        //f->defined = 0;
                     }
                     else if(token->type == TOKEN_ASSIGN){
                         //ungetToken();
                         variableDecl(f->table, tokenID, NULL);
+                        //v->declared = 0;
                     }
 
 
@@ -286,6 +302,7 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
                     if (token->type == TOKEN_ASSIGN) {
                         //ungetToken();
                         variableDecl(table, tokenID, NULL);
+
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
@@ -299,6 +316,7 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
 //                        }
 //                        tokenID = token;
 //                        funcCall(f, table, tokenID, type);
+
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
@@ -331,6 +349,7 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
                     }
                 }
             } else {
+
         ret_error(SYNTAX_ERROR);
     }
 
@@ -363,7 +382,8 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
             break;
 
     }
-    //store_function();
+    store_function(f, &table);
+    return f;
     //...
 
 
