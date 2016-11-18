@@ -4,10 +4,10 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-#include "defs.h"
+
 #ifndef PROJEKT_IFJ_ERROR_H
 #define PROJEKT_IFJ_ERROR_H
-
+#include "defs.h"
 void ret_error(int error);
 
 enum error_values{

@@ -4,12 +4,13 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+
+#ifndef LexDefs
+#define LexDefs
 #include "defs.h"
 #include "error.h"
 #include "stack.h"
 
-#ifndef LexDefs
-#define LexDefs
 
 extern char *keywords[];
 

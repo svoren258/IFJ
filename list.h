@@ -4,6 +4,8 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#ifndef list_h
+#define list_h
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdarg.h>
@@ -47,3 +49,6 @@ void Copy (TList *, int *);
 void Actualize (TList *, int);
 int  Active (TList *);
 TListItem insertInstruction(TList*, int op, void* add1, void* add2, void* add3);
+
+
+#endif

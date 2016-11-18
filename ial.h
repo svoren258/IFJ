@@ -4,14 +4,16 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#ifndef ial_h
+#define ial_h
 #include "defs.h"
+
 
 #define TRUE 1
 #define FALSE 0
 
 
-#ifndef ialh
-#define ialh
+
 typedef struct tTable {
 	char *name;
 	union

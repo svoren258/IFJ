@@ -4,17 +4,19 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-#ifndef Ttypes
-#define Ttypes
+#ifndef defs_h
+#define defs_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
-#include "ial.h" 
+#include "ial.h"
+#include "list.h"
 #include "stack.h"
-#include "error.h"
+
+
 
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
@@ -54,6 +56,7 @@ struct new_func
 	int defined;
 	int numOfParams;
 	TStack *stack;
+	TList *list;
 	
 	tTablePtr table;
 };
