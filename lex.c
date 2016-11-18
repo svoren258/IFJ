@@ -37,16 +37,15 @@ int isKeyword(TBuffer *buffer)
 TBuffer *bufferInit(TBuffer *buffer)
 {
 	buffer = malloc(sizeof(TBuffer));
+	if(!buffer)
+	ret_error(INTERNAL_ERROR);
 	buffer->capacity = 1;
 	buffer->used = 0;
 	return buffer;
 }
 
-//funkce rozsiri token
 TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
-	//printf("%c\n",c);
-	
 		buffer->data = realloc(buffer->data, buffer->capacity);
 		if(buffer == NULL)
 		{
@@ -56,9 +55,7 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
 		buffer->data[buffer->used] = c;
 		buffer->capacity++;
 		buffer->used++;
-		
 	return buffer;
-	//FIX THIS!!!
 }
 
 
@@ -68,7 +65,7 @@ Ttoken *getToken(){
 	int c;
 	token = malloc(sizeof(Ttoken));
 	if(buffer){
-		free(buffer);
+		ret_error(INTERNAL_ERROR);
 	}
 	buffer = bufferInit(buffer);
 	
@@ -237,6 +234,7 @@ Ttoken *getToken(){
 					return token;
 				}
 				//TODO \n \t \" a podobne srandy
+				ret_error(LEX_ERROR);
 				break;
 				
 			}
@@ -255,6 +253,16 @@ Ttoken *getToken(){
 					state = STATE_FUT_DOUBLE;
 					break;
 				}
+				if( c == 'e' )
+				{
+					extendBuffer(buffer, c);
+					state = STATE_E;
+					break;
+				}
+				if( isalpha(c) )
+				{
+					ret_error(LEX_ERROR);
+				}
 				token->data = buffer->data;
 				token->type = TOKEN_INT;
 				return token;
@@ -263,12 +271,55 @@ Ttoken *getToken(){
 				ret_error(LEX_ERROR);
 			}
 			
+			case STATE_DEC_E:
+			{
+				if( isdigit(c) )
+				{
+					extendBuffer(buffer, c);
+					break;
+				}
+				if( isalpha(c) )
+				{
+					line
+					ret_error(SYNTAX_ERROR);
+				}
+				token->type = TOKEN_DEC_E;
+				token->data = buffer->data;
+				return token;
+			}
+			
+			case STATE_E:
+			{
+				if( isdigit(c) )
+				{
+					extendBuffer(buffer, c);
+					break;
+				}
+				if( isalpha(c) )
+				{
+					ret_error(SYNTAX_ERROR);
+				}
+				token->type = TOKEN_E;
+				token->data = buffer->data;
+				return token;
+			}
+			
 			case STATE_FUT_DOUBLE:
 			{
 				if( isdigit(c) )
 				{
 					token->type = TOKEN_DOUBLE;
 					extendBuffer(buffer, c);
+					break;
+				}
+				if( c == 'e' )
+				{
+					if( token->type != TOKEN_DOUBLE )
+					{
+						line
+						ret_error(SYNTAX_ERROR);
+					}
+					state = STATE_DEC_E;
 					break;
 				}
 				line
@@ -456,12 +507,17 @@ Ttoken *getToken(){
 			
 			case STATE_STRING_DOUBLE:
 			{
-				
+				if( c == '\\')
+				{
+					state = STATE_ASCII_DOUBLE;
+					break;
+				}
 				if( c != '"' )
 				{
 					extendBuffer(buffer, c);
 					break;
 				}
+				
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
 				return token;
@@ -473,17 +529,82 @@ Ttoken *getToken(){
 			case STATE_STRING_SINGLE:
 			{
 				
+				if( c == '\\' )
+				{
+					state = STATE_ASCII_SINGLE;
+					break;
+				}
 				if( c != '\'' )
 				{
 					extendBuffer(buffer, c);
 					break;
 				}
+				
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
 				return token;
 				line
 				ret_error(SYNTAX_ERROR);
 				////////NOT SURE
+			}
+			case STATE_ASCII_SINGLE:
+			{
+				switch(c)
+				{
+					case 'n':
+						extendBuffer(buffer, '\n');
+						state = STATE_STRING_SINGLE;
+						break;
+					case 't':
+						extendBuffer(buffer, '\t');
+						state = STATE_STRING_SINGLE;
+						break;
+					case '\'':
+						extendBuffer(buffer, '\'');
+						state = STATE_STRING_SINGLE;
+						break;
+					case '"':
+						extendBuffer(buffer, '"');
+						state = STATE_STRING_SINGLE;
+						break;
+					case '\\':
+						extendBuffer(buffer, '\\');
+						state = STATE_STRING_SINGLE;
+						break;
+					default:
+						ret_error(LEX_ERROR);
+				}
+				break;
+			}
+			
+			case STATE_ASCII_DOUBLE:
+			{
+				switch(c)
+				{
+					case 'n':
+						extendBuffer(buffer, '\n');
+						state = STATE_STRING_DOUBLE;
+						break;
+					case 't':
+						extendBuffer(buffer, '\t');
+						state = STATE_STRING_DOUBLE;
+						break;
+					case '\'':
+						extendBuffer(buffer, '\'');
+						state = STATE_STRING_DOUBLE;
+						break;
+					case '"':
+						extendBuffer(buffer, '"');
+						state = STATE_STRING_DOUBLE;
+						break;
+					case '\\':
+						extendBuffer(buffer, '\\');
+						state = STATE_STRING_DOUBLE;
+						break;
+					default:
+						ret_error(LEX_ERROR);
+				}
+				break;
 			}
 			
 			
@@ -509,12 +630,4 @@ Ttoken *getToken(){
 			
 		
 	}
-	printf("%s\n",buffer->data);
-	free(buffer);
-	free(token);
-	fclose(file);
-	
-	printf("%d the last\n",c);
-	printf("The end\n");
-	return token;
 }
