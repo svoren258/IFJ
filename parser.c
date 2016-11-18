@@ -136,9 +136,6 @@ void starter() {
     //dosli sme na koniec programu
 }
 
-
-//komment
-
 void Declaration(tTable *table, Ttoken *token) {
     Ttoken *tokenID;
     tTablePtr node = NULL;
@@ -155,7 +152,7 @@ void Declaration(tTable *table, Ttoken *token) {
         tokenID = token;
         node = BSTSearch(table, tokenID);
         if (node != NULL) {
-            if (node->declared == 1) {
+            if (node->data.v->declared == 1) {
                 ret_error(SEMANTIC_DEF_ERROR);
             }
 //            else{
@@ -179,7 +176,7 @@ void Declaration(tTable *table, Ttoken *token) {
         tokenID = token;
         node = BSTSearch(table, tokenID);
         if (node != NULL) {
-            if (node->declared == 1) {
+            if (node->data.v->declared == 1) {
                 ret_error(SEMANTIC_DEF_ERROR);
             }
 //            else {
@@ -190,10 +187,10 @@ void Declaration(tTable *table, Ttoken *token) {
         token = get_token();
         if (token->type != TOKEN_L_ROUND) {
             variableDecl(table, tokenID, type);
-            node->declared = 1;
+            //v->declared = 1;
         }
         funcDef(table, tokenID, type);
-        node->declared = 1;
+        //f->defined = 1;
     }
 }
 
