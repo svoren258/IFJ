@@ -1,34 +1,45 @@
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
+
 #include "parser.h"
 #include "error.h"
 
 tTablePtr globTable;
 Ttoken *token;
-tStack *gStack;
+TStack *gStack;
 
-void keywords_init() {
-    int i = 0;
-    while (keywords[i]) {
+// void keywords_init()
+// {
+// 	int i = 0;
+// 	while(keywords[i])
+// 	{	
+		
+// 		 token->data = keywords[i];
+// 		 TVariable *v = new_variable(token);
+// 		 v->type = TYPE_KEYWORD;
+		
+// 		 store_variable(v, &globTable);
+// 		 i++;
+// 	}
 
-        token->name = keywords[i];
-        TVariable *v = new_variable(token);
-        v->type = TYPE_KEYWORD;
+// }
 
-        store_variable(v, &globTable);
-        i++;
-    }
-
-}
-
-void parser_init() {
-
-    gStack = stackInit();
-
-    BSTInit(&globTable);
-    BSTInsert(&globTable, &globTable, "GlobTable");
-
-    /*keywords to globtable*/
-    keywords_init();
-
+void parser_init()
+{
+	
+	gStack = stackInit();
+	
+	BSTInit(&globTable);
+	
+	BSTInsert(&globTable, &globTable, "GlobTable");
+	
+	/*keywords to globtable*/
+	// keywords_init();
+	
 }
 
 void parser_finish() {
@@ -36,31 +47,33 @@ void parser_finish() {
 
 }
 
-TFunction *new_function(Ttoken *token) {    /*allocate the space for a new function*/
-    TFunction *f;
-    f = malloc(sizeof(TFunction));
+TFunction *new_function(Ttoken *token)
+{	/*allocate the space for a new function*/
+	TFunction *f;
+	f = malloc(sizeof(TFunction));
 
-    tTablePtr loc_table;
-    BSTInit(&loc_table);
+	tTablePtr loc_table;
+	BSTInit(&loc_table);
 
-    tStack *stack = stackInit();
-
-    f->stack = stack;
-    /*assign the table to the function*/
-    f->defined = FALSE;
-    f->type = RET_INT;
-    f->table = loc_table;
-    f->name = token->data;
-    return f;
+	TStack *stack = stackInit();
+	
+	f->stack = stack;
+	/*assign the table to the function*/
+	f->defined = FALSE;
+	f->type = RET_INT;
+	f->table = loc_table;
+	f->name = token->data;
+	return f;
 }
 
-TVariable *new_variable(Ttoken *token) {
-    TVariable *v;
-    v = malloc(sizeof(TVariable));
-
-    v->inicialized = FALSE;
-    v->name = token->data;
-    return v;
+TVariable *new_variable(Ttoken *token)
+{	
+	TVariable *v;
+	v = malloc(sizeof(TVariable));
+	
+	v->inicialized = FALSE;
+	v->name = token->data;
+	return v;
 
 }
 
@@ -71,20 +84,21 @@ void store_function(/*stack*/TFunction *f, tTablePtr *table) {
     BSTInsert(table, &new_func, f->name);
     stackPush(gStack, f);
 }
+void store_variable(/*stack*/TVariable *v, tTablePtr *table)
+{
+	
+	if( BSTSearch(*table, v->name) )
+	{
+		ret_error(SYNTAX_ERROR);
+	}
+		
+	tTablePtr new_var;
+	BSTInit(&new_var);
 
-void store_variable(/*stack*/TVariable *v, tTablePtr *table) {
-
-//    if (BSTExists(*table, v->name)) {
-//        ret_error(SYNTAX_ERROR);
-//    }
-
-    tTablePtr new_var;
-    BSTInit(&new_var);
-
-    BSTInsert(table, &new_var, v->name);
-    new_var->data.v = v;
-
-
+	BSTInsert(table, &new_var, v->name);
+	new_var->data.v = v;
+	
+	
 }
 
 
@@ -434,10 +448,14 @@ void funcDef(tTable *table, TToken *tokenID, char *type) {
 
 /*--------------------/automat-----------------------*/
 
-    void parse() {
-        parser_init();
-
-
-        parser_finish();
+void parse()
+{
+	
+	parser_init();
+	
+	
+	
+	
+	parser_finish();
 
     }

@@ -1,3 +1,9 @@
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
 #ifndef Ttypes
 #define Ttypes
 #include <stdio.h>
@@ -12,14 +18,15 @@
 
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
-
+#define line printf("***LINE: %d***\n",__LINE__)
 #define TRUE 1
 #define FALSE 0
+#define MAX_PARAMS_COUNT 100
+
 typedef char * string;
 typedef struct table Ttable;
 typedef struct node Tnode;
-typedef struct new_func TFunction;
-typedef struct new_var TVariable;
+
 
 typedef enum
 {
@@ -37,22 +44,26 @@ enum
 	RET_STRING
 };
 
+typedef struct new_func TFunction;
 struct new_func
 {
-	char *params;
+	char params[MAX_PARAMS_COUNT];
 	char *name;
 	int type;
 	int defined;
-	tStack *stack;
+	int declared;
+	TStack *stack;
 	
 	tTablePtr table;
 };
 
+typedef struct new_var TVariable;
 struct new_var 
 {
 	char *name;
 	int type;
-	int inicialized;
+	int defined;
+	int declared;
 	union{
 		int i;
 		double d;
@@ -61,20 +72,5 @@ struct new_var
 	
 };
 
-// struct node 
-// {
-// 	char *name;
-// 	int type;
-// 	union{
-// 		TFunction *f;
-// 		TVariable v;
-// 	}data;
-// 	struct node *Lchild;
-// 	struct node *Rchild;
-// };
 
-// struct table 
-// {
-// 	struct node *root;
-// };
 #endif

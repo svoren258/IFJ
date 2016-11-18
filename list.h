@@ -1,55 +1,48 @@
-/* Předmět: Algoritmy (IAL) - FIT VUT v Brně
- * Hlavičkový soubor pro c206.c (Dvousměrně vázaný lineární seznam)
- * Vytvořil: Martin Tuček, září 2005
- * Upravil: Bohuslav Křena, říjen 2016
- *  
- * Tento soubor, prosíme, neupravujte!  
- */
-
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdarg.h>
 
-#define FALSE 0
 #define TRUE 1
-
+#define FALSE 0
+                                           /* Indikace, zda byl příklad řešen */
+                                   /* Detects whether the task is implemented */
+extern int solved;                         
+                                                            /* Indikace chyby */
+                                                                /* Error flag */
 extern int errflg;
-extern int solved;
- 
-typedef struct tDLElem {                 /* prvek dvousměrně vázaného seznamu */ 
-        int operation;
-        void * add1;
-        void * add2;
-        void * add3;
-        int data;                                            /* užitečná data */
-        struct tDLElem *lptr;          /* ukazatel na předchozí prvek seznamu */
-        struct tDLElem *rptr;        /* ukazatel na následující prvek seznamu */
-} *tDLElemPtr;
-
-typedef struct {                                  /* dvousměrně vázaný seznam */
-    tDLElemPtr First;                      /* ukazatel na první prvek seznamu */
-    tDLElemPtr Act;                     /* ukazatel na aktuální prvek seznamu */
-    tDLElemPtr Last;                    /* ukazatel na posledni prvek seznamu */
-} tDLList;
-
-                                             /* prototypy jednotlivých funkcí */
-void DLInitList (tDLList *);
-void DLDisposeList (tDLList *);
-void DLInsertFirst (tDLList *, int);
-void DLInsertLast(tDLList *, int, void*, void*, void*);
-void DLFirst (tDLList *);
-void DLLast (tDLList *);
-void DLCopyFirst (tDLList *, int *);
-void DLCopyLast (tDLList *, int *);
-void DLDeleteFirst (tDLList *);
-void DLDeleteLast (tDLList *);
-void DLPostDelete (tDLList *);
-void DLPreDelete (tDLList *);
-void DLPostInsert (tDLList *, int);
-void DLPreInsert (tDLList *, int);
-void DLCopy (tDLList *, int *);
-void DLActualize (tDLList *, int);
-void DLSucc (tDLList *);
-void DLPred (tDLList *);
-int DLActive (tDLList *);
-
-/* Konec hlavičkového souboru c206.h */
+                                                             /* Prvek seznamu */
+                                                /* Definition of list element */
+typedef struct tElem {
+    struct tElem *ptr;
+    int data;
+    int operation;
+    void *add1;
+    void *add2;
+    void *add3;
+} *tElemPtr;	               
+                                                            /* Vlastní seznam */
+                                                        /* Definition of list */
+typedef struct { 
+    tElemPtr Act;
+    tElemPtr First;
+} tList;
+                                                   /* Funkce pro implementaci */
+                                               /* Functions to be implemented */
+void InitList (tList *);
+void DisposeList (tList *);
+void InsertFirst (tList *, int);
+void First (tList *);
+void CopyFirst (tList *, int *);
+void DeleteFirst (tList *);
+void PostDelete (tList *);
+void PostInsert (tList *, int,void*,void*,void*);
+void Succ (tList *);
+void Copy (tList *, int *);	
+void Actualize (tList *, int);
+int  Active (tList *);

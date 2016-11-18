@@ -1,5 +1,5 @@
 /********************************************************************/
-/*Projekt:Implementace interpretu imperativního jazyka IFJ14        */
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
 /*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
@@ -24,10 +24,10 @@ void stackError ( int error_code ){
 	//err_flag = 1;
 }
 
-tStack* stackInit () {
+TStack* stackInit () {
 	//if stack does not exist, exit function
-	tStack * s;
-	s =  malloc(sizeof(tStack*));
+	TStack * s;
+	s =  malloc(sizeof(TStack*));
 	
 	
 	if(!s)
@@ -43,16 +43,16 @@ tStack* stackInit () {
 
 }
 
-int stackEmpty ( const tStack* s ) {
+int stackEmpty ( const TStack* s ) {
 
 	//returns true if the stack is empty
-	return ( s->top == -1) ? 1 : 0;
+	return ( s->top == -1) ? TRUE : FALSE;
 
 }
 
 
 
-void *stackTop ( const tStack* s) {
+void *stackTop ( const TStack* s) {
 	//if stack is empty, exit function
 	if(stackEmpty(s))
 	{
@@ -64,7 +64,7 @@ void *stackTop ( const tStack* s) {
 }
 
 
-void stackPop ( tStack* s ) {
+void stackPop ( TStack* s ) {
 	//if the stack exists, delete element from the top of it
 	if(!stackEmpty(s))
 	{
@@ -75,7 +75,7 @@ void stackPop ( tStack* s ) {
 }
 
 
-void stackPush ( tStack* s, void *data ) {
+void stackPush ( TStack* s, void *data ) {
 	//if stack is full, exit function
 
 	
@@ -87,5 +87,5 @@ void stackPush ( tStack* s, void *data ) {
 	}
 
 	s->data[s->top] = data;
-	s->top = 5;
+	
 }

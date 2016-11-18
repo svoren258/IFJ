@@ -1,5 +1,5 @@
 /********************************************************************/
-/*Projekt:Implementace interpretu imperativního jazyka IFJ14        */
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
 /*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
@@ -36,14 +36,14 @@ typedef struct {
     int capacity;
 	void** data;                             /* pole pro uložení hodnot */
 	int top;                                /* index prvku na vrcholu zásobníku */
-} tStack;
+} TStack;
 
                                   /* Hlavičky funkcí pro práci se zásobníkem. */
 void stackError ( int error_code );
-tStack* stackInit ();
-int stackEmpty ( const tStack* s );
-void* stackTop ( const tStack* s);
-void stackPop ( tStack* s );
-void stackPush ( tStack* s, void*);
+TStack* stackInit ();
+int stackEmpty ( const TStack* s );
+void* stackTop ( const TStack* s);
+void stackPop ( TStack* s );
+void stackPush ( TStack* s, void*);
 
 #endif
