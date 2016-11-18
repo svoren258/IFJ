@@ -1,3 +1,9 @@
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
 #include "defs.h"
 #include "error.h"
 #include "stack.h"
@@ -136,6 +142,7 @@ STATE_E,				//98
 TOKEN_DEC_E,
 STATE_ASCII_DOUBLE,
 STATE_ASCII_SINGLE,
+TOKEN_TYPE,
 }tState;
 
 

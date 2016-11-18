@@ -1,3 +1,9 @@
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
 #ifndef Ttypes
 #define Ttypes
 #include <stdio.h>
@@ -12,14 +18,14 @@
 
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
-
+#define line printf("***LINE: %d***\n",__LINE__)
 #define TRUE 1
 #define FALSE 0
+
 typedef char * string;
 typedef struct table Ttable;
 typedef struct node Tnode;
-typedef struct new_func TFunction;
-typedef struct new_var TVariable;
+
 
 typedef enum
 {
@@ -37,6 +43,7 @@ enum
 	RET_STRING
 };
 
+typedef struct new_func TFunction;
 struct new_func
 {
 	char *params;
@@ -48,6 +55,7 @@ struct new_func
 	tTablePtr table;
 };
 
+typedef struct new_var TVariable;
 struct new_var 
 {
 	char *name;

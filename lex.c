@@ -1,3 +1,10 @@
+/********************************************************************/
+/*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
+/*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
+/*                  Patrik Roman, Martin Chudý                      */
+/*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
+/********************************************************************/
+
 #include "lex.h"
 #include <string.h>
 #include <ctype.h>
@@ -14,7 +21,7 @@ TBuffer *buffer;
 TStack *tokenStack;
 char *printToken();
 
-#define line printf("LINE:%d\n",__LINE__);
+
 
 //klicova slova
 char *keywords[] ={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
@@ -42,7 +49,7 @@ TBuffer *bufferInit(TBuffer *buffer)
 	buffer = malloc(sizeof(TBuffer));
 	if(!buffer)
 	{
-		line
+		line;
 		ret_error(INTERNAL_ERROR);
 	}
 	
@@ -56,7 +63,7 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
 		buffer->data = realloc(buffer->data, buffer->capacity);
 		if(!buffer)
 		{
-			line
+			line;
 			ret_error(INTERNAL_ERROR);
 		}
 		
@@ -308,7 +315,7 @@ Ttoken *getToken(){
 				token->type = TOKEN_INT;
 				return token;
 				
-				line
+				line;
 				ret_error(LEX_ERROR);
 			}
 			
@@ -321,7 +328,7 @@ Ttoken *getToken(){
 				}
 				if( isalpha(c) )
 				{
-					line
+					line;
 					ret_error(SYNTAX_ERROR);
 				}
 				token->type = TOKEN_DEC_E;
@@ -357,13 +364,13 @@ Ttoken *getToken(){
 				{
 					if( token->type != TOKEN_DOUBLE )
 					{
-						line
+						line;
 						ret_error(SYNTAX_ERROR);
 					}
 					state = STATE_DEC_E;
 					break;
 				}
-				line
+				line;
 				ret_error(SYNTAX_ERROR);
 				
 			}
@@ -380,6 +387,14 @@ Ttoken *getToken(){
 				if( isKeyword(buffer) > 0 )
 				{
 					token->type = isKeyword(buffer);
+					switch(token->type)
+					{
+						case KEYWORD_INT:
+						case KEYWORD_DOUBLE:
+						case KEYWORD_STRING:
+							token->type = TOKEN_TYPE;
+							return token;
+					}
 				}
 				token->data = buffer->data;
 				ungetc(c, file);
@@ -541,7 +556,7 @@ Ttoken *getToken(){
 					token->data = buffer->data;
 					return token;
 				}
-				line
+				line;
 				ret_error(SYNTAX_ERROR);
 				////////NOT SURE
 			}
@@ -562,7 +577,7 @@ Ttoken *getToken(){
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
 				return token;
-				line
+				line;
 				ret_error(SYNTAX_ERROR);
 				////////NOT SURE
 			}
@@ -584,7 +599,7 @@ Ttoken *getToken(){
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
 				return token;
-				line
+				line;
 				ret_error(SYNTAX_ERROR);
 				////////NOT SURE
 			}
@@ -652,7 +667,7 @@ Ttoken *getToken(){
 			
 			default:
 			{
-				line
+				line;
 				ret_error(LEX_ERROR);	
 			}
 			
