@@ -30,6 +30,7 @@ Ttoken *getToken();
 TBuffer *extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
 void lexFinish();
+void lexStart();
 void ungetToken(Ttoken*);
 
 

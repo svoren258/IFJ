@@ -28,15 +28,17 @@ int main(int argc, char **argv)
 		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
 		return EXIT_FAILURE; 
 	}
+
+lexStart();
 	
-	// token = getToken();
-	// while(token->type != TOKEN_EOF)
-	// {
-	// 	printf("%s \t <%d>\n",token->data, token->type);
-	// 	token = getToken();
-	// }
+	token = getToken();
+	while(token->type != TOKEN_EOF)
+	{
+// 		printf("%s \t <%d>\n",token->data, token->type);
+		token = getToken();
+	}
 	
-parse();
+// parse();
 lexFinish();
 	return 0;
 }

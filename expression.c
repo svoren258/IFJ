@@ -99,7 +99,8 @@ int tokenToType(Ttoken *token)
             return OP_NOTEQUAL;
         case TOKEN_EQUALS:
             return OP_EQUAL;
-        default:break;
+        default:
+            break;
     }
    
     return 42;

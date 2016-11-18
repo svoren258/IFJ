@@ -27,7 +27,7 @@ void stackError ( int error_code ){
 TStack* stackInit () {
 	//if stack does not exist, exit function
 	TStack * s;
-	s =  malloc(sizeof(TStack*));
+	s =  malloc(sizeof(TStack));
 	
 	
 	if(!s)
