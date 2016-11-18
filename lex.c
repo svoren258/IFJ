@@ -269,11 +269,11 @@ Ttoken *getToken(){
 					state = STATE_STRING_DOUBLE;
 					break;
 				}
-				if( c == '\'' )
-				{
-					state = STATE_STRING_SINGLE;
-					break;
-				}
+				// if( c == '\'' )
+				// {
+				// 	state = STATE_STRING_SINGLE;
+				// 	break;
+				// }
 				if( c == ',' )
 				{
 					extendBuffer(buffer, c);
@@ -584,27 +584,27 @@ Ttoken *getToken(){
 				////////NOT SURE
 			}
 			
-			case STATE_STRING_SINGLE:
-			{
+			// case STATE_STRING_SINGLE:
+			// {
 				
-				if( c == '\\' )
-				{
-					state = STATE_ASCII_SINGLE;
-					break;
-				}
-				if( c != '\'' )
-				{
-					extendBuffer(buffer, c);
-					break;
-				}
+			// 	if( c == '\\' )
+			// 	{
+			// 		state = STATE_ASCII_SINGLE;
+			// 		break;
+			// 	}
+			// 	if( c != '\'' )
+			// 	{
+			// 		extendBuffer(buffer, c);
+			// 		break;
+			// 	}
 				
-				token->type = TOKEN_STRING;
-				token->data = buffer->data;
-				return token;
-				line;
-				ret_error(SYNTAX_ERROR);
-				////////NOT SURE
-			}
+			// 	token->type = TOKEN_STRING;
+			// 	token->data = buffer->data;
+			// 	return token;
+			// 	line;
+			// 	ret_error(SYNTAX_ERROR);
+			// 	////////NOT SURE
+			// }
 			case STATE_ASCII_SINGLE:
 			{
 				switch(c)
@@ -617,10 +617,10 @@ Ttoken *getToken(){
 						extendBuffer(buffer, '\t');
 						state = STATE_STRING_SINGLE;
 						break;
-					case '\'':
-						extendBuffer(buffer, '\'');
-						state = STATE_STRING_SINGLE;
-						break;
+					// case '\'':
+					// 	extendBuffer(buffer, '\'');
+					// 	state = STATE_STRING_SINGLE;
+					// 	break;
 					case '"':
 						extendBuffer(buffer, '"');
 						state = STATE_STRING_SINGLE;
@@ -629,6 +629,7 @@ Ttoken *getToken(){
 						extendBuffer(buffer, '\\');
 						state = STATE_STRING_SINGLE;
 						break;
+					// case OCTAL!!!!!!!!
 					default:
 						ret_error(LEX_ERROR);
 				}

@@ -114,12 +114,8 @@ void parse()
 	
 	parser_init();
 	
-	token = getToken();
 	
-	TVariable *var;
-	var = new_variable(token);
 	
-	expression(token,var);
 	
 	parser_finish();
 
