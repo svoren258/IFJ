@@ -123,6 +123,8 @@ void starter() {
 }
 
 
+//komment
+
 void Declaration(tTable *table, Ttoken *token) {
     Ttoken *tokenID;
     tTablePtr node = NULL;
