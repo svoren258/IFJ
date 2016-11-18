@@ -15,7 +15,7 @@
 #define COUNT_OF_KEYWORDS 17
 
 //globalni promene
-<<<<<<< HEAD
+
 Ttoken *token;
 
 FILE *file;
@@ -50,7 +50,7 @@ TBuffer *bufferInit(TBuffer *buffer)
     buffer = malloc(sizeof(TBuffer));
     if(!buffer)
     {
-        line
+        ;
         ret_error(INTERNAL_ERROR);
     }
 
@@ -64,7 +64,7 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
     buffer->data = realloc(buffer->data, buffer->capacity);
     if(!buffer)
     {
-        line
+        line;
         ret_error(INTERNAL_ERROR);
     }
 

@@ -8,11 +8,7 @@
 #ifndef PROJEKT_IFJ_ERROR_H
 #define PROJEKT_IFJ_ERROR_H
 
-<<<<<<< HEAD
 void ret_error(int error);
-=======
-void ret_error(int);
->>>>>>> 14923d40adde0a122d84777d7bd1d10f1c8a5b32
 
 enum error_values{
     LEX_ERROR = 1,

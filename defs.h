@@ -21,6 +21,7 @@
 #define line printf("***LINE: %d***\n",__LINE__)
 #define TRUE 1
 #define FALSE 0
+#define MAX_PARAMS_COUNT 100
 
 typedef char * string;
 typedef struct table Ttable;
@@ -46,10 +47,11 @@ enum
 typedef struct new_func TFunction;
 struct new_func
 {
-	char *params;
+	char params[MAX_PARAMS_COUNT];
 	char *name;
 	int type;
 	int defined;
+	int declared;
 	TStack *stack;
 	
 	tTablePtr table;
@@ -60,7 +62,8 @@ struct new_var
 {
 	char *name;
 	int type;
-	int inicialized;
+	int defined;
+	int declared;
 	union{
 		int i;
 		double d;
