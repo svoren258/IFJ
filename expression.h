@@ -32,6 +32,6 @@ enum{
     OP_LBRACKET,
     OP_RBRACKET,
 };
-void expression(Ttoken *token, TVariable *var);
+void expression(TVariable *var);
 
 #endif

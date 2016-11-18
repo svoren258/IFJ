@@ -14,9 +14,15 @@ TStack *gStack;//zasobnik, pravdepodobne na prehladu o tom, ktora funkcia sa pra
 
 tTablePtr create_class_table(char* name)//navratova hodnota - uzol stromu
 {
-    tTablePtr classTable;//vytvorenie pointera
-    BSTInit(&classTable);//inicializacia(uzol = NULL)
-    BSTInsert(&classTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
+    tTablePtr node = BSTSearch(globTable, name);
+    if(node == NULL){
+        tTablePtr classTable;//vytvorenie pointera
+        BSTInit(&classTable);//inicializacia(uzol = NULL)
+        BSTInsert(&classTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
+    }
+    else{
+        classTable = node;
+    }
     return classTable;//vrati uzol tabulky triedy
 }
 
@@ -51,7 +57,7 @@ TFunction *new_function(Ttoken *token)
 	
 	f->stack = stack;
 	/*assign the table to the function*/
-	f->defined = FALSE;
+	f->defined = 0;
 	f->type = RET_INT;
 	f->table = loc_table;
 	f->name = token->data;
@@ -62,9 +68,8 @@ TVariable *new_variable(Ttoken *token)
 {	
 	TVariable *v;
 	v = malloc(sizeof(TVariable));
-	
-	v->inicialized = FALSE;
-	v->name = token->data;
+	v->declared = 0;
+    v->name = token->data;
 	return v;
 
 }
@@ -97,7 +102,7 @@ void store_variable(/*stack*/TVariable *v, tTablePtr *table)
 /*--------------------automat-----------------------*/
 void starter() {
     token = get_token();
-    while (token->type == KEYWORD_CLASS) {  //token->type == TOKEN_CLASS
+    while (token->type == KEYWORD_CLASS) {
 
         token = get_token();
         if (token->type != TOKEN_ID) {
@@ -106,7 +111,7 @@ void starter() {
         if (BSTSearch(classTable, token->data)) {
             ret_error(SEMANTIC_DEF_ERROR);
         }
-        tTablePtr table = create_class_table(token->data);    //vytvorit create_class_table()!!!
+        tTablePtr table = create_class_table(token->data);
         token = get_token();
         if (token->type != TOKEN_L_CURLY) {
             ret_error(SYNTAX_ERROR);
@@ -128,7 +133,7 @@ void starter() {
     //dosli sme na koniec programu
 }
 
-void Declaration(tTable *table, Ttoken *token) {
+void Declaration(tTablePtr table, Ttoken *token) {
     Ttoken *tokenID;
     tTablePtr node = NULL;
     char *type = NULL;
@@ -180,7 +185,7 @@ void Declaration(tTable *table, Ttoken *token) {
     }
 }
 
-TVariable *variableDecl(tTable *table, Ttoken *tokenID, char *type) {
+TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     TVariable *var;
     tTablePtr node = NULL;
     node = BSTSearch(table, tokedID->data);
@@ -194,7 +199,7 @@ TVariable *variableDecl(tTable *table, Ttoken *tokenID, char *type) {
 
     Ttoken *token = get_token();
     if (token->type == TOKEN_ASSIGN) {
-        expression(&var, tokenID);
+        expression(&var);
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
             ret_error(SYNTAX_ERROR);
@@ -209,24 +214,26 @@ TVariable *variableDecl(tTable *table, Ttoken *tokenID, char *type) {
 }
 
 
-TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
+TFunction *funcDef(tTablePtr table, TToken *tokenID, char *funcType) {
     TFunction *f;
     TVariable *v;
-    char *type = NULL;
+    int paramsCount = 0;
+    //char *type = NULL;
     f = new_function(tokenID);
-    f->type = type;
+    //f->type = funcType;
+    f->params[paramsCount] = funcType;
 
 
-    Ttoken *token = get_token();
+    token = get_token();
     while (token->type != TOKEN_R_ROUND) {
-        params(f, token);
-        //f->paramcount++;
-
+        paramsCount++;
+        params(f, token, paramsCount);
         token = get_token();
         if ((token->type != TOKEN_COLON) && (token->type != TOKEN_R_ROUND)) {
             ret_error(SYNTAX_ERROR);
         }
     }
+    f->numOfParams = paramsCount;
 
     token = get_token();
     if (token->type != TOKEN_L_CURLY) {
@@ -234,7 +241,7 @@ TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
     }
     token = get_token();
     while (token->type == TOKEN_TYPE) { //deklaracie a definicie lokalnych premennych
-        type = token->data;
+        char *type = token->data;
         token = get_token();
 
         if (token->type != TOKEN_ID) {
@@ -251,100 +258,117 @@ TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
 
     switch (token->type) {
         case TOKEN_ID:
-            Ttoken *tokenID = token;
+            tokenID = token;
             tTablePtr node = NULL;
             token = get_token();
-            if(token->type == TOKEN_DOT){
+            if(token->type == TOKEN_DOT) {
+                char *className = tokenID->data;
+                tTablePtr tableOfClass = create_class_table(className);
                 token = getToken();
-                if(token->type == TOKEN_ID) {
-                    //char *classname = token->data;
-                    //table = classname->table;
-                    node = BSTSearch(table, token->data);
-                    if(node == NULL){
-                        //pozriet sa do tabuliek inych tried
-                        ret_error(SEMANTIC_DEF_ERROR);
+                if (token->type != TOKEN_ID) {
+                    ret_error(SYNTAX_ERROR);
+                }
+                //tokenID = token;
+                //node = BSTSearch(tableOfClass, tokenID->data);
+                //if(node == NULL){
+                token = get_token();
+                if (token->type == TOKEN_ASSIGN) {
+                    unget_token(token);
+                    variableDecl(tableOfClass, tokenID, NULL);
+                    if (token->type != TOKEN_SEM_CL) {
+                        ret_error(SYNTAX_ERROR);
                     }
-
+                }
+                else if (token->type == TOKEN_L_ROUND) {
+                    unget_token(token);
+                    unget_token(token);
+                    expression(NULL);
+                    unget_token(token);
+                    if (token->type != TOKEN_SEM_CL) {
+                        ret_error(SYNTAX_ERROR);
+                    }
+                }
+                else {
+                    ret_error(SYNTAX_ERROR);
                 }
             }
 
-
-            node = BSTSearch(f->table, token->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+            node = BSTSearch(f->table, tokenID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
             if (node == NULL) {
+
                 node = BSTSearch(table, token->data);
                 if (node == NULL) {
 
-                    Ttoken *token = get_token();
-                    if (token->type == TOKEN_L_ROUND) {
-                        //expression();
-                        //funcCall(f, table, tokenID, NULL);
-                        //f->defined = 0;
-                    }
-                    else if(token->type == TOKEN_ASSIGN){
-                        //ungetToken();
+                    token = get_token();
+
+                    if(token->type == TOKEN_ASSIGN){
+                        unget_token(token);
                         variableDecl(f->table, tokenID, NULL);
-                        //v->declared = 0;
+                        if (token->type != TOKEN_SEM_CL) {
+                            ret_error(SYNTAX_ERROR);
+                        }
                     }
+                    else if (token->type == TOKEN_L_ROUND) {
+                        unget_token(token);
+                        unget_token(token);
+                        expression(NULL);
+                        unget_token(token);
 
-
-
+                        if (token->type != TOKEN_SEM_CL) {
+                            ret_error(SYNTAX_ERROR);
+                        }
+                    }
+                    else{
+                        ret_error(SYNTAX_ERROR);
+                    }
                 }
                 else {
                     token = get_token();
                     if (token->type == TOKEN_ASSIGN) {
-                        //ungetToken();
+                        unget_token(token);
                         variableDecl(table, tokenID, NULL);
-
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
                         }
                     } else if (token->type == TOKEN_L_ROUND) {
-                        //expression();
-                        //TFunction *f = node->data.f;
-//                        token = get_token();
-//                        if (token->type != TOKEN_ID) {
-//                            ret_error(SYNTAX_ERROR);
-//                        }
-//                        tokenID = token;
-//                        funcCall(f, table, tokenID, type);
-
+                        unget_token(token);
+                        unget_token(token);
+                        expression(NULL);
+                        unget_token(token);
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
                         }
+                    }
+                    else{
+                        ret_error(SYNTAX_ERROR);
                     }
                 }
             } else {
 
                 token = get_token();
                 if (token->type == TOKEN_ASSIGN) {
-                    //ungetToken();
+                    unget_token(token);
                     variableDecl(f->table, tokenID, NULL);
                     token = get_token();
                     if (token->type != TOKEN_SEM_CL) {
                         ret_error(SYNTAX_ERROR);
                     }
                 } else if (token->type == TOKEN_L_ROUND) {
-                    //expression();
-                    //TFunction *f = node->data.f;
-
-//                    token = get_token();
-//                    if (token->type != TOKEN_ID) {
-//                        ret_error(SYNTAX_ERROR);
-//                    }
-//                    tokenID = token;
-//                    funcCall(f, table, tokenID, type);
+                    unget_token(token);
+                    unget_token(token);
+                    expression(NULL);
+                    unget_token(token);
                     token = get_token();
                     if (token->type != TOKEN_SEM_CL) {
                         ret_error(SYNTAX_ERROR);
                     }
                 }
-            } else {
-
-        ret_error(SYNTAX_ERROR);
-    }
-
+                else{
+                    ret_error(SYNTAX_ERROR);
+                }
+            }
             break;
 
 
@@ -414,14 +438,15 @@ TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
 //}
 
 
-    void params(TFunction *f, Ttoken *token) { //spracovanie parametrov funkcie
+    void params(TFunction *f, Ttoken *token, int numOfParam) { //spracovanie parametrov funkcie
 
-        Ttable *table = f->table;
+        tTablePtr table = f->table;
         TVariable *var;
         if (token->type != TOKEN_TYPE) {
             ret_error(SEMANTIC_DEF_ERROR);
         }
-        char *type = token->data;
+        //char *type = token->data;
+        f->params[numOfParam] = token->data;
         var->type = type;
         Ttoken *token = get_token();
         var = new_variable(token);
@@ -430,6 +455,7 @@ TFunction *funcDef(tTable *table, TToken *tokenID, char *type) {
         }
 
         store_variable(var, &table);
+        var->declared = 1;
 
     }
 
@@ -461,10 +487,7 @@ void parse()
 {
 	
 	parser_init();
-	
-	
-	
-	
+
 	parser_finish();
 
     }

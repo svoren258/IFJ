@@ -52,7 +52,7 @@ struct new_func
 	char *name;
 	int type;
 	int defined;
-	int declared;
+	int numOfParams;
 	TStack *stack;
 	
 	tTablePtr table;

@@ -233,7 +233,7 @@ int functionBuiltIn()
     return FALSE;
 }
 
-void expression(Ttoken *token, TVariable *var)
+void expression(TVariable *var)
 {
     opStack = stackInit();
     postfixStack = stackInit();
