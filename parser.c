@@ -12,11 +12,11 @@ tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej fu
 Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok getToken();
 TStack *gStack;//zasobnik, pravdepodobne na prehladu o tom, ktora funkcia sa prave spracuvava
 
-tTablePtr createClassTable(Ttoken *token)//navratova hodnota - uzol stromu
+tTablePtr create_class_table(char* name)//navratova hodnota - uzol stromu
 {
     tTablePtr classTable;//vytvorenie pointera
     BSTInit(&classTable);//inicializacia(uzol = NULL)
-    BSTInsert(&classTable, &classTable, token->data);//pridanie uzlu do tabulky a nastavenie atributu - name
+    BSTInsert(&classTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
     return classTable;//vrati uzol tabulky triedy
 }
 
