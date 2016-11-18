@@ -2,7 +2,7 @@
 
 tTablePtr globTable;
 Ttoken *token;
-tStack *gStack;
+TStack *gStack;
 
 // void keywords_init()
 // {
@@ -48,7 +48,7 @@ TFunction *new_function(Ttoken *token)
 	tTablePtr loc_table;
 	BSTInit(&loc_table);
 
-	tStack *stack = stackInit();
+	TStack *stack = stackInit();
 	
 	f->stack = stack;
 	/*assign the table to the function*/
@@ -107,7 +107,12 @@ void parse()
 	
 	parser_init();
 	
-//expression(token);
+	token = getToken();
+	
+	TVariable *var;
+	var = new_variable(token);
+	
+	expression(token,var);
 	parser_finish();
 
 }

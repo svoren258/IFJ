@@ -11,7 +11,7 @@
 Ttoken *token;
 FILE *file;
 TBuffer *buffer;
-
+TStack *tokenStack;
 char *printToken();
 
 #define line printf("LINE:%d\n",__LINE__);
@@ -19,6 +19,8 @@ char *printToken();
 //klicova slova
 char *keywords[] ={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
 	"String","static","true","void","while"};
+
+
 
 int isKeyword(TBuffer *buffer)
 {
@@ -36,9 +38,14 @@ int isKeyword(TBuffer *buffer)
 
 TBuffer *bufferInit(TBuffer *buffer)
 {
+	
 	buffer = malloc(sizeof(TBuffer));
 	if(!buffer)
-	ret_error(INTERNAL_ERROR);
+	{
+		line
+		ret_error(INTERNAL_ERROR);
+	}
+	
 	buffer->capacity = 1;
 	buffer->used = 0;
 	return buffer;
@@ -47,9 +54,10 @@ TBuffer *bufferInit(TBuffer *buffer)
 TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
 		buffer->data = realloc(buffer->data, buffer->capacity);
-		if(buffer == NULL)
+		if(!buffer)
 		{
-			return NULL;
+			line
+			ret_error(INTERNAL_ERROR);
 		}
 		
 		buffer->data[buffer->used] = c;
@@ -58,16 +66,49 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
 	return buffer;
 }
 
+void ungetToken(Ttoken * token)
+{
+	stackPush(tokenStack, token);
+}
+
+Ttoken *getTokenFromStack()
+{
+	token = stackTop(tokenStack);
+	stackPop(tokenStack);
+	return token;
+}
+
+void lexFinish()
+{
+	free(buffer);
+	free(token);
+	free(tokenStack);
+	fclose(file);
+}
 
 Ttoken *getToken(){
-	int state = STATE_INIT;
-	
-	int c;
-	token = malloc(sizeof(Ttoken));
-	if(buffer){
-		ret_error(INTERNAL_ERROR);
+
+
+	if(!tokenStack)
+	{
+		tokenStack = stackInit();
 	}
+	if(!stackEmpty(tokenStack))
+	{
+		return getTokenFromStack();
+	}
+
+	int state = STATE_INIT;
+	int c;
+	
+	if(!token)
+		token = malloc(sizeof(Ttoken));
+	
+	
+	free(buffer);
 	buffer = bufferInit(buffer);
+	
+	
 	
 	while( 1 )
 	{
@@ -608,13 +649,6 @@ Ttoken *getToken(){
 			}
 			
 			
-			case STATE_END:
-			{
-				// if( buffer->used > 0 )
-				// 	token->data = buffer->data;
-				// free(buffer);
-				return token;
-			}
 			
 			default:
 			{

@@ -21,7 +21,7 @@ char precedence_table[12][12] =
     
 };
 
-tStack *postfixStack, *opStack, *varStack;
+TStack *postfixStack, *opStack, *varStack;
 Ttoken *token;
 
 #define DEBUG
@@ -120,80 +120,124 @@ int hasBiggerPrio()
 void infixToPostfix()
 {
     
-   //int lbracket = 0;
-    // while( 1 )
-    // //get token
-    // {
-    //     Ttoken *helper;
-    //     switch(token->type)
-    //     {
+//   int lbracket = 0;
+    while( 1 )
+    //get token
+    {
+        token = getToken();
+        // Ttoken *helper;
+        switch(token->type)
+        {
             
-    //         case INTGR:
-    //         case DBLE:
-    //         case ID:
-    //         case N_DEC_E:
-    //         case DEC_E:
-    //         case DEC:
-    //             stackPush(postfixStack, storeToken(token));
-    //             break;
-    //         case PLUS:
-    //         case MINUS:
-    //         case DIV:
-    //         case MUL:
-    //             if( hasBiggerPrio() )
-    //             {
-    //                 stackPush(opStack, storeToken(token));
+            // case TOKEN_DOUBLE:
+            // case TOKEN_ID:
+            // case TOKEN_E:
+            // case TOKEN_DEC_E:
+            // case TOKEN_INT:
+            //     stackPush(postfixStack, storeToken(token));
+            //     break;
+            // case TOKEN_PLUS:
+            // case TOKEN_MINUS:
+            // case TOKEN_DIV:
+            // case TOKEN_MUL:
+            //     if( hasBiggerPrio() )
+            //     {
+            //         stackPush(opStack, storeToken(token));
                    
-    //                 break;
-    //             } 
-    //             else
-    //             {
-    //                 while( !hasBiggerPrio() && !stackEmpty(opStack) )
-    //                 {
-    //                     stackPush(postfixStack, stackTop(opStack));
-    //                     stackPop(opStack);
-    //                 }
+            //         break;
+            //     } 
+            //     else
+            //     {
+            //         while( !hasBiggerPrio() && !stackEmpty(opStack) )
+            //         {
+            //             stackPush(postfixStack, stackTop(opStack));
+            //             stackPop(opStack);
+            //         }
                 
-    //                 break;
-    //             }
-    //         case LB:
-    //             lbracket++;
-    //             stackPush(opStack, storeToken(token));
-    //             break;
-    //         case PB:
-    //             while( 1 )
-    //             {
-    //                 helper = stackTop(opStack);
-    //                 if( helper->type == LB)
-    //                 {
-    //                     stackPush(postfixStack, helper);
-    //                     stackPop(opStack);
-    //                     lbracket--;
-    //                     break;
-    //                 }
-    //                 if( stackEmpty(opStack) )
-    //                 {
-    //                     //unget token
-    //                     break;
-    //                 }
-    //             }
-    //         case SEM_CL:
-    //             //unget token
-    //             break;
-    //         default:
-    //             printf("default\n");
-    //             break;
-    //     }
-    //     token->type = SEM_CL;
-    // }
+            //         break;
+            //     }
+            // case TOKEN_L_ROUND:
+            //     lbracket++;
+            //     stackPush(opStack, storeToken(token));
+            //     break;
+            // case TOKEN_R_ROUND:
+            //     while( 1 )
+            //     {
+            //         helper = stackTop(opStack);
+            //         if( helper->type == TOKEN_L_ROUND)
+            //         {
+            //             stackPush(postfixStack, helper);
+            //             stackPop(opStack);
+            //             lbracket--;
+            //             break;
+            //         }
+            //         if( stackEmpty(opStack) )
+            //         {
+            //             //unget token
+            //             break;
+            //         }
+            //     }
+            case TOKEN_SEM_CL:
+                ungetToken(token);
+                return;
+            default:
+                break;
+        }
+    }
 }
 
-void expression(Ttoken *token)
+int functionNewCall()
+{
+    if(token->type != TOKEN_ID)
+        return FALSE;
+    token = getToken();
+    
+    if(token->type != TOKEN_L_ROUND)
+        return FALSE;
+        
+    token = getToken();
+    if(token->type != TOKEN_R_ROUND)
+        return FALSE;
+        
+    return TRUE;
+        
+}
+
+int functionBuiltIn()
+{
+    if(token->type != TOKEN_ID)
+        return FALSE;
+    
+    token = getToken();
+    if(token->type != TOKEN_DOT)
+        return FALSE;
+        
+    token = getToken();
+    if(token->type != TOKEN_ID)
+        return FALSE;
+        
+    token = getToken();
+    if(token->type != TOKEN_L_ROUND)
+        return FALSE;
+        
+    token = getToken();
+    if(token->type == TOKEN_R_ROUND)
+        return TRUE;
+    return FALSE;
+}
+
+void expression(Ttoken *token, TVariable *var)
 {
     opStack = stackInit();
     postfixStack = stackInit();
     varStack = stackInit();
     
+    if(functionNewCall() || functionBuiltIn())
+    {
+        return;
+    } else {
+        infixToPostfix();
+    }
     
     // token->data = "ahoj";
     // stackPush(opStack, storeToken(token));

@@ -1,6 +1,7 @@
 #include "defs.h"
 #include "lex.h"
 
+
 #include "stack.h"
 
 #ifndef EXPRESSION_H
@@ -25,6 +26,6 @@ enum{
     OP_LBRACKET,
     OP_RBRACKET,
 };
-void expression(Ttoken *token);
+void expression(Ttoken *token, TVariable *var);
 
 #endif

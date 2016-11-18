@@ -29,14 +29,14 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE; 
 	}
 	
-	token = getToken();
-	while(token->type != TOKEN_EOF)
-	{
-		printf("%s\n",token->data);
-		token = getToken();
-	}
+	// token = getToken();
+	// while(token->type != TOKEN_EOF)
+	// {
+	// 	printf("%s\n",token->data);
+	// 	token = getToken();
+	// }
 parse();
 
-
+lexFinish();
 	return 0;
 }

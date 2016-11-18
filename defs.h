@@ -43,7 +43,7 @@ struct new_func
 	char *name;
 	int type;
 	int defined;
-	tStack *stack;
+	TStack *stack;
 	
 	tTablePtr table;
 };

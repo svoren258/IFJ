@@ -19,9 +19,12 @@ typedef struct{
 	int type;
 }Ttoken;
 
+Ttoken *getTokenFromStack();
 Ttoken *getToken();
 TBuffer *extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
+void lexFinish();
+void ungetToken(Ttoken*);
 
 
 //char *printToken();
