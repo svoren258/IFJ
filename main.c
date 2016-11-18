@@ -12,35 +12,31 @@
 #include "defs.h"
 
 //#define FILE_ERROR 5
-		Ttoken *token;
+        Ttoken *token;
 FILE *file;
 TBuffer * buffer;
 
 
 int main(int argc, char **argv)
 {
-	if(argc != 2) return EXIT_FAILURE;
+    if(argc != 2) return EXIT_FAILURE;
 
-	file = fopen(argv[1], "r");
+    file = fopen(argv[1], "r");
 
+    if(!file)
+    {
+        fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
+        return EXIT_FAILURE;
+    }
 
-	if(!file)
-	{
-		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
-		return EXIT_FAILURE;
-	}
+    // token = getToken();
+    // while(token->type != TOKEN_EOF)
+    // {
+    // 	printf("%s\n",token->data);
+    // 	token = getToken();
+    // }
+    parse();
 
-	token = getToken();
-	int i = 0;
-	while(token->type != TOKEN_EOF)
-	{
-		i++;
-		printf("%s %d\n",token->data, token->type);
-		token = getToken();
-	}
-//parse();
-
-//lex_finish();
-	return 0;
+    lexFinish();
+    return 0;
 }
-

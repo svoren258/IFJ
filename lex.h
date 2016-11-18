@@ -1,5 +1,6 @@
 #include "defs.h"
 #include "error.h"
+#include "stack.h"
 
 #ifndef LexDefs
 #define LexDefs
@@ -18,9 +19,12 @@ typedef struct{
     int type;
 }Ttoken;
 
+Ttoken *getTokenFromStack();
 Ttoken *getToken();
 TBuffer *extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
+void lexFinish();
+void ungetToken(Ttoken*);
 
 
 //char *printToken();
@@ -81,7 +85,7 @@ typedef enum
     STATE_BEGIN_COM,		//49
     STATE_END_COM,		//50
     STATE_ID,			//51
-    STATE_STRING,			//52
+    STATE_STRING_DOUBLE,			//52
     STATE_INT,			//53
     STATE_FUT_DOUBLE,		//54
     STATE_DOUBLE,		//55
@@ -116,7 +120,7 @@ typedef enum
     TOKEN_L_CURLY,			//84 {
     TOKEN_R_CURLY,			//85 }
     TOKEN_E,				//86 [0-9e0-9]
-    TOKEN_DEC_E,			//87 [0-9.0-9e0-9]
+    TOKEN_DOUBLE_E,			//87 [0-9.0-9e0-9]
     TOKEN_LINE_COM,			//88 //
     TOKEN_BEGIN_COM,		//89 /*
     TOKEN_END_COM,			//90 */
@@ -127,6 +131,11 @@ typedef enum
     TOKEN_DOUBLE,			//94 double
     TOKEN_COMMA,			//95 ,
     TOKEN_EOF,				//96
+    STATE_STRING_SINGLE,	//97
+    STATE_E,				//98
+    TOKEN_DEC_E,
+    STATE_ASCII_DOUBLE,
+    STATE_ASCII_SINGLE,
 }tState;
 
 
