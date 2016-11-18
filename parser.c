@@ -106,7 +106,7 @@ void starter() {
         if (BSTSearch(classTable, token->data)) {
             ret_error(SEMANTIC_DEF_ERROR);
         }
-        Ttable *table = create_class_table(token->data);    //vytvorit create_class_table()!!!
+        tTablePtr table = create_class_table(token->data);    //vytvorit create_class_table()!!!
         token = get_token();
         if (token->type != TOKEN_L_CURLY) {
             ret_error(SYNTAX_ERROR);
