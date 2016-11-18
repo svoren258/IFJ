@@ -31,14 +31,14 @@ int main(int argc, char **argv)
 
 lexStart();
 	
-	token = getToken();
-	while(token->type != TOKEN_EOF)
-	{
-// 		printf("%s \t <%d>\n",token->data, token->type);
-		token = getToken();
-	}
+// 	token = getToken();
+// 	while(token->type != TOKEN_EOF)
+// 	{
+// // 		printf("%s \t <%d>\n",token->data, token->type);
+// 		token = getToken();
+// 	}
 	
-// parse();
+parse();
 lexFinish();
 	return 0;
 }
