@@ -15,75 +15,70 @@
 #define COUNT_OF_KEYWORDS 17
 
 //globalni promene
+<<<<<<< HEAD
 Ttoken *token;
+
 FILE *file;
 TBuffer *buffer;
 TStack *tokenStack;
 char *printToken();
 
 
-
 //klicova slova
 char *keywords[] ={"boolean","break","class","continue","do","double","else","false","for","if","int","return",
-	"String","static","true","void","while"};
+                   "String","static","true","void","while"};
 
 
 
 int isKeyword(TBuffer *buffer)
 {
 
-	for(int i = 0; i < COUNT_OF_KEYWORDS; i++)
-	{
-		if(!(strcmp(buffer->data,keywords[i])))
-		{
-			buffer->data = keywords[i];
-			return i;
-		}
-	}
-	return -1;
+    for(int i = 0; i < COUNT_OF_KEYWORDS; i++)
+    {
+        if(!(strcmp(buffer->data,keywords[i])))
+        {
+            buffer->data = keywords[i];
+            return i;
+        }
+    }
+    return -1;
 }
 
 TBuffer *bufferInit(TBuffer *buffer)
 {
-	
-	buffer = malloc(sizeof(TBuffer));
-	if(!buffer)
-	{
-		line;
-		ret_error(INTERNAL_ERROR);
-	}
-	
-	buffer->capacity = 1;
-	buffer->used = 0;
-	return buffer;
+
+    buffer = malloc(sizeof(TBuffer));
+    if(!buffer)
+    {
+        line
+        ret_error(INTERNAL_ERROR);
+    }
+
+    buffer->capacity = 1;
+    buffer->used = 0;
+    return buffer;
 }
 
 TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
-		buffer->data = realloc(buffer->data, buffer->capacity);
-		if(!buffer)
-		{
-			line;
-			ret_error(INTERNAL_ERROR);
-		}
-		
-		buffer->data[buffer->used] = c;
-		buffer->capacity++;
-		buffer->used++;
-	return buffer;
+    buffer->data = realloc(buffer->data, buffer->capacity);
+    if(!buffer)
+    {
+        line
+        ret_error(INTERNAL_ERROR);
+    }
+
+    buffer->data[buffer->used] = c;
+    buffer->capacity++;
+    buffer->used++;
+    return buffer;
 }
 
 void ungetToken(Ttoken * token)
 {
-	stackPush(tokenStack, token);
+    stackPush(tokenStack, token);
 }
 
-Ttoken *getTokenFromStack()
-{
-	token = stackTop(tokenStack);
-	stackPop(tokenStack);
-	return token;
-}
 
 void lexFinish()
 {

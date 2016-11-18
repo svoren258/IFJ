@@ -21,7 +21,7 @@ typedef struct tTable {
 	}data;			                                                      /* klíč */
 	struct tTable * LPtr;                                    /* levý podstrom */
 	struct tTable * RPtr;                                   /* pravý podstrom */
-} *tTablePtr;	
+} *tTablePtr;
 
 /* prototypy funkcí */
 
