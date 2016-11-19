@@ -127,7 +127,7 @@ int hasBiggerPrio()
 void infixToPostfix()
 {
     
-    tTablePtr table = context;
+    //tTablePtr table = context;
     int lbrackets = 0;
     while( 1 )
     //get token
@@ -172,7 +172,7 @@ void infixToPostfix()
                 {
                     if( stackEmpty(opStack) )
                     {
-                        ungetToken(token);
+                        unget_token(token);
                         return;
                     }
                     helper = stackTop(opStack);
@@ -203,7 +203,7 @@ void infixToPostfix()
 
 void emptyOpStack()
 {
-    while( !emptyStack(opStack) )
+    while( !stackEmpty(opStack) )
     {
         stackPush(postfixStack, stackTop(opStack));
         stackPop(opStack);

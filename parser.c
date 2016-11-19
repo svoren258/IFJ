@@ -11,7 +11,7 @@
 #include "stack.h"
 tTablePtr context;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
-Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok getToken();
+Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok get_token();
 TStack *gStack;//zasobnik, pravdepodobne na prehladu o tom, ktora funkcia sa prave spracuvava
 
 tTablePtr create_class_table(char* name)//navratova hodnota - uzol stromu
@@ -59,7 +59,6 @@ TFunction *new_function(Ttoken *token)
 	f->stack = stack;
 	/*assign the table to the function*/
 	f->defined = 0;
-	f->type = RET_INT;
 	f->table = loc_table;
 	f->name = token->data;
 	return f;
@@ -205,12 +204,8 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     token = get_token();
     if (token->type == TOKEN_ASSIGN) {
-<<<<<<< HEAD
         context = table;
-        expression(&(*var));
-=======
         expression(var);
->>>>>>> d124a8ebe495a61a5f8399e0bef75ff79c438272
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
             ret_error(SYNTAX_ERROR);
@@ -284,7 +279,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
             if(token->type == TOKEN_DOT) {
                 char *className = token_varID->data;
                 tTablePtr tableOfClass = create_class_table(className);
-                token = getToken();
+                token = get_token();
                 if (token->type != TOKEN_ID) {
                     ret_error(SYNTAX_ERROR);
                 }
@@ -396,33 +391,34 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
             break;
 
 
-        case KEYWORD_IF:
-            if_statement(token);
-            break;
-        case KEYWORD_FOR:
-            for_statement();
-            break;
-        case KEYWORD_WHILE:
-            while_statement();
-            break;
-        case KEYWORD_BREAK:
-            //vytvori instrukciu break
-            break;
-        case KEYWORD_CONTINUE:
-            //vytvori instrukciu continue
-            break;
-        case KEYWORD_DO:
-            do_statement();
-            break;
-        case KEYWORD_ELSE:
-            else_statement();
-            break;
-        case KEYWORD_RETURN:
-            //vytvori instrukciu return
-            break;
+//        case KEYWORD_IF:
+//            if_statement(token);
+//            break;
+//        case KEYWORD_FOR:
+//            for_statement();
+//            break;
+//        case KEYWORD_WHILE:
+//            while_statement();
+//            break;
+//        case KEYWORD_BREAK:
+//            //vytvori instrukciu break
+//            break;
+//        case KEYWORD_CONTINUE:
+//            //vytvori instrukciu continue
+//            break;
+//        case KEYWORD_DO:
+//            do_statement();
+//            break;
+//        case KEYWORD_ELSE:
+//            else_statement();
+//            break;
+//        case KEYWORD_RETURN:
+//            //vytvori instrukciu return
+//            break;
 
     }
     store_function(f, &table);
+
     node = BSTSearch(table, tokenID->data);
     node->type = "function";
     //stackPop(gStack);

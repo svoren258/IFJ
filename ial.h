@@ -19,7 +19,6 @@ enum{
 };
 typedef struct tTable *tTablePtr;
 struct tTable {
-	int type;
 	char *name;
 	char *type;
 	union
