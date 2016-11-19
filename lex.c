@@ -458,7 +458,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					break;
 				}
-<<<<<<< HEAD
+
 				 if( isKeyword(buffer) > 0 )
 				 {
 				 	token->type = isKeyword(buffer);
@@ -472,7 +472,7 @@ Ttoken *get_token(){
 				 			return token;
 				 	}
 				 }
-=======
+
 				if( isKeyword(buffer) > 0 )
 				{
 					token->type = isKeyword(buffer);
@@ -488,7 +488,7 @@ Ttoken *get_token(){
 							return token;
 					}
 				}
->>>>>>> 2b1b6cadde1b23ba47be033f0e6601bd73e243a1
+
 				
 				token->data = buffer->data;
 				ungetc(c, file);

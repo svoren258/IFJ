@@ -320,6 +320,7 @@ int functionFullNameCall()
 
 void expression(TVariable *var)
 {
+    printf("som v expr\n");
     opStack = stackInit();
     postfixStack = stackInit();
     varStack = stackInit();
