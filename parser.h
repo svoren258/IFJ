@@ -17,7 +17,7 @@
 #ifndef ParserDefs
 #define ParserDefs
 
-TFunction *new_function(Ttoken *token);
+TFunction *new_function(Ttoken *token, tTablePtr table);
 TVariable *new_variable(Ttoken *token);
 void store_function(/*stack*/TFunction *f, tTablePtr *table);
 void store_variable(/*stack*/TVariable *v, tTablePtr *table);

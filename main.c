@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	
 	TVariable *var = NULL;
 	expression(var);
-// parse();
-lexFinish();
+    parse();
+    lexFinish();
 	return 0;
 }
