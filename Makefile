@@ -1,4 +1,4 @@
-FILES=main.c ial.c stack.c lex.c error.c expression.c
+FILES=main.c ial.c stack.c lex.c parser.c error.c expression.c
 CFLAGS= -Wall -Werror -pedantic
 
 
