@@ -146,7 +146,8 @@ int isProperExpressionForm()
             (token->type == TOKEN_DEC_E)    ||
             (token->type == TOKEN_INT)      ||
             (token->type == TOKEN_ID)       ||
-            (token->type == TOKEN_FUNCTION)
+            (token->type == TOKEN_FUNCTION) ||
+            (token->type == TOKEN_STRING)
         )
             operands++;
         else
@@ -187,7 +188,13 @@ void infixToPostfix()
                     get_token();
                     token->type = TOKEN_FUNCTION;
                     stackPush(postfixStack,token);
+                    get_token();get_token();get_token();get_token();
+                    break;
+                }
+                if(isFullNameVar())
+                {
                     get_token();get_token();get_token();
+                    stackPush(postfixStack, token);
                     break;
                 }
                 get_token();
@@ -342,9 +349,47 @@ int isFunctionFullNameCall()
     return TRUE;
 }
 
+int isFullNameVar()
+{
+    token = get_token();
+    if(token->type != TOKEN_ID)
+    {
+        unget_token(1);
+        return FALSE;
+    }
+        
+    
+    token = get_token();
+    if(token->type != TOKEN_DOT)
+    {
+        unget_token(2);
+        return FALSE;
+    }
+        
+        
+    token = get_token();
+    if(token->type != TOKEN_ID)
+    {
+        unget_token(3);
+        return FALSE;
+    }
+        
+        
+    token = get_token();
+    if(token->type == TOKEN_L_ROUND)
+    {
+        unget_token(4);
+        return FALSE;        
+    }
+    unget_token(4);
+    return TRUE;   
+    
+}
+
+
 void expression(TVariable *var)
 {
-    printf("som v expr\n");
+    printf("***EXPRESSION***\n");
     opStack = stackInit();
     postfixStack = stackInit();
     varStack = stackInit();
@@ -368,7 +413,7 @@ void expression(TVariable *var)
         
         
     }
-    
+    printf("***END EXPRESSION***\n");
     // token->data = "ahoj";
     // stackPush(opStack, storeToken(token));
     // token->data = "ahog";
