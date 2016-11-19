@@ -58,7 +58,7 @@ struct new_func
 	TStack *stack;
 	TList *list;
 	
-	tTablePtr table;
+	struct tTable* table;
 };
 
 typedef struct new_var TVariable;

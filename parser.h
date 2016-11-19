@@ -6,9 +6,10 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 /*Syntactic analysis*/
+#include "defs.h"
 #include "ial.h"
 #include "lex.h"
-#include "defs.h"
+
 #include "error.h"
 #include "expression.h"
 

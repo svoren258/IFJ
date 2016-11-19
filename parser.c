@@ -197,7 +197,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     Ttoken *token = get_token();
     if (token->type == TOKEN_ASSIGN) {
-        expression(&(*var));
+        expression(var);
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
             ret_error(SYNTAX_ERROR);

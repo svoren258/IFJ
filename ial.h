@@ -13,8 +13,8 @@
 #define FALSE 0
 
 
-
-typedef struct tTable {
+typedef struct tTable *tTablePtr;
+struct tTable {
 	char *name;
 	union
 	{
@@ -23,7 +23,7 @@ typedef struct tTable {
 	}data;			                                                      /* klíč */
 	struct tTable * LPtr;                                    /* levý podstrom */
 	struct tTable * RPtr;                                   /* pravý podstrom */
-} *tTablePtr;
+};
 
 /* prototypy funkcí */
 
