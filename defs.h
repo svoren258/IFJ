@@ -20,7 +20,8 @@
 
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
-#define line printf("***LINE: %d***\n",__LINE__)
+#define line printf("***FILE: %s  LINE: %d***\n",__FILE__, __LINE__)
+#define tok printf("%s\n",token->data)
 #define TRUE 1
 #define FALSE 0
 #define MAX_PARAMS_COUNT 100

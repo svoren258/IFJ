@@ -10,12 +10,12 @@
 #include "defs.h"
 #include "error.h"
 #include "stack.h"
-
+#include "expression.h"
 
 extern char *keywords[];
 
 typedef struct{
-	char* data;
+	char *data;
 	int used;
 	int capacity;
 }TBuffer;
@@ -32,7 +32,7 @@ TBuffer *extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
 void lexFinish();
 void lexStart();
-void unget_token(Ttoken*);
+void unget_token(int);
 
 
 //char *printToken();

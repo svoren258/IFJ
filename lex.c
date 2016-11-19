@@ -21,7 +21,7 @@ Ttoken *token;
 FILE *file;
 TBuffer *buffer;
 TStack *tokenStack;
-char *printToken();
+int ungetTokenIndex = 0;
 
 
 //klicova slova
@@ -49,7 +49,7 @@ int isKeyword(TBuffer *buffer)
 TBuffer *bufferInit()
 {
 
-    buffer = malloc(sizeof(TBuffer));
+    TBuffer * buffer = malloc(sizeof(TBuffer));
     if(!buffer)
     {
         ret_error(INTERNAL_ERROR);
@@ -65,7 +65,11 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
 {
 	char* temp = realloc(buffer->data,  buffer->capacity );
 	if(!temp)
+	{
+		line;
 		ret_error(INTERNAL_ERROR);
+	}
+		
     buffer->data = temp;
     if(!buffer)
     {
@@ -79,15 +83,47 @@ TBuffer * extendBuffer(TBuffer *buffer, char c)
     return buffer;
 }
 
-void unget_token(Ttoken * token)
+void unget_token(int i)
 {
-    stackPush(tokenStack, token);
+	for(i = i; i > 0; i--)
+	{
+		if(ungetTokenIndex >= 1)
+			ungetTokenIndex--;	
+	}
+	
+}
+
+void pushToken(Ttoken * token)
+{
+	if(ungetTokenIndex <= 9)
+		ungetTokenIndex++;
+	
+	if(tokenStack->top >= 9)
+	{
+		for(int i = 0; i <= tokenStack->top - 1; i++)
+		{
+			tokenStack->data[i] = tokenStack->data[i+1];
+			
+		}
+		tokenStack->data[tokenStack->top] = token;	
+		return;
+	}
+	stackPush(tokenStack, token);
 }
 
 Ttoken * getTokenFromStack()
 {
-	token = stackTop(tokenStack);
-	stackPop(tokenStack);
+	// printf("index:%d\n",ungetTokenIndex);
+	// printf("TOKENSTACK\n");
+	// for(int i = tokenStack->top; i >= 0; i--)
+	// {
+	// 	token = tokenStack->data[i];
+	// 	printf("%s \t%d\n",token->data, i);
+		
+	// }
+	// printf("TOKENSTACK\n");
+	token = tokenStack->data[ungetTokenIndex];
+	ungetTokenIndex++;
 	return token;
 }
 
@@ -114,21 +150,22 @@ Ttoken *get_token(){
 
 
 
-	if(!stackEmpty(tokenStack))
+	if(ungetTokenIndex <= tokenStack->top)
 	{
 		return getTokenFromStack();
 	}
-
+	
 	int state = STATE_INIT;
 	int c;
 	
 	
-	if(buffer)
-	{
-		char* let = buffer->data;
-		free(let);
-		free(buffer);	
-	}
+	// if(buffer)
+	// {
+	// 	char* let = buffer->data;
+	// 	free(let);
+	// 	free(buffer);	
+	// }
+	token = malloc(sizeof(Ttoken));
 	buffer = bufferInit(buffer);
 	
 	
@@ -136,12 +173,13 @@ Ttoken *get_token(){
 	while( 1 )
 	{
 		c = fgetc(file);
-		//printf("%c\n",c);
+		// printf("lex:%c\n",c);
 		switch( state )
 		{
 			
 			case STATE_INIT:
 			{
+				// printf("%c\n",c);
 				//printf("%c is to come\n",c);
 				if( c == EOF )
 				{
@@ -150,11 +188,14 @@ Ttoken *get_token(){
 					return token;
 				}
 				if( c == '\n' )
+					
 					break;
 				if( c == ' ' )
+					
 					break;
 				if( isdigit(c) )
 				{
+					
 					extendBuffer(buffer, c);
 					state		= STATE_INT;
 					token->type = TOKEN_INT;
@@ -172,6 +213,8 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_L_CURLY;
+					
+					pushToken(token);
 					return token;
 				}
 				if( c == '}' )
@@ -179,6 +222,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_R_CURLY;
+					pushToken(token);
 					return token;
 				}
 				if( c == '(' )
@@ -186,6 +230,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_L_ROUND;
+					pushToken(token);
 					return token;
 				}
 				if( c == ')' )
@@ -193,6 +238,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_R_ROUND;
+					pushToken(token);
 					return token;
 				}
 				if( c == '[' )
@@ -200,6 +246,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_L_SQUARE;
+					pushToken(token);
 					return token;
 				}
 				if( c == ']' )
@@ -207,6 +254,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_R_SQUARE;
+					pushToken(token);
 					return token;
 				}
 				if( c == '.' )
@@ -214,6 +262,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_DOT;
+					pushToken(token);
 					return token;
 				}
 				if( c == '+' )
@@ -221,6 +270,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_PLUS;
+					pushToken(token);
 					return token;
 				}
 				if( c == '-' )
@@ -228,6 +278,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_MINUS;
+					pushToken(token);
 					return token;
 				}
 				
@@ -236,6 +287,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_MUL;
+					pushToken(token);
 					return token;
 				}
 				if( c == '/' )
@@ -250,6 +302,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->data = buffer->data;
 					token->type = TOKEN_SEM_CL;
+					pushToken(token);
 					return token;
 				}
 				
@@ -295,6 +348,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->type = TOKEN_COLON;
 					token->data = buffer->data;
+					pushToken(token);
 					return token;
 				}
 				//TODO \n \t \" a podobne srandy
@@ -327,12 +381,12 @@ Ttoken *get_token(){
 				{
 					ret_error(LEX_ERROR);
 				}
+				ungetc(c, file);
 				token->data = buffer->data;
 				token->type = TOKEN_INT;
+				pushToken(token);
 				return token;
-				
-				line;
-				ret_error(LEX_ERROR);
+		
 			}
 			
 			case STATE_DEC_E:
@@ -347,8 +401,10 @@ Ttoken *get_token(){
 					line;
 					ret_error(SYNTAX_ERROR);
 				}
+				ungetc(c, file);
 				token->type = TOKEN_DEC_E;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 			}
 			
@@ -363,8 +419,10 @@ Ttoken *get_token(){
 				{
 					ret_error(SYNTAX_ERROR);
 				}
+				ungetc(c, file);
 				token->type = TOKEN_E;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 			}
 			
@@ -399,24 +457,27 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					break;
 				}
-				// if( isKeyword(buffer) > 0 )
-				// {
-				// 	token->type = isKeyword(buffer);
-				// 	switch(token->type)
-				// 	{
-				// 		case KEYWORD_INT:
-				// 		case KEYWORD_DOUBLE:
-				// 		case KEYWORD_STRING:
-				// 			token->data = buffer->data;
-				// 			token->type = TOKEN_TYPE;
-				// 			return token;
-				// 	}
-				// }
+				if( isKeyword(buffer) > 0 )
+				{
+					token->type = isKeyword(buffer);
+					switch(token->type)
+					{
+						case KEYWORD_INT:
+						case KEYWORD_DOUBLE:
+						case KEYWORD_STRING:
+							token->data = buffer->data;
+							token->type = TOKEN_TYPE;
+							pushToken(token);
+							
+							return token;
+					}
+				}
 				
 				token->data = buffer->data;
 				ungetc(c, file);
+				pushToken(token);
 				return token;
-				break;
+				
 			}
 			
 			// case STATE_PLUS:
@@ -483,7 +544,11 @@ Ttoken *get_token(){
 					state = STATE_BEGIN_COM;
 					break;
 				}
-				break;
+				ungetc(c, file);
+				token->data = buffer->data;
+				pushToken(token);
+				return token;
+				
 			}
 			
 			case STATE_LINE_COM:
@@ -526,11 +591,13 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->type = TOKEN_LE_EQ;
 					token->data = buffer->data;
+					pushToken(token);
 					return token;
 				}
 				ungetc(c, file);
 				token->type = TOKEN_LESSER;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 			}
 			
@@ -541,11 +608,13 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->type = TOKEN_GR_EQ;
 					token->data = buffer->data;
+					pushToken(token);
 					return token;
 				}
 				ungetc(c, file);
 				token->type = TOKEN_GREATER;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 			}
 			
@@ -556,11 +625,13 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->type = TOKEN_EQUALS;
 					token->data = buffer->data;
+					pushToken(token);
 					return token;
 				}
 				ungetc(c, file);
 				token->type = TOKEN_ASSIGN;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 			}
 			
@@ -571,6 +642,7 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					token->type = TOKEN_NOT_EQ;
 					token->data = buffer->data;
+					pushToken(token);
 					return token;
 				}
 				line;
@@ -593,6 +665,7 @@ Ttoken *get_token(){
 				
 				token->type = TOKEN_STRING;
 				token->data = buffer->data;
+				pushToken(token);
 				return token;
 				line;
 				ret_error(SYNTAX_ERROR);
