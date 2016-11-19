@@ -4,15 +4,18 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-#include "defs.h"
+// #include "defs.h"
 
 #ifndef _STACK_H_
 #define _STACK_H_
+#include <stdio.h>
+#include <stdlib.h>
+#define TRUE 1
+#define FALSE 0
 
 
 
-
-#define MAX_STACK 20
+#define MAX_STACK 2000
 extern int STACK_SIZE; 
 /* 
  * Hodnota MAX_STACK udává skutečnou velikost statického pole pro uložení

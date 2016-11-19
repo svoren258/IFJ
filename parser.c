@@ -22,11 +22,9 @@ tTablePtr create_class_table(char* name)//navratova hodnota - uzol stromu
         //vytvorenie pointera
         BSTInit(&classTable);//inicializacia(uzol = NULL)
         BSTInsert(&classTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
+        return classTable;
     }
-    else{
-        classTable = node;
-    }
-    return classTable;//vrati uzol tabulky triedy
+    return node;//vrati uzol tabulky triedy
 }
 
 void parser_init()
@@ -207,8 +205,12 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     token = get_token();
     if (token->type == TOKEN_ASSIGN) {
+<<<<<<< HEAD
         context = table;
         expression(&(*var));
+=======
+        expression(var);
+>>>>>>> d124a8ebe495a61a5f8399e0bef75ff79c438272
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
             ret_error(SYNTAX_ERROR);

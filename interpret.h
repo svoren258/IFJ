@@ -9,9 +9,10 @@ enum instruction{
     INS_SUB,    // "-"
     INS_MUL,    // "*"
     INS_DIV,    // "/"
-    INS_JMP,    //jump if true
-    INS_JN,     //jump if false
-    INS_CMP,    //
+    INS_JCMP,    //jump if true
+    INS_JNCMP,     //jump if false
+    INS_JMP,    //jump
+    INS_CMP,    //if the var tested has value 1 it's true
     INS_ASSIGN, // "=" assign value to the variable
     
 }

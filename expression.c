@@ -127,73 +127,90 @@ int hasBiggerPrio()
 void infixToPostfix()
 {
     
-//   int lbracket = 0;
+    tTablePtr table = context;
+    int lbrackets = 0;
     while( 1 )
     //get token
     {
         token = get_token();
-        // Ttoken *helper;
+        Ttoken *helper;
         switch(token->type)
         {
             
-            // case TOKEN_DOUBLE:
-            // case TOKEN_ID:
-            // case TOKEN_E:
-            // case TOKEN_DEC_E:
-            // case TOKEN_INT:
-            //     stackPush(postfixStack, storeToken(token));
-            //     break;
-            // case TOKEN_PLUS:
-            // case TOKEN_MINUS:
-            // case TOKEN_DIV:
-            // case TOKEN_MUL:
-            //     if( hasBiggerPrio() )
-            //     {
-            //         stackPush(opStack, storeToken(token));
-                   
-            //         break;
-            //     } 
-            //     else
-            //     {
-            //         while( !hasBiggerPrio() && !stackEmpty(opStack) )
-            //         {
-            //             stackPush(postfixStack, stackTop(opStack));
-            //             stackPop(opStack);
-            //         }
-                
-            //         break;
-            //     }
-            // case TOKEN_L_ROUND:
-            //     lbracket++;
-            //     stackPush(opStack, storeToken(token));
-            //     break;
-            // case TOKEN_R_ROUND:
-            //     while( 1 )
-            //     {
-            //         helper = stackTop(opStack);
-            //         if( helper->type == TOKEN_L_ROUND)
-            //         {
-            //             stackPush(postfixStack, helper);
-            //             stackPop(opStack);
-            //             lbracket--;
-            //             break;
-            //         }
-            //         if( stackEmpty(opStack) )
-            //         {
-            //             //unget token
-            //             break;
-            //         }
-            //     }
+            case TOKEN_DOUBLE:
+            case TOKEN_E:
+            case TOKEN_DEC_E:
+            case TOKEN_INT:
+            case TOKEN_ID:
+                stackPush(postfixStack, storeToken(token));
+                break;
+
+            case TOKEN_PLUS:
+            case TOKEN_MINUS:
+            case TOKEN_DIV:
+            case TOKEN_MUL:
+                if( hasBiggerPrio() )
+                {
+                    stackPush(opStack, storeToken(token));
+                    break;
+                } 
+                else
+                {
+                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
+                    {
+                        stackPush(postfixStack, stackTop(opStack));
+                        stackPop(opStack);
+                    }
+                    break;
+                }
+            case TOKEN_L_ROUND:
+                lbrackets++;
+                stackPush(opStack, storeToken(token));
+                break;
+            case TOKEN_R_ROUND:
+                while( 1 )
+                {
+                    if( stackEmpty(opStack) )
+                    {
+                        ungetToken(token);
+                        return;
+                    }
+                    helper = stackTop(opStack);
+                    if( helper->type != TOKEN_L_ROUND)
+                    {
+                        stackPush(postfixStack, helper);
+                        stackPop(opStack);
+                        lbrackets--;
+                        break;
+                    }
+                    if( helper->type == TOKEN_L_ROUND )
+                    {
+                        stackPop(opStack);
+                        break;
+                    }    
+                        
+                    
+                }
             case TOKEN_SEM_CL:
                 unget_token(token);
                 return;
             default:
+                ret_error(SYNTAX_ERROR);
                 break;
         }
     }
 }
 
-int functionNewCall()
+void emptyOpStack()
+{
+    while( !emptyStack(opStack) )
+    {
+        stackPush(postfixStack, stackTop(opStack));
+        stackPop(opStack);
+    }
+}
+
+int functionCall()
 {
     if(token->type != TOKEN_ID)
         return FALSE;
@@ -210,7 +227,7 @@ int functionNewCall()
         
 }
 
-int functionBuiltIn()
+int functionFullNameCall()
 {
     if(token->type != TOKEN_ID)
         return FALSE;
@@ -239,11 +256,16 @@ void expression(TVariable *var)
     postfixStack = stackInit();
     varStack = stackInit();
     
-    if(functionNewCall() || functionBuiltIn())
+    if(functionCall())
+        return;
+    else if(functionFullNameCall())
     {
         return;
-    } else {
+    }
+    else
+    {
         infixToPostfix();
+        emptyOpStack();
     }
     
     // token->data = "ahoj";

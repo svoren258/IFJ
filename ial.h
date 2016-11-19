@@ -4,15 +4,22 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#ifndef ial_h
+#define ial_h
 #include "defs.h"
+
 
 #define TRUE 1
 #define FALSE 0
 
-
-#ifndef ialh
-#define ialh
-typedef struct tTable {
+enum{
+	NODE_TYPE_CLASS,
+	NODE_TYPE_FUNCTION,
+	NODE_TYPE_VARIABLE,
+};
+typedef struct tTable *tTablePtr;
+struct tTable {
+	int type;
 	char *name;
 	char *type;
 	union
@@ -22,7 +29,7 @@ typedef struct tTable {
 	}data;			                                                      /* klíč */
 	struct tTable * LPtr;                                    /* levý podstrom */
 	struct tTable * RPtr;                                   /* pravý podstrom */
-} *tTablePtr;
+};
 
 /* prototypy funkcí */
 
