@@ -137,6 +137,7 @@ int isProperExpressionForm()
         operators = 0;
     for(int i = postfixStack->top; i >= 0; i--)
     {
+        // printf("TYPE:%s\n",token->data);
         token = postfixStack->data[i];
         if
         (
@@ -144,12 +145,14 @@ int isProperExpressionForm()
             (token->type == TOKEN_E)        ||        
             (token->type == TOKEN_DEC_E)    ||
             (token->type == TOKEN_INT)      ||
-            (token->type == TOKEN_ID)
+            (token->type == TOKEN_ID)       ||
+            (token->type == TOKEN_FUNCTION)
         )
             operands++;
         else
             operators++;
     }
+    printf("operands: %d | operators: %d\n",operands, operators);
     return (operators == (operands - 1)) ? TRUE : FALSE; 
 }
 
@@ -170,16 +173,22 @@ void infixToPostfix()
             case TOKEN_ID:
                 unget_token(1);
                 if(isFunctionCall())
-                {line;
+                {
+                    
+                    get_token();
+                    token->type = TOKEN_FUNCTION;
+                    stackPush(postfixStack,token);
                     get_token();
                     get_token();
-                    get_token();
-                    line;tok;tok;tok;
+                    break;
                 }
                 if(isFunctionFullNameCall())
                 {
-                    get_token();get_token();get_token();get_token();
-                    line;
+                    get_token();
+                    token->type = TOKEN_FUNCTION;
+                    stackPush(postfixStack,token);
+                    get_token();get_token();get_token();
+                    break;
                 }
                 get_token();
                 stackPush(postfixStack, token);
