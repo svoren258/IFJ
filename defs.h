@@ -50,10 +50,9 @@ enum
 typedef struct new_func TFunction;
 struct new_func
 {
-	char params[MAX_PARAMS_COUNT];
+	char *params[MAX_PARAMS_COUNT];
 	char *className;
 	char *name;
-	int type;
 	int defined;
 	int numOfParams;
 	TStack *stack;
@@ -72,8 +71,8 @@ struct new_var
 {
 	char *className;
 	char *name;
+	char *type;
 	int position;
-	int type;
 	int defined;
 	int declared;
 	union{

@@ -22,6 +22,11 @@ TVariable *new_variable(Ttoken *token);
 void store_function(/*stack*/TFunction *f, tTablePtr *table);
 void store_variable(/*stack*/TVariable *v, tTablePtr *table);
 tTablePtr create_class_table(char*);
+void starter();
+void Declaration(tTablePtr table, Ttoken *token);
+TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type);
+TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType);
+void params(TFunction *f, Ttoken *token, int numOfParam);
 
 /*--------------------automat-----------------------*/
 

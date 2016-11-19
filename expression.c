@@ -156,6 +156,7 @@ int isProperExpressionForm()
 void infixToPostfix()
 {
     
+    //tTablePtr table = context;
     int lbrackets = 0;
     while( 1 )
     //get token
