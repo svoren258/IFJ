@@ -167,15 +167,29 @@ void infixToPostfix()
         // Ttoken *helper;
         switch(token->type)
         {
-            
+            case TOKEN_ID:
+                unget_token(1);
+                if(isFunctionCall())
+                {line;
+                    get_token();
+                    get_token();
+                    get_token();
+                    line;tok;tok;tok;
+                }
+                if(isFunctionFullNameCall())
+                {
+                    get_token();get_token();get_token();get_token();
+                    line;
+                }
+                get_token();
+                stackPush(postfixStack, token);
+                break;
             case TOKEN_DOUBLE:
             case TOKEN_E:
             case TOKEN_DEC_E:
             case TOKEN_INT:
-            case TOKEN_ID:
                 stackPush(postfixStack, token);
                 break;
-
             case TOKEN_PLUS:
             case TOKEN_MINUS:
             case TOKEN_DIV:
@@ -242,7 +256,7 @@ void infixToPostfix()
                 unget_token(1);
                 return;
             default:
-                
+                line;
                 ret_error(SYNTAX_ERROR);
                 break;
         }
@@ -259,7 +273,7 @@ void emptyOpStack()
     }
 }
 
-int functionCall()
+int isFunctionCall()
 {
     token = get_token();
     if(token->type != TOKEN_ID)
@@ -280,7 +294,7 @@ int functionCall()
         
 }
 
-int functionFullNameCall()
+int isFunctionFullNameCall()
 {   
     token = get_token();
     if(token->type != TOKEN_ID)
@@ -324,9 +338,9 @@ void expression(TVariable *var)
     postfixStack = stackInit();
     varStack = stackInit();
     
-    if(functionCall())
+    if(isFunctionCall())
         line;
-    else if(functionFullNameCall())
+    else if(isFunctionFullNameCall())
     {
         line;
     }
@@ -335,8 +349,10 @@ void expression(TVariable *var)
         infixToPostfix();
         emptyOpStack();
         if(!isProperExpressionForm())
+        {
+            line;
             ret_error(SYNTAX_ERROR);
-    
+        }
         printStacks();
         
         

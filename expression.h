@@ -19,6 +19,8 @@ extern char  predence_table[12][12];
 
 void expression(TVariable *var);
 TVariable *generateVar();
+int isFunctionCall();
+int isFunctionFullNameCall();
 
 enum{
     OP_PLUS,
