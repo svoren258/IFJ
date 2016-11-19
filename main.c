@@ -45,9 +45,9 @@ int main(int argc, char **argv)
 	// 	if(i > 20)break;
 	// }
 	
-	// TVariable *var = NULL;
-	// expression(var);
-    parse();
+	TVariable *var = NULL;
+	expression(var);
+    // parse();
     lexFinish();
 	return 0;
 }
