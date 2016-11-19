@@ -193,7 +193,7 @@ void infixToPostfix()
     }
 }
 
-int functionNewCall()
+int functionCall()
 {
     if(token->type != TOKEN_ID)
         return FALSE;
@@ -210,7 +210,7 @@ int functionNewCall()
         
 }
 
-int functionBuiltIn()
+int functionFullNameCall()
 {
     if(token->type != TOKEN_ID)
         return FALSE;
@@ -239,9 +239,9 @@ void expression(TVariable *var)
     postfixStack = stackInit();
     varStack = stackInit();
     
-    if(functionNewCall())
+    if(functionCall())
         return;
-    else if(functionBuiltIn())
+    else if(functionFullNameCall())
     {
         return;
     }

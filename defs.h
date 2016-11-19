@@ -58,14 +58,20 @@ struct new_func
 	TStack *stack;
 	TList *list;
 	
-	struct tTable* table;
+	// struct tTable* table;
 };
 
+enum{
+	VARTYPE_INTEGER,
+	VARTYPE_DOUBLE,
+	VARTYPE_STRING,
+}
 typedef struct new_var TVariable;
 struct new_var 
 {
 	char *className;
 	char *name;
+	int position;
 	int type;
 	int defined;
 	int declared;
@@ -76,6 +82,8 @@ struct new_var
 	}value;
 	
 };
+
+
 
 
 #endif
