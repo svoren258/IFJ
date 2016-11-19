@@ -50,7 +50,6 @@ struct new_func
 	char params[MAX_PARAMS_COUNT];
 	char *className;
 	char *name;
-	int type;
 	int defined;
 	int numOfParams;
 	TStack *stack;
@@ -63,7 +62,7 @@ struct new_var
 {
 	char *className;
 	char *name;
-	int type;
+	char *type;
 	int defined;
 	int declared;
 	union{

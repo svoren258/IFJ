@@ -20,7 +20,7 @@ void BSTInit (tTablePtr *RootPtr) {
 
 
 
-tTablePtr BSTSearch (tTablePtr RootPtr, char*  node)	{
+tTablePtr BSTSearch (tTablePtr RootPtr, char *node)	{
 
 	if( !RootPtr || !node  )
 		return NULL;

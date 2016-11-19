@@ -14,6 +14,7 @@
 #define ialh
 typedef struct tTable {
 	char *name;
+	char *type;
 	union
 	{
 		struct new_func *f;
@@ -26,7 +27,7 @@ typedef struct tTable {
 /* prototypy funkcí */
 
 void BSTInit   (tTablePtr *);
-tTablePtr BSTSearch (tTablePtr RootPtr, char*);
+tTablePtr BSTSearch (tTablePtr RootPtr, char *node);
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
