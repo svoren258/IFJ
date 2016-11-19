@@ -93,6 +93,7 @@ Ttoken * getTokenFromStack()
 
 void lexStart()
 {
+
 	if(!tokenStack)
 		tokenStack = stackInit();
 	if(!token)		
@@ -399,19 +400,19 @@ Ttoken *get_token(){
 					extendBuffer(buffer, c);
 					break;
 				}
-				// if( isKeyword(buffer) > 0 )
-				// {
-				// 	token->type = isKeyword(buffer);
-				// 	switch(token->type)
-				// 	{
-				// 		case KEYWORD_INT:
-				// 		case KEYWORD_DOUBLE:
-				// 		case KEYWORD_STRING:
-				// 			token->data = buffer->data;
-				// 			token->type = TOKEN_TYPE;
-				// 			return token;
-				// 	}
-				// }
+				 if( isKeyword(buffer) > 0 )
+				 {
+				 	token->type = isKeyword(buffer);
+				 	switch(token->type)
+				 	{
+				 		case KEYWORD_INT:
+				 		case KEYWORD_DOUBLE:
+				 		case KEYWORD_STRING:
+				 			token->data = buffer->data;
+				 			token->type = TOKEN_TYPE;
+				 			return token;
+				 	}
+				 }
 				
 				token->data = buffer->data;
 				ungetc(c, file);

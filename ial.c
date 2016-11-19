@@ -21,8 +21,9 @@ void BSTInit (tTablePtr *RootPtr) {
 
 
 tTablePtr BSTSearch (tTablePtr RootPtr, char *node)	{
+	printf("som v BSTSearch\n");
 
-	if( !RootPtr || !node  )
+	if( (RootPtr == NULL) || (node == NULL)  )
 		return NULL;
 
 	if( !strcmp(node, RootPtr->name) )
@@ -32,17 +33,17 @@ tTablePtr BSTSearch (tTablePtr RootPtr, char *node)	{
 
 	if( strcmp(node, RootPtr->name) < 0)
 		if(BSTSearch(RootPtr->LPtr, node))
-			return RootPtr;
+			return BSTSearch(RootPtr->LPtr, node);
 
 	if( strcmp(node, RootPtr->name) > 0)
 		if(BSTSearch(RootPtr->RPtr, node))
-			return RootPtr;
+			return BSTSearch(RootPtr->RPtr, node);
 
 	return NULL;
 } 
 
 
-void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{	
+void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	
 	
 	//printf("INSERT INTO %s\n",K);
@@ -55,6 +56,7 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
 		(*RootPtr) = (*new);
+
 		return;
 	}
 
