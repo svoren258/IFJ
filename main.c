@@ -16,7 +16,6 @@ Ttoken *token;
 FILE *file;
 TBuffer * buffer;
 
-
 int main(int argc, char **argv)
 {
 	if(argc != 2) return EXIT_FAILURE;
@@ -29,16 +28,26 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE; 
 	}
 
-lexStart();
+	lexStart();
+
+	// int i = 0;
+	// token = get_token();
+	// while(token->type != TOKEN_EOF)
+	// {
+	// 	if(i == 10){
+	// 	unget_token();unget_token();
+			
+	// 	}
+	// 	i++;
+	// 	printf("%s \t <%d>\n",token->data, token->type);
+	// 	token = get_token();
+		
+	// 	if(i > 20)break;
+	// }
 	
-// 	token = getToken();
-// 	while(token->type != TOKEN_EOF)
-// 	{
-// // 		printf("%s \t <%d>\n",token->data, token->type);
-// 		token = get_Token();
-// 	}
-	
-parse();
+	TVariable *var = NULL;
+	expression(var);
+// parse();
 lexFinish();
 	return 0;
 }

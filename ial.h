@@ -33,8 +33,8 @@ struct tTable {
 /* prototypy funkcí */
 
 void BSTInit   (tTablePtr *);
-tTablePtr BSTSearch (tTablePtr RootPtr, char *node);
-void BSTInsert (tTablePtr *, tTablePtr *, char* key);
+tTablePtr BSTSearch (tTablePtr RootPtr, char*);//
+void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of the node)
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
 
