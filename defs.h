@@ -57,15 +57,15 @@ struct new_func
 	int numOfParams;
 	TStack *stack;
 	TList *list;
+	struct tTable *table;
 	
-	// struct tTable* table;
 };
 
 enum{
 	VARTYPE_INTEGER,
 	VARTYPE_DOUBLE,
 	VARTYPE_STRING,
-}
+};
 typedef struct new_var TVariable;
 struct new_var 
 {

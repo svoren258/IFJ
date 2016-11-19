@@ -127,7 +127,8 @@ int hasBiggerPrio()
 void infixToPostfix()
 {
     
-  int lbracket = 0;
+    tTablePtr table = context;
+    int lbrackets = 0;
     while( 1 )
     //get token
     {
@@ -137,12 +138,13 @@ void infixToPostfix()
         {
             
             case TOKEN_DOUBLE:
-            case TOKEN_ID:
             case TOKEN_E:
             case TOKEN_DEC_E:
             case TOKEN_INT:
+            case TOKEN_ID:
                 stackPush(postfixStack, storeToken(token));
                 break;
+
             case TOKEN_PLUS:
             case TOKEN_MINUS:
             case TOKEN_DIV:
@@ -150,7 +152,6 @@ void infixToPostfix()
                 if( hasBiggerPrio() )
                 {
                     stackPush(opStack, storeToken(token));
-                   
                     break;
                 } 
                 else
@@ -160,36 +161,52 @@ void infixToPostfix()
                         stackPush(postfixStack, stackTop(opStack));
                         stackPop(opStack);
                     }
-                
                     break;
                 }
             case TOKEN_L_ROUND:
-                lbracket++;
+                lbrackets++;
                 stackPush(opStack, storeToken(token));
                 break;
             case TOKEN_R_ROUND:
                 while( 1 )
                 {
+                    if( stackEmpty(opStack) )
+                    {
+                        ungetToken(token);
+                        return;
+                    }
                     helper = stackTop(opStack);
-                    if( helper->type == TOKEN_L_ROUND)
+                    if( helper->type != TOKEN_L_ROUND)
                     {
                         stackPush(postfixStack, helper);
                         stackPop(opStack);
-                        lbracket--;
+                        lbrackets--;
                         break;
                     }
-                    if( stackEmpty(opStack) )
+                    if( helper->type == TOKEN_L_ROUND )
                     {
-                        //unget token
+                        stackPop(opStack);
                         break;
-                    }
+                    }    
+                        
+                    
                 }
             case TOKEN_SEM_CL:
                 unget_token(token);
                 return;
             default:
+                ret_error(SYNTAX_ERROR);
                 break;
         }
+    }
+}
+
+void emptyOpStack()
+{
+    while( !emptyStack(opStack) )
+    {
+        stackPush(postfixStack, stackTop(opStack));
+        stackPop(opStack);
     }
 }
 
@@ -248,6 +265,7 @@ void expression(TVariable *var)
     else
     {
         infixToPostfix();
+        emptyOpStack();
     }
     
     // token->data = "ahoj";

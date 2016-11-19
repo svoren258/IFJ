@@ -12,9 +12,14 @@
 #define TRUE 1
 #define FALSE 0
 
-
+enum{
+	NODE_TYPE_CLASS,
+	NODE_TYPE_FUNCTION,
+	NODE_TYPE_VARIABLE,
+};
 typedef struct tTable *tTablePtr;
 struct tTable {
+	int type;
 	char *name;
 	union
 	{

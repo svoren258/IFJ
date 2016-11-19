@@ -7,8 +7,9 @@
 /********************************************************************/
 /*Syntactic analysis*/
 #include "defs.h"
-#include "ial.h"
+// #include "ial.h"
 #include "lex.h"
+
 
 #include "error.h"
 #include "expression.h"
