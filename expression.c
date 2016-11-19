@@ -188,6 +188,7 @@ void infixToPostfix()
             case TOKEN_E:
             case TOKEN_DEC_E:
             case TOKEN_INT:
+            case TOKEN_STRING:
                 stackPush(postfixStack, token);
                 break;
             case TOKEN_PLUS:
