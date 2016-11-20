@@ -9,6 +9,8 @@
 #include "defs.h"
 #include "error.h"
 
+tTablePtr globTable;
+
 char precedence_table[12][12] =
 {/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
 /* + */{'>','>','<','<','>','>','>','>','>','>','>','<'},

@@ -73,7 +73,7 @@ TVariable *new_variable(Ttoken *token)
 	v = malloc(sizeof(TVariable));
 	v->declared = 0;
     v->name = token->data;
-    v->type = VARIABLE_NULL;
+    v->type = VARTYPE_NULL;
 	return v;
 
 }
