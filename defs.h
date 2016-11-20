@@ -62,10 +62,10 @@ struct new_func
 };
 
 enum{
+	VARTYPE_NULL,
 	VARTYPE_INTEGER,
 	VARTYPE_DOUBLE,
 	VARTYPE_STRING,
-    VARTYPE_NULL,
 };
 typedef struct new_var TVariable;
 struct new_var 

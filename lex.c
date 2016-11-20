@@ -21,6 +21,7 @@ Ttoken *token;
 FILE *file;
 TBuffer *buffer;
 TStack *tokenStack;
+int lineNumber = 1;
 int ungetTokenIndex = 0;
 
 
@@ -173,6 +174,7 @@ Ttoken *get_token(){
 	
 	while( 1 )
 	{
+		token->lineNumber = lineNumber;
 		c = fgetc(file);
 		// printf("lex:%c\n",c);
 		switch( state )
@@ -189,8 +191,10 @@ Ttoken *get_token(){
 					return token;
 				}
 				if( c == '\n' )
-					
+				{
+					lineNumber++;					
 					break;
+				}
 				if( c == ' ' )
 					
 					break;

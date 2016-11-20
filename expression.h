@@ -21,6 +21,7 @@ void expression(TVariable *var);
 TVariable *generateVar();
 int isFunctionCall();
 int isFunctionFullNameCall();
+int isFullNameVar();
 
 enum{
     OP_PLUS,

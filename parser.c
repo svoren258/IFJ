@@ -237,13 +237,13 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         printf("som v ife\n");
         var = new_variable(tokenID);
         printf("som za new_var\n");
-        if(strcmp(type, "int")){
+        if(!(strcmp(type, "int"))){
             var->type = VARTYPE_INTEGER;
         }
-        else if(strcmp(type, "double")){
+        else if(!(strcmp(type, "double"))){
             var->type = VARTYPE_DOUBLE;
         }
-        else if(strcmp(type, "String")){
+        else if(!(strcmp(type, "String"))){
             var->type = VARTYPE_STRING;
         }
         else{

@@ -9,6 +9,8 @@
 #include "defs.h"
 #include "error.h"
 
+tTablePtr globTable;
+
 char precedence_table[12][12] =
 {/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
 /* + */{'>','>','<','<','>','>','>','>','>','>','>','<'},
@@ -20,15 +22,19 @@ char precedence_table[12][12] =
 /* > */{'<','<','<','<','<','<','>','<','>','>','>','<'},
 /*>= */{'<','<','<','<','<','<','<','>','>','>','>','<'},
 /*== */{'<','<','<','<','<','<','<','<','>','<','>','<'},
-/*!= */{'<','<','<','<','<','<','<','<','<','>','>','<'},
-/* ( */{'<','<','<','<','<','<','<','<','<','<','<','<'},
-/* ) */{'>','>','>','>','>','>','>','>','>','>','>','>'}
+/*!= */{'<','<','<','<','<','<','<','<','<','#','>','<'},
+/* ( */{'#','#','#','#','#','#','#','#','#','#','<','<'},
+/* ) */{'>','>','>','>','>','>','>','>','>','>','#','>'}
 
     
 };
 
 TStack *postfixStack, *opStack, *varStack;
 Ttoken *token;
+int operands = 0,
+    operators = 0;
+
+
 
 #define DEBUG
 #ifdef DEBUG
@@ -126,36 +132,31 @@ int hasBiggerPrio()
     if(stackEmpty(opStack))
         return TRUE;
 //   printf("%c\n", precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] );
+    if( precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] == '#' )
+    {
+        line;
+        ret_error(SYNTAX_ERROR);
+    }
+    
     if( precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] == '>' )
         return FALSE;
     return TRUE;
 }
 
-int isProperExpressionForm()
+void check_expression_form()
 {   
-    int operands = 0,
-        operators = 0;
-    for(int i = postfixStack->top; i >= 0; i--)
-    {
-        token = postfixStack->data[i];
-        if
-        (
-            (token->type == TOKEN_DOUBLE)   ||
-            (token->type == TOKEN_E)        ||        
-            (token->type == TOKEN_DEC_E)    ||
-            (token->type == TOKEN_INT)      ||
-            (token->type == TOKEN_ID)
-        )
-            operands++;
-        else
-            operators++;
+    if((operands - 1) != operators)
+        {
+            line;
+            ret_error(SYNTAX_ERROR);
+        }
     }
-    return (operators == (operands - 1)) ? TRUE : FALSE; 
-}
 
 void infixToPostfix()
 {
-    
+    operands = 0,
+    operators = 0;
+    int compare_operators = 0;
     //tTablePtr table = context;
     int lbrackets = 0;
     while( 1 )
@@ -168,18 +169,31 @@ void infixToPostfix()
         switch(token->type)
         {
             case TOKEN_ID:
+            operands++;
                 unget_token(1);
                 if(isFunctionCall())
-                {line;
+                {
+                    
+                    get_token();
+                    token->type = TOKEN_FUNCTION;
+                    stackPush(postfixStack,token);
                     get_token();
                     get_token();
-                    get_token();
-                    line;tok;tok;tok;
+                    break;
                 }
                 if(isFunctionFullNameCall())
                 {
+                    get_token();
+                    token->type = TOKEN_FUNCTION;
+                    stackPush(postfixStack,token);
                     get_token();get_token();get_token();get_token();
-                    line;
+                    break;
+                }
+                if(isFullNameVar())
+                {
+                    get_token();get_token();get_token();
+                    stackPush(postfixStack, token);
+                    break;
                 }
                 get_token();
                 stackPush(postfixStack, token);
@@ -189,12 +203,29 @@ void infixToPostfix()
             case TOKEN_DEC_E:
             case TOKEN_INT:
             case TOKEN_STRING:
+                operands++;
                 stackPush(postfixStack, token);
                 break;
             case TOKEN_PLUS:
             case TOKEN_MINUS:
             case TOKEN_DIV:
             case TOKEN_MUL:
+                operators++;
+                if( hasBiggerPrio() )
+                {
+                    stackPush(opStack, token);
+                    break;
+                } 
+                else
+                {
+                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
+                    {
+                        stackPush(postfixStack, stackTop(opStack));
+                        stackPop(opStack);
+                    }
+                    stackPush(opStack, token);
+                    break;
+                }
             case TOKEN_EQUALS:
             case TOKEN_GREATER:
             case TOKEN_LESSER:
@@ -202,7 +233,13 @@ void infixToPostfix()
             case TOKEN_LE_EQ:
             case TOKEN_EXCL_MARK:
             case TOKEN_NOT_EQ:
-
+                compare_operators++;
+                if(compare_operators > 1)
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
+                }
+                operators++;
                 if( hasBiggerPrio() )
                 {
                     stackPush(opStack, token);
@@ -219,6 +256,7 @@ void infixToPostfix()
                     break;
                 }
             case TOKEN_L_ROUND:
+                hasBiggerPrio();
                 lbrackets++;
                 stackPush(opStack, token);
                 break;
@@ -234,8 +272,9 @@ void infixToPostfix()
                     token = stackTop(opStack);
                     if( lbrackets <= 0 )
                     {
-                        line;
+                        hasBiggerPrio();
                         unget_token(1);
+                        printf("operands: %d | operators: %d\n",operands, operators);
                         return;
                     }
                     
@@ -255,6 +294,7 @@ void infixToPostfix()
                 break;
             case TOKEN_SEM_CL:
                 unget_token(1);
+                printf("operands: %d | operators: %d\n",operands, operators);
                 return;
             default:
                 line;
@@ -333,9 +373,47 @@ int isFunctionFullNameCall()
     return TRUE;
 }
 
+int isFullNameVar()
+{
+    token = get_token();
+    if(token->type != TOKEN_ID)
+    {
+        unget_token(1);
+        return FALSE;
+    }
+        
+    
+    token = get_token();
+    if(token->type != TOKEN_DOT)
+    {
+        unget_token(2);
+        return FALSE;
+    }
+        
+        
+    token = get_token();
+    if(token->type != TOKEN_ID)
+    {
+        unget_token(3);
+        return FALSE;
+    }
+        
+        
+    token = get_token();
+    if(token->type == TOKEN_L_ROUND)
+    {
+        unget_token(4);
+        return FALSE;        
+    }
+    unget_token(4);
+    return TRUE;   
+    
+}
+
+
 void expression(TVariable *var)
 {
-    printf("som v expr\n");
+    printf("***EXPRESSION***\n");
     opStack = stackInit();
     postfixStack = stackInit();
     varStack = stackInit();
@@ -350,16 +428,12 @@ void expression(TVariable *var)
     {
         infixToPostfix();
         emptyOpStack();
-        if(!isProperExpressionForm())
-        {
-            line;
-            ret_error(SYNTAX_ERROR);
-        }
+        check_expression_form();
         printStacks();
         
         
     }
-    
+    printf("***END EXPRESSION***\n");
     // token->data = "ahoj";
     // stackPush(opStack, storeToken(token));
     // token->data = "ahog";

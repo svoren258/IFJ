@@ -22,6 +22,7 @@ typedef struct{
 
 //struktura pro token
 typedef struct{
+	int lineNumber;
 	char* data;
 	int type;
 }Ttoken;
@@ -141,10 +142,11 @@ TOKEN_COMMA,			//95 ,
 TOKEN_EOF,				//96
 STATE_STRING_SINGLE,	//97
 STATE_E,				//98
-TOKEN_DEC_E,
-STATE_ASCII_DOUBLE,
+TOKEN_DEC_E,			//99
+STATE_ASCII_DOUBLE,		//100
 STATE_ASCII_SINGLE,
 TOKEN_TYPE,
+TOKEN_FUNCTION,
 }tState;
 
 
