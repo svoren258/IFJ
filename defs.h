@@ -65,13 +65,14 @@ enum{
 	VARTYPE_INTEGER,
 	VARTYPE_DOUBLE,
 	VARTYPE_STRING,
+    VARTYPE_NULL,
 };
 typedef struct new_var TVariable;
 struct new_var 
 {
 	char *className;
 	char *name;
-	char *type;
+	int type;
 	int position;
 	int defined;
 	int declared;

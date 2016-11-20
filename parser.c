@@ -73,7 +73,7 @@ TVariable *new_variable(Ttoken *token)
 	v = malloc(sizeof(TVariable));
 	v->declared = 0;
     v->name = token->data;
-    v->type = NULL;
+    v->type = VARTYPE_NULL;
 	return v;
 
 }
@@ -237,7 +237,18 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         printf("som v ife\n");
         var = new_variable(tokenID);
         printf("som za new_var\n");
-        var->type = type;
+        if(strcmp(type, "int")){
+            var->type = VARTYPE_INTEGER;
+        }
+        else if(strcmp(type, "double")){
+            var->type = VARTYPE_DOUBLE;
+        }
+        else if(strcmp(type, "String")){
+            var->type = VARTYPE_STRING;
+        }
+        else{
+            var->type = VARTYPE_NULL;
+        }
     }
     else{
         var = node->data.v;
@@ -532,7 +543,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 //        if (token->type != TOKEN_L_ROUND) {
 //            ret_error(SYNTAX_ERROR);
 //        }
-//        expression(&(*var));
+//        expression(var);
 //
 //
 //        TElem *label;
