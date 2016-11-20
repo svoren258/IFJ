@@ -18,8 +18,11 @@ TBuffer * buffer;
 
 int main(int argc, char **argv)
 {
-	if(argc != 2) return EXIT_FAILURE;
-	
+	if(argc != 2)
+	{
+		fprintf(stderr, "Wrong number of arguments! Use 1\n");
+		return EXIT_FAILURE;
+	}
 	file = fopen(argv[1], "r");
 
 	if(!file)

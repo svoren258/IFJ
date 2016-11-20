@@ -22,6 +22,7 @@ typedef struct{
 
 //struktura pro token
 typedef struct{
+	int lineNumber;
 	char* data;
 	int type;
 }Ttoken;

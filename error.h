@@ -8,6 +8,7 @@
 #ifndef PROJEKT_IFJ_ERROR_H
 #define PROJEKT_IFJ_ERROR_H
 #include "defs.h"
+#include "lex.h"
 void ret_error(int error);
 
 enum error_values{

@@ -6,39 +6,39 @@
 /********************************************************************/
 
 #include "error.h"
-
+Ttoken * token;
 void ret_error(int error){
     switch(error)
     {
         case(LEX_ERROR):
-            fprintf(stderr,"Lexical error!\n");
+            fprintf(stderr,"Lexical error on line %d!\n",token->lineNumber);
             break;
         case(SYNTAX_ERROR):
-            fprintf(stderr,"Syntax error!\n");
+            fprintf(stderr,"Syntax error on line %d!\n",token->lineNumber);
             break;
         case(SEMANTIC_DEF_ERROR):
-            fprintf(stderr,"Semantic definition error!\n");
+            fprintf(stderr,"Semantic definition error on line %d!\n",token->lineNumber);
             break;
         case(SEMANTIC_TYPE_ERROR):
-            fprintf(stderr,"Semantic type error!\n");
+            fprintf(stderr,"Semantic type error on line %d!\n",token->lineNumber);
             break;
         case(SEMANTIC_OTHER_ERROR):
-            fprintf(stderr,"Semantic error!\n");
+            fprintf(stderr,"Semantic error on line %d!\n",token->lineNumber);
             break;
         case(INPUT_READ_ERROR):
-            fprintf(stderr,"Error while input reading!\n");
+            fprintf(stderr,"Error while input reading on line %d!\n",token->lineNumber);
             break;
         case(UNINIT_VAR_ERROR):
-            fprintf(stderr,"Uninitialized variable!\n");
+            fprintf(stderr,"Uninitialized variable on line %d!\n",token->lineNumber);
             break;
         case(ZERO_DIV_ERROR):
-            fprintf(stderr,"Division by zero!\n");
+            fprintf(stderr,"Division by zero on line %d!\n",token->lineNumber);
             break;
         case(OTHER_RUNTIME_ERROR):
-            fprintf(stderr,"Runtime error!\n");
+            fprintf(stderr,"Runtime error on line %d!\n",token->lineNumber);
             break;
         case(INTERNAL_ERROR):
-            fprintf(stderr,"Internal error!\n");
+            fprintf(stderr,"Internal error on line %d!\n",token->lineNumber);
             break;
     }
     exit(error);

@@ -62,6 +62,7 @@ struct new_func
 };
 
 enum{
+	VARTYPE_NULL
 	VARTYPE_INTEGER,
 	VARTYPE_DOUBLE,
 	VARTYPE_STRING,
@@ -71,7 +72,7 @@ struct new_var
 {
 	char *className;
 	char *name;
-	char *type;
+	int type;
 	int position;
 	int defined;
 	int declared;
