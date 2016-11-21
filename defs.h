@@ -25,6 +25,7 @@
 #define pint(toprint) printf("CONTROL %d\n",toprint)
 #define s(toprint) printf("%s ",toprint)
 #define p(toprint) printf("%s \n",toprint)
+#define ks printf("KDE SOM?!?!\n")
 #define TRUE 1
 #define FALSE 0
 #define MAX_PARAMS_COUNT 100

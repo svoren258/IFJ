@@ -168,7 +168,12 @@ void printStacks()
                 // OP_COMA,//14
                 // OP_DOLAR,//15
                 
-                // OP_LROUND,//16
+                case OP_LROUND:
+                s("(");
+                break;
+                case OP_RROUND:
+                s(")");
+                break;
                 // OP_RROUND,//17
                 // OP_NONTERM,//18
                 
@@ -205,6 +210,36 @@ void generator(){
 
 int simple_reduction()
 {
+    s("TRY REDUCTION %d\n");
+    
+    if(iStack_top() == OP_RROUND)//(E) -> E
+    {
+        iStack_pop();
+        if(iStack_top() == OP_NONTERM)
+            iStack_pop();
+            if(iStack_top() == OP_LROUND)
+                iStack_pop();
+                if(iStack_top() == OP_LESSER)
+                {
+                    iStack_pop();
+                    iStack_push(OP_NONTERM);
+                }
+                    
+    // printf("%d\n",iStack_pop());
+    // printf("%d\n",iStack_pop());
+    //     if(iStack->data[iStack_top() - 1] == OP_NONTERM)
+    //     {ks;
+            
+    //         if(iStack->data[iStack_top() - 2] == OP_LROUND)
+    //             {
+                    
+    //                 iStack_pop();
+    //                 iStack_pop();
+    //                 iStack_pop();
+    //                 iStack_push(OP_NONTERM);
+    //             }
+    //     }
+    }
     if(iStack_top() == OP_NONTERM)
     {
         iStack_pop();//E
@@ -439,7 +474,7 @@ void analysis()
         switch(compare_priority(iStack_top_term(), token))
         {
             case SIGN_LESSER:
-                printf("Ttype %d\n",tokenToType(token));
+                printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
                 //id -> E
                 
                 if(tokenToType(token) != OP_NONTERM)
@@ -466,6 +501,7 @@ void analysis()
             break;
             
             case SIGN_GREATER:
+            printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
                 //ID -> E
                 if(iStack_top() == OP_I)
                 {
@@ -478,17 +514,20 @@ void analysis()
                 } 
                 //newly created E op E
                     simple_reduction();
-                    
-                if(token->type != TOKEN_SEM_CL)//E -> <E+
+                    printStacks();
+                if(token->type != TOKEN_SEM_CL)
                 {
-                    if(iStack_top() == OP_NONTERM)
+                    
+                    if( tokenToType(token) == OP_RROUND)
+                        iStack_push(OP_RROUND);
+                    else if(iStack_top() == OP_NONTERM)//E -> <E+
                     {
                         // return;
                         iStack_pop();
                         iStack_push(OP_LESSER);
                         iStack_push(OP_NONTERM);
                         iStack_push(tokenToType(token));
-                        line;
+                        printStacks();
                         break;
                     }
                     // helper = iStack_pop();
@@ -499,6 +538,7 @@ void analysis()
                 break;
             
             case SIGN_EQUALS:
+            printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
             line;
             iStack_push(tokenToType(token));
             break;

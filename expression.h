@@ -46,21 +46,19 @@ enum{
     OP_EQUAL,//8
     OP_NOTEQUAL,//9
     
-    OP_LBRACKET,//10
-    OP_RBRACKET,//11
+    OP_LROUND,//10
+    OP_RROUND,//11
     OP_FUNCTION,//12
     OP_I,//13
     OP_COMA,//14
     OP_DOLAR,//15
     
-    OP_LROUND,//16
-    OP_RROUND,//17
-    OP_NONTERM,//18
+    OP_NONTERM,//16
     
-    SIGN_LESSER,//19
-    SIGN_GREATER,//20
-    SIGN_EQUALS,//21
-    SIGN_FAIL,//22
+    SIGN_LESSER,//17
+    SIGN_GREATER,//18
+    SIGN_EQUALS,//19
+    SIGN_FAIL,//20
 };
 
 
