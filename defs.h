@@ -22,6 +22,9 @@
 #define dbr printf("Right debug\n")
 #define line printf("***FILE: %s  LINE: %d***\n",__FILE__, __LINE__)
 #define tok printf("%s\n",token->data)
+#define pint(toprint) printf("CONTROL %d\n",toprint)
+#define s(toprint) printf("%s ",toprint)
+#define p(toprint) printf("%s \n",toprint)
 #define TRUE 1
 #define FALSE 0
 #define MAX_PARAMS_COUNT 100
@@ -79,7 +82,7 @@ struct new_var
 	union{
 		int i;
 		double d;
-		char *c;
+		char *s;
 	}value;
 	
 };

@@ -1,1 +1,1 @@
-(1 + (2 - 3)) < ((5*4 / 4)( + "string" ++var  func() + fullfunc.func() + fullvar.fullvar );
+1+2*3+4;

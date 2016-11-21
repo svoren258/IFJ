@@ -11,60 +11,191 @@
 
 tTablePtr globTable;
 
-char precedence_table[12][12] =
-{/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   )  */
-/* + */{'>','>','<','<','>','>','>','>','>','>','>','<'},
-/* - */{'>','>','<','<','>','>','>','>','>','>','>','<'},
-/* * */{'>','>','>','>','>','>','>','>','>','>','>','<'},
-/* / */{'>','>','>','>','>','>','>','>','>','>','>','<'},
-/* < */{'<','<','<','<','>','<','<','<','>','>','>','<'},
-/*<= */{'<','<','<','<','<','>','<','<','>','>','>','<'},
-/* > */{'<','<','<','<','<','<','>','<','>','>','>','<'},
-/*>= */{'<','<','<','<','<','<','<','>','>','>','>','<'},
-/*== */{'<','<','<','<','<','<','<','<','>','<','>','<'},
-/*!= */{'<','<','<','<','<','<','<','<','<','#','>','<'},
-/* ( */{'#','#','#','#','#','#','#','#','#','#','<','<'},
-/* ) */{'>','>','>','>','>','>','>','>','>','>','#','>'}
+char precedence_table[TABLESIZE][TABLESIZE] =
+{/*st\in +   -   *   /   <  <=   >  >=  ==  !=   (   ) func  i   ,   $*/
+/* + */{'>','>','<','<','>','>','>','>','>','>','<','>','<','<','<','>'},//0
+/* - */{'>','>','<','<','>','>','>','>','>','>','<','>','<','<','<','>'},//1
+/* * */{'>','>','>','>','>','>','>','>','>','>','<','>','<','<','<','>'},//2
+/* / */{'>','>','>','>','>','>','>','>','>','>','<','>','<','<','<','>'},//3
+/* < */{'<','<','<','<','>','<','<','<','>','>','<','>','<','<','<','>'},//4
+/*<= */{'<','<','<','<','<','>','<','<','>','>','<','>','<','<','<','>'},//5
+/* > */{'<','<','<','<','<','<','>','<','>','>','<','>','<','<','<','>'},//6
+/*>= */{'<','<','<','<','<','<','<','>','>','>','<','>','<','<','<','>'},//7
+/*== */{'<','<','<','<','<','<','<','<','>','<','<','>','<','<','<','>'},//8
+/*!= */{'<','<','<','<','<','<','<','<','<','<','<','>','<','<','<','>'},//9
+/* ( */{'<','<','<','<','<','<','<','<','<','<','=','=','<','<','=','$'},//10
+/* ) */{'>','>','>','>','>','>','>','>','>','>','$','>','$','$','>','>'},//11
+/*fun*/{'$','$','$','$','$','$','$','$','$','$','=','$','$','$','$','$'},//12
+/* i */{'>','>','>','>','>','>','>','>','>','>','$','>','>','$','>','>'},//13
+/* , */{'<','<','<','<','<','<','<','<','<','<','<','=','<','<',',','$'},//14
+/* $ */{'<','<','<','<','<','<','<','<','<','<','<','$','<','<','<','$'},//15
 
     
 };
 
-TStack *postfixStack, *opStack, *varStack;
+TStack *oStack;
+TIStack * iStack;
 Ttoken *token;
 int operands = 0,
     operators = 0;
 
+void iStack_push(int val)
+{
+    iStack->top++;
+    iStack->data[iStack->top] = val;
+}
+void iStack_init()
+{
+    iStack = malloc(sizeof(TIStack));
 
+    iStack->top = -1;
+    iStack_push(OP_DOLAR);
+}
+//get the priority stack sign
+int iStack_top_term()
+{
+    int b;
+    for(int i = iStack->top; i >= 0; i--)
+    {
+        b = iStack->data[i];
+        if(  (b != SIGN_LESSER  ) && (b != SIGN_EQUALS) && (b != SIGN_GREATER) && (b != OP_NONTERM))
+        return (b);
+    }
+    
+    return OP_DOLAR;
+}
+
+//get the top of the stack
+int iStack_top()
+{
+    int b;
+    for(int i = iStack->top; i >= 0; i--)
+    {
+        b = iStack->data[i];
+        return (b);
+    }
+    line;
+    return SIGN_FAIL;
+}
+
+int iStack_pop()
+{
+    if(iStack->top >= 0)
+    {
+        int ret = iStack->data[iStack->top];
+        iStack->data[iStack->top] = '\0';
+        iStack->top--;
+        return ret;
+    }
+        
+    return OP_DOLAR;
+}
+
+int iStack_get_sign()
+{
+    int b;
+    for(int i = iStack->top; i >= 0; i--)
+    {
+        b = iStack->data[i];
+        if( b != OP_NONTERM )
+        return (b);
+    }
+    return SIGN_FAIL;
+}
 
 #define DEBUG
 #ifdef DEBUG
-void printStacks(){
-    printf("-----Postfix-----\n");
-    
-    for(int i = postfixStack->top; i >= 0; i--)
+void printStacks()
+{
+    printf("-----iStack-----\n");
+    int b;
+    for(int i = 0; i <= iStack->top; i++)
         {
-            token = postfixStack->data[i];
-            tok;
+            
+            b = iStack->data[i];
+            switch(b)
+            {
+                case OP_PLUS:
+                s("+");
+                break;
+                
+                case OP_MINUS:
+                s("-");
+                break;
+                
+                case OP_MUL:
+                s("*");
+                break;
+                
+                case OP_DIV:
+                s("/");
+                break;
+                
+                case OP_I:
+                s("OP_I");
+                break;
+                
+                case OP_NONTERM:
+                s("E");
+                break;
+                
+                case OP_LESSER:
+                s("<");
+                break;
+                
+                case OP_DOLAR:
+                s("$");
+                break;
+                
+                default:break;
+                
+                // OP_MINUS,//1
+                // OP_MUL,//2
+                // OP_DIVISION,//3
+            
+                // OP_LESSER,//4
+                // OP_LEQUAL,//5
+                // OP_GREATER,//6
+                // OP_GREQUAL,//7
+                
+                // OP_EQUAL,//8
+                // OP_NOTEQUAL,//9
+                
+                // OP_LBRACKET,//10
+                // OP_RBRACKET,//11
+                // OP_FUNCTION,//12
+                // OP_I,//13
+                // OP_COMA,//14
+                // OP_DOLAR,//15
+                
+                // OP_LROUND,//16
+                // OP_RROUND,//17
+                // OP_NONTERM,//18
+                
+                // SIGN_LESSER,//19
+                // SIGN_GREATER,//20
+                // SIGN_EQUALS,//21
+            }
         }
-    printf("-----/postfix----\n");
+    printf("\n-----/iStack----\n");
     
-    printf("-----opStack-----\n");
+    printf("-----oStack-----\n");
     
-    for(int i = opStack->top; i >= 0; i--)
+    for(int i = oStack->top; i >= 0; i--)
         {
-            token = opStack->data[i];
-            tok;
+            TVariable *var = oStack->data[i];
+            printf("%d\n",var->value.i);
         }
-    printf("-----/opstack-----\n");
+    printf("-----/oStack-----\n");
     
-    printf("-----varstack----\n");
+    // printf("-----varstack----\n");
     
-    for(int i = varStack->top; i >= 0; i--)
-        {
-            token = varStack->data[i];
-            tok;
-        }
-    printf("-----/varstack-----\n");    
+    // for(int i = varStack->top; i >= 0; i--)
+    //     {
+    //         token = varStack->data[i];
+    //         tok;
+    //     }
+    // printf("-----/varstack-----\n");    
         
 }
 #endif
@@ -72,16 +203,69 @@ void generator(){
     
 }
 
-TVariable *generateVar()
+int simple_reduction()
 {
-    TVariable *newVar;
-    newVar = malloc(sizeof(TVariable));
-    stackPush(varStack, newVar);
-    return newVar;
+    if(iStack_top() == OP_NONTERM)
+    {
+        iStack_pop();//E
+        switch(iStack_top())
+        {
+            
+            case OP_PLUS:
+            case OP_MINUS:
+            case OP_MUL:
+            case OP_DIV:
+                printf("***REDUCTION:E %d E***\n", iStack_pop());//OP
+                iStack_pop();//E
+                iStack_pop();//<
+                iStack_push(OP_NONTERM);
+                return TRUE;
+            default:
+                iStack_push(OP_NONTERM);
+                return FALSE;
+        }
+        
+    }
+    return FALSE;
 }
+
+TVariable *generate_var(int assign)
+{
+    TVariable *var;
+    var = malloc(sizeof(TVariable));
+  
+        
+    
+    
+    if(token->type == TOKEN_INT)
+    {
+        var->type = VARTYPE_INTEGER;
+        var->value.i = atoi(token->data);
+    }
+        
+    else if(token->type == TOKEN_STRING)
+    {
+        var->type = VARTYPE_STRING;
+        var->value.s = token->data;
+    }
+        
+    else if(token->type == TOKEN_DOUBLE)
+    {
+        var->type = VARTYPE_DOUBLE;
+        var->value.d = strtod(token->data,NULL);
+    }
+    return var;
+}
+
+
+
+
 
 int tokenToType(Ttoken *token)
 {
+    if(isFunctionCall())return OP_FUNCTION;
+    if(isFunctionFullNameCall())return OP_FUNCTION;
+    if(isFullNameVar())return OP_I;
     switch(token->type)
     {
         case TOKEN_PLUS: 
@@ -91,7 +275,7 @@ int tokenToType(Ttoken *token)
         case TOKEN_MUL:
             return OP_MUL;
         case TOKEN_DIV:
-            return OP_DIVISION;
+            return OP_DIV;
         case TOKEN_GREATER:
             return OP_GREATER;
         case TOKEN_LESSER:
@@ -104,219 +288,53 @@ int tokenToType(Ttoken *token)
             return OP_NOTEQUAL;
         case TOKEN_EQUALS:
             return OP_EQUAL;
-        default:
-            break;
+        case TOKEN_COLON:
+            return OP_COMA;
+        case TOKEN_SEM_CL:
+            return OP_DOLAR;
+        case TOKEN_L_ROUND:
+            return OP_LROUND;
+        case TOKEN_R_ROUND:
+            return OP_RROUND;
+        case TOKEN_INT:
+        case TOKEN_DOUBLE:
+        case TOKEN_STRING:
+        case TOKEN_DOUBLE_E:
+        case TOKEN_E:
+        case TOKEN_ID:
+            return OP_I;
+        break;
     }
-   
-    return 42;
+    
+    line;
+    ret_error(SYNTAX_ERROR);
+     return 0;
 }
 
-// Ttoken *storeToken()
-// {
-//     Ttoken * token_store;
-//     token_store = malloc(sizeof(Ttoken));
-
-//     if(!token_store)
-//         ret_error(INTERNAL_ERROR);
-    
-//     token_store->data = token->data;
-//     token_store->type = token->type;
-            
-        
-//     return token_store;
-// }
-
-//returns true if current Token has bigger priority than the top of the opStack
-int hasBiggerPrio()
+int compare_priority(int stackTop, Ttoken * token)
 {
-    if(stackEmpty(opStack))
-        return TRUE;
+    // if(iStack->top < 0)
+        // return SIGN_DOLAR;
 //   printf("%c\n", precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] );
-    if( precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] == '#' )
+    if( precedence_table[ stackTop ][ tokenToType(token) ] == '$' )
     {
-        line;
-        ret_error(SYNTAX_ERROR);
+        printStacks();
+        pint(stackTop);
+        pint(tokenToType(token));
+        return SIGN_FAIL;
     }
     
-    if( precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] == '>' )
-        return FALSE;
-    return TRUE;
+    if( precedence_table[ stackTop ][ tokenToType(token) ] == '>' )
+        return SIGN_GREATER;
+    else if( precedence_table[ stackTop ][ tokenToType(token) ] == '<' )
+        return SIGN_LESSER; 
+    else return SIGN_EQUALS;
 }
 
-void check_expression_form()
-{   
-    if((operands - 1) != operators)
-        {
-            line;
-            ret_error(SYNTAX_ERROR);
-        }
-    }
 
-void infixToPostfix()
-{
-    operands = 0,
-    operators = 0;
-    int compare_operators = 0;
-    //tTablePtr table = context;
-    int lbrackets = 0;
-    while( 1 )
-    //get token
-    {
-        token = get_token();
-        
-        printf("%s\n",token->data);
-        // Ttoken *helper;
-        switch(token->type)
-        {
-            case TOKEN_ID:
-            operands++;
-                unget_token(1);
-                if(isFunctionCall())
-                {
-                    
-                    get_token();
-                    token->type = TOKEN_FUNCTION;
-                    stackPush(postfixStack,token);
-                    get_token();
-                    get_token();
-                    break;
-                }
-                if(isFunctionFullNameCall())
-                {
-                    get_token();
-                    token->type = TOKEN_FUNCTION;
-                    stackPush(postfixStack,token);
-                    get_token();get_token();get_token();get_token();
-                    break;
-                }
-                if(isFullNameVar())
-                {
-                    get_token();get_token();get_token();
-                    stackPush(postfixStack, token);
-                    break;
-                }
-                get_token();
-                stackPush(postfixStack, token);
-                break;
-            case TOKEN_DOUBLE:
-            case TOKEN_E:
-            case TOKEN_DEC_E:
-            case TOKEN_INT:
-            case TOKEN_STRING:
-                operands++;
-                stackPush(postfixStack, token);
-                break;
-            case TOKEN_PLUS:
-            case TOKEN_MINUS:
-            case TOKEN_DIV:
-            case TOKEN_MUL:
-                operators++;
-                if( hasBiggerPrio() )
-                {
-                    stackPush(opStack, token);
-                    break;
-                } 
-                else
-                {
-                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
-                    {
-                        stackPush(postfixStack, stackTop(opStack));
-                        stackPop(opStack);
-                    }
-                    stackPush(opStack, token);
-                    break;
-                }
-            case TOKEN_EQUALS:
-            case TOKEN_GREATER:
-            case TOKEN_LESSER:
-            case TOKEN_GR_EQ:
-            case TOKEN_LE_EQ:
-            case TOKEN_EXCL_MARK:
-            case TOKEN_NOT_EQ:
-                compare_operators++;
-                if(compare_operators > 1)
-                {
-                    line;
-                    ret_error(SYNTAX_ERROR);
-                }
-                operators++;
-                if( hasBiggerPrio() )
-                {
-                    stackPush(opStack, token);
-                    break;
-                } 
-                else
-                {
-                    while( !hasBiggerPrio() && !stackEmpty(opStack) )
-                    {
-                        stackPush(postfixStack, stackTop(opStack));
-                        stackPop(opStack);
-                    }
-                    stackPush(opStack, token);
-                    break;
-                }
-            case TOKEN_L_ROUND:
-                hasBiggerPrio();
-                lbrackets++;
-                stackPush(opStack, token);
-                break;
-            case TOKEN_R_ROUND:
-                while( 1 )
-                {
-                    // printf("opstck\n");
-                    // for(int i = opStack->top; i >= 0; i--)
-                    // {
-                    //     token = opStack->data[i];
-                    //     tok;
-                    // }printf("opstck\n");
-                    token = stackTop(opStack);
-                    if( lbrackets <= 0 )
-                    {
-                        hasBiggerPrio();
-                        unget_token(1);
-                        printf("operands: %d | operators: %d\n",operands, operators);
-                        return;
-                    }
-                    
-                    if( token->type != TOKEN_L_ROUND)
-                    {
-                        stackPush(postfixStack, token);
-                        stackPop(opStack);
-                        
-                        continue;
-                    }
-                    lbrackets--;
-                    stackPop(opStack);
-                    break;
-                        
-                    
-                }
-                break;
-            case TOKEN_SEM_CL:
-                unget_token(1);
-                printf("operands: %d | operators: %d\n",operands, operators);
-                return;
-            default:
-                line;
-                ret_error(SYNTAX_ERROR);
-                break;
-        }
-    }
-}
-
-void emptyOpStack()
-{
-    while( !stackEmpty(opStack) )
-    {
-        token = stackTop(postfixStack);
-        stackPush(postfixStack, stackTop(opStack));
-        stackPop(opStack);
-    }
-}
 
 int isFunctionCall()
 {
-    token = get_token();
     if(token->type != TOKEN_ID)
     {
         unget_token(1);
@@ -331,13 +349,12 @@ int isFunctionCall()
         return FALSE;
     }   
     unget_token(2);
-    return TRUE;
+    return OP_FUNCTION;
         
 }
 
 int isFunctionFullNameCall()
 {   
-    token = get_token();
     if(token->type != TOKEN_ID)
     {
         unget_token(1);
@@ -370,12 +387,11 @@ int isFunctionFullNameCall()
 
    
     unget_token(4);
-    return TRUE;
+    return OP_FUNCTION;
 }
 
 int isFullNameVar()
 {
-    token = get_token();
     if(token->type != TOKEN_ID)
     {
         unget_token(1);
@@ -406,50 +422,132 @@ int isFullNameVar()
         return FALSE;        
     }
     unget_token(4);
-    return TRUE;   
+    return OP_I;
     
 }
 
+void analysis()
+{
+    // int helper;
+    int end = 0;
+    token = get_token();
+    while( 1 )
+    {
+        
+        // printStacks();
+        printf("\ntok= %s  itop= %d\n\n",token->data, iStack_top_term());
+        switch(compare_priority(iStack_top_term(), token))
+        {
+            case SIGN_LESSER:
+                printf("Ttype %d\n",tokenToType(token));
+                //id -> E
+                
+                if(tokenToType(token) != OP_NONTERM)
+                {
+                    iStack_push(OP_LESSER);
+                    iStack_push(tokenToType(token));
+                }
+                
+                else// if(iStack_top() == OP_NONTERM)
+                {//E -> <E+
+                        iStack_pop();
+                        iStack_push(OP_LESSER);
+                        iStack_push(OP_NONTERM);
+                        iStack_push(tokenToType(token));
+                }
+                //
+                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING)
+                {
+                    TVariable *var = generate_var(1);
+                    stackPush(oStack, var);
+                }
+                printStacks();
+            
+            break;
+            
+            case SIGN_GREATER:
+                //ID -> E
+                if(iStack_top() == OP_I)
+                {
+                    iStack_pop();
+                    if(iStack_top() == OP_LESSER)
+                    {
+                        iStack_pop();
+                        iStack_push(OP_NONTERM);
+                    }
+                } 
+                //newly created E op E
+                    simple_reduction();
+                    
+                if(token->type != TOKEN_SEM_CL)//E -> <E+
+                {
+                    if(iStack_top() == OP_NONTERM)
+                    {
+                        // return;
+                        iStack_pop();
+                        iStack_push(OP_LESSER);
+                        iStack_push(OP_NONTERM);
+                        iStack_push(tokenToType(token));
+                        line;
+                        break;
+                    }
+                    // helper = iStack_pop();
+                    // iStack_push(OP_LESSER);//(<+
+                    // iStack_push(tokenToType(token));
+                }
+                printStacks();
+                break;
+            
+            case SIGN_EQUALS:
+            line;
+            iStack_push(tokenToType(token));
+            break;
+            
+            default:
+                if(iStack->top == 1 && iStack_top() == OP_NONTERM)
+                {
+                    iStack_pop();                    
+                    line;
+                    return;
+                }
+            
+            
+            
+            
+        }
+        end++;
+        if(iStack->top == -1)
+        break;
+        
+        if(token->type != TOKEN_SEM_CL)
+        {
+            token = get_token();
+            
+        }
+        
+        
+        if(end>10)break;
+    }
+}
 
 void expression(TVariable *var)
 {
     printf("***EXPRESSION***\n");
-    opStack = stackInit();
-    postfixStack = stackInit();
-    varStack = stackInit();
+    oStack = stackInit();
+    iStack_init();
     
-    if(isFunctionCall())
-        line;
-    else if(isFunctionFullNameCall())
-    {
-        line;
-    }
-    else
-    {
-        infixToPostfix();
-        emptyOpStack();
-        check_expression_form();
-        printStacks();
-        
-        
-    }
-    printf("***END EXPRESSION***\n");
-    // token->data = "ahoj";
-    // stackPush(opStack, storeToken(token));
-    // token->data = "ahog";
-    // stackPush(opStack, storeToken(token));
-    // token->data = "ahoh";
-    // stackPush(opStack, storeToken(token));
-    
-    // token->data = "POSTFIXTSKA";
-    // stackPush(postfixStack, storeToken(token));
-    
-    // while(!stackEmpty(opStack))
+    // if(isFunctionCall())
+    //     line;
+    // else if(isFunctionFullNameCall())
     // {
-    //     stackPush(postfixStack, stackTop(opStack));
-    //     stackPop(opStack);
+    //     line;
     // }
-    
-    //infixToPostfix();
+    // else
+    // {
+        analysis();
+        printStacks();
+
+    // }
+    printf("***END EXPRESSION***\n");
     
 }

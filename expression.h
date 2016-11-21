@@ -13,8 +13,13 @@
 #include "error.h"
 // #include "ial.h"
 
+#define TABLESIZE 17
+extern char  predence_table[TABLESIZE][TABLESIZE];
 
-extern char  predence_table[12][12];
+typedef struct{
+    int data[1000];
+    int top;
+}TIStack;
 
 
 void expression(TVariable *var);
@@ -23,22 +28,39 @@ int isFunctionCall();
 int isFunctionFullNameCall();
 int isFullNameVar();
 
+
+
 enum{
-    OP_PLUS,
-    OP_MINUS,
-    OP_MUL,
-    OP_DIVISION,
+   
     
-    OP_LESSER,
-    OP_LEQUAL,
-    OP_GREATER,
-    OP_GREQUAL,
+    OP_PLUS,//0
+    OP_MINUS,//1
+    OP_MUL,//2
+    OP_DIV,//3
+
+    OP_LESSER,//4
+    OP_LEQUAL,//5
+    OP_GREATER,//6
+    OP_GREQUAL,//7
     
-    OP_EQUAL,
-    OP_NOTEQUAL,
+    OP_EQUAL,//8
+    OP_NOTEQUAL,//9
     
-    OP_LBRACKET,
-    OP_RBRACKET,
+    OP_LBRACKET,//10
+    OP_RBRACKET,//11
+    OP_FUNCTION,//12
+    OP_I,//13
+    OP_COMA,//14
+    OP_DOLAR,//15
+    
+    OP_LROUND,//16
+    OP_RROUND,//17
+    OP_NONTERM,//18
+    
+    SIGN_LESSER,//19
+    SIGN_GREATER,//20
+    SIGN_EQUALS,//21
+    SIGN_FAIL,//22
 };
 
 

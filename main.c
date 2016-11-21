@@ -48,9 +48,10 @@ int main(int argc, char **argv)
 	// 	if(i > 20)break;
 	// }
 	
+	TVariable *var = NULL;
+	expression(var);
 
-
-    parse();
+    // parse();
 
 
     lexFinish();
