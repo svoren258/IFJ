@@ -18,15 +18,16 @@
 #define ParserDefs
 
 TFunction *new_function(Ttoken *token, tTablePtr table);
-TVariable *new_variable(Ttoken *token);
-void store_function(/*stack*/TFunction *f, tTablePtr *table);
-void store_variable(/*stack*/TVariable *v, tTablePtr *table);
-tTablePtr create_class_table(char*);
+TVariable *new_variable(Ttoken *token, tTablePtr table);
+void store_function(/*stack*/TFunction *f, tTablePtr table);
+void store_variable(/*stack*/TVariable *v, tTablePtr table);
+tTablePtr create_class_table(char *name, tTablePtr destTable);
 void starter();
 void Declaration(tTablePtr table, Ttoken *token);
 TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type);
 TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType);
-void params(TFunction *f, Ttoken *token, int numOfParam);
+void params(tTablePtr fTable, Ttoken *token, int numOfParam);
+void if_statement(Ttoken *token, tTablePtr table);
 
 /*--------------------automat-----------------------*/
 

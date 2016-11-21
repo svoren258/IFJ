@@ -369,7 +369,7 @@ int isFunctionFullNameCall()
     }
 
    
-    unget_token(4);
+    //unget_token(4);
     return TRUE;
 }
 
@@ -403,8 +403,9 @@ int isFullNameVar()
     if(token->type == TOKEN_L_ROUND)
     {
         unget_token(4);
-        return FALSE;        
+        return FALSE;
     }
+
     unget_token(4);
     return TRUE;   
     
@@ -418,11 +419,22 @@ void expression(TVariable *var)
     postfixStack = stackInit();
     varStack = stackInit();
     
+
+    // token->data = "ahoj";
+    // stackPush(opStack, storeToken(token));
     if(isFunctionCall())
         line;
     else if(isFunctionFullNameCall())
     {
         line;
+        token = get_token();
+        printf("nacitany token v expr: %s\n", token->data);
+        while(token->type != TOKEN_SEM_CL){
+            token = get_token();
+            printf("nacitany token v expr: %s\n", token->data);
+        }
+        unget_token(1);
+
     }
     else
     {
@@ -430,12 +442,11 @@ void expression(TVariable *var)
         emptyOpStack();
         check_expression_form();
         printStacks();
-        
-        
+
+
+
     }
-    printf("***END EXPRESSION***\n");
-    // token->data = "ahoj";
-    // stackPush(opStack, storeToken(token));
+
     // token->data = "ahog";
     // stackPush(opStack, storeToken(token));
     // token->data = "ahoh";
@@ -451,5 +462,5 @@ void expression(TVariable *var)
     // }
     
     //infixToPostfix();
-    
+    printf("***END EXPRESSION***\n");
 }
