@@ -54,6 +54,7 @@ struct new_func
 	char *className;
 	char *name;
 	int defined;
+    int declared;
 	int numOfParams;
 	TStack *stack;
 	TList *list;

@@ -42,6 +42,26 @@ tTablePtr BSTSearch (tTablePtr RootPtr, char *node)	{
 	return NULL;
 } 
 
+void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K){
+
+	BSTInit(new);
+
+	if( !(*new) )
+	{
+		(*new) = malloc(sizeof(struct tTable));
+		(*new)->name = K;
+		(*new)->LPtr = NULL;
+		(*new)->RPtr = NULL;
+		(*RootPtr)->Root = (*new);
+
+		return;
+	}
+
+
+}
+
+
+
 
 void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	
