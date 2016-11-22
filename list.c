@@ -174,7 +174,7 @@ void PostDelete (TList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void insert_instruction(TList *L, struct TElem new)
+void insert_instruction(TList *L, TListItem)
 {
 	if(!L->Act)
 		return;
