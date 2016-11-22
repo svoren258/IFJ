@@ -219,6 +219,8 @@ void generator(){
 
 int simple_reduction()
 {s("REDUCTION BEGIN\n");
+    int params = 1;
+    int coma = 0;
     if(iStack_top() == OP_I)//ID -> E
     {
         s("TRY REDUCTION ID -> E\n");
@@ -234,13 +236,13 @@ int simple_reduction()
     
     if(iStack_top() == OP_RROUND)
     {
-        s("TRY REDUCTION (E) -> E\n");
+        
         iStack_pop();
-        if(iStack_top() == OP_NONTERM)
+        if(iStack_top() == OP_NONTERM)//(E) -> E
         {
             iStack_pop();
             if(iStack_top() == OP_LROUND)
-            {
+            {s("TRY REDUCTION (E) -> E\n");
                 iStack_pop();
                 if(iStack_top() == OP_LESSER)//(E) -> E
                 {
@@ -254,7 +256,39 @@ int simple_reduction()
                     iStack_push(OP_NONTERM);
                 }
             }
+            else if(iStack_top() == OP_COMA)
+            {//already 1 param counted <- previous pop
+            s("TRY REDUCTION func(,,) -> E\n");
+                while(iStack_top() != OP_LROUND)
+                {
+                    if(iStack_top() == OP_COMA && coma == 0)
+                    {
+                        coma = 1;
+                    }
+                    else if(iStack_top() == OP_NONTERM && coma == 1)
+                    {
+                        params++;
+                        coma = 0;
+                    }
+                    else
+                    {
+                        ret_error(SYNTAX_ERROR);
+                    }
+                    iStack_pop();
+                }
+                if(iStack_top() == OP_LROUND)
+                iStack_pop();
+                if(iStack_top() == OP_FUNC)
+                {
+                    iStack_pop();//func
+                    iStack_pop();//< before func
+                    //function call
+                    iStack_push(OP_NONTERM);
+                }
+            }
+            
         }
+        
         else if(iStack_top() == OP_LROUND)//func() -> E
         {
             s("TRY REDUCTION func() -> E\n");
@@ -268,10 +302,10 @@ int simple_reduction()
                 //     iStack_push(OP_NONTERM);
                 // }
              
-        else if(iStack_top() == OP_COMA)//func(,,) -> E
-        {
-            s("TRY REDUCTION func(,,) -> E\n");
-        }
+        // else if(iStack_top() == OP_COMA)//func(,,) -> E
+        // {
+        //     s("TRY REDUCTION func(,,) -> E\n");
+        // }
         printStacks();
     }
         
@@ -549,14 +583,12 @@ void analysis()
                 printf("LESSER: Ttype %d\n",TOKENTYPE);
                 if(TOKENTYPE != OP_NONTERM)
                 {
-                    
                     iStack_push(OP_LESSER);
                     iStack_push(TOKENTYPE);
-                    printStacks();//tok;line;return;
-                    // s("***************************************************\n");
+                    printStacks();
                 }
                 
-                else// if(iStack_top() == OP_NONTERM)
+                else
                 {//E -> <E+
                         iStack_pop();
                         iStack_push(OP_LESSER);
@@ -574,34 +606,30 @@ void analysis()
             
             case SIGN_GREATER:
             printf("GREATER: Ttype %d\n",TOKENTYPE);
-                //<OP -> E                    
-                //newly created E op E
-                    simple_reduction();
+                simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
-                    
-                    if( TOKENTYPE == OP_RROUND)
+                    if( TOKENTYPE == OP_RROUND)//add ) to the stack
+                    {
                         iStack_push(OP_RROUND);
+                        printStacks();
+                    }
                     else if(iStack_top() == OP_NONTERM)//E -> <E+
                     {
-                        // return;
                         iStack_pop();
-                        iStack_push(OP_LESSER);
+                        if(TOKENTYPE != OP_COMA)//if coma, do not insert less sign
+                            iStack_push(OP_LESSER);
                         iStack_push(OP_NONTERM);
                         iStack_push(TOKENTYPE);
                         printStacks();
                         break;
                     }
-                    // helper = iStack_pop();
-                    // iStack_push(OP_LESSER);//(<+
-                    // iStack_push(TOKENTYPE);
                 }
                 break;
             
             case SIGN_EQUALS:
             printf("EQUALS Ttype %s\n",token->data);
-            line;
-            iStack_push(TOKENTYPE);
+            iStack_push(TOKENTYPE);//simply add according symbol
             break;
             
             default:
@@ -609,26 +637,26 @@ void analysis()
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();                    
-                    line;
-                    return;
+                    break;
                 }
-            
+            break;
             
             
             
         }
         end++;
-        // if(iStack->top == -1)
-        // break;
         
         if(token->type != TOKEN_SEM_CL)
         {
             token = get_token();
-            
         }
         
-        if(token->type == TOKEN_SEM_CL && iStack->top == 0)break;
-        if(end>20)break;
+        if(token->type == TOKEN_SEM_CL && iStack->top == 0)
+        {
+            s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
+            break;//finished expression
+        }
+        if(end>40)break;
     }
 }
 
