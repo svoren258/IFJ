@@ -149,8 +149,8 @@ Ttoken *get_token(){
 	
 	if(ungetTokenIndex < tokenStack->top && (ungetTokenIndex > -1))
 	{
-		// printf("next token is unget ");
-		// return getTokenFromStack();
+		printf("next token is unget %s\n",token->data);
+		return getTokenFromStack();
 	}
 	
 	int state = STATE_INIT;

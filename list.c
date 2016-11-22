@@ -18,12 +18,12 @@ void Error() {
     errflg = TRUE;                      /* globální proměnná -- příznak chyby */
 }
 
-TListItem insertInstruction(TList* list, int operation, void* ad1, void* ad2, void* ad3)
-{
-	TElem * ins;
-	ins = PostInsert( list, operation, ad1, ad2, ad3);
-	return ins;
-}
+// TListItem insertInstruction(TList* list, int operation, void* ad1, void* ad2, void* ad3)
+// {
+// 	TElem * ins;
+// 	ins = PostInsert( list, operation, ad1, ad2, ad3);
+// 	return ins;
+// }
 
 void InitList (TList *L) {
 
@@ -174,10 +174,40 @@ void PostDelete (TList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
-	//if no active item exists EXIT
+void insert_instruction(TList *L, struct TElem new)
+{
 	if(!L->Act)
 		return;
+		
+	// new->operation = op;
+	// new->add1 = add1;
+	// new->add2 = add2;
+	// new->add3 = add3;
+	new->next = L->Act->next;
+	L->Act->next = new;
+}
+
+TListItem create_instruction(op,void * add1,void * add2,void * add3)
+{
+	if(!L->Act)
+		return;
+		
+	struct TElem *new = NULL;
+	if((new = malloc(sizeof(struct TElem))) == NULL)
+	{
+		//unsuccessful malloc, exit function
+		Error();
+		return;
+	}
+	
+	new->operation = op;
+	new->add1 = add1;
+	new->add2 = add2;
+	new->add3 = add3;
+}
+TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
+	//if no active item exists EXIT
+	
 
 	//create a helper variable to free the space
 	struct TElem *new = NULL;

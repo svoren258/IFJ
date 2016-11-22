@@ -48,7 +48,7 @@ enum{
     
     OP_LROUND,//10
     OP_RROUND,//11
-    OP_FUNCTION,//12
+    OP_FUNC,//12
     OP_I,//13
     OP_COMA,//14
     OP_DOLAR,//15

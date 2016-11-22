@@ -23,7 +23,7 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 /*>= */{'<','<','<','<','<','<','<','>','>','>','<','>','<','<','<','>'},//7
 /*== */{'<','<','<','<','<','<','<','<','>','<','<','>','<','<','<','>'},//8
 /*!= */{'<','<','<','<','<','<','<','<','<','<','<','>','<','<','<','>'},//9
-/* ( */{'<','<','<','<','<','<','<','<','<','<','=','=','<','<','=','$'},//10
+/* ( */{'<','<','<','<','<','<','<','<','<','<','<','=','<','<','=','$'},//10
 /* ) */{'>','>','>','>','>','>','>','>','>','>','$','>','$','$','>','>'},//11
 /*fun*/{'$','$','$','$','$','$','$','$','$','$','=','$','$','$','$','$'},//12
 /* i */{'>','>','>','>','>','>','>','>','>','>','$','>','>','$','>','>'},//13
@@ -35,7 +35,8 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 
 TStack *oStack;
 TIStack * iStack;
-Ttoken *token;
+Ttoken *token, *helper;
+int TOKENTYPE;
 int operands = 0,
     operators = 0;
 
@@ -147,6 +148,14 @@ void printStacks()
                 s("$");
                 break;
                 
+                case OP_COMA:
+                s(",");
+                break;
+                
+                case OP_FUNC:
+                s("func");
+                break;
+                
                 default:break;
                 
                 // OP_MINUS,//1
@@ -209,39 +218,66 @@ void generator(){
 }
 
 int simple_reduction()
-{
-    s("TRY REDUCTION %d\n");
-    
-    if(iStack_top() == OP_RROUND)//(E) -> E
+{s("REDUCTION BEGIN\n");
+    if(iStack_top() == OP_I)//ID -> E
     {
+        s("TRY REDUCTION ID -> E\n");
+        iStack_pop();
+        if(iStack_top() == OP_LESSER)
+        {
+            iStack_pop();
+            iStack_push(OP_NONTERM);
+        }
+        printStacks();
+    } 
+    
+    
+    if(iStack_top() == OP_RROUND)
+    {
+        s("TRY REDUCTION (E) -> E\n");
         iStack_pop();
         if(iStack_top() == OP_NONTERM)
+        {
             iStack_pop();
             if(iStack_top() == OP_LROUND)
+            {
                 iStack_pop();
-                if(iStack_top() == OP_LESSER)
+                if(iStack_top() == OP_LESSER)//(E) -> E
                 {
                     iStack_pop();
                     iStack_push(OP_NONTERM);
                 }
-                    
-    // printf("%d\n",iStack_pop());
-    // printf("%d\n",iStack_pop());
-    //     if(iStack->data[iStack_top() - 1] == OP_NONTERM)
-    //     {ks;
-            
-    //         if(iStack->data[iStack_top() - 2] == OP_LROUND)
-    //             {
-                    
-    //                 iStack_pop();
-    //                 iStack_pop();
-    //                 iStack_pop();
-    //                 iStack_push(OP_NONTERM);
-    //             }
-    //     }
+                else if(iStack_top() == OP_FUNC)//func(par) -> E
+                {
+                    iStack_pop();//func
+                    iStack_pop();//<
+                    iStack_push(OP_NONTERM);
+                }
+            }
+        }
+        else if(iStack_top() == OP_LROUND)//func() -> E
+        {
+            s("TRY REDUCTION func() -> E\n");
+            iStack_pop();//<
+            iStack_pop();//(
+            iStack_pop();//func
+            iStack_push(OP_NONTERM);
+        }
+                // else if (iStack_top() == OP_LROUND)
+                // {
+                //     iStack_push(OP_NONTERM);
+                // }
+             
+        else if(iStack_top() == OP_COMA)//func(,,) -> E
+        {
+            s("TRY REDUCTION func(,,) -> E\n");
+        }
+        printStacks();
     }
-    if(iStack_top() == OP_NONTERM)
+        
+    if(iStack_top() == OP_NONTERM)//<E op E -> E
     {
+        s("TRY REDUCTION <E op E -> E\n");
         iStack_pop();//E
         switch(iStack_top())
         {
@@ -254,6 +290,7 @@ int simple_reduction()
                 iStack_pop();//E
                 iStack_pop();//<
                 iStack_push(OP_NONTERM);
+                printStacks();
                 return TRUE;
             default:
                 iStack_push(OP_NONTERM);
@@ -298,9 +335,9 @@ TVariable *generate_var(int assign)
 
 int tokenToType(Ttoken *token)
 {
-    if(isFunctionCall())return OP_FUNCTION;
-    if(isFunctionFullNameCall())return OP_FUNCTION;
-    if(isFullNameVar())return OP_I;
+    // if(isFunctionCall())return OP_FUNCTION;
+    // if(isFunctionFullNameCall())return OP_FUNCTION;
+    // if(isFullNameVar())return OP_I;
     switch(token->type)
     {
         case TOKEN_PLUS: 
@@ -331,12 +368,45 @@ int tokenToType(Ttoken *token)
             return OP_LROUND;
         case TOKEN_R_ROUND:
             return OP_RROUND;
+        case TOKEN_ID:
+            token = get_token();
+            if(token->type == TOKEN_L_ROUND )
+            {
+                unget_token(1);
+                return OP_FUNC;
+            } 
+            else if(token->type == TOKEN_DOT )
+            {
+                token = get_token();
+                if( token->type == TOKEN_ID )
+                {
+                    token = get_token();
+                    if(token->type == TOKEN_L_ROUND)
+                    {
+                        unget_token(1);
+                        return OP_FUNC;
+                    }
+                    unget_token(1);
+                    return OP_I;
+                }
+                else
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
+                }
+            }
+            else
+            {
+                unget_token(1);
+                return OP_I;
+            }
+            
+            
         case TOKEN_INT:
         case TOKEN_DOUBLE:
         case TOKEN_STRING:
         case TOKEN_DOUBLE_E:
         case TOKEN_E:
-        case TOKEN_ID:
             return OP_I;
         break;
     }
@@ -346,120 +416,115 @@ int tokenToType(Ttoken *token)
      return 0;
 }
 
-int compare_priority(int stackTop, Ttoken * token)
+int compare_priority(int stackTop)
 {
-    // if(iStack->top < 0)
-        // return SIGN_DOLAR;
-//   printf("%c\n", precedence_table[ tokenToType(stackTop(opStack)) ][ tokenToType(token) ] );
-    if( precedence_table[ stackTop ][ tokenToType(token) ] == '$' )
+    // printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
+    if( precedence_table[ stackTop ][ TOKENTYPE ] == '$' )
     {
-        printStacks();
-        pint(stackTop);
-        pint(tokenToType(token));
         return SIGN_FAIL;
     }
     
-    if( precedence_table[ stackTop ][ tokenToType(token) ] == '>' )
+    if( precedence_table[ stackTop ][ TOKENTYPE ] == '>' )
         return SIGN_GREATER;
-    else if( precedence_table[ stackTop ][ tokenToType(token) ] == '<' )
+    else if( precedence_table[ stackTop ][ TOKENTYPE ] == '<' )
         return SIGN_LESSER; 
     else return SIGN_EQUALS;
 }
 
 
 
-int isFunctionCall()
-{
-    if(token->type != TOKEN_ID)
-    {
-        unget_token(1);
-        return FALSE;
+// int isFunctionCall()
+// {
+//     if(token->type != TOKEN_ID)
+//     {
+//         unget_token(1);
+//         return FALSE;
         
-    }
+//     }
         
-    token = get_token();
-    if(token->type != TOKEN_L_ROUND)
-    {
-        unget_token(2);
-        return FALSE;
-    }   
-    unget_token(2);
-    return OP_FUNCTION;
+//     token = get_token();
+//     if(token->type != TOKEN_L_ROUND)
+//     {
+//         unget_token(2);
+//         return FALSE;
+//     }   
+//     unget_token(2);
+//     return OP_FUNCTION;
         
-}
+// }
 
-int isFunctionFullNameCall()
-{   
-    if(token->type != TOKEN_ID)
-    {
-        unget_token(1);
-        return FALSE;
-    }
+// int isFunctionFullNameCall()
+// {   
+//     if(token->type != TOKEN_ID)
+//     {
+//         unget_token(1);
+//         return FALSE;
+//     }
         
     
-    token = get_token();
-    if(token->type != TOKEN_DOT)
-    {
-        unget_token(2);
-        return FALSE;
-    }
+//     token = get_token();
+//     if(token->type != TOKEN_DOT)
+//     {
+//         unget_token(2);
+//         return FALSE;
+//     }
         
         
-    token = get_token();
-    if(token->type != TOKEN_ID)
-    {
-        unget_token(3);
-        return FALSE;
-    }
+//     token = get_token();
+//     if(token->type != TOKEN_ID)
+//     {
+//         unget_token(3);
+//         return FALSE;
+//     }
         
         
-    token = get_token();
-    if(token->type != TOKEN_L_ROUND)
-    {
-        unget_token(4);
-        return FALSE;        
-    }
+//     token = get_token();
+//     if(token->type != TOKEN_L_ROUND)
+//     {
+//         unget_token(4);
+//         return FALSE;        
+//     }
 
    
-    unget_token(4);
-    return OP_FUNCTION;
-}
+//     unget_token(4);
+//     return OP_FUNCTION;
+// }
 
-int isFullNameVar()
-{
-    if(token->type != TOKEN_ID)
-    {
-        unget_token(1);
-        return FALSE;
-    }
+// int isFullNameVar()
+// {
+//     if(token->type != TOKEN_ID)
+//     {
+//         unget_token(1);
+//         return FALSE;
+//     }
         
     
-    token = get_token();
-    if(token->type != TOKEN_DOT)
-    {
-        unget_token(2);
-        return FALSE;
-    }
+//     token = get_token();
+//     if(token->type != TOKEN_DOT)
+//     {
+//         unget_token(2);
+//         return FALSE;
+//     }
         
         
-    token = get_token();
-    if(token->type != TOKEN_ID)
-    {
-        unget_token(3);
-        return FALSE;
-    }
+//     token = get_token();
+//     if(token->type != TOKEN_ID)
+//     {
+//         unget_token(3);
+//         return FALSE;
+//     }
         
         
-    token = get_token();
-    if(token->type == TOKEN_L_ROUND)
-    {
-        unget_token(4);
-        return FALSE;        
-    }
-    unget_token(4);
-    return OP_I;
+//     token = get_token();
+//     if(token->type == TOKEN_L_ROUND)
+//     {
+//         unget_token(4);
+//         return FALSE;        
+//     }
+//     unget_token(4);
+//     return OP_I;
     
-}
+// }
 
 void analysis()
 {
@@ -468,19 +533,27 @@ void analysis()
     token = get_token();
     while( 1 )
     {
-        
-        // printStacks();
-        printf("\ntok= %s  itop= %d\n\n",token->data, iStack_top_term());
-        switch(compare_priority(iStack_top_term(), token))
+        helper = token;
+        TOKENTYPE = tokenToType(token);
+        token = helper;
+
+        // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
+        // if(TOKENTYPE!=token->type);
+        printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
+        // printf("%c\n",precedence_table[iStack_top_term()][TOKENTYPE]);
+        switch(compare_priority(iStack_top_term()))
         {
             case SIGN_LESSER:
-                printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
-                //id -> E
                 
-                if(tokenToType(token) != OP_NONTERM)
+                //id -> E
+                printf("LESSER: Ttype %d\n",TOKENTYPE);
+                if(TOKENTYPE != OP_NONTERM)
                 {
+                    
                     iStack_push(OP_LESSER);
-                    iStack_push(tokenToType(token));
+                    iStack_push(TOKENTYPE);
+                    printStacks();//tok;line;return;
+                    // s("***************************************************\n");
                 }
                 
                 else// if(iStack_top() == OP_NONTERM)
@@ -488,7 +561,7 @@ void analysis()
                         iStack_pop();
                         iStack_push(OP_LESSER);
                         iStack_push(OP_NONTERM);
-                        iStack_push(tokenToType(token));
+                        iStack_push(TOKENTYPE);
                 }
                 //
                 if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING)
@@ -496,29 +569,18 @@ void analysis()
                     TVariable *var = generate_var(1);
                     stackPush(oStack, var);
                 }
-                printStacks();
             
             break;
             
             case SIGN_GREATER:
-            printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
-                //ID -> E
-                if(iStack_top() == OP_I)
-                {
-                    iStack_pop();
-                    if(iStack_top() == OP_LESSER)
-                    {
-                        iStack_pop();
-                        iStack_push(OP_NONTERM);
-                    }
-                } 
+            printf("GREATER: Ttype %d\n",TOKENTYPE);
+                //<OP -> E                    
                 //newly created E op E
                     simple_reduction();
-                    printStacks();
                 if(token->type != TOKEN_SEM_CL)
                 {
                     
-                    if( tokenToType(token) == OP_RROUND)
+                    if( TOKENTYPE == OP_RROUND)
                         iStack_push(OP_RROUND);
                     else if(iStack_top() == OP_NONTERM)//E -> <E+
                     {
@@ -526,25 +588,25 @@ void analysis()
                         iStack_pop();
                         iStack_push(OP_LESSER);
                         iStack_push(OP_NONTERM);
-                        iStack_push(tokenToType(token));
+                        iStack_push(TOKENTYPE);
                         printStacks();
                         break;
                     }
                     // helper = iStack_pop();
                     // iStack_push(OP_LESSER);//(<+
-                    // iStack_push(tokenToType(token));
+                    // iStack_push(TOKENTYPE);
                 }
-                printStacks();
                 break;
             
             case SIGN_EQUALS:
-            printf("LINE:%d Ttype %d\n",__LINE__,tokenToType(token));
+            printf("EQUALS Ttype %s\n",token->data);
             line;
-            iStack_push(tokenToType(token));
+            iStack_push(TOKENTYPE);
             break;
             
             default:
-                if(iStack->top == 1 && iStack_top() == OP_NONTERM)
+            printf("FAIL TTYPE\n");
+                if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();                    
                     line;
@@ -556,8 +618,8 @@ void analysis()
             
         }
         end++;
-        if(iStack->top == -1)
-        break;
+        // if(iStack->top == -1)
+        // break;
         
         if(token->type != TOKEN_SEM_CL)
         {
@@ -565,8 +627,8 @@ void analysis()
             
         }
         
-        
-        if(end>10)break;
+        if(token->type == TOKEN_SEM_CL && iStack->top == 0)break;
+        if(end>20)break;
     }
 }
 
@@ -575,7 +637,7 @@ void expression(TVariable *var)
     printf("***EXPRESSION***\n");
     oStack = stackInit();
     iStack_init();
-    
+    helper = malloc(sizeof(Ttoken));
     // if(isFunctionCall())
     //     line;
     // else if(isFunctionFullNameCall())
