@@ -20,8 +20,6 @@
 
 #include "lex.h"
 
-
-
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
 #define line printf("***FILE: %s  LINE: %d***\n",__FILE__, __LINE__)

@@ -16,7 +16,7 @@
 #include "expression.h"
 
 
-#include "interpret.h"
+//#include "interpret.h"
 // #include "list.h"
 
 
@@ -38,7 +38,8 @@ void Declaration(tTablePtr table, Ttoken *token);
 TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type);
 TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType);
 void params(tTablePtr fTable, Ttoken *token, int numOfParam);
-void if_statement(Ttoken *token, tTablePtr table);
+void ifelse_statement(tTablePtr table);
+void block_body(Ttoken *token);
 
 /*--------------------automat-----------------------*/
 
