@@ -36,6 +36,9 @@ typedef struct {
 } TList;
                                                    /* Funkce pro implementaci */
                                                /* Functions to be implemented */
+void insert_instruction(TList *L, TListItem new);
+TListItem create_instruction(int op,void * add1,void * add2,void * add3);
+
 void InitList (TList *);
 void DisposeList (TList *);
 void InsertFirst (TList *, int);

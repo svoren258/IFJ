@@ -162,7 +162,7 @@ void PostDelete (TList *L) {
 	del = L->Act->next;
 
 	//redirect pointer of the current active item to the next one
-	L->Act->next = L->Act->next->next
+	L->Act->next = L->Act->next->next;
 	free(del);
 /* 
 ** Zruší prvek seznamu L za aktivním prvkem a uvolní jím používanou paměť.
@@ -174,7 +174,7 @@ void PostDelete (TList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void insert_instruction(TList *L, TListItem)
+void insert_instruction(TList *L, TListItem new)
 {
 	if(!L->Act)
 		return;
@@ -186,6 +186,7 @@ void insert_instruction(TList *L, TListItem)
 	new->next = L->Act->next;
 	L->Act->next = new;
 }
+
 
 TListItem create_instruction(int op, void * add1,void * add2,void * add3)
 {

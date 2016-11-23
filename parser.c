@@ -7,6 +7,7 @@
 
 #include "parser.h"
 
+
 tTablePtr funcContext;
 tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
@@ -792,7 +793,10 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
 
         TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
         TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
+
         insert_instruction(table->data.f->list, cmp);
+
+
 
         //create_ins(ins_lab, NULL, NULL, NULL);
     }
