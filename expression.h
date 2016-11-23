@@ -9,6 +9,7 @@
 #define EXPRESSION_H
 #include "defs.h"
 #include "lex.h"
+#include "parser.h"
 // #include "stack.h"
 
 // #include "ial.h"

@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 
+#include "defs.h"
 #include "ial.h"
 #include "lex.h"
 #include "parser.h"
@@ -33,9 +34,9 @@ int main(int argc, char **argv)
 	}
 
 	lexStart();
-    // parse();
-    TVariable *var = NULL;
-    expression(var);
+    parse();
+    // TVariable *var = NULL;
+    // expression(var);
     
     
     lexFinish();

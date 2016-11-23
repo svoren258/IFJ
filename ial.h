@@ -17,6 +17,8 @@ enum{
 	NODE_TYPE_FUNCTION,
 	NODE_TYPE_VARIABLE,
 };
+
+
 typedef struct tTable *tTablePtr;
 struct tTable {
 	char *name;
@@ -42,5 +44,6 @@ void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
 void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
+
 
 #endif

@@ -33,6 +33,11 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 TStack *oStack;
 TIStack * iStack;
 Ttoken *token, *helper;
+tTablePtr globTable;
+tTablePtr exprFunc;
+tTablePtr exprClass;
+tTablePtr funcContext;
+tTablePtr classContext;
 int TOKENTYPE;
 int operands = 0,
     operators = 0;
@@ -435,6 +440,10 @@ int tokenToType(Ttoken *token)
             return OP_RROUND;
         case TOKEN_ID:
             token = get_token();
+            TVariable *var = NULL;
+            
+            char * TName = token->data;
+            exprClass = BSTSearch(globTable, token->data);//find class by name
             if(token->type == TOKEN_L_ROUND )//func(..)
             {
                 unget_token(1);
@@ -462,6 +471,15 @@ int tokenToType(Ttoken *token)
             }
             else
             {
+                if(funcContext != NULL)
+                if((var = get_var_from_table(funcContext,TName)) == NULL)
+                {
+                    if((var = get_var_from_table(classContext, TName)) == NULL)
+                    {
+                        ret_error(SEMANTIC_DEF_ERROR);
+                    }
+                }
+                // if(!var)s("*****************************************************\n");
                 unget_token(1);//var
                 return OP_I;
             }
@@ -476,7 +494,7 @@ int tokenToType(Ttoken *token)
         break;
     }
 
-    tok;    
+    // printf("%s %d \n",token->data, token->type);
     line;
     ret_error(SYNTAX_ERROR);
      return 0;
@@ -594,7 +612,7 @@ void analysis()
             break;
             
             default:
-            printf("FAIL TTYPE\n");
+            printf("SWITCH DEFAULT TTYPE\n");
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
