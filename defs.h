@@ -15,6 +15,10 @@
 #include "ial.h"
 #include "list.h"
 #include "stack.h"
+#include "error.h"
+
+#include "lex.h"
+#include "stack.h"
 
 
 

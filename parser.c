@@ -6,6 +6,9 @@
 /********************************************************************/
 
 #include "parser.h"
+#include "expression.h"
+#include "defs.h"
+#include "interpret.h"
 
 
 tTablePtr funcContext;
@@ -132,20 +135,22 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
         BSTInsert(&table->Root, &loc_table, tokenName);
     }
     loc_table->type = NODE_TYPE_FUNCTION;
-    //loc_table->name = tokenName;
 
-    //BSTInit(&loc_table);
-    //BSTInsert(&table, &loc_table, tokenName);
 
-    //TStack *stack = stackInit();
+//    TStack *stack = stackInit();
+
+
+//    TList *list;
+//    InitList(list);
+//    InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
 
     //f->stack = stack;
     /*assign the table to the function*/
-    //f->table = loc_table;
     f->defined = 0;
     f->name = tokenName;
     f->params[0] = FUNCTYPE_NULL;
     f->className = table->name;
+    //f->list = list;
 
     loc_table->data.f = f;
 
@@ -192,29 +197,29 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
 }
 
-void store_function(/*stack*/TFunction *f, tTablePtr table) {
-    tTablePtr new_func;
-    BSTInit(&new_func);
-
-    BSTInsert(&table, &new_func, f->name);
-    stackPush(gStack, f);
-}
-
-void store_variable(/*stack*/TVariable *v, tTablePtr table) {
-
-    tTablePtr node;
-    node = BSTSearch(table, v->name);
-    if (node == NULL) {
-        tTablePtr new_var;
-        BSTInit(&new_var);
-        BSTInsert(&table, &new_var, v->name);
-        new_var->data.v = v;
-    } else {
-        tTablePtr node = BSTSearch(table, v->name);
-        node->data.v = v;
-    }
-
-}
+//void store_function(/*stack*/TFunction *f, tTablePtr table) {
+//    tTablePtr new_func;
+//    BSTInit(&new_func);
+//
+//    BSTInsert(&table, &new_func, f->name);
+//    stackPush(gStack, f);
+//}
+//
+//void store_variable(/*stack*/TVariable *v, tTablePtr table) {
+//
+//    tTablePtr node;
+//    node = BSTSearch(table, v->name);
+//    if (node == NULL) {
+//        tTablePtr new_var;
+//        BSTInit(&new_var);
+//        BSTInsert(&table, &new_var, v->name);
+//        new_var->data.v = v;
+//    } else {
+//        tTablePtr node = BSTSearch(table, v->name);
+//        node->data.v = v;
+//    }
+//
+//}
 
 
 /*--------------------automat-----------------------*/
@@ -598,9 +603,13 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                     }
 
                 } else {
+
+                    printf("nacitany token pred unget: %s\n", token->data);
                     unget_token(1);
+
+                    //printf("nacitany token za unget: %s\n", token->data);
                     printf("tablename: %s\n", fTable->name);
-                    printf("tokenID: %s\n", token_varID->data);
+                    printf("token_varID: %s\n", token_varID->data);
                     node = BSTSearch(fTable->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
                     if (node == NULL) {
 
@@ -791,10 +800,10 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         }
         expression(var);
 
-        TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
-        TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
-
-        insert_instruction(table->data.f->list, cmp);
+//        TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
+//        TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
+//
+//        insert_instruction(table->data.f->list, cmp);
 
 
 

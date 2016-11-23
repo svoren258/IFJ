@@ -10,7 +10,7 @@
 #include "defs.h"
 #include "lex.h"
 // #include "stack.h"
-#include "error.h"
+
 // #include "ial.h"
 
 #define TABLESIZE 17

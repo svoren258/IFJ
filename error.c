@@ -6,6 +6,7 @@
 /********************************************************************/
 
 #include "error.h"
+#include "defs.h"
 Ttoken * token;
 void ret_error(int error){
     switch(error)

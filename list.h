@@ -41,7 +41,7 @@ TListItem create_instruction(int op,void * add1,void * add2,void * add3);
 
 void InitList (TList *);
 void DisposeList (TList *);
-void InsertFirst (TList *, int);
+void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3);
 void First (TList *);
 void CopyFirst (TList *, int *);
 void DeleteFirst (TList *);
@@ -52,7 +52,5 @@ void Copy (TList *, int *);
 void Actualize (TList *, int);
 int  Active (TList *);
 //TListItem insertInstruction(TList*, int op, void* add1, void* add2, void* add3);
-void insert_instruction(TList *L, TListItem);
-TListItem create_instruction(int op, void * add1,void * add2,void * add3);
 
 #endif

@@ -1,4 +1,3 @@
-
 /********************************************************************/
 /*Projekt:Implementace interpretu imperativního jazyka IFJ16        */
 /*Jména řešitelů: Sebastián Kisela, Ondrej Svoreň, Daniel Rudík,    */
@@ -6,22 +5,18 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 /*Syntactic analysis*/
+#ifndef ParserDefs
+#define ParserDefs
 #include "defs.h"
 #include "ial.h"
 #include "lex.h"
-
-#include "error.h"
-#include "list.h"
-#include "stack.h"
-#include "interpret.h"
-#include "expression.h"
-
-#include "interpret.h"
+//#include "error.h"
+//#include "list.h"
+//#include "stack.h"
 
 
 
-#ifndef ParserDefs
-#define ParserDefs
+
 
 TFunction *new_function(char *tokenName, tTablePtr table);
 TVariable *new_variable(Ttoken *token, tTablePtr table);
