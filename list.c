@@ -187,7 +187,7 @@ void insert_instruction(TList *L, TListItem)
 	L->Act->next = new;
 }
 
-TListItem create_instruction(op,void * add1,void * add2,void * add3)
+TListItem create_instruction(int op, void * add1,void * add2,void * add3)
 {
 	if(!L->Act)
 		return;

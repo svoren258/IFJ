@@ -48,7 +48,8 @@ void Succ (TList *);
 void Copy (TList *, int *);	
 void Actualize (TList *, int);
 int  Active (TList *);
-TListItem insertInstruction(TList*, int op, void* add1, void* add2, void* add3);
-
+//TListItem insertInstruction(TList*, int op, void* add1, void* add2, void* add3);
+void insert_instruction(TList *L, TListItem);
+TListItem create_instruction(int op, void * add1,void * add2,void * add3);
 
 #endif

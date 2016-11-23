@@ -6,12 +6,9 @@
 /********************************************************************/
 
 #include "parser.h"
-#include "error.h"
-#include "list.h"
-#include "stack.h"
 
-tTablePtr classContext;
 tTablePtr funcContext;
+tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
 tTablePtr builtInTable; //tabulka s vstavanymi funkciami
 Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok get_token();
@@ -793,9 +790,9 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         }
         expression(var);
 
-        TListItem label = create_instruction(ins_label, NULL, NULL, NULL);
-        TListItem cmp = create_instruction(ins_jcmp, var, NULL, label);
-        insertInstruction(table->data.f->list, cmp);
+        TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
+        TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
+        insert_instruction(table->data.f->list, cmp);
 
         //create_ins(ins_lab, NULL, NULL, NULL);
     }
