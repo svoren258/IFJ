@@ -7,8 +7,8 @@
 
 #include "parser.h"
 #include "expression.h"
-#include "defs.h"
-#include "interpret.h"
+//#include "defs.h"
+//#include "interpret.h"
 
 
 tTablePtr funcContext;
@@ -587,13 +587,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             printf("som za expr\n");
                             //unget_token(1);
                         }
-//                        node = BSTSearch(tableOfClass, token_varID);
-//                        if((tableOfClass->defined == 1) && (strcmp(context->name, tableOfClass->name))){
-//                            if(node == NULL){
-//                                ret_error(SEMANTIC_DEF_ERROR);
-//                            }
-//                        }
-                        //token = get_token();
+
                         printf("nacitany token: %s\n", token->data);
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
@@ -800,6 +794,12 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         }
         expression(var);
 
+        token = get_token();
+        if(token->type != TOKEN_L_CURLY){
+            ret_error(SYNTAX_ERROR);
+        }
+
+
 //        TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
 //        TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
 //
@@ -809,6 +809,246 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
 
         //create_ins(ins_lab, NULL, NULL, NULL);
     }
+
+//void analysis(Ttoken *token){
+//    while (token->type != TOKEN_R_CURLY) {
+//        printf("som vo while\n");
+////        switch (token->type) {  //volanie funkcii alebo priradovanie hodnot do premennych
+////            case TOKEN_TYPE:
+////                //deklaracie a definicie lokalnych premennych
+////                printf("som v switchi case token_type\n");
+////                char *type = token->data;
+////
+////                token = get_token();
+////                printf("nacitany token: %s\n", token->data);
+////                if (token->type != TOKEN_ID) {
+////                    ret_error(SYNTAX_ERROR);
+////                }
+////
+////                token_varID = token;
+////
+////                printf("tablename: %s\n", fTable->name);
+////
+////                printf("tokenID: %s\n", token_varID->data);
+////                if ((BSTSearch(fTable->Root, token_varID->data))) {
+////                    ret_error(SEMANTIC_DEF_ERROR);
+////                }
+////
+////                v = variableDecl(fTable, token_varID, type);
+////                printf("som za variableDecl v token_type\n");
+////                v->declared = 1;
+////
+////                //token = get_token();
+////                //printf("nacitany token: %s\n", token->data);
+////                break;
+//
+//            case TOKEN_ID:
+//                printf("som v switchi case token_id\n");
+//                token_varID = token;
+//                node = NULL;
+//                token = get_token();
+//                printf("nacitany token: %s\n", token->data);
+//                if (token->type == TOKEN_DOT) {
+//                    char *className = token_varID->data;
+//                    tTablePtr tableOfClass;
+//                    if (!(strcmp(className, "ifj16"))) {
+//                        tableOfClass = create_class_table(className, builtInTable);
+//                        //tableOfClass->type = NODE_TYPE_CLASS;
+//                        printf("som v builtInTable\n");
+//                    } else {
+//                        tableOfClass = create_class_table(className, globTable);
+//                        //tableOfClass->type = NODE_TYPE_CLASS;
+//                        printf("som v classTable\n");
+//                    }
+//                    token = get_token();
+//                    printf("nacitany token: %s\n", token->data);
+//                    if (token->type != TOKEN_ID) {
+//                        ret_error(SYNTAX_ERROR);
+//                    }
+//                    token_varID = token;
+//
+//                    token = get_token();
+//                    printf("nacitany token: %s\n", token->data);
+//                    if (token->type == TOKEN_ASSIGN) {
+//                        unget_token(1);
+//                        printf("tablename: %s\n", tableOfClass->name);
+//                        printf("token_varID: %s\n", token_varID->data);
+//                        printf("som pred variableDecl\n");
+//                        variableDecl(tableOfClass, token_varID, NULL);
+//                        printf("som za variableDecl a nacitany token je: %s\n", token->data);
+//                        //unget_token(1);
+//                        //token = get_token();
+//                        if (token->type != TOKEN_SEM_CL) {
+//                            ret_error(SYNTAX_ERROR);
+//                        }
+//                    } else if (token->type == TOKEN_L_ROUND) {
+//                        printf("som vo vetve func\n");
+//                        printf("nazov hladanej funkcie: %s\n", token_varID->data);
+//                        printf("nazov tabulky: %s\n", tableOfClass->name);
+//                        node = BSTSearch(tableOfClass->Root, token_varID->data);
+//                        printf("som za BSTSearch\n");
+//
+//                        if ((node == NULL) && (!(strcmp(tableOfClass->name, builtInTable->name)))) {
+//                            ret_error(SEMANTIC_DEF_ERROR);
+//                        } else if ((node == NULL) && (strcmp(tableOfClass->name, builtInTable->name))) {
+//                            printf("nacitany token: %s\n", token->data);
+//                            TFunction *f = new_function(token_varID->data, tableOfClass);
+//                            printf("function name: %s\n", f->name);
+//                            f->declared = 1;
+//                            //node = BSTSearch(tableOfClass->Root, token_varID->data);
+//                            //node->data.f = f;
+//                            //node->type = NODE_TYPE_FUNCTION;
+//
+//                            unget_token(4);
+//
+//                            expression(NULL);
+//                            //unget_token(1);
+//                        } else {
+//                            unget_token(4);
+//
+//                            expression(NULL);
+//                            printf("som za expr\n");
+//                            //unget_token(1);
+//                        }
+//
+//                        printf("nacitany token: %s\n", token->data);
+//                        if (token->type != TOKEN_SEM_CL) {
+//                            ret_error(SYNTAX_ERROR);
+//                        }
+//                    } else {
+//                        ret_error(SYNTAX_ERROR);
+//                    }
+//
+//                } else {
+//
+//                    printf("nacitany token pred unget: %s\n", token->data);
+//                    unget_token(1);
+//
+//                    //printf("nacitany token za unget: %s\n", token->data);
+//                    printf("tablename: %s\n", fTable->name);
+//                    printf("token_varID: %s\n", token_varID->data);
+//                    node = BSTSearch(fTable->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+//                    if (node == NULL) {
+//
+//                        node = BSTSearch(table->Root, token_varID->data);
+//                        if (node == NULL) {
+//
+//                            token = get_token();
+//
+//                            if (token->type == TOKEN_ASSIGN) {
+//                                unget_token(1);
+//                                variableDecl(fTable, token_varID, NULL);
+//                                unget_token(1);
+//                                token = get_token();
+//                                if (token->type != TOKEN_SEM_CL) {
+//                                    ret_error(SYNTAX_ERROR);
+//                                }
+//                            } else if (token->type == TOKEN_L_ROUND) {
+//                                TFunction *f = new_function(token_varID->data, table);
+//                                printf("function name: %s\n", f->name);
+//                                f->defined = 1;
+//                                //node = BSTSearch(table->Root, tokenID->data);
+//                                //node->data.f = f;
+//                                //node->type = NODE_TYPE_FUNCTION;
+//                                unget_token(2);
+//
+//                                expression(NULL);
+//                                unget_token(1);
+//
+//                                if (token->type != TOKEN_SEM_CL) {
+//                                    ret_error(SYNTAX_ERROR);
+//                                }
+//                            } else {
+//                                ret_error(SYNTAX_ERROR);
+//                            }
+//                        } else {
+//                            token = get_token();
+//                            if (token->type == TOKEN_ASSIGN) {
+//                                unget_token(1);
+//                                variableDecl(table, token_varID, NULL);
+//                                unget_token(1);
+//                                token = get_token();
+//                                if (token->type != TOKEN_SEM_CL) {
+//                                    ret_error(SYNTAX_ERROR);
+//                                }
+//                            } else if (token->type == TOKEN_L_ROUND) {
+//                                unget_token(2);
+//
+//                                expression(NULL);
+//                                unget_token(1);
+//                                //token = get_token();
+//                                if (token->type != TOKEN_SEM_CL) {
+//                                    ret_error(SYNTAX_ERROR);
+//                                }
+//                            } else {
+//                                ret_error(SYNTAX_ERROR);
+//                            }
+//                        }
+//                    } else {
+//                        printf("som v else\n");
+//                        token = get_token();
+//                        printf("nacitany token: %s\n", token->data);
+//                        if (token->type == TOKEN_ASSIGN) {
+//                            printf("som v assign\n");
+//                            unget_token(1);
+//                            variableDecl(fTable, token_varID, NULL);
+//                            printf("som za variableDecl a nacitany token je: %s\n", token->data);
+//                            unget_token(1);
+//                            token = get_token();
+//                            if (token->type != TOKEN_SEM_CL) {
+//                                ret_error(SYNTAX_ERROR);
+//                            }
+//                        } else if (token->type == TOKEN_L_ROUND) {
+//                            unget_token(2);
+//
+//                            expression(NULL);
+//                            unget_token(1);
+//                            token = get_token();
+//                            if (token->type != TOKEN_SEM_CL) {
+//                                ret_error(SYNTAX_ERROR);
+//                            }
+//                        } else {
+//                            ret_error(SYNTAX_ERROR);
+//                        }
+//                    }
+//                }
+//                printf("som pred breakom a mam token %s\n", token->data);
+//
+//
+//                break;
+//
+//
+//          case KEYWORD_IF:
+//                printf("nacitany token v caseIF: %s\n", token->data);
+//                if_statement(token, fTable);
+//                break;
+////        case KEYWORD_FOR:
+////            for_statement();
+////            break;
+////        case KEYWORD_WHILE:
+////            while_statement();
+////            break;
+////        case KEYWORD_BREAK:
+////            //vytvori instrukciu break
+////            break;
+////        case KEYWORD_CONTINUE:
+////            //vytvori instrukciu continue
+////            break;
+////        case KEYWORD_DO:
+////            do_statement();
+////            break;
+////        case KEYWORD_ELSE:
+////            else_statement();
+////            break;
+////        case KEYWORD_RETURN:
+////            //vytvori instrukciu return
+////            break;
+//
+//        }
+//        token = get_token();
+//        printf("nacitany token: %s\n", token->data);
+//    }
+
 
 
 /*--------------------/automat-----------------------*/

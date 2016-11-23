@@ -18,9 +18,6 @@
 #include "error.h"
 
 #include "lex.h"
-#include "stack.h"
-
-
 
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
