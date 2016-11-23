@@ -1,4 +1,3 @@
-//hlavickovy soubor pro praci s nekonecne dlouhymi retezci
 
 typedef struct
 {

@@ -22,5 +22,6 @@ enum{
     INS_JMP,    //jump
     INS_CMP,    //if the var tested has value 1 it's true
     INS_ASSIGN, // "=" assign value to the variable
-    INS_LABEL,   
+    INS_LABEL,
 };
+

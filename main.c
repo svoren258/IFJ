@@ -9,7 +9,6 @@
 #include "ial.h"
 #include "lex.h"
 #include "parser.h"
-#include "defs.h"
 
 //#define FILE_ERROR 5
 Ttoken *token;

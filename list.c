@@ -5,6 +5,7 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 #include "list.h"
+#include "interpret.h"
 
 int solved;
 int errflg;
@@ -173,6 +174,7 @@ void DeleteFirst (TList *L) {
 // ** Pokud není seznam L aktivní nebo pokud je aktivní poslední prvek seznamu L,
 // ** nic se neděje.
 // **/
+
 	
 	
 //  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
@@ -191,7 +193,8 @@ void insert_instruction(TList *L, TListItem new)
 	L->Act->next = new;
 }
 
-TListItem create_instruction(int op,void * add1,void * add2,void * add3)
+
+TListItem create_instruction(int op, void * add1, void * add2, void * add3)
 {
 		
 	struct TElem *new = NULL;

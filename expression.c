@@ -5,9 +5,6 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 #include "expression.h"
-#include "list.h"
-#include "defs.h"
-#include "error.h"
 
 tTablePtr globTable;
 
