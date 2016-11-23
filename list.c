@@ -25,11 +25,15 @@ void Error() {
 // 	return ins;
 // }
 
-void InitList (TList *L) {
+TList * InitList () {
+
+	TList * list;
+	list = malloc(sizeof(TList));
 
 	//initialize the empty list
-	L->First = NULL;
-	L->Act = NULL;
+	list->First = NULL;
+	list->Act = NULL;
+	return list;
 /*
 ** Provede inicializaci seznamu L před jeho prvním použitím (tzn. žádná
 ** z následujících funkcí nebude volána nad neinicializovaným seznamem).
@@ -67,7 +71,7 @@ void DisposeList (TList *L) {
 void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	
 	//create a pointer
-	struct TElem *first ;
+	struct TElem * first;
 	
 	//alloc space for the data
 	if((first = malloc(sizeof(struct TElem))) == NULL)
@@ -82,8 +86,8 @@ void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	first->add1 = ad1;
 	first->add2 = ad2;
 	first->add3 = ad3;
-	
 	first->next = L->First;
+
 	L->First = first;
 	
 /*
@@ -109,23 +113,23 @@ void First (TList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
-void CopyFirst (TList *L, int *val) {
-	//if the list has no active nor first item, EXIT
-	if(!L->First && !L->Act)
-	{
-		Error();
-		return;
-	}
-	//assign data to the val variable
-	*val = L->First->data;
-/*
-** Prostřednictvím parametru val vrátí hodnotu prvního prvku seznamu L.
-** Pokud je seznam L prázdný, volá funkci Error().
-**/
+// void CopyFirst (TList *L, int *val) {
+// 	//if the list has no active nor first item, EXIT
+// 	if(!L->First && !L->Act)
+// 	{
+// 		Error();
+// 		return;
+// 	}
+// 	//assign data to the val variable
+// 	*val = L->First->data;
+// /*
+// ** Prostřednictvím parametru val vrátí hodnotu prvního prvku seznamu L.
+// ** Pokud je seznam L prázdný, volá funkci Error().
+// **/
 	
 	
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
-}
+// }
 
 void DeleteFirst (TList *L) {
 	//create a helper variable that will be used to free the space
@@ -153,26 +157,26 @@ void DeleteFirst (TList *L) {
  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }	
 
-void PostDelete (TList *L) {
-	//if no active item exists, or the item after the current one does not exists, EXIT
-	if(!L->Act || !L->Act->next)
-		return;
-	//create helper variable to free space
-	TListItem del;
-	del = L->Act->next;
+// void PostDelete (TList *L) {
+// 	//if no active item exists, or the item after the current one does not exists, EXIT
+// 	if(!L->Act || !L->Act->next)
+// 		return;
+// 	//create helper variable to free space
+// 	TListItem del;
+// 	del = L->Act->next;
 
-	//redirect pointer of the current active item to the next one
-	L->Act->next = L->Act->next->next
-	free(del);
-/* 
-** Zruší prvek seznamu L za aktivním prvkem a uvolní jím používanou paměť.
-** Pokud není seznam L aktivní nebo pokud je aktivní poslední prvek seznamu L,
-** nic se neděje.
-**/
+// 	//redirect pointer of the current active item to the next one
+// 	L->Act->next = L->Act->next->next;
+// 	free(del);
+// /* 
+// ** Zruší prvek seznamu L za aktivním prvkem a uvolní jím používanou paměť.
+// ** Pokud není seznam L aktivní nebo pokud je aktivní poslední prvek seznamu L,
+// ** nic se neděje.
+// **/
 	
 	
- // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
-}
+//  // solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+// }
 
 void insert_instruction(TList *L, TListItem new)
 {
@@ -189,21 +193,22 @@ void insert_instruction(TList *L, TListItem new)
 
 TListItem create_instruction(int op,void * add1,void * add2,void * add3)
 {
-	if(!L->Act)
-		return;
 		
 	struct TElem *new = NULL;
 	if((new = malloc(sizeof(struct TElem))) == NULL)
 	{
 		//unsuccessful malloc, exit function
 		Error();
-		return;
+		ret_error(INTERNAL_ERROR);
+		return NULL;
 	}
 	
 	new->operation = op;
 	new->add1 = add1;
 	new->add2 = add2;
 	new->add3 = add3;
+
+	return new;
 }
 TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
 	//if no active item exists EXIT
@@ -215,7 +220,8 @@ TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
 	{
 		//unsuccessful malloc, exit function
 		Error();
-		return;
+		ret_error(INTERNAL_ERROR);
+		return NULL;
 	}
 	//malloc successful, assign data
 	new->operation = op;
@@ -276,7 +282,7 @@ void Succ (TList *L) {
 		return;
 	TListItem act;
 	act = L->Act;
-	L->Act = act->ptr;
+	L->Act = act->next;
 /*
 ** Posune aktivitu na následující prvek seznamu L.
 ** Všimněte si, že touto operací se může aktivní seznam stát neaktivním.

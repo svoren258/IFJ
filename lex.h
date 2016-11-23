@@ -10,7 +10,6 @@
 #include "defs.h"
 #include "error.h"
 #include "stack.h"
-#include "expression.h"
 
 extern char *keywords[];
 #define STR_LEN_INC 8
