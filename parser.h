@@ -10,9 +10,12 @@
 // #include "ial.h"
 #include "lex.h"
 
-
 #include "error.h"
 #include "expression.h"
+
+#include "interpret.h"
+
+
 
 #ifndef ParserDefs
 #define ParserDefs

@@ -6,9 +6,7 @@
 /********************************************************************/
 
 #include "parser.h"
-#include "error.h"
-#include "list.h"
-#include "stack.h"
+
 
 tTablePtr classContext;
 tTablePtr funcContext;
@@ -793,8 +791,8 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         }
         expression(var);
 
-        TListItem label = create_instruction(ins_label, NULL, NULL, NULL);
-        TListItem cmp = create_instruction(ins_jcmp, var, NULL, label);
+        TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
+        TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
         insertInstruction(table->data.f->list, cmp);
 
         //create_ins(ins_lab, NULL, NULL, NULL);
