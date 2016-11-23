@@ -22,7 +22,7 @@ FILE *file;
 TBuffer *buffer;
 TStack *tokenStack;
 int lineNumber = 1;
-int ungetTokenIndex = -1;
+int ungetTokenIndex = 0;
 
 
 //klicova slova
@@ -82,7 +82,8 @@ int  extendBuffer(TBuffer *s1, char c)
 
 void unget_token(int y)
 {
-	for(int i = y; i > 0; i--)
+	s("****Token wasu nget****\n");
+	for(int i = 0; i < y; i++)
 	{
 		if(ungetTokenIndex >= 1)
 			ungetTokenIndex--;
@@ -120,8 +121,9 @@ Ttoken * getTokenFromStack()
 		
 	// }
 	// printf("TOKENSTACK\n");
-	ungetTokenIndex++;
+	
 	token = tokenStack->data[ungetTokenIndex];
+	ungetTokenIndex++;
 	return token;
 }
 
@@ -147,10 +149,12 @@ void lexFinish()
 
 Ttoken *get_token(){
 
-	if(ungetTokenIndex < tokenStack->top && (ungetTokenIndex > -1))
+	if(ungetTokenIndex <= tokenStack->top && (ungetTokenIndex > -1))
 	{
-		printf("next token is unget %s\n",token->data);
-		return getTokenFromStack();
+		printf("****next token is unget %s*****\n",token->data);
+		token = getTokenFromStack();
+		tok;
+		return token;
 	}
 	
 	int state = STATE_INIT;
@@ -418,6 +422,7 @@ Ttoken *get_token(){
 				}
 				if( isalpha(c) )
 				{
+					line;
 					ret_error(SYNTAX_ERROR);
 				}
 				ungetc(c, file);

@@ -6,9 +6,7 @@
 /********************************************************************/
 
 #include "parser.h"
-#include "expression.h"
-#include "defs.h"
-#include "interpret.h"
+
 
 
 tTablePtr funcContext;

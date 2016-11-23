@@ -8,8 +8,9 @@
 
 #ifndef _ERROR_H
 #define _ERROR_H
-#include "defs.h"
-#include "lex.h"
+// #include "lex.h"
+// #include "defs.h"
+
 
 void ret_error(int error);
 

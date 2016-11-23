@@ -5,7 +5,6 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 #include "list.h"
-#include "interpret.h"
 
 int solved;
 int errflg;
