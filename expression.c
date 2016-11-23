@@ -537,7 +537,7 @@ int compare_priority(int stackTop)
    
     //unget_token(4);
     // return TRUE;
-}
+// }
 
 // int isFullNameVar()
 // {
@@ -694,5 +694,5 @@ void expression(TVariable *var)
 
     // }
     printf("***END EXPRESSION***\n");
-    
+    return;
 }
