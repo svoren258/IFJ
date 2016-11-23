@@ -444,10 +444,15 @@ int tokenToType(Ttoken *token)
             TName = token->data;
             token = get_token();
             TVariable *var = NULL;
+            TFunction *func = NULL;
             
             exprClass = BSTSearch(globTable, TName);//find class by name
             if(token->type == TOKEN_L_ROUND )//func(..)
             {
+                if((func = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
+                {
+                    new_function(TName, classContext);//not gonna use return value from this or???
+                }
                 unget_token(1);
                 return OP_FUNC;
             } 
@@ -456,12 +461,20 @@ int tokenToType(Ttoken *token)
                 token = get_token();
                 if( token->type == TOKEN_ID )
                 {
+                    TName = token->data;
                     token = get_token();
                     if(token->type == TOKEN_L_ROUND)
                     {
                         unget_token(1);//class.func(..)
                         return OP_FUNC;
                     }
+                    if(( var = get_var_from_table(exprClass, TName)) == NULL)//this var might be defined in another class later
+                    {
+                        token->data = TName;
+                        TVariable *new = new_variable( token, exprClass );
+                        stackPush(oStack, new);
+                    }
+                        
                     unget_token(1);////class.var
                     return OP_I;
                 }

@@ -48,6 +48,15 @@ TVariable *get_var_from_table(tTablePtr Table, char* name)
 	return NULL;
 }
 
+TFunction *get_func_from_table(tTablePtr Table, char* name)
+{
+	tTablePtr tree = BSTSearch(Table->Root, name);
+	if(tree)
+	return tree->data.f;
+	
+	return NULL;
+}
+
 void parser_init() {
 
     gStack = stackInit();
