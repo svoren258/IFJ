@@ -165,6 +165,17 @@ void BSTDelete (tTablePtr *RootPtr, char* K) 		{
 
 
 } 
+void BSTCopy (tTablePtr *dest,tTablePtr *Root)//copy from Root to dest all nodes
+{
+	BSTCopy(dest,&(*Root)->RPtr);
+	BSTCopy(dest,&(*Root)->LPtr);
+	
+	if(*Root)
+	{
+		BSTInsert(dest,Root, (*Root)->name);
+	}
+	
+}
 
 void BSTDispose (tTablePtr *RootPtr) {	
 

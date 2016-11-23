@@ -1,0 +1,424 @@
+***EXPRESSION***
+
+tok= (  itop= 15
+
+LINE:483 Ttype 10
+
+tok= 1  itop= 10
+
+LINE:483 Ttype 13
+
+tok= +  itop= 13
+
+LINE:509 Ttype 0
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( E 
+-----/iStack----
+-----oStack-----
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ -----iStack-----
+$ < ( < E + 
+-----/iStack----
+-----oStack-----
+1
+-----/oStack-----
+
+tok= (  itop= 0
+
+LINE:483 Ttype 10
+
+tok= 2  itop= 10
+
+LINE:483 Ttype 13
+
+tok= +  itop= 13
+
+LINE:509 Ttype 0
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E + < ( E 
+-----/iStack----
+-----oStack-----
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ -----iStack-----
+$ < ( < E + < ( < E + 
+-----/iStack----
+-----oStack-----
+2
+1
+-----/oStack-----
+
+tok= (  itop= 0
+
+LINE:483 Ttype 10
+
+tok= (  itop= 10
+
+LINE:536 Ttype 10
+***FILE: expression.c  LINE: 537***
+
+tok= 3  itop= 10
+
+LINE:483 Ttype 13
+
+tok= *  itop= 13
+
+LINE:509 Ttype 2
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E + < ( < E + < ( ( E 
+-----/iStack----
+-----oStack-----
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ -----iStack-----
+$ < ( < E + < ( < E + < ( ( < E * 
+-----/iStack----
+-----oStack-----
+3
+2
+1
+-----/oStack-----
+
+tok= 4  itop= 2
+
+LINE:483 Ttype 13
+
+tok= )  itop= 13
+
+LINE:509 Ttype 11
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E + < ( < E + < ( ( < E * E 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 2 E***
+-----iStack-----
+$ < ( < E + < ( < E + < ( ( E 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+
+tok= )  itop= 11
+
+LINE:509 Ttype 11
+TRY REDUCTION (E) -> E
+ -----iStack-----
+$ < ( < E + < ( < E + < ( E 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ 
+tok= *  itop= 11
+
+LINE:509 Ttype 2
+TRY REDUCTION (E) -> E
+ -----iStack-----
+$ < ( < E + < ( < E + E 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 0 E***
+-----iStack-----
+$ < ( < E + < ( E 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+-----iStack-----
+$ < ( < E + < ( < E * 
+-----/iStack----
+-----oStack-----
+4
+3
+2
+1
+-----/oStack-----
+
+tok= 2  itop= 2
+
+LINE:483 Ttype 13
+
+tok= )  itop= 13
+
+LINE:509 Ttype 11
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E + < ( < E * E 
+-----/iStack----
+-----oStack-----
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 2 E***
+-----iStack-----
+$ < ( < E + < ( E 
+-----/iStack----
+-----oStack-----
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= *  itop= 11
+
+LINE:509 Ttype 2
+TRY REDUCTION (E) -> E
+ -----iStack-----
+$ < ( < E + E 
+-----/iStack----
+-----oStack-----
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 0 E***
+-----iStack-----
+$ < ( E 
+-----/iStack----
+-----oStack-----
+2
+4
+3
+2
+1
+-----/oStack-----
+-----iStack-----
+$ < ( < E * 
+-----/iStack----
+-----oStack-----
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= (  itop= 2
+
+LINE:483 Ttype 10
+
+tok= 2  itop= 10
+
+LINE:483 Ttype 13
+
+tok= +  itop= 13
+
+LINE:509 Ttype 0
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E * < ( E 
+-----/iStack----
+-----oStack-----
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ -----iStack-----
+$ < ( < E * < ( < E + 
+-----/iStack----
+-----oStack-----
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= 3  itop= 0
+
+LINE:483 Ttype 13
+
+tok= )  itop= 13
+
+LINE:509 Ttype 11
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E * < ( < E + E 
+-----/iStack----
+-----oStack-----
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 0 E***
+-----iStack-----
+$ < ( < E * < ( E 
+-----/iStack----
+-----oStack-----
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= +  itop= 11
+
+LINE:509 Ttype 0
+TRY REDUCTION (E) -> E
+ -----iStack-----
+$ < ( < E * E 
+-----/iStack----
+-----oStack-----
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 2 E***
+-----iStack-----
+$ < ( E 
+-----/iStack----
+-----oStack-----
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+-----iStack-----
+$ < ( < E + 
+-----/iStack----
+-----oStack-----
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= 3  itop= 0
+
+LINE:483 Ttype 13
+
+tok= )  itop= 13
+
+LINE:509 Ttype 11
+TRY REDUCTION ID -> E
+ -----iStack-----
+$ < ( < E + E 
+-----/iStack----
+-----oStack-----
+3
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ ***REDUCTION:E 0 E***
+-----iStack-----
+$ < ( E 
+-----/iStack----
+-----oStack-----
+3
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+
+tok= ;  itop= 11
+
+LINE:509 Ttype 15
+TRY REDUCTION (E) -> E
+ -----iStack-----
+$ E 
+-----/iStack----
+-----oStack-----
+3
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+TRY REDUCTION <E op E -> E
+ 
+tok= ;  itop= 15
+
+***FILE: expression.c  LINE: 545***
+-----iStack-----
+$ 
+-----/iStack----
+-----oStack-----
+3
+3
+2
+2
+4
+3
+2
+1
+-----/oStack-----
+***END EXPRESSION***
