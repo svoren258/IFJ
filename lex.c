@@ -314,7 +314,7 @@ Ttoken *get_token(){
 				if( c == '<' )
 				{
 					extendBuffer(buffer, c);
-					state = STATE_LESSER;
+					state = STATE_LESS;
 					break;
 				}
 				
@@ -606,7 +606,7 @@ Ttoken *get_token(){
 				break;
 			}
 			
-			case STATE_LESSER:
+			case STATE_LESS:
 			{
 				if( c == '=' )
 				{
@@ -617,7 +617,7 @@ Ttoken *get_token(){
 					return token;
 				}
 				ungetc(c, file);
-				token->type = TOKEN_LESSER;
+				token->type = TOKEN_LESS;
 				token->data = buffer->data;
 				pushToken(token);
 				return token;
