@@ -22,7 +22,7 @@ FILE *file;
 TBuffer *buffer;
 TStack *tokenStack;
 int lineNumber = 1;
-int ungetTokenIndex = 0;
+int ungetTokenIndex = -1;
 
 
 //klicova slova
@@ -47,49 +47,45 @@ int isKeyword(TBuffer *buffer)
     return -1;
 }
 
-TBuffer *bufferInit()
+int bufferInit()
 {
-
-    TBuffer * buffer = malloc(sizeof(TBuffer));
-    if(!buffer)
-    {
-        ret_error(INTERNAL_ERROR);
-    }
-	
-	buffer->data = NULL;
-    buffer->capacity = 1;
-    buffer->used = 0;
-    return buffer;
+	buffer = malloc(sizeof(TBuffer));
+    if ((buffer->data = (char*) malloc(STR_LEN_INC)) == NULL)
+      return STR_ERROR;
+   buffer->data[0] = '\0';
+   buffer->used = 0;
+   buffer->capacity = STR_LEN_INC;
+   return STR_SUCCESS;
 }
 
-TBuffer * extendBuffer(TBuffer *buffer, char c)
+void bufferClear(TBuffer *s)
+// funkce vymaze obsah retezce
 {
-	char* temp = realloc(buffer->data,  buffer->capacity );
-	if(!temp)
-	{
-		line;
-		ret_error(INTERNAL_ERROR);
-	}
-		
-    buffer->data = temp;
-    if(!buffer)
-    {
-        // line;
-        ret_error(INTERNAL_ERROR);
-    }
-
-    buffer->data[buffer->used] = c;
-    buffer->capacity++;
-    buffer->used++;
-    return buffer;
+   s->data[0] = '\0';
+   s->used = 0;
 }
 
-void unget_token(int i)
+int  extendBuffer(TBuffer *s1, char c)
 {
-	for(i = i; i > 0; i--)
+	if (s1->used + 1 >= s1->capacity)
+   {
+      // pamet nestaci, je potreba provest realokaci
+      if ((s1->data = (char*) realloc(s1->data, s1->used + STR_LEN_INC)) == NULL)
+         return STR_ERROR;
+      s1->capacity = s1->used + STR_LEN_INC;
+   }
+   s1->data[s1->used] = c;
+   s1->used++;
+   s1->data[s1->used] = '\0';
+   return STR_SUCCESS;
+}
+
+void unget_token(int y)
+{
+	for(int i = y; i > 0; i--)
 	{
 		if(ungetTokenIndex >= 1)
-			ungetTokenIndex--;	
+			ungetTokenIndex--;
 	}
 	
 }
@@ -110,11 +106,12 @@ void pushToken(Ttoken * token)
 		return;
 	}
 	stackPush(tokenStack, token);
+	
 }
 
 Ttoken * getTokenFromStack()
 {
-	// printf("index:%d\n",ungetTokenIndex);
+	// printf("Ungetindex:%d\n",ungetTokenIndex);
 	// printf("TOKENSTACK\n");
 	// for(int i = tokenStack->top; i >= 0; i--)
 	// {
@@ -123,8 +120,8 @@ Ttoken * getTokenFromStack()
 		
 	// }
 	// printf("TOKENSTACK\n");
-	token = tokenStack->data[ungetTokenIndex];
 	ungetTokenIndex++;
+	token = tokenStack->data[ungetTokenIndex];
 	return token;
 }
 
@@ -136,7 +133,7 @@ void lexStart()
 	if(!token)		
 		token = malloc(sizeof(Ttoken));
 	if(!buffer)
-		buffer = bufferInit();
+		bufferInit();
 }
 
 void lexFinish()
@@ -149,11 +146,10 @@ void lexFinish()
 }
 
 Ttoken *get_token(){
-
-
-
-	if(ungetTokenIndex <= tokenStack->top)
+	
+	if(ungetTokenIndex < tokenStack->top && (ungetTokenIndex > -1))
 	{
+		printf("next token is unget %s\n",token->data);
 		return getTokenFromStack();
 	}
 	
@@ -168,7 +164,7 @@ Ttoken *get_token(){
 	// 	free(buffer);	
 	// }
 	token = malloc(sizeof(Ttoken));
-	buffer = bufferInit(buffer);
+	bufferInit(buffer);
 	
 	
 	
@@ -576,7 +572,7 @@ Ttoken *get_token(){
 			{
 				if( c == '\n' || c == EOF )
 				{
-					buffer = bufferInit(buffer);
+					bufferClear(buffer);
 					state = STATE_INIT;
 					break;
 				}
@@ -597,7 +593,7 @@ Ttoken *get_token(){
 			{
 				if( c == '/' )
 				{
-					buffer = bufferInit(buffer);
+					bufferClear(buffer);
 					state = STATE_INIT;
 					break;
 				}

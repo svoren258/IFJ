@@ -1,1 +1,1 @@
-(1 + (2 - 3)) < ((5*4 / 4)( + "string" ++var  func() + fullfunc.func() + fullvar.fullvar );
+245 / d.a > f.a(4,(3+5)*2,6,5,2,4,5);

@@ -13,6 +13,9 @@
 #include "expression.h"
 
 extern char *keywords[];
+#define STR_LEN_INC 8
+#define STR_ERROR   1
+#define STR_SUCCESS 0
 
 typedef struct{
 	char *data;
@@ -29,7 +32,7 @@ typedef struct{
 
 Ttoken *getTokenFromStack();
 Ttoken *get_token();
-TBuffer *extendBuffer(TBuffer*, char);
+int extendBuffer(TBuffer*, char);
 int isKeyword(TBuffer*);
 void lexFinish();
 void lexStart();
