@@ -12,7 +12,6 @@
 #include "interpret.h"
 
 
-
 tTablePtr funcContext;
 tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
@@ -142,7 +141,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 
 //    TStack *stack = stackInit();
     printf("som pred listom\n");
-    if((strcmp(table->name, "ifj16"))){
+    if ((strcmp(table->name, "ifj16"))) {
         TList *list;
         list = InitList(&list);
         InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
@@ -240,6 +239,7 @@ void starter() {
 
             tTablePtr table = create_class_table(token->data, globTable);
             classContext = table;
+            funcContext = NULL;
             tTablePtr node = BSTSearch(globTable, token->data);
             if (node->defined == 1) {
                 ret_error(SEMANTIC_DEF_ERROR);
@@ -581,15 +581,15 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             unget_token(4);
 
                             expression(NULL);
-                            //unget_token(1);
+
                         } else {
                             unget_token(4);
 
                             expression(NULL);
                             printf("som za expr\n");
-                            //unget_token(1);
-                        }
 
+                        }
+                        token = get_token();
                         printf("nacitany token: %s\n", token->data);
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
@@ -633,7 +633,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                                 unget_token(2);
 
                                 expression(NULL);
-                                unget_token(1);
+                                token = get_token();
 
                                 if (token->type != TOKEN_SEM_CL) {
                                     ret_error(SYNTAX_ERROR);
@@ -655,7 +655,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                                 unget_token(2);
 
                                 expression(NULL);
-                                unget_token(1);
+                                token = get_token();
                                 //token = get_token();
                                 if (token->type != TOKEN_SEM_CL) {
                                     ret_error(SYNTAX_ERROR);
@@ -682,8 +682,8 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             unget_token(2);
 
                             expression(NULL);
-                            unget_token(1);
                             token = get_token();
+                            printf("nacitany token: %s\n", token->data);
                             if (token->type != TOKEN_SEM_CL) {
                                 ret_error(SYNTAX_ERROR);
                             }
@@ -698,15 +698,16 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
             }
             case KEYWORD_IF: {
                 printf("nacitany token v caseIF: %s\n", token->data);
-                if_statement(token, fTable);
+                ifelse_statement(fTable);
                 break;
             }
 //        case KEYWORD_FOR:
 //            for_statement();
 //            break;
-//        case KEYWORD_WHILE:
-//            while_statement();
-//            break;
+//            case KEYWORD_WHILE: {
+//                while_statement(token, fTable);
+//                break;
+//            }
 //        case KEYWORD_BREAK:
 //            //vytvori instrukciu break
 //            break;
@@ -716,14 +717,12 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 //        case KEYWORD_DO:
 //            do_statement();
 //            break;
-//        case KEYWORD_ELSE:
-//            else_statement();
-//            break;
+
 //        case KEYWORD_RETURN:
 //            //vytvori instrukciu return
 //            break;
-          default:
-              ret_error(SYNTAX_ERROR);
+            default:
+                ret_error(SYNTAX_ERROR);
         }
         token = get_token();
         printf("nacitany token: %s\n", token->data);
@@ -787,9 +786,16 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
 
 }
 
-void if_statement(Ttoken *token, tTablePtr table) {
+void ifelse_statement(tTablePtr table) {
     printf("som v if_statement\n");
+
     TVariable *var = malloc(sizeof(TVariable));
+
+    TListItem endIf = create_instruction(INS_LABEL, NULL, NULL, NULL);
+    TListItem endElse = create_instruction(INS_LABEL, NULL, NULL, NULL);
+    TListItem cmp = create_instruction(INS_JCMP, var, NULL, endIf);
+    TListItem jmp = create_instruction(INS_JMP, NULL, NULL, endElse);
+
     token = get_token();
     printf("nacitany token: %s\n", token->data);
     if (token->type != TOKEN_L_ROUND) {
@@ -798,19 +804,49 @@ void if_statement(Ttoken *token, tTablePtr table) {
     expression(var);
 
     token = get_token();
-    if (token->type != TOKEN_L_CURLY) {
+    if(token->type != TOKEN_R_ROUND){
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
-    block_body(token);
-
-
-    TListItem label = create_instruction(INS_LABEL, NULL, NULL, NULL);
-    TListItem cmp = create_instruction(INS_JCMP, var, NULL, label);
+    if (token->type != TOKEN_L_CURLY) {
+        ret_error(SYNTAX_ERROR);
+    }
 
     insert_instruction(table->data.f->list, cmp);
 
+    token = get_token();
+
+    block_body(token);
+
+    insert_instruction(table->data.f->list, jmp);
+
+
+    token = get_token();
+    if(token->type != KEYWORD_ELSE){
+        ret_error(SYNTAX_ERROR);
+    }
+    token = get_token();
+    if(token->type != TOKEN_L_CURLY){
+        ret_error(SYNTAX_ERROR);
+    }
+    token = get_token();
+
+    insert_instruction(table->data.f->list, endIf);
+
+    block_body(token);
+
+    insert_instruction(table->data.f->list, endElse);
 }
+
+//void while_statement(tTablePtr table){
+//TVariable *var = malloc(sizeof(TVariable));
+//token = get_token();
+//printf("nacitany token: %s\n", token->data);
+//if (token->type != TOKEN_L_ROUND) {
+//ret_error(SYNTAX_ERROR);
+//}
+//expression(var);
+//}
 
 
 
@@ -881,13 +917,16 @@ void block_body(Ttoken *token) {
                             unget_token(4);
 
                             expression(NULL);
-                            //unget_token(1);
+                            token = get_token();
+                            if (token->type != TOKEN_SEM_CL) {
+                                ret_error(SYNTAX_ERROR);
+                            }
                         } else {
                             unget_token(4);
 
                             expression(NULL);
                             printf("som za expr\n");
-                            //unget_token(1);
+                            token = get_token();
                         }
 
                         printf("nacitany token: %s\n", token->data);
@@ -933,7 +972,7 @@ void block_body(Ttoken *token) {
                                 unget_token(2);
 
                                 expression(NULL);
-                                unget_token(1);
+                                token = get_token();
 
                                 if (token->type != TOKEN_SEM_CL) {
                                     ret_error(SYNTAX_ERROR);
@@ -955,8 +994,8 @@ void block_body(Ttoken *token) {
                                 unget_token(2);
 
                                 expression(NULL);
-                                unget_token(1);
-                                //token = get_token();
+
+                                token = get_token();
                                 if (token->type != TOKEN_SEM_CL) {
                                     ret_error(SYNTAX_ERROR);
                                 }
@@ -982,7 +1021,7 @@ void block_body(Ttoken *token) {
                             unget_token(2);
 
                             expression(NULL);
-                            unget_token(1);
+
                             token = get_token();
                             if (token->type != TOKEN_SEM_CL) {
                                 ret_error(SYNTAX_ERROR);
@@ -996,7 +1035,7 @@ void block_body(Ttoken *token) {
                 break;
             }
             case KEYWORD_IF: {
-                if_statement(token, funcContext);
+                ifelse_statement(funcContext);
                 break;
             }
             default:
