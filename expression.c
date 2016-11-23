@@ -298,15 +298,6 @@ int simple_reduction()
             iStack_pop();//func
             iStack_push(OP_NONTERM);
         }
-                // else if (iStack_top() == OP_LROUND)
-                // {
-                //     iStack_push(OP_NONTERM);
-                // }
-             
-        // else if(iStack_top() == OP_COMA)//func(,,) -> E
-        // {
-        //     s("TRY REDUCTION func(,,) -> E\n");
-        // }
         printStacks();
     }
         
@@ -479,101 +470,6 @@ int compare_priority(int stackTop)
     else return SIGN_EQUALS;
 }
 
-
-
-// int isFunctionCall()
-// {
-//     if(token->type != TOKEN_ID)
-//     {
-//         unget_token(1);
-//         return FALSE;
-        
-//     }
-        
-//     token = get_token();
-//     if(token->type != TOKEN_L_ROUND)
-//     {
-//         unget_token(2);
-//         return FALSE;
-//     }   
-//     unget_token(2);
-//     return OP_FUNCTION;
-        
-// }
-
-// int isFunctionFullNameCall()
-// {   
-//     if(token->type != TOKEN_ID)
-//     {
-//         unget_token(1);
-//         return FALSE;
-//     }
-        
-    
-//     token = get_token();
-//     if(token->type != TOKEN_DOT)
-//     {
-//         unget_token(2);
-//         return FALSE;
-//     }
-        
-        
-//     token = get_token();
-//     if(token->type != TOKEN_ID)
-//     {
-//         unget_token(3);
-//         return FALSE;
-//     }
-        
-        
-//     token = get_token();
-//     if(token->type != TOKEN_L_ROUND)
-//     {
-//         unget_token(4);
-//         return FALSE;        
-//     }
-
-   
-    //unget_token(4);
-    // return TRUE;
-// }
-
-// int isFullNameVar()
-// {
-//     if(token->type != TOKEN_ID)
-//     {
-//         unget_token(1);
-//         return FALSE;
-//     }
-        
-    
-//     token = get_token();
-//     if(token->type != TOKEN_DOT)
-//     {
-//         unget_token(2);
-//         return FALSE;
-//     }
-        
-        
-//     token = get_token();
-//     if(token->type != TOKEN_ID)
-//     {
-//         unget_token(3);
-//         return FALSE;
-//     }
-        
-        
-//     token = get_token();
-//     if(token->type == TOKEN_L_ROUND)
-//     {
-//         unget_token(4);
-//         return FALSE;        
-//     }
-//     unget_token(4);
-//     return OP_I;
-    
-// }
-
 void analysis()
 {
     // int helper;
@@ -635,12 +531,12 @@ void analysis()
                 simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
-                    if( TOKENTYPE == OP_RROUND && brackets != -1)//add ) to the stack
+                    if( TOKENTYPE == OP_RROUND && brackets > -1)//add ) to the stack
                     {
                         iStack_push(OP_RROUND);
                         printStacks();
                     }
-                    else if(iStack_top() == OP_NONTERM && brackets != -1)//E -> <E+
+                    else if(iStack_top() == OP_NONTERM && brackets > -1)//E -> <E+
                     {
                         iStack_pop();
                         if(TOKENTYPE != OP_COMA)//if coma, do not insert less sign
@@ -650,7 +546,11 @@ void analysis()
                         printStacks();
                         break;
                     }
-                }line;
+                    else if(iStack_top() == OP_NONTERM && brackets == -1)
+                    {
+                        iStack_pop();
+                    }
+                }
                 break;
             
             case SIGN_EQUALS:
@@ -680,10 +580,6 @@ void analysis()
                 break;
             token = get_token();
         }
-        //  else if(token->type != TOKEN_R_ROUND || brackets >= 0)
-        // {
-        //     token = get_token();
-        // }
         
         if(( (token->type == TOKEN_SEM_CL) || (brackets==-1) ) && iStack->top == 0)
         {
@@ -696,23 +592,16 @@ void analysis()
 
 void expression(TVariable *var)
 {
-    printf("***EXPRESSION***\n");
+    printf("**********************EXPRESSION**********************\n");
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
-    // if(isFunctionCall())
-    //     line;
-    // else if(isFunctionFullNameCall())
-    // {
-    //     line;
-    // }
-    // else
-    // {
+
         analysis();
         unget_token(1);
         printStacks();
 
     // }
-    printf("***END EXPRESSION***\n");
+    printf("********************END EXPRESSION*******************************\n");
     return;
 }
