@@ -69,48 +69,45 @@ void parser_init() {
 //    readStringNode->data.f->params[0] = FUNCTYPE_STRING;
 //    readStringNode->type = NODE_TYPE_FUNCTION;
 //
-    TFunction *f = new_function("print", builtInTable);
-    //BSTInit();
-    //BSTInsert();
-    //tTablePtr printNode = BSTSearch(builtInTable->Root, "print");
-    f->numOfParams = 0;
-    f->params[0] = FUNCTYPE_VOID;
-    f->defined = 1;
+    TFunction *print = new_function("print", builtInTable);
+    print->numOfParams = 0;
+    print->params[0] = FUNCTYPE_VOID;
+    print->defined = 1;
 
-//
-//    tTablePtr lengthNode = create_class_table("length", builtInTable);
-//    lengthNode->data.f->numOfParams = 1;
-//    lengthNode->data.f->params[0] = FUNCTYPE_INT;
-//    lengthNode->data.f->params[1] = VARTYPE_STRING;
-//    lengthNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr substrNode = create_class_table("substr", builtInTable);
-//    substrNode->data.f->numOfParams = 3;
-//    substrNode->data.f->params[0] = FUNCTYPE_STRING;
-//    substrNode->data.f->params[1] = VARTYPE_STRING;
-//    substrNode->data.f->params[2] = VARTYPE_INTEGER;
-//    substrNode->data.f->params[3] = VARTYPE_INTEGER;
-//    substrNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr compareNode = create_class_table("compare", builtInTable);
-//    compareNode->data.f->numOfParams = 2;
-//    compareNode->data.f->params[0] = FUNCTYPE_INT;
-//    compareNode->data.f->params[1] = VARTYPE_STRING;
-//    compareNode->data.f->params[2] = VARTYPE_STRING;
-//    compareNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr findNode = create_class_table("find", builtInTable);
-//    findNode->data.f->numOfParams = 2;
-//    findNode->data.f->params[0] = FUNCTYPE_INT;
-//    findNode->data.f->params[1] = VARTYPE_STRING;
-//    findNode->data.f->params[2] = VARTYPE_STRING;
-//    findNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr sortNode = create_class_table("sort", builtInTable);
-//    sortNode->data.f->numOfParams = 1;
-//    sortNode->data.f->params[0] = FUNCTYPE_STRING;
-//    sortNode->data.f->params[1] = VARTYPE_STRING;
-//    sortNode->type = NODE_TYPE_FUNCTION;
+
+    TFunction *length = new_function("length", builtInTable);
+    length->numOfParams = 1;
+    length->params[0] = FUNCTYPE_INT;
+    length->params[1] = VARTYPE_STRING;
+    length->defined = 1;
+
+    TFunction *substr = new_function("substr", builtInTable);
+    substr->numOfParams = 3;
+    substr->params[0] = FUNCTYPE_STRING;
+    substr->params[1] = VARTYPE_STRING;
+    substr->params[2] = VARTYPE_INTEGER;
+    substr->params[3] = VARTYPE_INTEGER;
+    substr->defined = 1;
+
+    TFunction *compare = new_function("compare", builtInTable);
+    compare->numOfParams = 2;
+    compare->params[0] = FUNCTYPE_INT;
+    compare->params[1] = VARTYPE_STRING;
+    compare->params[2] = VARTYPE_STRING;
+    compare->defined = 1;
+
+    TFunction *find = new_function("find", builtInTable);
+    find->numOfParams = 2;
+    find->params[0] = FUNCTYPE_INT;
+    find->params[1] = VARTYPE_STRING;
+    find->params[2] = VARTYPE_STRING;
+    find->defined = 1;
+
+    TFunction *sort = new_function("sort", builtInTable);
+    sort->numOfParams = 1;
+    sort->params[0] = FUNCTYPE_STRING;
+    sort->params[1] = VARTYPE_STRING;
+    sort->defined = 1;
 
 }
 
@@ -704,10 +701,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 //        case KEYWORD_FOR:
 //            for_statement();
 //            break;
-//            case KEYWORD_WHILE: {
-//                while_statement(token, fTable);
-//                break;
-//            }
+            case KEYWORD_WHILE: {
+                while_statement(fTable);
+                break;
+            }
 //        case KEYWORD_BREAK:
 //            //vytvori instrukciu break
 //            break;
@@ -718,9 +715,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 //            do_statement();
 //            break;
 
-//        case KEYWORD_RETURN:
-//            //vytvori instrukciu return
-//            break;
+        case KEYWORD_RETURN: {
+            return_statement(fTable);
+            break;
+        }
             default:
                 ret_error(SYNTAX_ERROR);
         }
@@ -801,13 +799,18 @@ void ifelse_statement(tTablePtr table) {
     if (token->type != TOKEN_L_ROUND) {
         ret_error(SYNTAX_ERROR);
     }
+    printf("som v ife pred expr\n");
     expression(var);
+    printf("som v ife za expr\n");
+
 
     token = get_token();
-    if(token->type != TOKEN_R_ROUND){
+    printf("nacitany token: %s\n", token->data);
+    if (token->type != TOKEN_R_ROUND) {
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
+    printf("nacitany token: %s\n", token->data);
     if (token->type != TOKEN_L_CURLY) {
         ret_error(SYNTAX_ERROR);
     }
@@ -815,6 +818,7 @@ void ifelse_statement(tTablePtr table) {
     insert_instruction(table->data.f->list, cmp);
 
     token = get_token();
+    printf("nacitany token: %s\n", token->data);
 
     block_body(token);
 
@@ -822,11 +826,11 @@ void ifelse_statement(tTablePtr table) {
 
 
     token = get_token();
-    if(token->type != KEYWORD_ELSE){
+    if (token->type != KEYWORD_ELSE) {
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
-    if(token->type != TOKEN_L_CURLY){
+    if (token->type != TOKEN_L_CURLY) {
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
@@ -838,17 +842,61 @@ void ifelse_statement(tTablePtr table) {
     insert_instruction(table->data.f->list, endElse);
 }
 
-//void while_statement(tTablePtr table){
-//TVariable *var = malloc(sizeof(TVariable));
-//token = get_token();
-//printf("nacitany token: %s\n", token->data);
-//if (token->type != TOKEN_L_ROUND) {
-//ret_error(SYNTAX_ERROR);
-//}
-//expression(var);
-//}
+void while_statement(tTablePtr table) {
+    printf("som vo while_statement\n");
+    TVariable *var = malloc(sizeof(TVariable));
 
+    TListItem startWhile = create_instruction(INS_LABEL, NULL, NULL, NULL);
+    TListItem endWhile = create_instruction(INS_LABEL, NULL, NULL, NULL);
+    TListItem cmp = create_instruction(INS_JCMP, var, NULL, endWhile);
+    TListItem jmp = create_instruction(INS_JMP, NULL, NULL, startWhile);
 
+    token = get_token();
+    printf("nacitany token: %s\n", token->data);
+    if (token->type != TOKEN_L_ROUND) {
+        ret_error(SYNTAX_ERROR);
+    }
+    printf("som pred expr vo while_statement\n");
+    expression(var);
+    printf("som za expr vo while_statement\n");
+    token = get_token();
+    printf("nacitany token: %s\n", token->data);
+    if (token->type != TOKEN_R_ROUND) {
+        ret_error(SYNTAX_ERROR);
+    }
+    token = get_token();
+    printf("nacitany token: %s\n", token->data);
+    if (token->type != TOKEN_L_CURLY) {
+        ret_error(SYNTAX_ERROR);
+    }
+
+    insert_instruction(table->data.f->list, startWhile);
+
+    insert_instruction(table->data.f->list, cmp);
+
+    token = get_token();
+    printf("nacitany token: %s\n", token->data);
+
+    block_body(token);
+
+    insert_instruction(table->data.f->list, jmp);
+
+    insert_instruction(table->data.f->list, endWhile);
+
+}
+
+void return_statement(tTablePtr table){
+    printf("som v return_statement\n");
+    TListItem lab = create_instruction(INS_LABEL, NULL, NULL, NULL);
+    TListItem ret = create_instruction(INS_RET, NULL, NULL, lab);
+
+    insert_instruction(table->data.f->list, ret);
+
+    token = get_token();
+    if(token->type != TOKEN_SEM_CL){
+        ret_error(SYNTAX_ERROR);
+    }
+}
 
 void block_body(Ttoken *token) {
     tTablePtr node;
@@ -1036,6 +1084,14 @@ void block_body(Ttoken *token) {
             }
             case KEYWORD_IF: {
                 ifelse_statement(funcContext);
+                break;
+            }
+            case KEYWORD_WHILE: {
+                while_statement(funcContext);
+                break;
+            }
+            case KEYWORD_RETURN: {
+                return_statement(funcContext);
                 break;
             }
             default:

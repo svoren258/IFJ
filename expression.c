@@ -555,7 +555,7 @@ void analysis()
             
             case SIGN_GREATER:
             printf("GREATER: Ttype %d\n",TOKENTYPE);
-                if( brackets >= 0 )
+//                if( brackets >= 0 )
                     simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {

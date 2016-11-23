@@ -40,6 +40,8 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType);
 void params(tTablePtr fTable, Ttoken *token, int numOfParam);
 void ifelse_statement(tTablePtr table);
 void block_body(Ttoken *token);
+void while_statement(tTablePtr table);
+void return_statement(tTablePtr table);
 
 /*--------------------automat-----------------------*/
 

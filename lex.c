@@ -140,7 +140,6 @@ void lexStart()
 
 void lexFinish()
 {
-	
 	free(buffer);
 	free(token);
 	free(tokenStack);
@@ -149,6 +148,7 @@ void lexFinish()
 
 Ttoken *get_token(){
 
+	printf("som v get_token\n");
 	if(ungetTokenIndex <= tokenStack->top && (ungetTokenIndex > -1))
 	{
 		printf("****next token is unget %s*****\n",token->data);
