@@ -324,6 +324,7 @@ int simple_reduction()
         }
         else
         {
+            line;
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
@@ -405,6 +406,7 @@ TVariable *generate_var(int assign)
 
 int tokenToType(Ttoken *token)
 {
+    char * TName;
     // if(isFunctionCall())return OP_FUNCTION;
     // if(isFunctionFullNameCall())return OP_FUNCTION;
     // if(isFullNameVar())return OP_I;
@@ -439,11 +441,11 @@ int tokenToType(Ttoken *token)
         case TOKEN_R_ROUND:
             return OP_RROUND;
         case TOKEN_ID:
+            TName = token->data;
             token = get_token();
             TVariable *var = NULL;
             
-            char * TName = token->data;
-            exprClass = BSTSearch(globTable, token->data);//find class by name
+            exprClass = BSTSearch(globTable, TName);//find class by name
             if(token->type == TOKEN_L_ROUND )//func(..)
             {
                 unget_token(1);
@@ -469,16 +471,19 @@ int tokenToType(Ttoken *token)
                     ret_error(SYNTAX_ERROR);
                 }
             }
-            else
+            else//var
             {
-                if(funcContext != NULL)
-                if((var = get_var_from_table(funcContext,TName)) == NULL)
+                
+                if(funcContext != NULL){
+                if((var = get_var_from_table(funcContext, TName)) == NULL)
                 {
                     if((var = get_var_from_table(classContext, TName)) == NULL)
                     {
+                        line;
                         ret_error(SEMANTIC_DEF_ERROR);
                     }
-                }
+                    // printf("%s\n",TName);line;line;
+                }}
                 // if(!var)s("*****************************************************\n");
                 unget_token(1);//var
                 return OP_I;
@@ -573,7 +578,7 @@ void analysis()
             
             case SIGN_GREATER:
             printf("GREATER: Ttype %d\n",TOKENTYPE);
-                if( brackets >= 0 )
+                // if( brackets >= 0 )
                     simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
