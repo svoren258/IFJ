@@ -54,15 +54,24 @@ enum
 typedef struct new_func TFunction;
 struct new_func
 {
-	char *params[MAX_PARAMS_COUNT];
+	int params[MAX_PARAMS_COUNT];
 	char *className;
 	char *name;
 	int defined;
 	int numOfParams;
 	TStack *stack;
 	TList *list;
-	struct tTable *table;
+	//struct tTable *table;
 	
+};
+
+enum{
+    FUNCTYPE_NULL,
+    FUNCTYPE_INT,
+    FUNCTYPE_DOUBLE,
+    FUNCTYPE_STRING,
+    FUNCTYPE_BOOLEAN,
+    FUNCTYPE_VOID,
 };
 
 enum{

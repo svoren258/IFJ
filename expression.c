@@ -535,9 +535,9 @@ int compare_priority(int stackTop)
 //     }
 
    
-//     unget_token(4);
-//     return OP_FUNCTION;
-// }
+    //unget_token(4);
+    // return TRUE;
+}
 
 // int isFullNameVar()
 // {

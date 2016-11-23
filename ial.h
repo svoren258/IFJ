@@ -20,7 +20,8 @@ enum{
 typedef struct tTable *tTablePtr;
 struct tTable {
 	char *name;
-	char *type;
+	int type;
+    int defined;
 	union
 	{
 		struct new_func *f;
