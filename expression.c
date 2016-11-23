@@ -275,6 +275,7 @@ int simple_reduction()
                     }
                     else
                     {
+                        line;
                         ret_error(SYNTAX_ERROR);
                     }
                     iStack_pop();
@@ -579,13 +580,19 @@ void analysis()
 {
     // int helper;
     int end = 0;
+    int brackets = 0;
     token = get_token();
     while( 1 )
     {
         helper = token;
         TOKENTYPE = tokenToType(token);
         token = helper;
-
+        if(TOKENTYPE == TOKEN_L_ROUND)
+            brackets++;
+        if(TOKENTYPE == TOKEN_R_ROUND)
+            brackets--;
+        if(brackets < 0)
+            return;
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
         printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
@@ -690,6 +697,7 @@ void expression(TVariable *var)
     // else
     // {
         analysis();
+        unget_token(1);
         printStacks();
 
     // }
