@@ -13,20 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ifj" afterPath="$PROJECT_DIR$/ifj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/error.c" afterPath="$PROJECT_DIR$/error.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/error.h" afterPath="$PROJECT_DIR$/error.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.h" afterPath="$PROJECT_DIR$/expression.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lex.c" afterPath="$PROJECT_DIR$/lex.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lex.h" afterPath="$PROJECT_DIR$/lex.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/list.c" afterPath="$PROJECT_DIR$/list.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/list.h" afterPath="$PROJECT_DIR$/list.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.h" afterPath="$PROJECT_DIR$/parser.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/string.h" afterPath="$PROJECT_DIR$/string.h" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,14 +35,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6912">
-              <caret line="609" column="22" selection-start-line="609" selection-start-column="22" selection-end-line="609" selection-end-column="22" />
-              <folding>
-                <element signature="e#427#446#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="103">
+              <caret line="801" column="8" selection-start-line="801" selection-start-column="8" selection-end-line="801" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -70,11 +57,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="list.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/list.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="177" column="11" selection-start-line="177" selection-start-column="5" selection-end-line="177" selection-end-column="11" />
+              <folding>
+                <element signature="e#426#443#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="list.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/list.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+            <state relative-caret-position="189">
+              <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -110,24 +109,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lex.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lex.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lex.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
+            <state relative-caret-position="1330">
               <caret line="149" column="24" selection-start-line="149" selection-start-column="24" selection-end-line="149" selection-end-column="24" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="error.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/error.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
-              <folding>
-                <element signature="e#461#478#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -170,7 +157,6 @@
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/expression.h" />
         <option value="$PROJECT_DIR$/Makefile" />
-        <option value="$PROJECT_DIR$/list.h" />
         <option value="$PROJECT_DIR$/expression.c" />
         <option value="$PROJECT_DIR$/error.c" />
         <option value="$PROJECT_DIR$/list.c" />
@@ -179,8 +165,9 @@
         <option value="$PROJECT_DIR$/string.h" />
         <option value="$PROJECT_DIR$/lex.h" />
         <option value="$PROJECT_DIR$/defs.h" />
-        <option value="$PROJECT_DIR$/parser.c" />
         <option value="$PROJECT_DIR$/lex.c" />
+        <option value="$PROJECT_DIR$/list.h" />
+        <option value="$PROJECT_DIR$/parser.c" />
       </list>
     </option>
   </component>
@@ -462,12 +449,12 @@
       <workItem from="1479726224397" duration="14015000" />
       <workItem from="1479741327051" duration="19450000" />
       <workItem from="1479817085126" duration="17069000" />
-      <workItem from="1479899902920" duration="6938000" />
+      <workItem from="1479899902920" duration="7250000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="232033000" />
+    <option name="totallyTimeSpent" value="232345000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -547,9 +534,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-          <folding>
-            <element signature="e#427#446#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -600,9 +585,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-          <folding>
-            <element signature="e#427#446#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -710,14 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/list.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ial.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="774">
@@ -740,16 +715,8 @@
           <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
           <folding>
             <element signature="e#487#504#0" expanded="false" />
-            <marker date="1479904981001" expanded="true" signature="496:602" ph="..." />
+            <marker date="1479907087094" expanded="true" signature="496:602" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/list.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -821,16 +788,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parser.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6912">
-          <caret line="609" column="22" selection-start-line="609" selection-start-column="22" selection-end-line="609" selection-end-column="22" />
-          <folding>
-            <element signature="e#427#446#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lex.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-36">
@@ -841,8 +798,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lex.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
+        <state relative-caret-position="1330">
           <caret line="149" column="24" selection-start-line="149" selection-start-column="24" selection-end-line="149" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/list.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="177" column="11" selection-start-line="177" selection-start-column="5" selection-end-line="177" selection-end-column="11" />
+          <folding>
+            <element signature="e#426#443#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/list.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="801" column="8" selection-start-line="801" selection-start-column="8" selection-end-line="801" selection-end-column="8" />
           <folding />
         </state>
       </provider>

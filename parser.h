@@ -16,7 +16,7 @@
 
 
 
-
+#include "list.h"
 
 TFunction *new_function(char *tokenName, tTablePtr table);
 TVariable *new_variable(Ttoken *token, tTablePtr table);
