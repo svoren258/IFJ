@@ -38,7 +38,7 @@ enum{
     OP_MUL,//2
     OP_DIV,//3
 
-    OP_LESSER,//4
+    OP_LESS,//4
     OP_LEQUAL,//5
     OP_GREATER,//6
     OP_GREQUAL,//7
@@ -54,8 +54,8 @@ enum{
     OP_DOLAR,//15
     
     OP_NONTERM,//16
-    R_LESSER,
-    SIGN_LESSER,//17
+    R_LESS,
+    SIGN_LESS,//17
     SIGN_GREATER,//18
     SIGN_EQUALS,//19
     SIGN_FAIL,//20

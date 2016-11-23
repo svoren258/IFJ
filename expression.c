@@ -56,7 +56,7 @@ int iStack_top_term()
     for(int i = iStack->top; i >= 0; i--)
     {
         b = iStack->data[i];
-        if(  (b != SIGN_LESSER  ) && (b != SIGN_EQUALS) && (b != SIGN_GREATER) && (b != OP_NONTERM))
+        if(  (b != SIGN_LESS  ) && (b != SIGN_EQUALS) && (b != SIGN_GREATER) && (b != OP_NONTERM))
         return (b);
     }
     
@@ -137,7 +137,7 @@ void printStacks()
                 s("E");
                 break;
                 
-                case R_LESSER:
+                case R_LESS:
                 s("<");
                 break;
                 
@@ -154,7 +154,7 @@ void printStacks()
                 break;
                 
                 
-                case OP_LESSER:
+                case OP_LESS:
                 s("'<'");
                 break;
                 
@@ -186,7 +186,7 @@ void printStacks()
                 s(")");
                 break;
                 default:break;
-                // SIGN_LESSER,//19
+                // SIGN_LESS,//19
                 // SIGN_GREATER,//20
                 // SIGN_EQUALS,//21
             }
@@ -225,7 +225,7 @@ int simple_reduction()
     {
         s("TRY REDUCTION ID -> E\n");
         iStack_pop();
-        if(iStack_top() == R_LESSER)
+        if(iStack_top() == R_LESS)
         {
             iStack_pop();
             iStack_push(OP_NONTERM);
@@ -244,7 +244,7 @@ int simple_reduction()
             if(iStack_top() == OP_LROUND)
             {s("TRY REDUCTION (E) -> E\n");
                 iStack_pop();
-                if(iStack_top() == R_LESSER)//(E) -> E
+                if(iStack_top() == R_LESS)//(E) -> E
                 {
                     iStack_pop();
                     iStack_push(OP_NONTERM);
@@ -256,7 +256,7 @@ int simple_reduction()
                     iStack_push(OP_NONTERM);
                 }
             }
-            else if(iStack_top() == OP_COMA)
+            else if(iStack_top() == OP_COMA)//func(par,par,...)
             {//already 1 param counted <- previous pop
             s("TRY REDUCTION func(,,) -> E\n");
                 while(iStack_top() != OP_LROUND)
@@ -275,10 +275,24 @@ int simple_reduction()
                         line;
                         ret_error(SYNTAX_ERROR);
                     }
+                    
+                    
+                    
                     iStack_pop();
+                    //process function call
+                }
+                if(coma == 1)
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
                 }
                 if(iStack_top() == OP_LROUND)
-                iStack_pop();
+                    iStack_pop();
+                else
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
+                }
                 if(iStack_top() == OP_FUNC)
                 {
                     iStack_pop();//func
@@ -286,6 +300,10 @@ int simple_reduction()
                     //function call
                     iStack_push(OP_NONTERM);
                 }
+            } else 
+            {
+                line;
+                ret_error(SYNTAX_ERROR);
             }
             
         }
@@ -297,6 +315,11 @@ int simple_reduction()
             iStack_pop();//(
             iStack_pop();//func
             iStack_push(OP_NONTERM);
+            //func call
+        }
+        else
+        {
+            ret_error(SYNTAX_ERROR);
         }
         printStacks();
     }
@@ -308,25 +331,29 @@ int simple_reduction()
         switch(iStack_top())
         {
             
-            case OP_PLUS:
-            case OP_MINUS:
-            case OP_MUL:
-            case OP_DIV:
-                printf("***REDUCTION:E %d E***\n", iStack_pop());//OP
-                iStack_pop();//E
-                iStack_pop();//<
-                iStack_push(OP_NONTERM);
-                printStacks();
-                return TRUE;
-            case    OP_LESSER:
+            case    OP_PLUS:
+            case    OP_MINUS:
+            case    OP_MUL:
+            case    OP_DIV:
+            case    OP_LESS:
             case    OP_LEQUAL:
             case    OP_GREATER:
             case    OP_GREQUAL:
             case    OP_EQUAL:
             case    OP_NOTEQUAL:
                 printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
-                iStack_pop();
-                iStack_pop();
+                if(iStack_top() != OP_NONTERM)
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
+                }
+                iStack_pop();//E
+                if(iStack_top() >= 0 && iStack_top() <= 9)
+                {
+                    line;
+                    ret_error(SYNTAX_ERROR);
+                }
+                iStack_pop();//<
                 iStack_push(OP_NONTERM);
                 printStacks();
                 return TRUE;
@@ -388,8 +415,8 @@ int tokenToType(Ttoken *token)
             return OP_DIV;
         case TOKEN_GREATER:
             return OP_GREATER;
-        case TOKEN_LESSER:
-            return R_LESSER;
+        case TOKEN_LESS:
+            return R_LESS;
         case TOKEN_GR_EQ:
             return OP_GREQUAL;
         case TOKEN_LE_EQ:
@@ -408,7 +435,7 @@ int tokenToType(Ttoken *token)
             return OP_RROUND;
         case TOKEN_ID:
             token = get_token();
-            if(token->type == TOKEN_L_ROUND )
+            if(token->type == TOKEN_L_ROUND )//func(..)
             {
                 unget_token(1);
                 return OP_FUNC;
@@ -421,10 +448,10 @@ int tokenToType(Ttoken *token)
                     token = get_token();
                     if(token->type == TOKEN_L_ROUND)
                     {
-                        unget_token(1);
+                        unget_token(1);//class.func(..)
                         return OP_FUNC;
                     }
-                    unget_token(1);
+                    unget_token(1);////class.var
                     return OP_I;
                 }
                 else
@@ -435,7 +462,7 @@ int tokenToType(Ttoken *token)
             }
             else
             {
-                unget_token(1);
+                unget_token(1);//var
                 return OP_I;
             }
             
@@ -466,7 +493,7 @@ int compare_priority(int stackTop)
     if( precedence_table[ stackTop ][ TOKENTYPE ] == '>' )
         return SIGN_GREATER;
     else if( precedence_table[ stackTop ][ TOKENTYPE ] == '<' )
-        return SIGN_LESSER; 
+        return SIGN_LESS; 
     else return SIGN_EQUALS;
 }
 
@@ -499,13 +526,13 @@ void analysis()
         // printf("%c\n",precedence_table[iStack_top_term()][TOKENTYPE]);
         switch(compare_priority(iStack_top_term()))
         {
-            case SIGN_LESSER:
+            case SIGN_LESS:
                 
                 //id -> E
-                printf("LESSER: Ttype %d\n",TOKENTYPE);
+                printf("LESS: Ttype %d\n",TOKENTYPE);
                 if(TOKENTYPE != OP_NONTERM)
                 {
-                    iStack_push (R_LESSER);
+                    iStack_push (R_LESS);
                     iStack_push(TOKENTYPE);
                     printStacks();
                 }
@@ -513,7 +540,7 @@ void analysis()
                 else
                 {//E -> <E+
                         iStack_pop();
-                        iStack_push(R_LESSER);
+                        iStack_push(R_LESS);
                         iStack_push(OP_NONTERM);
                         iStack_push(TOKENTYPE);
                 }
@@ -528,7 +555,8 @@ void analysis()
             
             case SIGN_GREATER:
             printf("GREATER: Ttype %d\n",TOKENTYPE);
-                simple_reduction();
+                if( brackets >= 0 )
+                    simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
                     if( TOKENTYPE == OP_RROUND && brackets > -1)//add ) to the stack
@@ -540,7 +568,7 @@ void analysis()
                     {
                         iStack_pop();
                         if(TOKENTYPE != OP_COMA)//if coma, do not insert less sign
-                            iStack_push (R_LESSER);
+                            iStack_push (R_LESS);
                         iStack_push(OP_NONTERM);
                         iStack_push(TOKENTYPE);
                         printStacks();
@@ -549,6 +577,11 @@ void analysis()
                     else if(iStack_top() == OP_NONTERM && brackets == -1)
                     {
                         iStack_pop();
+                    }
+                    else
+                    {
+                        line;
+                        ret_error(SYNTAX_ERROR);
                     }
                 }
                 break;
@@ -564,7 +597,8 @@ void analysis()
             printf("FAIL TTYPE\n");
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
-                    iStack_pop();                    
+                    iStack_pop();    
+                    s("***********INS_ASSIGN************\n");
                     break;
                 }
             break;
@@ -574,19 +608,24 @@ void analysis()
         }
         end++;
         
+        
+        
+        if(( (token->type == TOKEN_SEM_CL) || (brackets==-1) ) && iStack->top == 0)
+        {
+            s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
+            return;//finished expression
+        }
+        
         if(token->type != TOKEN_SEM_CL )
         {
             if(token->type == TOKEN_R_ROUND && brackets < 0)    
                 break;
             token = get_token();
         }
-        
-        if(( (token->type == TOKEN_SEM_CL) || (brackets==-1) ) && iStack->top == 0)
-        {
-            s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
-            break;//finished expression
-        }
-        if(end>70)break;
+         if(end>70)
+         {
+             break;
+         }
     }
 }
 

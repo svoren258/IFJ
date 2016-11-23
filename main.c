@@ -33,7 +33,11 @@ int main(int argc, char **argv)
 	}
 
 	lexStart();
-    parse();
+    // parse();
+    TVariable *var = NULL;
+    expression(var);
+    
+    
     lexFinish();
 	return 0;
 }
