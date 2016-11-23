@@ -17,12 +17,12 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 /* - */{'>','>','<','<','>','>','>','>','>','>','<','>','<','<','<','>'},//1
 /* * */{'>','>','>','>','>','>','>','>','>','>','<','>','<','<','<','>'},//2
 /* / */{'>','>','>','>','>','>','>','>','>','>','<','>','<','<','<','>'},//3
-/* < */{'<','<','<','<','>','<','<','<','>','>','<','>','<','<','<','>'},//4
-/*<= */{'<','<','<','<','<','>','<','<','>','>','<','>','<','<','<','>'},//5
-/* > */{'<','<','<','<','<','<','>','<','>','>','<','>','<','<','<','>'},//6
-/*>= */{'<','<','<','<','<','<','<','>','>','>','<','>','<','<','<','>'},//7
-/*== */{'<','<','<','<','<','<','<','<','>','<','<','>','<','<','<','>'},//8
-/*!= */{'<','<','<','<','<','<','<','<','<','<','<','>','<','<','<','>'},//9
+/* < */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//4
+/*<= */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//5
+/* > */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//6
+/*>= */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//7
+/*== */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//8
+/*!= */{'<','<','<','<','$','$','$','$','$','$','<','>','<','<','<','>'},//9
 /* ( */{'<','<','<','<','<','<','<','<','<','<','<','=','<','<','=','$'},//10
 /* ) */{'>','>','>','>','>','>','>','>','>','>','$','>','$','$','>','>'},//11
 /*fun*/{'$','$','$','$','$','$','$','$','$','$','=','$','$','$','$','$'},//12
@@ -140,7 +140,7 @@ void printStacks()
                 s("E");
                 break;
                 
-                case OP_LESSER:
+                case R_LESSER:
                 s("<");
                 break;
                 
@@ -156,26 +156,31 @@ void printStacks()
                 s("func");
                 break;
                 
-                default:break;
                 
-                // OP_MINUS,//1
-                // OP_MUL,//2
-                // OP_DIVISION,//3
-            
-                // OP_LESSER,//4
-                // OP_LEQUAL,//5
-                // OP_GREATER,//6
-                // OP_GREQUAL,//7
+                case OP_LESSER:
+                s("'<'");
+                break;
                 
-                // OP_EQUAL,//8
-                // OP_NOTEQUAL,//9
+                case OP_LEQUAL:
+                s("<=");
+                break;
+                 
+                case OP_GREATER:
+                s(">");
+                break;
                 
-                // OP_LBRACKET,//10
-                // OP_RBRACKET,//11
-                // OP_FUNCTION,//12
-                // OP_I,//13
-                // OP_COMA,//14
-                // OP_DOLAR,//15
+                case OP_GREQUAL:
+                s(">=");
+                break;
+                
+                case OP_EQUAL:
+                s("==");
+                break;
+                
+                case OP_NOTEQUAL:
+                s("!=");
+                break;
+                
                 
                 case OP_LROUND:
                 s("(");
@@ -183,9 +188,7 @@ void printStacks()
                 case OP_RROUND:
                 s(")");
                 break;
-                // OP_RROUND,//17
-                // OP_NONTERM,//18
-                
+                default:break;
                 // SIGN_LESSER,//19
                 // SIGN_GREATER,//20
                 // SIGN_EQUALS,//21
@@ -225,7 +228,7 @@ int simple_reduction()
     {
         s("TRY REDUCTION ID -> E\n");
         iStack_pop();
-        if(iStack_top() == OP_LESSER)
+        if(iStack_top() == R_LESSER)
         {
             iStack_pop();
             iStack_push(OP_NONTERM);
@@ -244,7 +247,7 @@ int simple_reduction()
             if(iStack_top() == OP_LROUND)
             {s("TRY REDUCTION (E) -> E\n");
                 iStack_pop();
-                if(iStack_top() == OP_LESSER)//(E) -> E
+                if(iStack_top() == R_LESSER)//(E) -> E
                 {
                     iStack_pop();
                     iStack_push(OP_NONTERM);
@@ -326,6 +329,18 @@ int simple_reduction()
                 iStack_push(OP_NONTERM);
                 printStacks();
                 return TRUE;
+            case    OP_LESSER:
+            case    OP_LEQUAL:
+            case    OP_GREATER:
+            case    OP_GREQUAL:
+            case    OP_EQUAL:
+            case    OP_NOTEQUAL:
+                printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
+                iStack_pop();
+                iStack_pop();
+                iStack_push(OP_NONTERM);
+                printStacks();
+                return TRUE;
             default:
                 iStack_push(OP_NONTERM);
                 return FALSE;
@@ -385,7 +400,7 @@ int tokenToType(Ttoken *token)
         case TOKEN_GREATER:
             return OP_GREATER;
         case TOKEN_LESSER:
-            return OP_LESSER;
+            return R_LESSER;
         case TOKEN_GR_EQ:
             return OP_GREQUAL;
         case TOKEN_LE_EQ:
@@ -583,7 +598,7 @@ void analysis()
                 printf("LESSER: Ttype %d\n",TOKENTYPE);
                 if(TOKENTYPE != OP_NONTERM)
                 {
-                    iStack_push(OP_LESSER);
+                    iStack_push (R_LESSER);
                     iStack_push(TOKENTYPE);
                     printStacks();
                 }
@@ -591,7 +606,7 @@ void analysis()
                 else
                 {//E -> <E+
                         iStack_pop();
-                        iStack_push(OP_LESSER);
+                        iStack_push(R_LESSER);
                         iStack_push(OP_NONTERM);
                         iStack_push(TOKENTYPE);
                 }
@@ -618,7 +633,7 @@ void analysis()
                     {
                         iStack_pop();
                         if(TOKENTYPE != OP_COMA)//if coma, do not insert less sign
-                            iStack_push(OP_LESSER);
+                            iStack_push (R_LESSER);
                         iStack_push(OP_NONTERM);
                         iStack_push(TOKENTYPE);
                         printStacks();

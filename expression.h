@@ -54,7 +54,7 @@ enum{
     OP_DOLAR,//15
     
     OP_NONTERM,//16
-    
+    R_LESSER,
     SIGN_LESSER,//17
     SIGN_GREATER,//18
     SIGN_EQUALS,//19
