@@ -7,16 +7,26 @@
 /*Syntactic analysis*/
 #ifndef ParserDefs
 #define ParserDefs
+
 #include "defs.h"
 #include "ial.h"
 #include "lex.h"
+
+
+#include "expression.h"
+
+
+#include "interpret.h"
+// #include "list.h"
+
+
 //#include "error.h"
 //#include "list.h"
 //#include "stack.h"
 
 
 
-#include "list.h"
+
 
 TFunction *new_function(char *tokenName, tTablePtr table);
 TVariable *new_variable(Ttoken *token, tTablePtr table);

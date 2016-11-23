@@ -6,9 +6,11 @@
 /********************************************************************/
 
 #include <stdio.h>
+
 #include "ial.h"
 #include "lex.h"
 #include "parser.h"
+ 
 
 //#define FILE_ERROR 5
 Ttoken *token;

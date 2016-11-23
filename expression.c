@@ -457,7 +457,8 @@ int tokenToType(Ttoken *token)
             return OP_I;
         break;
     }
-    
+
+    tok;    
     line;
     ret_error(SYNTAX_ERROR);
      return 0;
@@ -584,12 +585,18 @@ void analysis()
         helper = token;
         TOKENTYPE = tokenToType(token);
         token = helper;
-        if(TOKENTYPE == TOKEN_L_ROUND)
+        if(TOKENTYPE == OP_LROUND){
             brackets++;
-        if(TOKENTYPE == TOKEN_R_ROUND)
+            printf("BRACKETS:%d\n",brackets);
+        }
+        if(TOKENTYPE == OP_RROUND){
             brackets--;
-        if(brackets < 0)
-            return;
+            printf("BRACKETS:%d\n",brackets);
+        }
+        if(brackets < 0){
+            printf("BRACKETS:%d RETURN\n",brackets);
+            
+        }
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
         printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
@@ -628,12 +635,12 @@ void analysis()
                 simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
-                    if( TOKENTYPE == OP_RROUND)//add ) to the stack
+                    if( TOKENTYPE == OP_RROUND && brackets != -1)//add ) to the stack
                     {
                         iStack_push(OP_RROUND);
                         printStacks();
                     }
-                    else if(iStack_top() == OP_NONTERM)//E -> <E+
+                    else if(iStack_top() == OP_NONTERM && brackets != -1)//E -> <E+
                     {
                         iStack_pop();
                         if(TOKENTYPE != OP_COMA)//if coma, do not insert less sign
@@ -643,12 +650,14 @@ void analysis()
                         printStacks();
                         break;
                     }
-                }
+                }line;
                 break;
             
             case SIGN_EQUALS:
             printf("EQUALS Ttype %s\n",token->data);
             iStack_push(TOKENTYPE);//simply add according symbol
+            
+
             break;
             
             default:
@@ -665,17 +674,23 @@ void analysis()
         }
         end++;
         
-        if(token->type != TOKEN_SEM_CL)
+        if(token->type != TOKEN_SEM_CL )
         {
+            if(token->type == TOKEN_R_ROUND && brackets < 0)    
+                break;
             token = get_token();
         }
+        //  else if(token->type != TOKEN_R_ROUND || brackets >= 0)
+        // {
+        //     token = get_token();
+        // }
         
-        if(token->type == TOKEN_SEM_CL && iStack->top == 0)
+        if(( (token->type == TOKEN_SEM_CL) || (brackets==-1) ) && iStack->top == 0)
         {
             s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
             break;//finished expression
         }
-        if(end>40)break;
+        if(end>70)break;
     }
 }
 

@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
+
 #include "ial.h"
 #include "list.h"
 #include "stack.h"
