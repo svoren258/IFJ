@@ -25,8 +25,8 @@
 //#include "stack.h"
 
 
-
-
+TFunction *get_func_from_table(tTablePtr Table, char* name);
+TVariable *get_var_from_table(tTablePtr Table, char* name);
 
 TFunction *new_function(char *tokenName, tTablePtr table);
 TVariable *new_variable(Ttoken *token, tTablePtr table);

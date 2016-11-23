@@ -33,6 +33,11 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 TStack *oStack;
 TIStack * iStack;
 Ttoken *token, *helper;
+tTablePtr globTable;
+tTablePtr exprFunc;
+tTablePtr exprClass;
+tTablePtr funcContext;
+tTablePtr classContext;
 int TOKENTYPE;
 int operands = 0,
     operators = 0;
@@ -319,6 +324,7 @@ int simple_reduction()
         }
         else
         {
+            line;
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
@@ -400,6 +406,7 @@ TVariable *generate_var(int assign)
 
 int tokenToType(Ttoken *token)
 {
+    char * TName;
     // if(isFunctionCall())return OP_FUNCTION;
     // if(isFunctionFullNameCall())return OP_FUNCTION;
     // if(isFullNameVar())return OP_I;
@@ -434,9 +441,18 @@ int tokenToType(Ttoken *token)
         case TOKEN_R_ROUND:
             return OP_RROUND;
         case TOKEN_ID:
+            TName = token->data;
             token = get_token();
+            TVariable *var = NULL;
+            TFunction *func = NULL;
+            
+            exprClass = BSTSearch(globTable, TName);//find class by name
             if(token->type == TOKEN_L_ROUND )//func(..)
             {
+                if((func = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
+                {
+                    new_function(TName, classContext);//not gonna use return value from this or???
+                }
                 unget_token(1);
                 return OP_FUNC;
             } 
@@ -445,12 +461,20 @@ int tokenToType(Ttoken *token)
                 token = get_token();
                 if( token->type == TOKEN_ID )
                 {
+                    TName = token->data;
                     token = get_token();
                     if(token->type == TOKEN_L_ROUND)
                     {
                         unget_token(1);//class.func(..)
                         return OP_FUNC;
                     }
+                    if(( var = get_var_from_table(exprClass, TName)) == NULL)//this var might be defined in another class later
+                    {
+                        token->data = TName;
+                        TVariable *new = new_variable( token, exprClass );
+                        stackPush(oStack, new);
+                    }
+                        
                     unget_token(1);////class.var
                     return OP_I;
                 }
@@ -460,8 +484,20 @@ int tokenToType(Ttoken *token)
                     ret_error(SYNTAX_ERROR);
                 }
             }
-            else
+            else//var
             {
+                
+                if(funcContext != NULL){
+                if((var = get_var_from_table(funcContext, TName)) == NULL)
+                {
+                    if((var = get_var_from_table(classContext, TName)) == NULL)
+                    {
+                        line;
+                        ret_error(SEMANTIC_DEF_ERROR);
+                    }
+                    // printf("%s\n",TName);line;line;
+                }}
+                // if(!var)s("*****************************************************\n");
                 unget_token(1);//var
                 return OP_I;
             }
@@ -476,7 +512,7 @@ int tokenToType(Ttoken *token)
         break;
     }
 
-    tok;    
+    // printf("%s %d \n",token->data, token->type);
     line;
     ret_error(SYNTAX_ERROR);
      return 0;
@@ -556,6 +592,7 @@ void analysis()
             case SIGN_GREATER:
             printf("GREATER: Ttype %d\n",TOKENTYPE);
 //                if( brackets >= 0 )
+
                     simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
@@ -594,7 +631,7 @@ void analysis()
             break;
             
             default:
-            printf("FAIL TTYPE\n");
+            printf("SWITCH DEFAULT TTYPE\n");
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    

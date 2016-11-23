@@ -38,6 +38,25 @@ tTablePtr create_class_table(char *name, tTablePtr destTable)//navratova hodnota
     return node;//vrati uzol tabulky triedy
 }
 
+
+TVariable *get_var_from_table(tTablePtr Table, char* name)
+{
+	tTablePtr tree = BSTSearch(Table->Root, name);
+	if(tree)
+	return tree->data.v;
+	
+	return NULL;
+}
+
+TFunction *get_func_from_table(tTablePtr Table, char* name)
+{
+	tTablePtr tree = BSTSearch(Table->Root, name);
+	if(tree)
+	return tree->data.f;
+	
+	return NULL;
+}
+
 void parser_init() {
 
     gStack = stackInit();
