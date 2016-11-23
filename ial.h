@@ -22,13 +22,16 @@ struct tTable {
 	char *name;
 	int type;
     int defined;
+
 	union
 	{
 		struct new_func *f;
 		struct new_var *v;
 	}data;			                                                      /* klíč */
 	struct tTable * LPtr;                                    /* levý podstrom */
-	struct tTable * RPtr;                                   /* pravý podstrom */
+	struct tTable * RPtr;
+	struct tTable * Root;
+	/* pravý podstrom */
 };
 
 /* prototypy funkcí */
@@ -38,5 +41,6 @@ tTablePtr BSTSearch (tTablePtr RootPtr, char*);//
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of the node)
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
+void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
 
 #endif
