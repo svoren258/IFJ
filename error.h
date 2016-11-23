@@ -5,10 +5,12 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 
+
 #ifndef _ERROR_H
 #define _ERROR_H
 #include "defs.h"
 #include "lex.h"
+
 void ret_error(int error);
 
 enum error_values{

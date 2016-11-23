@@ -11,7 +11,6 @@
 #include "error.h"
 #include "stack.h"
 
-
 extern char *keywords[];
 #define STR_LEN_INC 8
 #define STR_ERROR   1
