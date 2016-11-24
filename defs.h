@@ -76,6 +76,7 @@ struct new_func
 	int defined;
     int declared;
 	int numOfParams;
+	int numOfVars;
 	TStack *stack;
 	TList *list;
 	//struct tTable *table;

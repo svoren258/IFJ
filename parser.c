@@ -11,9 +11,10 @@
 //#include "defs.h"
 #include "interpret.h"
 
-
+TList *globalInitList;
 tTablePtr funcContext;
 tTablePtr classContext;
+int staticVars = 0;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
 tTablePtr builtInTable; //tabulka s vstavanymi funkciami
 Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok get_token();
@@ -121,6 +122,9 @@ void parser_init() {
     sort->params[1] = VARTYPE_STRING;
     sort->defined = 1;
 
+    globalInitList = InitList(&globalInitList);
+    InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
+
 }
 
 
@@ -150,12 +154,12 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 
 //    TStack *stack = stackInit();
     printf("som pred listom\n");
-    if ((strcmp(table->name, "ifj16"))) {
-        TList *list;
-        list = InitList(&list);
-        InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
-        f->list = list;
-    }
+//    if ((strcmp(table->name, "ifj16"))) {
+    TList *list;
+    list = InitList(&list);
+    InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
+    f->list = list;
+//    }
 
     f->stack = stackInit();
     /*assign the table to the function*/
@@ -363,6 +367,8 @@ void Declaration(tTablePtr table, Ttoken *token) {
             unget_token(1);
             TVariable *v = variableDecl(table, tokenID, type);
             v->declared = 1;
+            v->position = staticVars;
+            staticVars++;
             printf("var %s is declared\n", v->name);
         } else {
             TFunction *f = funcDef(table, tokenID, type);
@@ -406,6 +412,8 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         printf("varname: %s\n", var->name);
     }
 
+    TListItem pushVar = create_instruction(INS_PUSH_VAR, NULL, NULL, NULL);
+
     token = get_token();
     printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {
@@ -434,6 +442,13 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     //node->type = NODE_TYPE_VARIABLE;
     printf("nacitany token pred koncom variableDecl: %s\n", token->data);
 
+    if(table->type == NODE_TYPE_CLASS){
+        insert_instruction(globalInitList, pushVar);
+    }
+    else if(table->type == NODE_TYPE_FUNCTION){
+        insert_instruction(table->data.f->list, pushVar);
+    }
+
     return var;
 }
 
@@ -445,6 +460,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     Ttoken *token_varID;
     tTablePtr node;
     int paramsCount = 0;
+
     //char *type = NULL;
     printf("tablename: %s\n", table->name);
     printf("tokenID: %s\n", tokenID->data);
@@ -455,6 +471,9 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
         f = node->data.f;
         //printf("nazov funkcie: %s\n", f->name);
     }
+
+    f->numOfVars = 0;
+
     printf("som za new_func\n");
     //stackPush(gStack, f);
     if (!(strcmp(funcType, "int"))) {
@@ -470,6 +489,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     } else {
         f->params[paramsCount] = FUNCTYPE_NULL;
     }
+
 
     printf("typ funkcie: %d\n", f->params[paramsCount]);
     //f = stackTop(gStack);
@@ -528,6 +548,8 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 v = variableDecl(fTable, token_varID, type);
                 printf("som za variableDecl v token_type\n");
                 v->declared = 1;
+                v->position = f->numOfVars;
+                f->numOfVars++;
 
                 //token = get_token();
                 //printf("nacitany token: %s\n", token->data);
@@ -687,23 +709,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 ifelse_statement(fTable);
                 break;
             }
-//        case KEYWORD_FOR:
-//            for_statement();
-//            break;
             case KEYWORD_WHILE: {
                 while_statement(fTable);
                 break;
             }
-//        case KEYWORD_BREAK:
-//            //vytvori instrukciu break
-//            break;
-//        case KEYWORD_CONTINUE:
-//            //vytvori instrukciu continue
-//            break;
-//        case KEYWORD_DO:
-//            do_statement();
-//            break;
-
             case KEYWORD_RETURN: {
                 return_statement(fTable);
                 break;
@@ -995,8 +1004,7 @@ void block_body(Ttoken *token) {
                     //printf("nacitany token za unget: %s\n", token->data);
 
                     printf("token_varID: %s\n", token_varID->data);
-                    node = BSTSearch(funcContext->Root,
-                                     token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+                    node = BSTSearch(funcContext->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
                     if (node == NULL) {
 
                         node = BSTSearch(classContext->Root, token_varID->data);
