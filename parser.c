@@ -70,29 +70,24 @@ void parser_init() {
     BSTInit(&builtInTable);
 
     BSTInsert(&builtInTable, &builtInTable, "ifj16");
-//
-//    //vytvorenie uzlov pre vstavane funkcie v tabulke vstavanych funkcii
-//    TFunction *f = new_function("readInt", builtInTable);
-//    tTablePtr readIntNode = create_class_table("readInt", builtInTable);
-//    readIntNode->data.f->numOfParams = 0;
-//    readIntNode->data.f->params[0] = FUNCTYPE_INT;
-//    readIntNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr readDoubleNode = create_class_table("readDouble", builtInTable);
-//    readDoubleNode->data.f->numOfParams = 0;
-//    readDoubleNode->data.f->params[0] = FUNCTYPE_DOUBLE;
-//    readDoubleNode->type = NODE_TYPE_FUNCTION;
-//
-//    tTablePtr readStringNode = create_class_table("readString", builtInTable);
-//    readStringNode->data.f->numOfParams = 0;
-//    readStringNode->data.f->params[0] = FUNCTYPE_STRING;
-//    readStringNode->type = NODE_TYPE_FUNCTION;
-//
+
+    //vytvorenie uzlov pre vstavane funkcie v tabulke vstavanych funkcii
+    TFunction *readInt = new_function("readInt", builtInTable);
+    readInt->numOfParams = 0;
+    readInt->params[0] = FUNCTYPE_INT;
+
+    TFunction *readDouble = new_function("readDouble", builtInTable);
+    readDouble->numOfParams = 0;
+    readDouble->params[0] = FUNCTYPE_DOUBLE;
+
+    TFunction *readString = new_function("readString", builtInTable);
+    readString->numOfParams = 0;
+    readString->params[0] = FUNCTYPE_STRING;
+
     TFunction *print = new_function("print", builtInTable);
     print->numOfParams = 0;
     print->params[0] = FUNCTYPE_VOID;
     print->defined = 1;
-
 
     TFunction *length = new_function("length", builtInTable);
     length->numOfParams = 1;
@@ -906,15 +901,29 @@ void while_statement(tTablePtr table) {
 
 void return_statement(tTablePtr table){
     printf("som v return_statement\n");
-    TListItem lab = create_instruction(INS_LABEL, NULL, NULL, NULL);
-    TListItem ret = create_instruction(INS_RET, NULL, NULL, lab);
 
-    insert_instruction(table->data.f->list, ret);
-
+    TListItem retItem;
     token = get_token();
-    if(token->type != TOKEN_SEM_CL){
-        ret_error(SYNTAX_ERROR);
+    printf("nacitany token: %s\n", token->data);
+    if(table->data.f->params[0] == FUNCTYPE_VOID){
+        retItem = create_instruction(INS_RET, NULL, NULL, NULL);
+        if(token->type != TOKEN_SEM_CL){
+            ret_error(SYNTAX_ERROR);
+        }
+
     }
+    else{
+        TVariable *ret = malloc(sizeof(TVariable));
+        retItem = create_instruction(INS_RET, ret, NULL, NULL);
+        expression(ret);
+        token = get_token();
+        if(token->type != TOKEN_SEM_CL){
+            ret_error(SYNTAX_ERROR);
+        }
+    }
+
+    insert_instruction(table->data.f->list, retItem);
+
 }
 
 void block_body(Ttoken *token) {
