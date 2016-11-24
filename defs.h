@@ -67,6 +67,15 @@ enum
 	RET_STRING
 };
 
+typedef struct new_class TClass;
+struct new_class
+{
+	int numOfVars;
+	TStack *stack;
+};
+
+
+
 typedef struct new_func TFunction;
 struct new_func
 {
