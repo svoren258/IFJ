@@ -205,8 +205,26 @@ void printStacks()
     for(int i = oStack->top; i >= 0; i--)
         {
             TVariable *var = oStack->data[i];
-            printf("%d\n",var->value.i);
+            if(var->type == VARTYPE_INTEGER)
+            {
+                if(var->value.i)
+                printf("%d\n",var->value.i);    
+            }
+            
+            else if(var->type == VARTYPE_DOUBLE)
+            {
+                if(var->value.d)
+                printf("%g\n",var->value.d);
+            }
+            
+            else if(var->type == VARTYPE_STRING)
+            {
+                if(var->value.s)
+                printf("%s\n",var->value.s);    
+            }
+            
         }
+        
     printf("-----/oStack-----\n");
     
     // printf("-----varstack----\n");
@@ -224,9 +242,19 @@ void generator(){
     
 }
 
+void push_params()
+{
+    TFunction *func
+    
+    if((func = get_func_from_table(exprFunc, exprFunc->name))== NULL)
+    {
+        if(func = get_func_from_table(exprClass, exprClass->name))== NULL)
+    }
+}
+
 int simple_reduction()
 {s("REDUCTION BEGIN\n");
-    int params = 1;
+    int params = 0;
     int coma = 0;
     TVariable *var1;
     TVariable *var2;
@@ -261,9 +289,14 @@ int simple_reduction()
                 }
                 else if(iStack_top() == OP_FUNC)//func(par) -> E
                 {
+                    params = 1;
                     iStack_pop();//func
                     iStack_pop();//<
                     iStack_push(OP_NONTERM);
+                }
+                else
+                {
+                    line;ret_error(SYNTAX_ERROR);
                 }
             }
             else if(iStack_top() == OP_COMA)//func(par,par,...)
@@ -285,11 +318,7 @@ int simple_reduction()
                         line;
                         ret_error(SYNTAX_ERROR);
                     }
-                    
-                    
-                    
                     iStack_pop();
-                    //process function call
                 }
                 if(coma == 1)
                 {
@@ -308,6 +337,9 @@ int simple_reduction()
                     iStack_pop();//func
                     iStack_pop();//< before func
                     //function call
+                    push_params(params);
+                    
+                    
                     iStack_push(OP_NONTERM);
                 }
             } else 
@@ -355,7 +387,8 @@ int simple_reduction()
                 var1 = stackPop(oStack);
                 var2 = stackPop(oStack);
                 result = generate_var(0);
-                create_instruction(iStack_top(),var1,var2,result);
+                line;
+                insert_instruction(thisFunction->list,create_instruction(iStack_top(),var1,var2,result));
                 stackPush(oStack,result);
                 printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
                 if(iStack_top() != OP_NONTERM)
@@ -407,6 +440,10 @@ TVariable *generate_var(int assign)
     {
         var->type = VARTYPE_DOUBLE;
         var->value.d = strtod(token->data,NULL);
+    }
+    else
+    {
+        var->type = VARTYPE_NULL;
     }
     return var;
 }
@@ -658,7 +695,7 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
-                    // insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     s("***********INS_ASSIGN************\n");
                     break;
                 }
@@ -696,7 +733,9 @@ void expression(TVariable *var)
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
-    thisFunction = get_func_from_table(funcContext, funcContext->name);
+    thisFunction = get_func_from_table(classContext, funcContext->name);
+    
+    printf("%s\n",thisFunction->name);
 
         analysis(var);
         unget_token(1);
