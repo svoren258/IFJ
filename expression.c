@@ -40,8 +40,6 @@ tTablePtr funcContext;
 tTablePtr classContext;
 TFunction *thisFunction;
 int TOKENTYPE;
-int operands = 0,
-    operators = 0;
 
 void iStack_push(int val)
 {
@@ -242,14 +240,24 @@ void generator(){
     
 }
 
-void push_params()
+void push_params(int numOfParams)
 {
-    TFunction *func
     
-    if((func = get_func_from_table(exprFunc, exprFunc->name))== NULL)
-    {
-        if(func = get_func_from_table(exprClass, exprClass->name))== NULL)
-    }
+    // TFunction *func;
+    // printf("%s\n",exprFunc->name);
+    // if((func = get_func_from_table(exprFunc, exprFunc->name))== NULL)
+    // {
+    //     printf("%s\n",func->name);
+    //     line;
+    //     ret_error(SYNTAX_ERROR);
+    // }
+    // else
+    // {
+    //     for(int i = 0; i < numOfParams; i++)
+    //     {
+    //         s("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL\n");
+    //     }
+    // }
 }
 
 int simple_reduction()
@@ -495,7 +503,7 @@ int tokenToType(Ttoken *token)
             TFunction *func = NULL;
             
             //find class by name
-            if((exprClass = BSTSearch(globTable, TName)) == NULL)
+            if((exprClass = BSTSearch(globTable->Root, TName)) == NULL)
             {
                 exprClass = create_class_table(TName, globTable);
             }
@@ -521,9 +529,10 @@ int tokenToType(Ttoken *token)
                         if((func = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
                             new_function(TName, exprClass);//not gonna use return value from this or???
+                            line;
                         }
                         unget_token(1);
-                        exprFunc = BSTSearch(exprClass, TName);
+                        exprFunc = BSTSearch(exprClass->Root, TName);
                         return OP_FUNC;
                     }//class.func()
                     if(( var = get_var_from_table(exprClass, TName)) == NULL)//this var might be defined in another class later
