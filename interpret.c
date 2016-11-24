@@ -4,3 +4,10 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#include "interpret.h"
+
+int interpret(TList *list)
+{
+    printf("hey");    
+    return 1;
+}

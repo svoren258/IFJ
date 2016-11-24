@@ -4,6 +4,15 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
+#ifndef INTERPRET_H
+#define INTERPRET_H
+
+
+#include "defs.h"
+#include "list.h"
+
+
+int interpret(TList *list);
 enum{
     INS_ADD,    // "+"
     INS_SUB,    // "-"
@@ -27,3 +36,4 @@ enum{
     INS_PUSH_VAR,
 };
 
+#endif
