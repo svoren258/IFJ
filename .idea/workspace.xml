@@ -12,8 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test1.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.h" afterPath="$PROJECT_DIR$/parser.h" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,13 +38,13 @@
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-3492">
-              <caret line="375" column="0" selection-start-line="375" selection-start-column="0" selection-end-line="375" selection-end-column="0" />
+              <caret line="386" column="0" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test1.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test1.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test1.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="72">
@@ -103,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="expression.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="expression.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/expression.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11754">
-              <caret line="653" column="30" selection-start-line="653" selection-start-column="30" selection-end-line="653" selection-end-column="30" />
+            <state relative-caret-position="81">
+              <caret line="244" column="0" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -127,10 +128,10 @@
         <entry file="file://$PROJECT_DIR$/parser.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding>
-                <marker date="1479941968987" expanded="false" signature="497:565" ph="..." />
-                <marker date="1479941968987" expanded="true" signature="568:677" ph="//..." />
+                <marker date="1480020136414" expanded="false" signature="497:565" ph="..." />
+                <marker date="1480020136414" expanded="true" signature="568:677" ph="//..." />
               </folding>
             </state>
           </provider>
@@ -160,7 +161,6 @@
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/parser.h" />
         <option value="$PROJECT_DIR$/lex.c" />
-        <option value="$PROJECT_DIR$/expression.c" />
         <option value="$PROJECT_DIR$/fact2.java" />
         <option value="$PROJECT_DIR$/java.java" />
         <option value="$PROJECT_DIR$/interpret.h" />
@@ -168,6 +168,7 @@
         <option value="$PROJECT_DIR$/ial.h" />
         <option value="$PROJECT_DIR$/parser.c" />
         <option value="$PROJECT_DIR$/tests/test1.java" />
+        <option value="$PROJECT_DIR$/expression.c" />
       </list>
     </option>
   </component>
@@ -465,12 +466,12 @@
       <workItem from="1479817085126" duration="17069000" />
       <workItem from="1479899902920" duration="13966000" />
       <workItem from="1479931774043" duration="10533000" />
-      <workItem from="1480007456767" duration="11682000" />
+      <workItem from="1480007456767" duration="11826000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="261276000" />
+    <option name="totallyTimeSpent" value="261420000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -749,14 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/expression.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11754">
-          <caret line="653" column="30" selection-start-line="653" selection-start-column="30" selection-end-line="653" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fact2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -768,10 +761,10 @@
     <entry file="file://$PROJECT_DIR$/parser.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding>
-            <marker date="1479941968987" expanded="false" signature="497:565" ph="..." />
-            <marker date="1479941968987" expanded="true" signature="568:677" ph="//..." />
+            <marker date="1480020136414" expanded="false" signature="497:565" ph="..." />
+            <marker date="1480020136414" expanded="true" signature="568:677" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -827,7 +820,7 @@
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3492">
-          <caret line="375" column="0" selection-start-line="375" selection-start-column="0" selection-end-line="375" selection-end-column="0" />
+          <caret line="386" column="0" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -836,6 +829,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/expression.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="244" column="0" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
           <folding />
         </state>
       </provider>

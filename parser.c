@@ -43,7 +43,8 @@ tTablePtr create_class_table(char *name, tTablePtr destTable)//navratova hodnota
 }
 
 
-TVariable *get_var_from_table(tTablePtr Table, char *name) {
+TVariable *get_var_from_table(tTablePtr Table, char *name)
+{
     tTablePtr tree = BSTSearch(Table->Root, name);
     if (tree)
         return tree->data.v;
@@ -51,11 +52,20 @@ TVariable *get_var_from_table(tTablePtr Table, char *name) {
     return NULL;
 }
 
-TFunction *get_func_from_table(tTablePtr Table, char *name) {
+TFunction *get_func_from_table(tTablePtr Table, char *name) 
+{
     tTablePtr tree = BSTSearch(Table->Root, name);
     if (tree)
         return tree->data.f;
 
+    return NULL;
+}
+
+TClass *get_class_from_table(tTablePtr Table, char *name)
+{
+    tTablePtr tree = BSTSearch(Table->Root, name);
+    if(tree)
+        return tree->data.c;
     return NULL;
 }
 
