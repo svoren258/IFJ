@@ -243,7 +243,7 @@ void generator(){
 void push_params(int numOfParams)
 {
 
-    TFunction *func;
+   // TFunction *func;
 
     
     // TFunction *func;

@@ -112,15 +112,15 @@ void pushToken(Ttoken * token)
 
 Ttoken * getTokenFromStack()
 {
-	// printf("Ungetindex:%d\n",ungetTokenIndex);
-	// printf("TOKENSTACK\n");
-	// for(int i = tokenStack->top; i >= 0; i--)
-	// {
-	// 	token = tokenStack->data[i];
-	// 	printf("%s \t%d\n",token->data, i);
+	 printf("Ungetindex:%d\n",ungetTokenIndex);
+	 printf("TOKENSTACK\n");
+	 for(int i = tokenStack->top; i >= 0; i--)
+	 {
+	 	token = tokenStack->data[i];
+	 	printf("%s \t%d\n",token->data, i);
 		
-	// }
-	// printf("TOKENSTACK\n");
+	 }
+	 printf("TOKENSTACK\n");
 	
 	token = tokenStack->data[ungetTokenIndex];
 	ungetTokenIndex++;
@@ -148,7 +148,7 @@ void lexFinish()
 
 Ttoken *get_token(){
 
-	printf("som v get_token\n");
+	//printf("som v get_token\n");
 	if(ungetTokenIndex <= tokenStack->top && (ungetTokenIndex > -1))
 	{
 		printf("****next token is unget %s*****\n",token->data);

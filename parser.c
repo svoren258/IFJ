@@ -15,7 +15,6 @@ TList *globalInitList;
 tTablePtr funcContext;
 tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
-tTablePtr builtInTable; //tabulka s vstavanymi funkciami
 Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok get_token();
 TStack *gStack;//zasobnik, pravdepodobne na prehladu o tom, ktora funkcia sa prave spracuvava
 
@@ -78,36 +77,38 @@ void parser_init() {
     BSTInsert(&globTable, &globTable, "GlobTable");
     /*keywords to globtable*/
     // keywords_init();
-
-    BSTInit(&builtInTable);
-
-    BSTInsert(&builtInTable, &builtInTable, "ifj16");
+//
+//    BSTInit(&builtInTable);
+//
+//    BSTInsert(&builtInTable, &builtInTable, "ifj16");
 
     //vytvorenie uzlov pre vstavane funkcie v tabulke vstavanych funkcii
-    TFunction *readInt = new_function("readInt", builtInTable);
+    tTablePtr ifj16Table = create_class_table("ifj16", globTable);
+
+    TFunction *readInt = new_function("readInt", ifj16Table);
     readInt->numOfParams = 0;
     readInt->params[0] = FUNCTYPE_INT;
 
-    TFunction *readDouble = new_function("readDouble", builtInTable);
+    TFunction *readDouble = new_function("readDouble", ifj16Table);
     readDouble->numOfParams = 0;
     readDouble->params[0] = FUNCTYPE_DOUBLE;
 
-    TFunction *readString = new_function("readString", builtInTable);
+    TFunction *readString = new_function("readString", ifj16Table);
     readString->numOfParams = 0;
     readString->params[0] = FUNCTYPE_STRING;
 
-    TFunction *print = new_function("print", builtInTable);
+    TFunction *print = new_function("print", ifj16Table);
     print->numOfParams = 0;
     print->params[0] = FUNCTYPE_VOID;
     print->defined = 1;
 
-    TFunction *length = new_function("length", builtInTable);
+    TFunction *length = new_function("length", ifj16Table);
     length->numOfParams = 1;
     length->params[0] = FUNCTYPE_INT;
     length->params[1] = VARTYPE_STRING;
     length->defined = 1;
 
-    TFunction *substr = new_function("substr", builtInTable);
+    TFunction *substr = new_function("substr", ifj16Table);
     substr->numOfParams = 3;
     substr->params[0] = FUNCTYPE_STRING;
     substr->params[1] = VARTYPE_STRING;
@@ -115,21 +116,21 @@ void parser_init() {
     substr->params[3] = VARTYPE_INTEGER;
     substr->defined = 1;
 
-    TFunction *compare = new_function("compare", builtInTable);
+    TFunction *compare = new_function("compare", ifj16Table);
     compare->numOfParams = 2;
     compare->params[0] = FUNCTYPE_INT;
     compare->params[1] = VARTYPE_STRING;
     compare->params[2] = VARTYPE_STRING;
     compare->defined = 1;
 
-    TFunction *find = new_function("find", builtInTable);
+    TFunction *find = new_function("find", ifj16Table);
     find->numOfParams = 2;
     find->params[0] = FUNCTYPE_INT;
     find->params[1] = VARTYPE_STRING;
     find->params[2] = VARTYPE_STRING;
     find->defined = 1;
 
-    TFunction *sort = new_function("sort", builtInTable);
+    TFunction *sort = new_function("sort", ifj16Table);
     sort->numOfParams = 1;
     sort->params[0] = FUNCTYPE_STRING;
     sort->params[1] = VARTYPE_STRING;
@@ -143,7 +144,6 @@ void parser_init() {
 
 void parser_finish() {
     BSTDispose(&globTable);
-    BSTDispose(&builtInTable);
 
 }
 
@@ -312,8 +312,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
     char *type = NULL;
     //int staticVars = table->data.c->numOfVars;
 
-    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type !=
-                                                                             KEYWORD_VOID))) {  //TOKEN_TYPE <= int, string, double; TOKEN_BOOL plati len pre funkciu
+    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type != KEYWORD_VOID))) {  //TOKEN_TYPE <= int, string, double; TOKEN_BOOL plati len pre funkciu
         ret_error(SYNTAX_ERROR);
     }
     if ((token->type == KEYWORD_BOOLEAN) || (token->type == KEYWORD_VOID)) {
@@ -507,8 +506,12 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     classContext = table;
     funcContext = fTable;
     token = get_token();
-    printf("nacitany token: %s\n", token->data);
+
     while (token->type != TOKEN_R_ROUND) {
+        if(token->type == TOKEN_COLON){
+            token = get_token();
+        }
+        printf("nacitany token vo while: %s\n", token->data);
         paramsCount++;
         params(fTable, token, paramsCount);
         token = get_token();
@@ -559,10 +562,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 v->declared = 1;
                 v->position = f->numOfVars;
                 f->numOfVars++;
+                printf("som pred pridanim premennej do listu\n");
 
-
-                TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.f->stack, NULL);
-                insert_instruction(table->data.f->list, pushVar);
+                TListItem pushVar = create_instruction(INS_PUSH_VAR, v, f->stack, NULL);
+                insert_instruction(f->list, pushVar);
 
 
                 //token = get_token();
@@ -578,14 +581,11 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 if (token->type == TOKEN_DOT) {
                     char *className = token_varID->data;
                     tTablePtr tableOfClass;
-                    if (!(strcmp(className, "ifj16"))) {
-                        tableOfClass = create_class_table(className, builtInTable);
-                        //tableOfClass->type = NODE_TYPE_CLASS;
-                        printf("som v builtInTable\n");
-                    } else {
+                    if ((strcmp(className, "ifj16"))) {
                         tableOfClass = create_class_table(className, globTable);
-                        //tableOfClass->type = NODE_TYPE_CLASS;
-                        printf("som v classTable\n");
+                    }
+                    else{
+                        tableOfClass = create_class_table("ifj16", globTable);
                     }
                     token = get_token();
                     printf("nacitany token: %s\n", token->data);
@@ -615,9 +615,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                         node = BSTSearch(tableOfClass->Root, token_varID->data);
                         printf("som za BSTSearch\n");
 
-                        if ((node == NULL) && (!(strcmp(tableOfClass->name, builtInTable->name)))) {
-                            ret_error(SEMANTIC_DEF_ERROR);
-                        } else if ((node == NULL) && (strcmp(tableOfClass->name, builtInTable->name))) {
+                       if ((node == NULL) && (strcmp(className, "ifj16"))) {
                             printf("nacitany token: %s\n", token->data);
                             TFunction *f = new_function(token_varID->data, tableOfClass);
                             printf("function name: %s\n", f->name);
@@ -631,6 +629,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             expression(NULL);
 
                         } else {
+                           printf("som v else\n");
                             unget_token(4);
 
                             expression(NULL);
@@ -939,14 +938,11 @@ void block_body(Ttoken *token) {
                 if (token->type == TOKEN_DOT) {
                     char *className = token_varID->data;
                     tTablePtr tableOfClass;
-                    if (!(strcmp(className, "ifj16"))) {
-                        tableOfClass = create_class_table(className, builtInTable);
-                        //tableOfClass->type = NODE_TYPE_CLASS;
-                        printf("som v builtInTable\n");
-                    } else {
+                    if ((strcmp(className, "ifj16"))) {
                         tableOfClass = create_class_table(className, globTable);
-                        //tableOfClass->type = NODE_TYPE_CLASS;
-                        printf("som v classTable\n");
+                    }
+                    else{
+                        tableOfClass = create_class_table("ifj16", globTable);
                     }
                     token = get_token();
                     printf("nacitany token: %s\n", token->data);
@@ -976,9 +972,7 @@ void block_body(Ttoken *token) {
                         node = BSTSearch(tableOfClass->Root, token_varID->data);
                         printf("som za BSTSearch\n");
 
-                        if ((node == NULL) && (!(strcmp(tableOfClass->name, builtInTable->name)))) {
-                            ret_error(SEMANTIC_DEF_ERROR);
-                        } else if ((node == NULL) && (strcmp(tableOfClass->name, builtInTable->name))) {
+                        if ((node == NULL) && (strcmp(className, "ifj16"))) {
                             printf("nacitany token: %s\n", token->data);
                             TFunction *f = new_function(token_varID->data, tableOfClass);
                             printf("function name: %s\n", f->name);
