@@ -244,7 +244,7 @@ void generator(){
 
 void push_params()
 {
-    TFunction *func
+    TFunction *func;
     
     if((func = get_func_from_table(exprFunc, exprFunc->name))== NULL)
     {
