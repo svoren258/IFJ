@@ -29,6 +29,7 @@ struct tTable {
 	{
 		struct new_func *f;
 		struct new_var *v;
+		struct new_class *c;
 	}data;			                                                      /* klíč */
 	struct tTable * LPtr;                                    /* levý podstrom */
 	struct tTable * RPtr;
