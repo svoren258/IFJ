@@ -24,5 +24,6 @@ enum{
     INS_ASSIGN, // "=" assign value to the variable
     INS_LABEL,
     INS_RET,
+    INS_PUSH_VAR,
 };
 

@@ -355,7 +355,8 @@ int simple_reduction()
                 var1 = stackPop(oStack);
                 var2 = stackPop(oStack);
                 result = generate_var(0);
-                create_instruction(iStack_top(),var1,var2,result);
+                line;
+                insert_instruction(thisFunction->list,create_instruction(iStack_top(),var1,var2,result));
                 stackPush(oStack,result);
                 printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
                 if(iStack_top() != OP_NONTERM)
@@ -658,7 +659,9 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
-                    // insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    printf("%s\n",thisFunction->name);
+                    printf("%d\n",thisFunction->list->First->operation);
+                    insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     s("***********INS_ASSIGN************\n");
                     break;
                 }
@@ -696,7 +699,9 @@ void expression(TVariable *var)
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
-    thisFunction = get_func_from_table(funcContext, funcContext->name);
+    thisFunction = get_func_from_table(classContext, funcContext->name);
+    
+    printf("%s\n",thisFunction->name);
 
         analysis(var);
         unget_token(1);

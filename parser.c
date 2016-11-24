@@ -150,12 +150,12 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 
 //    TStack *stack = stackInit();
     printf("som pred listom\n");
-    if ((strcmp(table->name, "ifj16"))) {
+    // if ((strcmp(table->name, "ifj16"))) {
         TList *list;
         list = InitList(&list);
         InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
         f->list = list;
-    }
+    // }
 
     f->stack = stackInit();
     /*assign the table to the function*/
