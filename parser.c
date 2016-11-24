@@ -203,7 +203,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
         printf("som v ife v tabulke funkcie\n");
         v->className = table->data.f->className;
     }
-
+    
     new_var->data.v = v;
 
     return v;
@@ -391,6 +391,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         printf("som v ife\n");
         var = new_variable(tokenID, table);
         printf("som za new_var\n");
+        
         if (!(strcmp(type, "int"))) {
             var->type = VARTYPE_INTEGER;
         } else if (!(strcmp(type, "double"))) {
@@ -404,7 +405,6 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         var = node->data.v;
         printf("varname: %s\n", var->name);
     }
-
     token = get_token();
     printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {

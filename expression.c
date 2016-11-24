@@ -462,15 +462,16 @@ int tokenToType(Ttoken *token)
             {
                 exprClass = create_class_table(TName, globTable);
             }
-            if(token->type == TOKEN_L_ROUND )//func(..)
-            {
+            if(token->type == TOKEN_L_ROUND )
+            {//func(..)
                 if((func = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
                 {
                     new_function(token->data, classContext);//not gonna use return value from this or???
                 }
+                func = get_func_from_table(classContext, TName);
                 unget_token(1);
                 return OP_FUNC;
-            } 
+            } //func(..)
             else if(token->type == TOKEN_DOT )
             {
                 token = get_token();
@@ -478,23 +479,25 @@ int tokenToType(Ttoken *token)
                 {
                     TName = token->data;
                     token = get_token();
-                    if(token->type == TOKEN_L_ROUND)//class.func()
-                    {
+                    if(token->type == TOKEN_L_ROUND)
+                    {//class.func()
                         if((func = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
                             new_function(TName, exprClass);//not gonna use return value from this or???
                         }
-                        unget_token(1);//class.func(..)
+                        unget_token(1);
+                        exprFunc = BSTSearch(exprClass, TName);
                         return OP_FUNC;
-                    }
+                    }//class.func()
                     if(( var = get_var_from_table(exprClass, TName)) == NULL)//this var might be defined in another class later
-                    {
+                    {////class.var
                         token->data = TName;
                         var = new_variable( token, exprClass );
                         
-                    }
+                    }////class.var
                     stackPush(oStack, var);
-                    unget_token(1);////class.var
+                    
+                    unget_token(1);
                     return OP_I;
                 }
                 else
@@ -503,8 +506,8 @@ int tokenToType(Ttoken *token)
                     ret_error(SYNTAX_ERROR);
                 }
             }
-            else//var
-            {
+            else
+            {//var
                 
                 if(funcContext != NULL){
                 if((var = get_var_from_table(funcContext, TName)) == NULL)
@@ -518,9 +521,9 @@ int tokenToType(Ttoken *token)
                 }}
                 stackPush(oStack, var);
                 // if(!var)s("*****************************************************\n");
-                unget_token(1);//var
+                unget_token(1);
                 return OP_I;
-            }
+            }//var
             
             
         case TOKEN_INT:
@@ -655,7 +658,6 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
-                    
                     // insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     s("***********INS_ASSIGN************\n");
                     break;

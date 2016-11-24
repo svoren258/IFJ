@@ -182,8 +182,6 @@ Ttoken *get_token(){
 			
 			case STATE_INIT:
 			{
-				// printf("%c\n",c);
-				//printf("%c is to come\n",c);
 				if( c == EOF )
 				{
 					token->type = TOKEN_EOF;
