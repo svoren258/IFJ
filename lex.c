@@ -583,6 +583,7 @@ Ttoken *get_token(){
 			{
 				if( c == '\n' || c == EOF )
 				{
+					lineNumber++;
 					bufferClear(buffer);
 					state = STATE_INIT;
 					break;

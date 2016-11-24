@@ -6,7 +6,7 @@ class Main
     {
         String str1;
         str1 = "Toto je nejaky text";
-        String str2;
+        // String str2;
         str2 = str1 + ", ktery jeste trochu obohatime";
         Main.x = ifj16.find(str2, "text");
         ifj16.print("Pozice retezce \"text\" v retezci str2: " + x + "\n");
