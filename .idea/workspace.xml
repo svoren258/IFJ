@@ -12,9 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.h" afterPath="$PROJECT_DIR$/interpret.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java.java" afterPath="$PROJECT_DIR$/java.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ifj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/exp2.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lex.c" afterPath="$PROJECT_DIR$/lex.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
     </list>
     <ignored path="projekt-IFJ.iws" />
@@ -38,8 +39,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="450" column="4" selection-start-line="450" selection-start-column="4" selection-end-line="450" selection-end-column="4" />
+            <state relative-caret-position="45">
+              <caret line="413" column="0" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -88,8 +89,8 @@
       <file leaf-file-name="expression.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/expression.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11016">
-              <caret line="612" column="52" selection-start-line="612" selection-start-column="52" selection-end-line="612" selection-end-column="52" />
+            <state relative-caret-position="11052">
+              <caret line="614" column="30" selection-start-line="614" selection-start-column="30" selection-end-line="614" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -122,7 +123,7 @@
         <entry file="file://$PROJECT_DIR$/lex.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="9540">
-              <caret line="538" column="13" selection-start-line="538" selection-start-column="13" selection-end-line="538" selection-end-column="13" />
+              <caret line="535" column="12" selection-start-line="535" selection-start-column="12" selection-end-line="535" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -452,12 +453,12 @@
       <workItem from="1479817085126" duration="17069000" />
       <workItem from="1479899902920" duration="13966000" />
       <workItem from="1479931774043" duration="10533000" />
-      <workItem from="1480007456767" duration="7461000" />
+      <workItem from="1480007456767" duration="7625000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="257055000" />
+    <option name="totallyTimeSpent" value="257219000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -752,15 +753,15 @@
     <entry file="file://$PROJECT_DIR$/lex.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9540">
-          <caret line="538" column="13" selection-start-line="538" selection-start-column="13" selection-end-line="538" selection-end-column="13" />
+          <caret line="535" column="12" selection-start-line="535" selection-start-column="12" selection-end-line="535" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/expression.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11016">
-          <caret line="612" column="52" selection-start-line="612" selection-start-column="52" selection-end-line="612" selection-end-column="52" />
+        <state relative-caret-position="11052">
+          <caret line="614" column="30" selection-start-line="614" selection-start-column="30" selection-end-line="614" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -818,8 +819,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="450" column="4" selection-start-line="450" selection-start-column="4" selection-end-line="450" selection-end-column="4" />
+        <state relative-caret-position="45">
+          <caret line="413" column="0" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
           <folding />
         </state>
       </provider>

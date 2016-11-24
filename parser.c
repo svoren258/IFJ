@@ -205,7 +205,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
         printf("som v ife v tabulke funkcie\n");
         v->className = table->data.f->className;
     }
-
+    
     new_var->data.v = v;
 
     return v;
