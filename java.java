@@ -4,7 +4,6 @@ class Main
     static int x;
     static void run()
     {
-        Game.y = 5;
         String str1;
         str1 = "Toto je nejaky text";
         String str2;
