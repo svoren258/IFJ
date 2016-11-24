@@ -46,7 +46,7 @@ void stackError ( int error_code );
 TStack* stackInit ();
 int stackEmpty ( const TStack* s );
 void* stackTop ( const TStack* s);
-void stackPop ( TStack* s );
+void* stackPop ( TStack* s );
 void stackPush ( TStack* s, void*);
 
 #endif

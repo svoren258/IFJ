@@ -84,7 +84,7 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	
 	if( !strcmp(K, (*RootPtr)->name) )
 	{
-		printf("%s already exists\n",K);
+		printf("%s already exists %s %d\n",K, __FILE__, __LINE__);
 		return;
 	}
 

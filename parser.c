@@ -164,7 +164,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
         f->list = list;
     }
 
-    //f->stack = stack;
+    f->stack = stackInit();
     /*assign the table to the function*/
     f->defined = 0;
     f->name = tokenName;

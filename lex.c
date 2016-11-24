@@ -198,6 +198,9 @@ Ttoken *get_token(){
 				if( c == ' ' )
 					
 					break;
+				if( c == '\t' )
+					
+					break;
 				if( isdigit(c) )
 				{
 					
@@ -357,6 +360,8 @@ Ttoken *get_token(){
 					return token;
 				}
 				//TODO \n \t \" a podobne srandy
+				
+				line;
 				ret_error(LEX_ERROR);
 				break;
 				
@@ -384,6 +389,7 @@ Ttoken *get_token(){
 				}
 				if( isalpha(c) )
 				{
+					line;
 					ret_error(LEX_ERROR);
 				}
 				ungetc(c, file);

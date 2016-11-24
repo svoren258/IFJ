@@ -64,14 +64,15 @@ void *stackTop ( const TStack* s) {
 }
 
 
-void stackPop ( TStack* s ) {
+void* stackPop ( TStack* s ) {
 	//if the stack exists, delete element from the top of it
+	void *var = s->data[s->top];
 	if(!stackEmpty(s))
 	{
 		s->data[s->top] = '\0';
 		s->top--;
 	}
-
+	return var;
 }
 
 

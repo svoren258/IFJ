@@ -9,7 +9,9 @@
 #define EXPRESSION_H
 #include "defs.h"
 #include "lex.h"
+// #include "interpret.h"
 #include "parser.h"
+
 // #include "stack.h"
 
 // #include "ial.h"
@@ -24,7 +26,7 @@ typedef struct{
 
 
 void expression(TVariable *var);
-TVariable *generateVar();
+TVariable *generate_var();
 int isFunctionCall();
 int isFunctionFullNameCall();
 int isFullNameVar();
@@ -61,6 +63,7 @@ enum{
     SIGN_EQUALS,//19
     SIGN_FAIL,//20
 };
+
 
 
 #endif
