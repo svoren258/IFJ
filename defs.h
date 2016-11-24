@@ -20,6 +20,9 @@
 
 #include "lex.h"
 
+#define DEBUG
+
+#ifdef DEBUG
 #define dbl printf("Left debug\n")
 #define dbr printf("Right debug\n")
 #define line printf("***FILE: %s  LINE: %d***\n",__FILE__, __LINE__)
@@ -28,6 +31,16 @@
 #define s(toprint) printf("%s ",toprint)
 #define p(toprint) printf("%s \n",toprint)
 #define ks printf("KDE SOM?!?!\n")
+#endif
+
+
+
+#ifndef DEBUG
+#define pint(toprint) ;
+#define line ;
+#define tok ;
+#define s(toprint) ;
+#endif
 
 #define TRUE 1
 #define FALSE 0

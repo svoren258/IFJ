@@ -12,9 +12,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fact2.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ifj" afterPath="$PROJECT_DIR$/ifj" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.h" afterPath="$PROJECT_DIR$/expression.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ial.c" afterPath="$PROJECT_DIR$/ial.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lex.c" afterPath="$PROJECT_DIR$/lex.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.c" afterPath="$PROJECT_DIR$/stack.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.h" afterPath="$PROJECT_DIR$/stack.h" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,10 +42,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parser.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
+            <state relative-caret-position="12349">
               <caret line="916" column="8" selection-start-line="916" selection-start-column="8" selection-end-line="916" selection-end-column="8" />
               <folding />
             </state>
@@ -47,8 +55,18 @@
       <file leaf-file-name="fact.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fact.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+            <state relative-caret-position="198">
+              <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fact2.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/fact2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="531">
+              <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -67,18 +85,8 @@
       <file leaf-file-name="expression.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/expression.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10656">
-              <caret line="592" column="52" selection-start-line="592" selection-start-column="52" selection-end-line="592" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+            <state relative-caret-position="11016">
+              <caret line="612" column="52" selection-start-line="612" selection-start-column="52" selection-end-line="612" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -88,9 +96,9 @@
         <entry file="file://$PROJECT_DIR$/expression.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
-              <caret line="5" column="70" selection-start-line="5" selection-start-column="70" selection-end-line="5" selection-end-column="70" />
+              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
               <folding>
-                <marker date="1479941968987" expanded="false" signature="478:503" ph="..." />
+                <marker date="1480008677838" expanded="false" signature="478:503" ph="..." />
               </folding>
             </state>
           </provider>
@@ -123,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/lex.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="9540">
-              <caret line="530" column="13" selection-start-line="530" selection-start-column="13" selection-end-line="530" selection-end-column="13" />
+              <caret line="536" column="13" selection-start-line="536" selection-start-column="13" selection-end-line="536" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -168,6 +176,7 @@
         <option value="$PROJECT_DIR$/lex.c" />
         <option value="$PROJECT_DIR$/expression.c" />
         <option value="$PROJECT_DIR$/parser.c" />
+        <option value="$PROJECT_DIR$/fact2.java" />
       </list>
     </option>
   </component>
@@ -451,12 +460,12 @@
       <workItem from="1479817085126" duration="17069000" />
       <workItem from="1479899902920" duration="13966000" />
       <workItem from="1479931774043" duration="10533000" />
-      <workItem from="1480007456767" duration="958000" />
+      <workItem from="1480007456767" duration="1489000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250552000" />
+    <option name="totallyTimeSpent" value="251083000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -468,7 +477,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5642738" sideWeight="0.50298065" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45409015" sideWeight="0.49701938" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6928214" sideWeight="0.49701938" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -497,13 +506,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/parser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/defs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -739,9 +741,9 @@
     <entry file="file://$PROJECT_DIR$/expression.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="5" column="70" selection-start-line="5" selection-start-column="70" selection-end-line="5" selection-end-column="70" />
+          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
           <folding>
-            <marker date="1479941968987" expanded="false" signature="478:503" ph="..." />
+            <marker date="1480008677838" expanded="false" signature="478:503" ph="..." />
           </folding>
         </state>
       </provider>
@@ -783,23 +785,15 @@
     <entry file="file://$PROJECT_DIR$/lex.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9540">
-          <caret line="530" column="13" selection-start-line="530" selection-start-column="13" selection-end-line="530" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <caret line="536" column="13" selection-start-line="536" selection-start-column="13" selection-end-line="536" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/expression.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10656">
-          <caret line="592" column="52" selection-start-line="592" selection-start-column="52" selection-end-line="592" selection-end-column="52" />
+        <state relative-caret-position="11016">
+          <caret line="612" column="52" selection-start-line="612" selection-start-column="52" selection-end-line="612" selection-end-column="52" />
           <folding />
         </state>
       </provider>
@@ -814,8 +808,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
+        <state relative-caret-position="12349">
           <caret line="916" column="8" selection-start-line="916" selection-start-column="8" selection-end-line="916" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fact2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
           <folding />
         </state>
       </provider>

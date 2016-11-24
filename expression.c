@@ -5,7 +5,7 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 #include "expression.h"
-
+#include "interpret.h"
 tTablePtr globTable;
 
 char precedence_table[TABLESIZE][TABLESIZE] =
@@ -38,6 +38,7 @@ tTablePtr exprFunc;
 tTablePtr exprClass;
 tTablePtr funcContext;
 tTablePtr classContext;
+TFunction *thisFunction;
 int TOKENTYPE;
 int operands = 0,
     operators = 0;
@@ -106,10 +107,11 @@ int iStack_get_sign()
     return SIGN_FAIL;
 }
 
-#define DEBUG
-#ifdef DEBUG
+
+
 void printStacks()
 {
+    #ifdef DEBUG
     printf("-----iStack-----\n");
     int b;
     for(int i = 0; i <= iStack->top; i++)
@@ -215,9 +217,9 @@ void printStacks()
     //         tok;
     //     }
     // printf("-----/varstack-----\n");    
-        
+        #endif
 }
-#endif
+
 void generator(){
     
 }
@@ -226,6 +228,9 @@ int simple_reduction()
 {s("REDUCTION BEGIN\n");
     int params = 1;
     int coma = 0;
+    TVariable *var1;
+    TVariable *var2;
+    TVariable *result;
     if(iStack_top() == OP_I)//ID -> E
     {
         s("TRY REDUCTION ID -> E\n");
@@ -347,6 +352,11 @@ int simple_reduction()
             case    OP_GREQUAL:
             case    OP_EQUAL:
             case    OP_NOTEQUAL:
+                var1 = stackPop(oStack);
+                var2 = stackPop(oStack);
+                result = generate_var(0);
+                create_instruction(iStack_top(),var1,var2,result);
+                stackPush(oStack,result);
                 printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
                 if(iStack_top() != OP_NONTERM)
                 {
@@ -354,6 +364,7 @@ int simple_reduction()
                     ret_error(SYNTAX_ERROR);
                 }
                 iStack_pop();//E
+                
                 if(iStack_top() >= 0 && iStack_top() <= 9)
                 {
                     line;
@@ -446,12 +457,16 @@ int tokenToType(Ttoken *token)
             TVariable *var = NULL;
             TFunction *func = NULL;
             
-            exprClass = BSTSearch(globTable, TName);//find class by name
+            //find class by name
+            if((exprClass = BSTSearch(globTable, TName)) == NULL)
+            {
+                exprClass = create_class_table(TName, globTable);
+            }
             if(token->type == TOKEN_L_ROUND )//func(..)
             {
                 if((func = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
                 {
-                    new_function(TName, classContext);//not gonna use return value from this or???
+                    new_function(token->data, classContext);//not gonna use return value from this or???
                 }
                 unget_token(1);
                 return OP_FUNC;
@@ -463,18 +478,22 @@ int tokenToType(Ttoken *token)
                 {
                     TName = token->data;
                     token = get_token();
-                    if(token->type == TOKEN_L_ROUND)
+                    if(token->type == TOKEN_L_ROUND)//class.func()
                     {
+                        if((func = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
+                        {
+                            new_function(TName, exprClass);//not gonna use return value from this or???
+                        }
                         unget_token(1);//class.func(..)
                         return OP_FUNC;
                     }
                     if(( var = get_var_from_table(exprClass, TName)) == NULL)//this var might be defined in another class later
                     {
                         token->data = TName;
-                        TVariable *new = new_variable( token, exprClass );
-                        stackPush(oStack, new);
-                    }
+                        var = new_variable( token, exprClass );
                         
+                    }
+                    stackPush(oStack, var);
                     unget_token(1);////class.var
                     return OP_I;
                 }
@@ -497,6 +516,7 @@ int tokenToType(Ttoken *token)
                     }
                     // printf("%s\n",TName);line;line;
                 }}
+                stackPush(oStack, var);
                 // if(!var)s("*****************************************************\n");
                 unget_token(1);//var
                 return OP_I;
@@ -533,7 +553,7 @@ int compare_priority(int stackTop)
     else return SIGN_EQUALS;
 }
 
-void analysis()
+void analysis(TVariable *var)
 {
     // int helper;
     int end = 0;
@@ -635,6 +655,8 @@ void analysis()
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
+                    
+                    // insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     s("***********INS_ASSIGN************\n");
                     break;
                 }
@@ -672,8 +694,9 @@ void expression(TVariable *var)
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
+    thisFunction = get_func_from_table(funcContext, funcContext->name);
 
-        analysis();
+        analysis(var);
         unget_token(1);
         printStacks();
 
