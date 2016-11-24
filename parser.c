@@ -389,10 +389,9 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         printf("som v ife\n");
         var = new_variable(tokenID, table);
         printf("som za new_var\n");
-        if(!type){
+        if (!type) {
             var->type = VARTYPE_NULL;
-        }
-        else{
+        } else {
             if (!(strcmp(type, "int"))) {
                 var->type = VARTYPE_INTEGER;
             } else if (!(strcmp(type, "double"))) {
@@ -628,34 +627,6 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
                             ret_error(SEMANTIC_DEF_ERROR);
 
-//                            token = get_token();
-//
-//                            if (token->type == TOKEN_ASSIGN) {
-//                                unget_token(1);
-//                                variableDecl(fTable, token_varID, NULL);
-//                                unget_token(1);
-//                                token = get_token();
-//                                if (token->type != TOKEN_SEM_CL) {
-//                                    ret_error(SYNTAX_ERROR);
-//                                }
-//                            } else if (token->type == TOKEN_L_ROUND) {
-//                                TFunction *f = new_function(token_varID->data, table);
-//                                printf("function name: %s\n", f->name);
-//                                f->defined = 1;
-//                                //node = BSTSearch(table->Root, tokenID->data);
-//                                //node->data.f = f;
-//                                //node->type = NODE_TYPE_FUNCTION;
-//                                unget_token(2);
-//
-//                                expression(NULL);
-//                                token = get_token();
-//
-//                                if (token->type != TOKEN_SEM_CL) {
-//                                    ret_error(SYNTAX_ERROR);
-//                                }
-//                            } else {
-//                                ret_error(SYNTAX_ERROR);
-//                            }
                         } else {
                             token = get_token();
                             if (token->type == TOKEN_ASSIGN) {
@@ -1031,34 +1002,8 @@ void block_body(Ttoken *token) {
                         node = BSTSearch(classContext->Root, token_varID->data);
                         if (node == NULL) {
 
-                            token = get_token();
+                            ret_error(SEMANTIC_DEF_ERROR);
 
-                            if (token->type == TOKEN_ASSIGN) {
-                                unget_token(1);
-                                variableDecl(funcContext, token_varID, NULL);
-                                unget_token(1);
-                                token = get_token();
-                                if (token->type != TOKEN_SEM_CL) {
-                                    ret_error(SYNTAX_ERROR);
-                                }
-                            } else if (token->type == TOKEN_L_ROUND) {
-                                TFunction *f = new_function(token_varID->data, classContext);
-                                printf("function name: %s\n", f->name);
-                                f->defined = 1;
-                                //node = BSTSearch(table->Root, tokenID->data);
-                                //node->data.f = f;
-                                //node->type = NODE_TYPE_FUNCTION;
-                                unget_token(2);
-
-                                expression(NULL);
-                                token = get_token();
-
-                                if (token->type != TOKEN_SEM_CL) {
-                                    ret_error(SYNTAX_ERROR);
-                                }
-                            } else {
-                                ret_error(SYNTAX_ERROR);
-                            }
                         } else {
                             token = get_token();
                             if (token->type == TOKEN_ASSIGN) {
@@ -1077,6 +1022,34 @@ void block_body(Ttoken *token) {
                                 token = get_token();
                                 if (token->type != TOKEN_SEM_CL) {
                                     ret_error(SYNTAX_ERROR);
+                                    token = get_token();
+
+                                    if (token->type == TOKEN_ASSIGN) {
+                                        unget_token(1);
+                                        variableDecl(funcContext, token_varID, NULL);
+                                        unget_token(1);
+                                        token = get_token();
+                                        if (token->type != TOKEN_SEM_CL) {
+                                            ret_error(SYNTAX_ERROR);
+                                        }
+                                    } else if (token->type == TOKEN_L_ROUND) {
+                                        TFunction *f = new_function(token_varID->data, classContext);
+                                        printf("function name: %s\n", f->name);
+                                        f->defined = 1;
+                                        //node = BSTSearch(table->Root, tokenID->data);
+                                        //node->data.f = f;
+                                        //node->type = NODE_TYPE_FUNCTION;
+                                        unget_token(2);
+
+                                        expression(NULL);
+                                        token = get_token();
+
+                                        if (token->type != TOKEN_SEM_CL) {
+                                            ret_error(SYNTAX_ERROR);
+                                        }
+                                    } else {
+                                        ret_error(SYNTAX_ERROR);
+                                    }
                                 }
                             } else {
                                 ret_error(SYNTAX_ERROR);
