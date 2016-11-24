@@ -209,7 +209,7 @@ Ttoken *get_token(){
 					token->type = TOKEN_INT;
 					break;
 				}
-				if( isalpha(c) )
+				if( isalpha(c) || c == '$' || c == '_' )
 				{
 					extendBuffer(buffer, c);
 					state		= STATE_ID;
@@ -464,7 +464,7 @@ Ttoken *get_token(){
 			case STATE_ID:
 			{
 				token->type = TOKEN_ID;
-				if( isalnum(c) )
+				if( isalnum(c) || c == '$' || c == '_' )
 				{
 					extendBuffer(buffer, c);
 					break;
