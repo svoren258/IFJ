@@ -208,7 +208,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
         printf("som v ife v tabulke funkcie\n");
         v->className = table->data.f->className;
     }
-    
+
     new_var->data.v = v;
 
     return v;
@@ -302,7 +302,8 @@ void Declaration(tTablePtr table, Ttoken *token) {
     char *type = NULL;
     //int staticVars = table->data.c->numOfVars;
 
-    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type != KEYWORD_VOID))) {  //TOKEN_TYPE <= int, string, double; TOKEN_BOOL plati len pre funkciu
+    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type !=
+                                                                             KEYWORD_VOID))) {  //TOKEN_TYPE <= int, string, double; TOKEN_BOOL plati len pre funkciu
         ret_error(SYNTAX_ERROR);
     }
     if ((token->type == KEYWORD_BOOLEAN) || (token->type == KEYWORD_VOID)) {
@@ -372,6 +373,10 @@ void Declaration(tTablePtr table, Ttoken *token) {
             v->declared = 1;
             v->position = table->data.c->numOfVars;
             table->data.c->numOfVars++;
+
+            TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.c->stack, NULL);
+            insert_instruction(globalInitList, pushVar);
+
             printf("var %s is declared\n", v->name);
         } else {
             TFunction *f = funcDef(table, tokenID, type);
@@ -442,15 +447,6 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     node->data.v = var;
     //node->type = NODE_TYPE_VARIABLE;
     printf("nacitany token pred koncom variableDecl: %s\n", token->data);
-
-    if(table->type == NODE_TYPE_CLASS){
-        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
-        insert_instruction(globalInitList, pushVar);
-    }
-    else if(table->type == NODE_TYPE_FUNCTION){
-        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
-        insert_instruction(table->data.f->list, pushVar);
-    }
 
     return var;
 }
@@ -553,6 +549,11 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 v->declared = 1;
                 v->position = f->numOfVars;
                 f->numOfVars++;
+
+
+                TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.f->stack, NULL);
+                insert_instruction(table->data.f->list, pushVar);
+
 
                 //token = get_token();
                 //printf("nacitany token: %s\n", token->data);
@@ -1007,7 +1008,8 @@ void block_body(Ttoken *token) {
                     //printf("nacitany token za unget: %s\n", token->data);
 
                     printf("token_varID: %s\n", token_varID->data);
-                    node = BSTSearch(funcContext->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+                    node = BSTSearch(funcContext->Root,
+                                     token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
                     if (node == NULL) {
 
                         node = BSTSearch(classContext->Root, token_varID->data);

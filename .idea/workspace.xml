@@ -12,9 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ifj" afterPath="$PROJECT_DIR$/ifj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ial.h" afterPath="$PROJECT_DIR$/ial.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
     </list>
     <ignored path="projekt-IFJ.iws" />
@@ -38,8 +36,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="451" column="57" selection-start-line="451" selection-start-column="57" selection-end-line="451" selection-end-column="57" />
+            <state relative-caret-position="-3492">
+              <caret line="375" column="12" selection-start-line="375" selection-start-column="12" selection-end-line="375" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -452,12 +450,12 @@
       <workItem from="1479817085126" duration="17069000" />
       <workItem from="1479899902920" duration="13966000" />
       <workItem from="1479931774043" duration="10533000" />
-      <workItem from="1480007456767" duration="9238000" />
+      <workItem from="1480007456767" duration="10262000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258832000" />
+    <option name="totallyTimeSpent" value="259856000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -819,8 +817,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="451" column="57" selection-start-line="451" selection-start-column="57" selection-end-line="451" selection-end-column="57" />
+        <state relative-caret-position="-3492">
+          <caret line="375" column="12" selection-start-line="375" selection-start-column="12" selection-end-line="375" selection-end-column="12" />
           <folding />
         </state>
       </provider>
