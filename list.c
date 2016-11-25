@@ -89,7 +89,7 @@ void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	first->next = L->First;
 
 	L->First = first;
-	
+	L->Act = L->First;	
 /*
 ** Vloží prvek s hodnotou val na začátek seznamu L.
 ** V případě, že není dostatek paměti pro nový prvek při operaci malloc,

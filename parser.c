@@ -138,6 +138,7 @@ void parser_init() {
 
     globalInitList = InitList(&globalInitList);
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
+    
 
 
 }
@@ -172,7 +173,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
     TList *list;
     list = InitList(&list);
     InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
-    list->Act = list->First;
+    
     f->list = list;
 //    }
 
@@ -277,22 +278,22 @@ void starter() {
         }
     }
     if (token->type == TOKEN_EOF) {
-//        tTablePtr node = BSTSearch(globTable, "Main");
-//        if(node == NULL){
-//            ret_error(SEMANTIC_DEF_ERROR);
-//        }
-//        else{
-//            node = BSTSearch(node->Root, "run");
-//            if(node == NULL){
-//                ret_error(SEMANTIC_DEF_ERROR);
-//            }
-//            else{
-//                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
-//                insert_instruction(globalInitList, run);
-//            }
-//        }
+        tTablePtr node = BSTSearch(globTable, "Main");
+        if(node == NULL){
+            ret_error(SEMANTIC_DEF_ERROR);
+        }
+        else{
+            node = BSTSearch(node->Root, "run");
+            if(node == NULL){
+                ret_error(SEMANTIC_DEF_ERROR);
+            }
+            else{
+                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
+                insert_instruction(globalInitList, run);
+            }
+        }
 
-        printf("koniec programu\n");
+        // printf("koniec programu\n");
         // ret_error(0);
     }
     //dosli sme na koniec programu
