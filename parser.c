@@ -225,30 +225,6 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
 }
 
-//void store_function(/*stack*/TFunction *f, tTablePtr table) {
-//    tTablePtr new_func;
-//    BSTInit(&new_func);
-//
-//    BSTInsert(&table, &new_func, f->name);
-//    stackPush(gStack, f);
-//}
-//
-//void store_variable(/*stack*/TVariable *v, tTablePtr table) {
-//
-//    tTablePtr node;
-//    node = BSTSearch(table, v->name);
-//    if (node == NULL) {
-//        tTablePtr new_var;
-//        BSTInit(&new_var);
-//        BSTInsert(&table, &new_var, v->name);
-//        new_var->data.v = v;
-//    } else {
-//        tTablePtr node = BSTSearch(table, v->name);
-//        node->data.v = v;
-//    }
-//
-//}
-
 
 /*--------------------automat-----------------------*/
 void starter() {
