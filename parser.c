@@ -139,6 +139,7 @@ void parser_init() {
     globalInitList = InitList(&globalInitList);
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
 
+
 }
 
 
@@ -226,30 +227,6 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
 }
 
-//void store_function(/*stack*/TFunction *f, tTablePtr table) {
-//    tTablePtr new_func;
-//    BSTInit(&new_func);
-//
-//    BSTInsert(&table, &new_func, f->name);
-//    stackPush(gStack, f);
-//}
-//
-//void store_variable(/*stack*/TVariable *v, tTablePtr table) {
-//
-//    tTablePtr node;
-//    node = BSTSearch(table, v->name);
-//    if (node == NULL) {
-//        tTablePtr new_var;
-//        BSTInit(&new_var);
-//        BSTInsert(&table, &new_var, v->name);
-//        new_var->data.v = v;
-//    } else {
-//        tTablePtr node = BSTSearch(table, v->name);
-//        node->data.v = v;
-//    }
-//
-//}
-
 
 /*--------------------automat-----------------------*/
 void starter() {
@@ -300,6 +277,21 @@ void starter() {
         }
     }
     if (token->type == TOKEN_EOF) {
+//        tTablePtr node = BSTSearch(globTable, "Main");
+//        if(node == NULL){
+//            ret_error(SEMANTIC_DEF_ERROR);
+//        }
+//        else{
+//            node = BSTSearch(node->Root, "run");
+//            if(node == NULL){
+//                ret_error(SEMANTIC_DEF_ERROR);
+//            }
+//            else{
+//                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
+//                insert_instruction(globalInitList, run);
+//            }
+//        }
+
         printf("koniec programu\n");
         // ret_error(0);
     }
