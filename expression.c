@@ -39,6 +39,10 @@ tTablePtr exprClass;
 tTablePtr funcContext;
 tTablePtr classContext;
 TFunction *thisFunction;
+TFunction *functionCall;
+TList *globalInitList;
+TList * list;
+tTablePtr functionCallTable;
 int TOKENTYPE;
 
 void iStack_push(int val)
@@ -108,6 +112,29 @@ int iStack_get_sign()
 }
 
 
+void print_list()
+{
+    TListItem ins;
+    if(thisFunction)
+    {
+        ins = thisFunction->list->First;
+        printf("Function list\n");
+    }
+     
+    else
+    {
+        ins = globalInitList->First;
+        printf("class list\n");
+    }
+     
+    printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
+    while(ins)
+    {
+        printf("%d\n",ins->operation);
+        ins = ins->next;
+    }
+    printf("********************************END FUNCTION LIST**********************************\n");
+}
 
 void printStacks()
 {
@@ -207,20 +234,32 @@ void printStacks()
             TVariable *var = oStack->data[i];
             if(var->type == VARTYPE_INTEGER)
             {
+                if(var->name)
+                printf("varname:%s \n",var->name);
                 if(var->value.i)
                 printf("%d\n",var->value.i);    
             }
             
             else if(var->type == VARTYPE_DOUBLE)
             {
+                if(var->name)
+                printf("varname:%s \n",var->name);
                 if(var->value.d)
                 printf("%g\n",var->value.d);
             }
             
             else if(var->type == VARTYPE_STRING)
             {
+                if(var->name)
+                printf("varname:%s \n",var->name);
                 if(var->value.s)
                 printf("%s\n",var->value.s);    
+            }
+            else
+            {
+                if(var->name)
+                printf("varname:%s \n",var->name);
+                printf("%d\n",iStack->top);
             }
             
         }
@@ -245,13 +284,14 @@ void generator(){
 void push_params(int numOfParams)
 {
 
-    TFunction *func;
 
-    printf("function:%s \n",exprFunc->name);
-    printf("function:%s  in class: %s\n",exprFunc->name, exprClass->name);
-    if((func = get_func_from_table(exprClass, exprFunc->name))== NULL)
+    // printf("function:%s \n",exprFunc->name);
+    // printf("function:%s  in class: %s\n",exprFunc->name, exprClass->name);
+    functionCall = iStack->data[iStack->top]->ptr;
+    
+    if(!functionCall)
     {
-        printf("%s\n",func->name);
+        printf("%s\n",functionCall->name);
         line;
         ret_error(SYNTAX_ERROR);
     }
@@ -259,8 +299,10 @@ void push_params(int numOfParams)
     {
         for(int i = 0; i < numOfParams; i++)
         {
-            printf("%d\n",numOfParams);
+            stackPush(functionCall->stack, stackPop(oStack));
         }
+        printf("oStack: %d\n",oStack->top);
+        printf("%s\n",functionCall->name);
     }
 }
 
@@ -302,8 +344,20 @@ int simple_reduction()
                 else if(iStack_top() == OP_FUNC)//func(par) -> E
                 {
                     params = 1;
+                    
+                    push_params(params);
                     iStack_pop();//func
-                    iStack_pop();//<
+                    iStack_pop();//< before func
+                    //function call
+                    
+                    
+                    
+                    result = generate_var(0);
+                    result->name = "return";
+                    stackPush(oStack, result);
+                    TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
+                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
+                    insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     iStack_push(OP_NONTERM);
                 }
                 else
@@ -347,12 +401,20 @@ int simple_reduction()
                 }
                 if(iStack_top() == OP_FUNC)
                 {
+                    push_params(params);
                     iStack_pop();//func
                     iStack_pop();//< before func
                     //function call
-                    push_params(params);
                     
                     
+                    
+                    result = generate_var(0);
+                    result->name = "return";
+                    stackPush(oStack, result);
+                    TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
+                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
+                    insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
+                    // printf("FUNCTION CALL!!!!\n\n\n\n\n");
                     iStack_push(OP_NONTERM);
                 }
             } 
@@ -402,7 +464,7 @@ int simple_reduction()
                 var2 = stackPop(oStack);
                 result = generate_var(0);
                 line;
-                insert_instruction(thisFunction->list,create_instruction(iStack_top(),var1,var2,result));
+                insert_instruction(list,create_instruction(iStack_top(),var1,var2,result));
                 stackPush(oStack,result);
                 printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
                 if(iStack_top() != OP_NONTERM)
@@ -437,27 +499,31 @@ TVariable *generate_var(int assign)
   
         
     
-    
-    if(token->type == TOKEN_INT)
-    {
-        var->type = VARTYPE_INTEGER;
-        var->value.i = atoi(token->data);
-    }
-        
-    else if(token->type == TOKEN_STRING)
-    {
-        var->type = VARTYPE_STRING;
-        var->value.s = token->data;
-    }
-        
-    else if(token->type == TOKEN_DOUBLE)
-    {
-        var->type = VARTYPE_DOUBLE;
-        var->value.d = strtod(token->data,NULL);
-    }
-    else
+    if(var)
     {
         var->type = VARTYPE_NULL;
+    }
+    if(assign == 1)
+    {
+        
+        
+        if(token->type == TOKEN_INT)
+        {
+            var->type = VARTYPE_INTEGER;
+            var->value.i = atoi(token->data);
+        }
+            
+        else if(token->type == TOKEN_STRING)
+        {
+            var->type = VARTYPE_STRING;
+            var->value.s = token->data;
+        }
+            
+        else if(token->type == TOKEN_DOUBLE)
+        {
+            var->type = VARTYPE_DOUBLE;
+            var->value.d = strtod(token->data,NULL);
+        }
     }
     return var;
 }
@@ -508,18 +574,18 @@ int tokenToType(Ttoken *token)
             CName = token->data;
             token = get_token();
             TVariable *var = NULL;
-            TFunction *func = NULL;
             
             //find class by name
             
             if(token->type == TOKEN_L_ROUND )
             {//func(..)
             // exprClass = NULL;
-                if((func = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
+                if((functionCall = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
                 {
                     new_function(token->data, classContext);//not gonna use return value from this or???
                 }
-                func = get_func_from_table(classContext, TName);
+                functionCall = get_func_from_table(classContext, TName);
+                functionCallTable = BSTSearch(classContext->Root, TName);
                 unget_token(1);
                 return OP_FUNC;
             } //func(..)
@@ -536,12 +602,12 @@ int tokenToType(Ttoken *token)
                         {
                             exprClass = create_class_table(CName, globTable);
                         }
-                        if((func = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
+                        if((functionCall = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
                             new_function(TName, exprClass);//not gonna use return value from this or???
                             line;
                         }
-                        
+                        functionCallTable = BSTSearch(exprClass->Root, TName);
                         unget_token(1);
                         exprFunc = BSTSearch(exprClass->Root, TName);
                         printf("class:%s func:%s\n",exprClass->name,exprFunc->name);
@@ -644,7 +710,8 @@ void analysis(TVariable *var)
         if(brackets < 0){
             printf("BRACKETS:%d RETURN\n",brackets);
             
-        }
+        }line;
+        print_list();line;
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
         printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
@@ -657,8 +724,11 @@ void analysis(TVariable *var)
                 printf("LESS: Ttype %d\n",TOKENTYPE);
                 if(TOKENTYPE != OP_NONTERM)
                 {
+                    
                     iStack_push (R_LESS);
                     iStack_push(TOKENTYPE);
+                    if(TOKENTYPE == OP_FUNC)
+                        iStack->data[iStack->top]->ptr = functionCall;
                     printStacks();
                 }
                 
@@ -724,7 +794,8 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
-                    insert_instruction(thisFunction->list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    print_list();
                     s("***********INS_ASSIGN************\n");
                     break;
                 }
@@ -762,9 +833,22 @@ void expression(TVariable *var)
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
-    thisFunction = get_func_from_table(classContext, funcContext->name);
     
-    printf("%s\n",thisFunction->name);
+    if(funcContext)thisFunction = get_func_from_table(classContext, funcContext->name);
+    
+    if(thisFunction == NULL)
+    {
+    
+        list = globalInitList;
+            line;
+    }
+        
+    else
+    {
+        list = thisFunction->list;
+        line;
+    }
+    // printf("%s\n",thisFunction->name);
 
         analysis(var);
         unget_token(1);

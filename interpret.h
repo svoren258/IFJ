@@ -14,26 +14,28 @@
 
 int interpret(TList *list);
 enum{
-    INS_ADD,    // "+"
-    INS_SUB,    // "-"
-    INS_MUL,    // "*"
-    INS_DIV,    // "/"
+    INS_ADD,    // "+"0
+    INS_SUB,    // "-"1
+    INS_MUL,    // "*"2
+    INS_DIV,    // "/"3
       
-    INS_CMP_LESS,//<
-    INS_CMP_LEQUAL,//<=
-    INS_CMP_GREATER,//>
-    INS_CMP_GREQUAL,//>=
+    INS_CMP_LESS,//<4
+    INS_CMP_LEQUAL,//<=5
+    INS_CMP_GREATER,//>6
+    INS_CMP_GREQUAL,//>=7
     
-    INS_CMP_EQUAL,//==
-    INS_CMP_NOTEQUAL,//!=
-    INS_JCMP,    //jump if true
-    INS_JNCMP,     //jump if false
-    INS_JMP,    //jump
-    INS_CMP,    //if the var tested has value 1 it's true
-    INS_ASSIGN, // "=" assign value to the variable
-    INS_LABEL,
-    INS_RET,
-    INS_PUSH_VAR,
+    INS_CMP_EQUAL,//==8
+    INS_CMP_NOTEQUAL,//!=9
+    INS_JCMP,    //jump if true10
+    INS_JNCMP,     //jump if false11
+    INS_JMP,    //jump12
+    INS_CMP,    //if the var tested has value 1 it's true13
+    INS_ASSIGN, // "=" assign value to the variable14
+    INS_LABEL,//15
+    INS_RET,//16
+    INS_PUSH_VAR,//17
+    INS_CALL,//18
+    INS_PUSH_TABLE,//19
 };
 
 #endif

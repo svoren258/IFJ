@@ -188,8 +188,9 @@ void insert_instruction(TList *L, TListItem new)
 	// new->add1 = add1;
 	// new->add2 = add2;
 	// new->add3 = add3;
-	new->next = L->Act->next;
 	L->Act->next = new;
+	// new->next = L->Act->next;
+	L->Act = new;
 }
 
 
