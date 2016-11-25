@@ -126,7 +126,7 @@ void print_list()
         ins = globalInitList->First;
         printf("class list\n");
     }
-     
+    if(thisFunction)return;
     printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
     while(ins)
     {

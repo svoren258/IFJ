@@ -6,8 +6,23 @@
 /********************************************************************/
 #include "interpret.h"
 
-int interpret(TList *list)
+TList *globalInitList;
+
+int interpret()
 {
-    printf("hey");    
+    int i = 0;
+    TListItem ins;
+    ins = globalInitList->First;
+    
+    
+    
+    while(ins)
+    { 
+        printf("interpret %d\n",ins->operation);
+        i++;
+        printf("%d\n",i);
+        ins = ins->next;
+    }
+    printf("\n\n***INTERPRET BEGINING***\n\n");    
     return 1;
 }

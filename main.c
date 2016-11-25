@@ -11,7 +11,7 @@
 #include "ial.h"
 #include "lex.h"
 #include "parser.h"
- 
+#include "interpret.h"
 
 //#define FILE_ERROR 5
 Ttoken *token;
@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     parse();
     // TVariable *var = NULL;
     // expression(var);
-    
+    interpret();
     
     lexFinish();
 	return 0;

@@ -301,7 +301,7 @@ void starter() {
     }
     if (token->type == TOKEN_EOF) {
         printf("koniec programu\n");
-        ret_error(0);
+        // ret_error(0);
     }
     //dosli sme na koniec programu
 }
@@ -1132,4 +1132,6 @@ void parse() {
     parser_init();
     starter();
     parser_finish();
+    
+    
 }
