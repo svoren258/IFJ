@@ -359,6 +359,7 @@ int simple_reduction()
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
+                    insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
                 }
                 else
@@ -415,7 +416,7 @@ int simple_reduction()
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
-                    // printf("FUNCTION CALL!!!!\n\n\n\n\n");
+                    insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
                 }
             } 
@@ -796,6 +797,7 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
+                    if(var)
                     insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     print_list();
                     s("***********INS_ASSIGN************\n");

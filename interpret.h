@@ -10,7 +10,7 @@
 
 #include "defs.h"
 #include "list.h"
-
+#include "parser.h"
 
 int interpret();
 enum{

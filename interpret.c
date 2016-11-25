@@ -7,6 +7,9 @@
 #include "interpret.h"
 
 TList *globalInitList;
+tTablePtr globTable;
+
+
 void translate_listitem(TListItem ins)
 {
     switch(ins->operation)
@@ -102,6 +105,9 @@ int interpret()
 {
     TListItem ins;
     ins = globalInitList->First;
+    // tTablePtr ifj = BSTSearch(globTable, "ifj");
+    // TFunction *func = get_func_from_table(ifj->Root,"find");
+    
     
     
     printf("\n\n***INTERPRET BEGINING***\n\n");  
@@ -111,8 +117,23 @@ int interpret()
         {
             case INS_JMP:
             {
+                printf("JMP\n");
                 ins = ins->add3;
+                continue;
             }
+            
+            case INS_CALL:
+            {
+                TFunction *func = ins->add1;
+                if(!strcmp(func->className, "ifj16"))
+                ins = ins->next;
+                // ins = func->list->First->next->next;
+                // printf("%d\n",ins->operation);
+                printf("FUNC CALL: %s\n",func->name);
+                ins = func->list->First;
+                continue;
+            }
+            
         }
         translate_listitem(ins);
         printf(" %d\n",ins->operation);
