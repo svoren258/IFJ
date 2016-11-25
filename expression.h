@@ -20,7 +20,12 @@
 extern char  predence_table[TABLESIZE][TABLESIZE];
 
 typedef struct{
-    int data[1000];
+    int data;
+    void *ptr;
+}TIData;
+
+typedef struct{
+    TIData *data[1000];
     int top;
 }TIStack;
 
