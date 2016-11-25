@@ -21,7 +21,7 @@ void BSTInit (tTablePtr *RootPtr) {
 
 
 tTablePtr BSTSearch (tTablePtr RootPtr, char *node)	{
-	printf("som v BSTSearch\n");
+	//printf("som v BSTSearch\n");
 
 	if( (RootPtr == NULL) || (node == NULL)  )
 		return NULL;

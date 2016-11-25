@@ -171,6 +171,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
     TList *list;
     list = InitList(&list);
     InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
+    list->Act = list->First;
     f->list = list;
 //    }
 

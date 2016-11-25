@@ -112,15 +112,15 @@ void pushToken(Ttoken * token)
 
 Ttoken * getTokenFromStack()
 {
-	 printf("Ungetindex:%d\n",ungetTokenIndex);
-	 printf("TOKENSTACK\n");
-	 for(int i = tokenStack->top; i >= 0; i--)
-	 {
-	 	token = tokenStack->data[i];
-	 	printf("%s \t%d\n",token->data, i);
+	 //printf("Ungetindex:%d\n",ungetTokenIndex);
+	 //printf("TOKENSTACK\n");
+	 //for(int i = tokenStack->top; i >= 0; i--)
+	 //{
+	 //	token = tokenStack->data[i];
+	 //	printf("%s \t%d\n",token->data, i);
 		
-	 }
-	 printf("TOKENSTACK\n");
+	 //}
+	 //printf("TOKENSTACK\n");
 	
 	token = tokenStack->data[ungetTokenIndex];
 	ungetTokenIndex++;
