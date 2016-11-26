@@ -6,8 +6,7 @@
 /********************************************************************/
 
 #include <stdio.h>
-
-#include "defs.h"
+//#include "defs.h"
 #include "ial.h"
 #include "lex.h"
 #include "parser.h"

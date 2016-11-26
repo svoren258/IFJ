@@ -88,14 +88,17 @@ void parser_init() {
     TFunction *readInt = new_function("readInt", ifj16Table);
     readInt->numOfParams = 0;
     readInt->params[0] = FUNCTYPE_INT;
+    readInt->defined = 1;
 
     TFunction *readDouble = new_function("readDouble", ifj16Table);
     readDouble->numOfParams = 0;
     readDouble->params[0] = FUNCTYPE_DOUBLE;
+    readDouble->defined = 1;
 
     TFunction *readString = new_function("readString", ifj16Table);
     readString->numOfParams = 0;
     readString->params[0] = FUNCTYPE_STRING;
+    readString->defined = 1;
 
     TFunction *print = new_function("print", ifj16Table);
     print->numOfParams = 0;
@@ -140,9 +143,7 @@ void parser_init() {
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
     
 
-
 }
-
 
 void parser_finish() {
     BSTDispose(&globTable);
@@ -178,6 +179,8 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 //    }
 
     f->stack = stackInit();
+    f->numOfVars = 0;
+    f->numOfParams = 0;
     /*assign the table to the function*/
     f->defined = 0;
     f->name = tokenName;
@@ -555,6 +558,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 //printf("som za variableDecl v token_type\n");
                 v->declared = 1;
                 v->position = f->numOfVars;
+                printf("pozicia premennej %s: %d\n", token_varID->data, v->position);
                 f->numOfVars++;
                 //printf("som pred pridanim premennej do listu\n");
 
@@ -614,8 +618,12 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             TFunction *f = new_function(token_varID->data, tableOfClass);
                             //printf("function name: %s\n", f->name);
                             f->declared = 1;
-                            //node = BSTSearch(tableOfClass->Root, token_varID->data);
-                            //node->data.f = f;
+//                            node = BSTSearch(tableOfClass->Root, token_varID->data);
+//                           if(node == NULL){
+//                               printf("nenasiel som prave pridavanu funkciu %s v tabulke %s\n", token_varID->data, tableOfClass->name);
+//                               exit(1);
+//                           }
+                           //node->data.f = f;
                             //node->type = NODE_TYPE_FUNCTION;
 
                             unget_token(4);
@@ -733,10 +741,20 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     //printf("som za whileom\n");
 
     //store_function(f, &table);
-    //printf("nazov tabulky: %s\n", table->name);
-    //printf("nazov funkcie: %s\n", tokenID->data);
+    f->numOfVars += f->numOfParams;
+
+    // printf("nazov tabulky: %s\n", table->name);
+    // printf("nazov funkcie: %s\n", tokenID->data);
+    // printf("pocet parametrov funkcie %d\n", f->numOfParams);
+    // printf("pocet premennych funkcie %d\n", f->numOfVars);
+    //exit(1);
+
     node = BSTSearch(table->Root, tokenID->data);
-    ////printf("som za BSTSearch\n");
+    if(node == NULL){
+        // printf("nenasiel som %s v %s\n", tokenID->data, table->name);
+    }
+    // printf("nasiel som funkciu %s v tabulke triedy %s\n", tokenID->data, table->name);
+    //printf("som za BSTSearch\n");
     node->data.f = f;
     //node->type = NODE_TYPE_FUNCTION;
     //node->defined = 1;
@@ -780,6 +798,8 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         //var = node->data.v;
     }
     var->declared = 1;
+    var->position = numOfParam - 1;
+    printf("pozicia parametra %s: %d\n", tokenID->data, var->position);
     //store_variable(var, &table);
     node = BSTSearch(table->Root, tokenID->data);
     node->data.v = var;

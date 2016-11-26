@@ -6,6 +6,7 @@
 /********************************************************************/
 #include "expression.h"
 #include "interpret.h"
+//#include "defs.h"
 tTablePtr globTable;
 
 char precedence_table[TABLESIZE][TABLESIZE] =
