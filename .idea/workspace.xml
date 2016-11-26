@@ -12,7 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
     </list>
     <ignored path="projekt-IFJ.iws" />
@@ -36,8 +35,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="561" column="85" selection-start-line="561" selection-start-column="85" selection-end-line="561" selection-end-column="85" />
+            <state relative-caret-position="358">
+              <caret line="802" column="71" selection-start-line="802" selection-start-column="71" selection-end-line="802" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -469,12 +468,12 @@
       <workItem from="1480007456767" duration="16193000" />
       <workItem from="1480024745700" duration="608000" />
       <workItem from="1480074041541" duration="5197000" />
-      <workItem from="1480102305250" duration="6139000" />
+      <workItem from="1480102305250" duration="6596000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="277731000" />
+    <option name="totallyTimeSpent" value="278188000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -813,14 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/defs.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-63">
-          <caret line="73" column="18" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/java.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -829,10 +820,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/defs.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-63">
+          <caret line="73" column="18" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="561" column="85" selection-start-line="561" selection-start-column="85" selection-end-line="561" selection-end-column="85" />
+        <state relative-caret-position="358">
+          <caret line="802" column="71" selection-start-line="802" selection-start-column="71" selection-end-line="802" selection-end-column="71" />
           <folding />
         </state>
       </provider>

@@ -748,7 +748,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     printf("nazov funkcie: %s\n", tokenID->data);
     printf("pocet parametrov funkcie %d\n", f->numOfParams);
     printf("pocet premennych funkcie %d\n", f->numOfVars);
-    exit(1);
+    //exit(1);
 
     node = BSTSearch(table->Root, tokenID->data);
     if(node == NULL){
@@ -799,6 +799,8 @@ void params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovanie par
         //var = node->data.v;
     }
     var->declared = 1;
+    var->position = numOfParam - 1;
+    printf("pozicia parametra %s: %d\n", tokenID->data, var->position);
     //store_variable(var, &table);
     node = BSTSearch(table->Root, tokenID->data);
     node->data.v = var;
