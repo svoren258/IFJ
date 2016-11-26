@@ -106,6 +106,7 @@ enum{
 	VARTYPE_INTEGER,
 	VARTYPE_DOUBLE,
 	VARTYPE_STRING,
+	VARTYPE_BOOLEAN,
 };
 typedef struct new_var TVariable;
 struct new_var 
@@ -120,6 +121,7 @@ struct new_var
 		int i;
 		double d;
 		char *s;
+		int b;
 	}value;
 	
 };

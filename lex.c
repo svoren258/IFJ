@@ -454,6 +454,11 @@ Ttoken *get_token(){
 					state = STATE_DEC_E;
 					break;
 				}
+				ungetc(c,file);
+				token->type = TOKEN_DOUBLE;
+				token->data = buffer->data;
+				pushToken(token);
+				return token;
 				line;
 				ret_error(SYNTAX_ERROR);
 				

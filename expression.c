@@ -238,7 +238,7 @@ void printStacks()
                 if(var->name)
                 printf("varname:%s \n",var->name);
                 if(var->value.i)
-                printf("%d\n",var->value.i);    
+                printf("%d INT\n",var->value.i);    
             }
             
             else if(var->type == VARTYPE_DOUBLE)
@@ -246,7 +246,7 @@ void printStacks()
                 if(var->name)
                 printf("varname:%s \n",var->name);
                 if(var->value.d)
-                printf("%g\n",var->value.d);
+                printf("%g DOUBLE\n",var->value.d);
             }
             
             else if(var->type == VARTYPE_STRING)
@@ -254,13 +254,13 @@ void printStacks()
                 if(var->name)
                 printf("varname:%s \n",var->name);
                 if(var->value.s)
-                printf("%s\n",var->value.s);    
+                printf("%s string\n",var->value.s);    
             }
             else
             {
                 if(var->name)
                 printf("varname:%s \n",var->name);
-                printf("%d\n",iStack->top);
+                printf("anonym otop %d\n",oStack->top);
             }
             
         }
@@ -447,7 +447,6 @@ int simple_reduction()
         
     if(iStack_top() == OP_NONTERM)//<E op E -> E
     {
-        s("TRY REDUCTION <E op E -> E\n");
         iStack_pop();//E
         switch(iStack_top())
         {
@@ -465,10 +464,10 @@ int simple_reduction()
                 var1 = stackPop(oStack);
                 var2 = stackPop(oStack);
                 result = generate_var(0);
-                line;
-                insert_instruction(list,create_instruction(iStack_top(),var1,var2,result));
+                TListItem ins = create_instruction(iStack_top(),var1,var2,result);
+                insert_instruction(list,ins);
                 stackPush(oStack,result);
-                printf("***REDUCTION COMPARE:E %d E***\n", iStack_pop());//OP
+                printf("***********REDUCTION :E %d E***********\n", iStack_pop());//OP
                 if(iStack_top() != OP_NONTERM)
                 {
                     line;
@@ -499,8 +498,8 @@ TVariable *generate_var(int assign)
     TVariable *var;
     var = malloc(sizeof(TVariable));
   
-        
-    
+    var->declared = 1;
+    var->defined = 0;
     if(var)
     {
         var->type = VARTYPE_NULL;
@@ -508,7 +507,7 @@ TVariable *generate_var(int assign)
     if(assign == 1)
     {
         
-        
+        var->defined = 1;
         if(token->type == TOKEN_INT)
         {
             var->type = VARTYPE_INTEGER;
@@ -554,7 +553,7 @@ int tokenToType(Ttoken *token)
         case TOKEN_GREATER:
             return OP_GREATER;
         case TOKEN_LESS:
-            return R_LESS;
+            return OP_LESS;
         case TOKEN_GR_EQ:
             return OP_GREQUAL;
         case TOKEN_LE_EQ:
@@ -670,7 +669,7 @@ int tokenToType(Ttoken *token)
         break;
     }
 
-    // printf("%s %d \n",token->data, token->type);
+    printf("%s %d \n",token->data, token->type);
     line;
     ret_error(SYNTAX_ERROR);
      return 0;
@@ -713,8 +712,8 @@ void analysis(TVariable *var)
         if(brackets < 0){
             printf("BRACKETS:%d RETURN\n",brackets);
             
-        }line;
-        print_list();line;
+        }
+       
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
         printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
