@@ -108,8 +108,15 @@ int interpret()
     // tTablePtr ifj = BSTSearch(globTable, "ifj");
     // TFunction *func = get_func_from_table(ifj->Root,"find");
     
+    TFunction * func;
+    // tTablePtr pclass = BSTSearch(globTable, "Game");
+    
+    // tTablePtr pfunc = BSTSearch(pclass->Root, "play");
+    // printf("%s\n",pfunc->name);
     
     
+    
+    // ins = func->list->First;
     printf("\n\n***INTERPRET BEGINING***\n\n");  
     while(ins)
     {
@@ -122,16 +129,31 @@ int interpret()
                 continue;
             }
             
+            case INS_JCMP:
+            {
+                printf("JCMP\n");
+                // ins = ins->add3;
+                continue;
+            }
+            
             case INS_CALL:
             {
-                TFunction *func = ins->add1;
+                func = ins->add1;
                 if(!strcmp(func->className, "ifj16"))
-                ins = ins->next;
+                {
+                    ins = ins->next;
+                    printf("ifj16 func: %s\n",func->name);
+                    break;
+                }
+                
                 // ins = func->list->First->next->next;
                 // printf("%d\n",ins->operation);
                 printf("FUNC CALL: %s\n",func->name);
+                printf("CLASS: %s\n",func->className);
+                //printf("%d\n",ins->next->next->operation);
                 ins = func->list->First;
-                continue;
+               
+                break;
             }
             
         }
