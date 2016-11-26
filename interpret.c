@@ -13,6 +13,7 @@ tTablePtr globTable;
 TListItem ins;
 TVariable *var1,*var2,*result;
 TStack *localStack, *globalStack;
+TFunction *function;
 
 
 void translate_listitem(TListItem ins)
@@ -105,10 +106,50 @@ void translate_listitem(TListItem ins)
         }
 }
 
+TVariable *get_variable(char *name)
+{
+    TStack *topStack;
+    printf("%s\n",name);
+    
+    tTablePtr classNode;
+    tTablePtr funcNode;
+    TVariable *var;
+
+    if(function)
+    {
+        topStack = stackTop(localStack);
+        classNode = BSTSearch(globTable, function->className);
+        funcNode = BSTSearch(classNode->Root, function->name);    
+        var = get_var_from_table(funcNode, name);
+        printf("varname:%s stacktop:%d\n",name,topStack->top);
+        return var;
+    }
+    else
+    {
+        for(int i = 0; i < globalStack->top; i++)
+        {
+            printf("varname:%s globstack:%d\n",name,globalStack->top);
+            TVariable *helper = globalStack->data[i];
+            
+            if(!strcmp(name, helper->name))
+            return helper;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    return NULL;
+}
+
 void math()
 {
                 var1 = ins->add1;
+                // var1 = get_variable(var1->name);
                 var2 = ins->add2;
+                // var2 = get_variable(var2->name);
                 result = ins->add3;
                 int op = ins->operation;
                 ins = ins->next;
@@ -283,7 +324,7 @@ void math()
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                             result->value.b = var1->value.i < var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            {result->value.b = var1->value.i < var2->value.i;line;printf("%d %d\n",var1->value.i , var2->value.i);}
+                            {result->value.b = var1->value.i < var2->value.i;
                         printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
@@ -365,6 +406,7 @@ void math()
                     default:printf("DEFAULT MATH INS\n");
                     break;
                 }
+                }
 }
 
 int interpret()
@@ -372,8 +414,11 @@ int interpret()
     ins = globalInitList->First;
     // tTablePtr ifj = BSTSearch(globTable, "ifj");
     // TFunction *func = get_func_from_table(ifj->Root,"find");
-    localStack = stackInit();
-    globalStack = stackInit();
+    
+    tTablePtr globStack = BSTSearch(globTable, "Main");
+    
+    globalStack = globStack->data.c->stack;
+    
     TFunction * func;
     // tTablePtr pclass = BSTSearch(globTable, "Game");
     
@@ -408,7 +453,11 @@ int interpret()
             
             case INS_ASSIGN:
                 var1 = ins->add1;
+                if(var1->name)
+                var1 = get_variable(var1->name);
                 var2 = ins->add2;
+                if(var2->name)
+                var2 = get_variable(var2->name);
                 var1->defined = 1;
                 ins = ins->next;
                 if(var1->type == VARTYPE_INTEGER)
@@ -466,7 +515,7 @@ int interpret()
             case INS_CALL:
             {
                 func = ins->add1;
-                
+                function = func;
                 if(!strcmp(func->className, "ifj16"))
                 {
                     if(!strcmp(func->name,"print"))
@@ -479,21 +528,10 @@ int interpret()
                     // printf("ifj16 func: %s\n",func->name);
                     continue;
                 }
-                if(!strcmp(func->className, "Game"))
-                {
-                    line;
-                    printf("%s\n",globTable->name);
-                    tTablePtr table = BSTSearch(globTable, "Game");
-                    table = BSTSearch(table->Root,func->name);
-                    printf("%s\n",table->name);
-                    TVariable *var = get_var_from_table(table, "str1");
-                    printf("name:%s position:%d\n",var->name,var->position);
-                    TVariable *var1 = get_var_from_table(table, "var");
-                    printf("name:%s position:%d\n",var1->name,var1->position);
-                    // var = func->stack->data[var->position];
-                    // printf("%s \n",var->name);
-                    exit(1);
-                }
+                tTablePtr classNode = BSTSearch(globTable, func->className);
+                globalStack = classNode->data.c->stack;
+                
+                
                 
                 // ins = func->list->First->next->next;
                 // printf("%d\n",ins->operation);
