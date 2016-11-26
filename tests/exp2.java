@@ -4,7 +4,7 @@ class Main
     // static int x = 1 + 2 + 3;
     static void run()
     {
-        int a = 2 < 3;
+        int a = 3 <= 3;
         int b = 1 * 2 + 3;
     } // end of static void run()
 } // end of class Main
