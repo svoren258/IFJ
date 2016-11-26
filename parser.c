@@ -382,8 +382,8 @@ void Declaration(tTablePtr table, Ttoken *token) {
             v->position = table->data.c->numOfVars;
             table->data.c->numOfVars++;
 
-            TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.c->stack, NULL);
-            insert_instruction(globalInitList, pushVar);
+//            TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.c->stack, NULL);
+//            insert_instruction(globalInitList, pushVar);
 
             //printf("var %s is declared\n", v->name);
         } else {
@@ -428,6 +428,16 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         //printf("varname: %s\n", var->name);
     }
 
+    if(table->type == NODE_TYPE_CLASS){
+        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
+        insert_instruction(globalInitList, pushVar);
+
+    }
+    else if(table->type == NODE_TYPE_FUNCTION){
+        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
+        insert_instruction(table->data.f->list, pushVar);
+
+    }
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {
@@ -451,7 +461,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     //printf("tablename: %s\n", table->name);
     //printf("tokenID: %s\n", tokenID->data);
     node = BSTSearch(table->Root, tokenID->data);
-    ////printf("som za BSTSearch\n");
+
     node->data.v = var;
     //node->type = NODE_TYPE_VARIABLE;
     //printf("nacitany token pred koncom variableDecl: %s\n", token->data);
@@ -568,8 +578,8 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
                 //printf("som pred pridanim premennej do listu\n");
 
-                TListItem pushVar = create_instruction(INS_PUSH_VAR, v, f->stack, NULL);
-                insert_instruction(f->list, pushVar);
+//                TListItem pushVar = create_instruction(INS_PUSH_VAR, v, f->stack, NULL);
+//                insert_instruction(f->list, pushVar);
 
 
                 //token = get_token();
