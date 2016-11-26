@@ -5,7 +5,7 @@ class Main
     static void run()
     {
         String str1;
-        str1 = "Toto je nejaky text";
+        str1 = "Toto je text";
         String str2;
         str2 = str1 + ", ktery jeste trochu obohatime";
         Main.x = ifj16.find(str2, "text");

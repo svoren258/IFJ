@@ -122,7 +122,6 @@ void math()
                 result->defined = 1;
                 if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
                 { 
-                    printf("%s %s\n",var1->value.s, var2->value.s);
                     if(var1->type == VARTYPE_INTEGER)
                     {
                         char buffer[100];
@@ -153,9 +152,12 @@ void math()
                     }    
                     else if(var2->type == VARTYPE_BOOLEAN)
                         ret_error(SEMANTIC_TYPE_ERROR);
-                    result->type = VARTYPE_STRING;printf("%s %s\n",var1->value.s, var2->value.s);
-                    result->value.s = strncpy(result->value.s, var1->value.s,100);line;
-                    result->value.s = strncat(result->value.s, var2->value.s, 100);
+                    result->type = VARTYPE_STRING;
+                    // printf("%s %s\n",var1->value.s, var2->value.s);
+                    
+                    strncat(var1->value.s, var2->value.s, 100);
+                    result->value.s = var1->value.s;
+                    //strncpy(result->value.s, var1->value.s, 100);line;
                     return;
                 }
                 
