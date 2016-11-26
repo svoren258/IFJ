@@ -126,8 +126,8 @@ TVariable *get_variable(char *name)
     }
     else
     {
-        for(int i = 0; i < globalStack->top; i++)
-        {
+        for(int i = 0; i <= globalStack->top; i++)
+        {printf("%d\n",globalStack->top);
             printf("varname:%s globstack:%d\n",name,globalStack->top);
             TVariable *helper = globalStack->data[i];
             
