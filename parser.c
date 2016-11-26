@@ -88,14 +88,17 @@ void parser_init() {
     TFunction *readInt = new_function("readInt", ifj16Table);
     readInt->numOfParams = 0;
     readInt->params[0] = FUNCTYPE_INT;
+    readInt->defined = 1;
 
     TFunction *readDouble = new_function("readDouble", ifj16Table);
     readDouble->numOfParams = 0;
     readDouble->params[0] = FUNCTYPE_DOUBLE;
+    readDouble->defined = 1;
 
     TFunction *readString = new_function("readString", ifj16Table);
     readString->numOfParams = 0;
     readString->params[0] = FUNCTYPE_STRING;
+    readString->defined = 1;
 
     TFunction *print = new_function("print", ifj16Table);
     print->numOfParams = 0;
@@ -139,9 +142,7 @@ void parser_init() {
     globalInitList = InitList(&globalInitList);
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
 
-
 }
-
 
 void parser_finish() {
     BSTDispose(&globTable);
@@ -277,20 +278,20 @@ void starter() {
         }
     }
     if (token->type == TOKEN_EOF) {
-//        tTablePtr node = BSTSearch(globTable, "Main");
-//        if(node == NULL){
-//            ret_error(SEMANTIC_DEF_ERROR);
-//        }
-//        else{
-//            node = BSTSearch(node->Root, "run");
-//            if(node == NULL){
-//                ret_error(SEMANTIC_DEF_ERROR);
-//            }
-//            else{
-//                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
-//                insert_instruction(globalInitList, run);
-//            }
-//        }
+        tTablePtr node = BSTSearch(globTable, "Main");
+        if(node == NULL){
+            ret_error(SEMANTIC_DEF_ERROR);
+        }
+        else{
+            node = BSTSearch(node->Root, "run");
+            if(node == NULL){
+                ret_error(SEMANTIC_DEF_ERROR);
+            }
+            else{
+                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
+                insert_instruction(globalInitList, run);
+            }
+        }
 
         printf("koniec programu\n");
         ret_error(0);
@@ -613,8 +614,12 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                             TFunction *f = new_function(token_varID->data, tableOfClass);
                             printf("function name: %s\n", f->name);
                             f->declared = 1;
-                            //node = BSTSearch(tableOfClass->Root, token_varID->data);
-                            //node->data.f = f;
+//                            node = BSTSearch(tableOfClass->Root, token_varID->data);
+//                           if(node == NULL){
+//                               printf("nenasiel som prave pridavanu funkciu %s v tabulke %s\n", token_varID->data, tableOfClass->name);
+//                               exit(1);
+//                           }
+                           //node->data.f = f;
                             //node->type = NODE_TYPE_FUNCTION;
 
                             unget_token(4);
@@ -735,6 +740,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     printf("nazov tabulky: %s\n", table->name);
     printf("nazov funkcie: %s\n", tokenID->data);
     node = BSTSearch(table->Root, tokenID->data);
+    if(node == NULL){
+        printf("nenasiel som %s v %s\n", tokenID->data, table->name);
+    }
+    printf("nasiel som funkciu %s v tabulke triedy %s\n", tokenID->data, table->name);
     //printf("som za BSTSearch\n");
     node->data.f = f;
     //node->type = NODE_TYPE_FUNCTION;
