@@ -520,6 +520,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     }
 
     f->numOfParams = paramsCount;
+    f->numOfVars += f->numOfParams;
     //printf("pocet parametrov: %d\n", f->numOfParams);
 
     token = get_token();
@@ -557,10 +558,13 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
                 v = variableDecl(fTable, token_varID, type);
                 //printf("som za variableDecl v token_type\n");
+
                 v->declared = 1;
                 v->position = f->numOfVars;
-                printf("pozicia premennej %s: %d\n", token_varID->data, v->position);
                 f->numOfVars++;
+                printf("pozicia premennej %s: %d\n", token_varID->data, v->position);
+                //exit(1);
+
                 //printf("som pred pridanim premennej do listu\n");
 
                 TListItem pushVar = create_instruction(INS_PUSH_VAR, v, f->stack, NULL);
@@ -742,7 +746,6 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     //printf("som za whileom\n");
 
     //store_function(f, &table);
-    f->numOfVars += f->numOfParams;
 
     // printf("nazov tabulky: %s\n", table->name);
     // printf("nazov funkcie: %s\n", tokenID->data);
