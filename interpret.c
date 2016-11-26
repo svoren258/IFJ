@@ -7,6 +7,7 @@
 #include "interpret.h"
 //#include "defs.h"
 
+
 TList *globalInitList;
 tTablePtr globTable;
 TListItem ins;
@@ -481,10 +482,16 @@ int interpret()
                 if(!strcmp(func->className, "Game"))
                 {
                     line;
-                    tTablePtr table = BSTSearch(globTable, "GlobTable");
+                    printf("%s\n",globTable->name);
+                    tTablePtr table = BSTSearch(globTable, "Game");
+                    table = BSTSearch(table->Root,func->name);
                     printf("%s\n",table->name);
-                    TVariable *var = get_var_from_table(table, "str1");    
-                    printf("%s %s\n",var->name,func->name);
+                    TVariable *var = get_var_from_table(table, "str1");
+                    printf("name:%s position:%d\n",var->name,var->position);
+                    TVariable *var1 = get_var_from_table(table, "var");
+                    printf("name:%s position:%d\n",var1->name,var1->position);
+                    // var = func->stack->data[var->position];
+                    // printf("%s \n",var->name);
                     exit(1);
                 }
                 
