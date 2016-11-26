@@ -38,7 +38,8 @@ struct tTable {
 };
 
 /* prototypy funkcí */
-
+char* sort(TVariable* s);
+int find(TVariable* s,TVariable* search);
 void BSTInit   (tTablePtr *);
 tTablePtr BSTSearch (tTablePtr RootPtr, char*);//
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of the node)
