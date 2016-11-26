@@ -11,6 +11,7 @@
 //#include "defs.h"
 #include "list.h"
 #include "parser.h"
+#include "ial.h"
 
 int interpret();
 enum{

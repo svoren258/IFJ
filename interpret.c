@@ -11,6 +11,8 @@ TList *globalInitList;
 tTablePtr globTable;
 TListItem ins;
 TVariable *var1,*var2,*result;
+TStack *localStack, *globalStack;
+
 
 void translate_listitem(TListItem ins)
 {
@@ -109,15 +111,59 @@ void math()
                 result = ins->add3;
                 int op = ins->operation;
                 ins = ins->next;
+                if(var1->name)printf("VAR1: %s\n",var1->name);
+                if(var2->name)printf("VAR1: %s\n",var2->name);
+                if(result->name)printf("VAR1: %s\n",result->name);
                 if((var1 == NULL) || (var2 == NULL) || (result == NULL))                
+                    ret_error(SEMANTIC_DEF_ERROR);
+                if(var1->defined == 0 || var2->defined == 0)
                     ret_error(SEMANTIC_DEF_ERROR);
                 if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
                     ret_error(SEMANTIC_TYPE_ERROR);
+                    
+                    
+                result->defined = 1;
                 if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
                 { 
-                    printf("STRING CONCATENATION\n");
+                    if(var1->type == VARTYPE_INTEGER)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%d", var1->value.i);    
+                        var1->value.s = buffer;
+                        
+                    }
+                    else if(var1->type == VARTYPE_DOUBLE)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%f", var1->value.d);    
+                        var1->value.s = buffer;
+                    }
+                    else if(var1->type == VARTYPE_BOOLEAN)
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                        
+                    if(var2->type == VARTYPE_INTEGER)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%d", var2->value.i);    
+                        var2->value.s = buffer;
+                    }
+                    else if(var2->type == VARTYPE_DOUBLE)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%f", var2->value.d);    
+                        var2->value.s = buffer;
+                    }    
+                    else if(var2->type == VARTYPE_BOOLEAN)
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    result->type = VARTYPE_STRING;
+                    // printf("%s %s\n",var1->value.s, var2->value.s);
+                    
+                    strncat(var1->value.s, var2->value.s, 100);
+                    result->value.s = var1->value.s;
+                    //strncpy(result->value.s, var1->value.s, 100);line;
+                    return;
                 }
-                result->defined = 1;
+                
                 
                 switch(op)
                 {
@@ -241,22 +287,92 @@ void math()
                         break;
                     }
                 case INS_CMP_LEQUAL:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d <= var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d <= var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i <= var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i <= var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_GREATER:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d > var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d > var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i > var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i > var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_GREQUAL:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d >= var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d >= var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i >= var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i >= var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_EQUAL:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d == var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d == var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i == var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i == var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_NOTEQUAL:
-                    default:printf("DEFAULT\n");
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d != var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d != var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i != var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i != var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
+                    default:printf("DEFAULT MATH INS\n");
                     break;
                 }
 }
 
 int interpret()
 {
-    
     ins = globalInitList->First;
     // tTablePtr ifj = BSTSearch(globTable, "ifj");
     // TFunction *func = get_func_from_table(ifj->Root,"find");
-    
+    localStack = stackInit();
+    globalStack = stackInit();
     TFunction * func;
     // tTablePtr pclass = BSTSearch(globTable, "Game");
     
@@ -290,6 +406,9 @@ int interpret()
             }
             
             case INS_ASSIGN:
+                var1 = ins->add1;
+                var2 = ins->add2;
+                var1->defined = 1;
                 ins = ins->next;
                 if(var1->type == VARTYPE_INTEGER)
                 {
@@ -330,32 +449,73 @@ int interpret()
             }
             
             case INS_JCMP:
-            {
+            {   
+                var1 = ins->add1;
+                
                 printf("JCMP\n");
-                ins = ins->add3;
+                if(var1->type != VARTYPE_BOOLEAN)
+                    ret_error(SEMANTIC_TYPE_ERROR);
+                if(var1->value.b == 1)
+                    ins = ins->add3;
+                else
+                    ins = ins->next;
                 continue;
             }
             
             case INS_CALL:
             {
                 func = ins->add1;
+                
                 if(!strcmp(func->className, "ifj16"))
                 {
+                    if(!strcmp(func->name,"print"))
+                    {
+                        
+                        print(func->stack->data[0]);
+                    }
+                    
                     ins = ins->next;
-                    printf("ifj16 func: %s\n",func->name);
+                    // printf("ifj16 func: %s\n",func->name);
                     continue;
+                }
+                if(!strcmp(func->className, "Game"))
+                {
+                    line;
+                    tTablePtr table = BSTSearch(globTable, "GlobTable");
+                    printf("%s\n",table->name);
+                    TVariable *var = get_var_from_table(table, "str1");    
+                    printf("%s %s\n",var->name,func->name);
+                    exit(1);
                 }
                 
                 // ins = func->list->First->next->next;
                 // printf("%d\n",ins->operation);
                 printf("FUNC CALL: %s\n",func->name);
                 printf("CLASS: %s\n",func->className);
+                printf("stack: %d\n", func->stack->top);
                 //printf("%d\n",ins->next->next->operation);
                 ins = func->list->First;
                
                 continue;
             }
             
+            case INS_PUSH_TABLE:
+            {
+                TStack *locStack;
+                locStack = ins->add1;
+                    
+                
+                stackPush(localStack, locStack);
+                
+                
+                ins = ins->next;
+                continue;
+            }
+            
+            case INS_PUSH_VAR:
+                stackPush(ins->add2, ins->add1);
+                ins = ins->next;
+                continue;
         }
         
         

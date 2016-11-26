@@ -398,7 +398,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
 
 TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     //printf("som vo variableDecl\n");
-
+    
     TVariable *var;
     tTablePtr node = NULL;
     //printf("tokenID: %s\n", tokenID->data);
@@ -744,17 +744,17 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     //store_function(f, &table);
     f->numOfVars += f->numOfParams;
 
-    printf("nazov tabulky: %s\n", table->name);
-    printf("nazov funkcie: %s\n", tokenID->data);
-    printf("pocet parametrov funkcie %d\n", f->numOfParams);
-    printf("pocet premennych funkcie %d\n", f->numOfVars);
+    // printf("nazov tabulky: %s\n", table->name);
+    // printf("nazov funkcie: %s\n", tokenID->data);
+    // printf("pocet parametrov funkcie %d\n", f->numOfParams);
+    // printf("pocet premennych funkcie %d\n", f->numOfVars);
     //exit(1);
 
     node = BSTSearch(table->Root, tokenID->data);
     if(node == NULL){
-        printf("nenasiel som %s v %s\n", tokenID->data, table->name);
+        // printf("nenasiel som %s v %s\n", tokenID->data, table->name);
     }
-    printf("nasiel som funkciu %s v tabulke triedy %s\n", tokenID->data, table->name);
+    // printf("nasiel som funkciu %s v tabulke triedy %s\n", tokenID->data, table->name);
     //printf("som za BSTSearch\n");
     node->data.f = f;
     //node->type = NODE_TYPE_FUNCTION;

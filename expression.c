@@ -358,7 +358,7 @@ int simple_reduction()
                     result->name = "return";
                     stackPush(oStack, result);
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
-                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
+                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCall->stack, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
@@ -415,7 +415,7 @@ int simple_reduction()
                     result->name = "return";
                     stackPush(oStack, result);
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
-                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
+                    insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCall->stack, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
@@ -462,8 +462,8 @@ int simple_reduction()
             case    OP_GREQUAL:
             case    OP_EQUAL:
             case    OP_NOTEQUAL:
-                var1 = stackPop(oStack);
                 var2 = stackPop(oStack);
+                var1 = stackPop(oStack);
                 result = generate_var(0);
                 TListItem ins = create_instruction(iStack_top(),var1,var2,result);
                 insert_instruction(list,ins);
@@ -611,6 +611,7 @@ int tokenToType(Ttoken *token)
                             line;
                         }
                         functionCallTable = BSTSearch(exprClass->Root, TName);
+                        printf("%s\n",functionCallTable->name);
                         unget_token(1);
                         exprFunc = BSTSearch(exprClass->Root, TName);
                         printf("class:%s func:%s\n",exprClass->name,exprFunc->name);

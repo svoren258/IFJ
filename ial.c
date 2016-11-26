@@ -265,23 +265,28 @@ void BSTDelete (tTablePtr *RootPtr, char* K) 		{
 
 
 } 
-void BSTCopy (tTablePtr *dest,tTablePtr *Root)//copy from Root to dest all nodes
+void BSTCopy (tTablePtr Root)//copy from Root to dest all nodes
 {
-	BSTCopy(dest,&(*Root)->RPtr);
-	BSTCopy(dest,&(*Root)->LPtr);
+	if(Root)
+	printf("%s\n",Root->name);
 	
-	if(*Root)
+	BSTCopy(Root->RPtr);
+	BSTCopy(Root->LPtr);
+	
+	if(Root)
 	{
-		BSTInsert(dest,Root, (*Root)->name);
+		line;
+	printf("copy; %s positiion:%d\n",Root->name,Root->data.v->position);
+		// BSTInsert(dest,Root, (*Root)->name);
 	}
 	
 }
 
 void BSTDispose (tTablePtr *RootPtr) {	
-
 		if(*RootPtr)
 		{
-			
+			// if((*RootPtr)->Root)
+			// 	BSTDispose(&(*RootPtr));
 			
 			BSTDispose(&(*RootPtr)->RPtr);
 			BSTDispose(&(*RootPtr)->LPtr);
@@ -295,7 +300,7 @@ void BSTDispose (tTablePtr *RootPtr) {
 	
 			if((*RootPtr))
 			{
-				//printf("Delete %s\n",(*RootPtr)->name);
+				// printf("Delete %s\n",(*RootPtr)->name);
 				free(*RootPtr);
 				(*RootPtr) = NULL;	
 			}
