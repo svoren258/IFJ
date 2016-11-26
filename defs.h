@@ -89,7 +89,6 @@ struct new_func
 	TStack *stack;
 	TList *list;
 	//struct tTable *table;
-	
 };
 
 enum{
@@ -108,6 +107,7 @@ enum{
 	VARTYPE_STRING,
 	VARTYPE_BOOLEAN,
 };
+
 typedef struct new_var TVariable;
 struct new_var 
 {
@@ -123,7 +123,6 @@ struct new_var
 		char *s;
 		int b;
 	}value;
-	
 };
 
 

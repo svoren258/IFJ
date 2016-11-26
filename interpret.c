@@ -11,6 +11,8 @@ TList *globalInitList;
 tTablePtr globTable;
 TListItem ins;
 TVariable *var1,*var2,*result;
+TStack *localStack, *globalStack;
+
 
 void translate_listitem(TListItem ins)
 {
@@ -366,11 +368,11 @@ void math()
 
 int interpret()
 {
-    
     ins = globalInitList->First;
     // tTablePtr ifj = BSTSearch(globTable, "ifj");
     // TFunction *func = get_func_from_table(ifj->Root,"find");
-    
+    localStack = stackInit();
+    globalStack = stackInit();
     TFunction * func;
     // tTablePtr pclass = BSTSearch(globTable, "Game");
     
@@ -463,23 +465,57 @@ int interpret()
             case INS_CALL:
             {
                 func = ins->add1;
+                
                 if(!strcmp(func->className, "ifj16"))
                 {
+                    if(!strcmp(func->name,"print"))
+                    {
+                        
+                        print(func->stack->data[0]);
+                    }
+                    
                     ins = ins->next;
-                    printf("ifj16 func: %s\n",func->name);
+                    // printf("ifj16 func: %s\n",func->name);
                     continue;
+                }
+                if(!strcmp(func->className, "Game"))
+                {
+                    line;
+                    tTablePtr table = BSTSearch(globTable, "GlobTable");
+                    printf("%s\n",table->name);
+                    TVariable *var = get_var_from_table(table, "str1");    
+                    printf("%s %s\n",var->name,func->name);
+                    exit(1);
                 }
                 
                 // ins = func->list->First->next->next;
                 // printf("%d\n",ins->operation);
                 printf("FUNC CALL: %s\n",func->name);
                 printf("CLASS: %s\n",func->className);
+                printf("stack: %d\n", func->stack->top);
                 //printf("%d\n",ins->next->next->operation);
                 ins = func->list->First;
                
                 continue;
             }
             
+            case INS_PUSH_TABLE:
+            {
+                TStack *locStack;
+                locStack = ins->add1;
+                    
+                
+                stackPush(localStack, locStack);
+                
+                
+                ins = ins->next;
+                continue;
+            }
+            
+            case INS_PUSH_VAR:
+                stackPush(ins->add2, ins->add1);
+                ins = ins->next;
+                continue;
         }
         
         

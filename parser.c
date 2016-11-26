@@ -397,7 +397,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
 
 TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     //printf("som vo variableDecl\n");
-
+    
     TVariable *var;
     tTablePtr node = NULL;
     //printf("tokenID: %s\n", tokenID->data);
