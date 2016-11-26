@@ -21,6 +21,7 @@ class Game
     static int c = 4;
     static void hello(String str1)
     {
+        int var = 4;
         int a = 5;
         ifj16.print("hello " + str1 + "\n");
     }

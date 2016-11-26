@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     parse();
     // TVariable *var = NULL;
     // expression(var);
-    interpret();
+    // interpret();
     
     lexFinish();
 	return 0;
