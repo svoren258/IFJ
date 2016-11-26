@@ -2,21 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "defs.h"
 #include <stdlib.h>
-
-
-
-char* readString();
-int readInt();
-double readDouble();
-void print(TVariable* var);
-int length(char* s);
-char* substr(char* s,int i,int n);
-int compare(char* s1,char* s2);
-void sorting(char* s, int length);
-void merge(char*s,char*left,int l_length,char*right,int r_length);
-
+#include "builtin.h"
+#include "defs.h"
 
 int compare(char* s1,char* s2){
     unsigned long int n = 0;
@@ -64,7 +52,7 @@ void print(TVariable* var){
     if(var->type == VARTYPE_DOUBLE)
         printf("%g",var->value.d);
     if(var->type == VARTYPE_STRING)
-        printf("%s",var->value.c);
+        printf("%s",var->value.s);
 }
 
 int length(char* str){

@@ -4,8 +4,10 @@
 /*                  Patrik Roman, Martin Chudý                      */
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
-#include "ial.h"
 
+#include "ial.h"
+//#include "builtin.h"
+//#include "defs.h"
 // tTablePtr BSTPrepare (tTablePtr new_node){
 	
 // 	new_node = malloc(sizeof(struct tTable));
@@ -14,8 +16,8 @@
 // }
 
 int find(TVariable* s, TVariable* search){
-    char* str = s1->value.c;
-    char* search_str = search1->value.c;
+    char* str = s->value.s;
+    char* search_str = search->value.s;
 
     int size_s = length(str);
     int size_search = length(search_str);
@@ -27,7 +29,7 @@ int find(TVariable* s, TVariable* search){
     prefix_t[0] = -1;
     for (int k = 0; k < size_search; ++k) {
         prefix_t[k+1] = prefix_t[k] + 1;
-        while(prefix_t[k+1] > 0 && (search_str[k] != search_str[prefix_t[k+1]-1])) {
+        while((prefix_t[k+1] > 0) && (search_str[k] != search_str[prefix_t[k+1]-1])) {
             prefix_t[k+1] = prefix_t[prefix_t[k+1]-1]+1;
         }
     }
@@ -51,15 +53,15 @@ int find(TVariable* s, TVariable* search){
 }
 
 char* sort(TVariable* s){
-    char* str = s->value.c;
+    char* str = s->value.s;
 
     int lngth = length(str);
-    sorting(str,lngth);
+    sorting(str, lngth);
 
     return str;
 }
 
-void sorting(char* s,int length){
+void sorting(char* s, int length){
 
     if(length <= 1)
         return;
@@ -83,7 +85,7 @@ void sorting(char* s,int length){
     free(right);
 
 }
-void merge(char* s,char* left,int l_length,char* right,int r_length){
+void merge(char* s, char* left, int l_length, char* right, int r_length){
     int i = 0;
     int j = 0;
 

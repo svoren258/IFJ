@@ -8,7 +8,7 @@
 #define INTERPRET_H
 
 
-#include "defs.h"
+//#include "defs.h"
 #include "list.h"
 #include "parser.h"
 

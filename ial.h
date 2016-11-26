@@ -6,7 +6,9 @@
 /********************************************************************/
 #ifndef ial_h
 #define ial_h
-#include "defs.h"
+//#include "defs.h"
+#include "builtin.h"
+
 
 
 #define TRUE 1
@@ -46,6 +48,8 @@ void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
 void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
+void merge(char* s, char* left, int l_length, char* right, int r_length);
+void sorting(char* s, int length);
 
 
 #endif

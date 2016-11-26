@@ -30,6 +30,6 @@ set(SOURCE_FILES
     parser.c
     parser.h
     stack.c
-    stack.h materialy/error.c materialy/error.h)
+    stack.h materialy/error.c materialy/error.h builtin.h)
 
 add_executable(projekt_IFJ ${SOURCE_FILES})
