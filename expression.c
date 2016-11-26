@@ -126,7 +126,8 @@ void print_list()
         ins = globalInitList->First;
         printf("class list\n");
     }
-     
+    if(thisFunction)return;
+    insert_instruction(list,create_instruction(INS_LABEL,NULL,NULL,NULL));
     printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
     while(ins)
     {
@@ -290,8 +291,8 @@ void push_params(int numOfParams)
     functionCall = iStack->data[iStack->top]->ptr;
     
     if(!functionCall)
-    {
-        printf("%s\n",functionCall->name);
+    {line;
+        // printf("%s\n",functionCall->name);
         line;
         ret_error(SYNTAX_ERROR);
     }
@@ -334,15 +335,15 @@ int simple_reduction()
         {
             iStack_pop();
             if(iStack_top() == OP_LROUND)
-            {s("TRY REDUCTION (E) -> E\n");
+            {
                 iStack_pop();
                 if(iStack_top() == R_LESS)//(E) -> E
-                {
+                {s("TRY REDUCTION (E) -> E\n");
                     iStack_pop();
                     iStack_push(OP_NONTERM);
                 }
                 else if(iStack_top() == OP_FUNC)//func(par) -> E
-                {
+                {s("TRY REDUCTION func(par) -> E\n");
                     params = 1;
                     
                     push_params(params);
@@ -358,6 +359,7 @@ int simple_reduction()
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
+                    insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
                 }
                 else
@@ -414,7 +416,7 @@ int simple_reduction()
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, functionCallTable->Root, NULL, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
-                    // printf("FUNCTION CALL!!!!\n\n\n\n\n");
+                    insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
                 }
             } 
@@ -579,13 +581,14 @@ int tokenToType(Ttoken *token)
             
             if(token->type == TOKEN_L_ROUND )
             {//func(..)
-            // exprClass = NULL;
                 if((functionCall = get_func_from_table(classContext, TName)) == NULL)//this func might be defined in another class later
                 {
-                    new_function(token->data, classContext);//not gonna use return value from this or???
+                    functionCall = new_function(TName, classContext);//not gonna use return value from this or???
                 }
+                printf("%s\n",functionCall->name);
                 functionCall = get_func_from_table(classContext, TName);
                 functionCallTable = BSTSearch(classContext->Root, TName);
+                printf("%s\n",functionCall->name);
                 unget_token(1);
                 return OP_FUNC;
             } //func(..)
@@ -794,6 +797,7 @@ void analysis(TVariable *var)
                 if(iStack->top == 1 && iStack_top() == OP_NONTERM && token->type == TOKEN_SEM_CL)
                 {
                     iStack_pop();    
+                    if(var)
                     insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     print_list();
                     s("***********INS_ASSIGN************\n");
@@ -840,13 +844,11 @@ void expression(TVariable *var)
     {
     
         list = globalInitList;
-            line;
     }
         
     else
     {
         list = thisFunction->list;
-        line;
     }
     // printf("%s\n",thisFunction->name);
 

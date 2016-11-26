@@ -10,9 +10,9 @@
 
 #include "defs.h"
 #include "list.h"
+#include "parser.h"
 
-
-int interpret(TList *list);
+int interpret();
 enum{
     INS_ADD,    // "+"0
     INS_SUB,    // "-"1

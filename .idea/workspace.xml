@@ -12,9 +12,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fact2.java" afterPath="$PROJECT_DIR$/fact2.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.h" afterPath="$PROJECT_DIR$/interpret.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/list.c" afterPath="$PROJECT_DIR$/list.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test1.java" afterPath="$PROJECT_DIR$/tests/test1.java" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +41,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="201" column="44" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
+            <state relative-caret-position="306">
+              <caret line="296" column="12" selection-start-line="296" selection-start-column="12" selection-end-line="296" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -48,7 +52,7 @@
         <entry file="file://$PROJECT_DIR$/fact2.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="558">
-              <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+              <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -98,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/expression.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15354">
-              <caret line="853" column="18" selection-start-line="853" selection-start-column="10" selection-end-line="853" selection-end-column="18" />
+              <caret line="855" column="18" selection-start-line="855" selection-start-column="10" selection-end-line="855" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -470,12 +474,12 @@
       <workItem from="1480007456767" duration="16193000" />
       <workItem from="1480024745700" duration="608000" />
       <workItem from="1480074041541" duration="5197000" />
-      <workItem from="1480102305250" duration="4831000" />
+      <workItem from="1480102305250" duration="4998000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="276423000" />
+    <option name="totallyTimeSpent" value="276590000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -766,7 +770,7 @@
     <entry file="file://$PROJECT_DIR$/expression.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15354">
-          <caret line="853" column="18" selection-start-line="853" selection-start-column="10" selection-end-line="853" selection-end-column="18" />
+          <caret line="855" column="18" selection-start-line="855" selection-start-column="10" selection-end-line="855" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -809,7 +813,7 @@
     <entry file="file://$PROJECT_DIR$/fact2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -832,8 +836,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="201" column="44" selection-start-line="201" selection-start-column="44" selection-end-line="201" selection-end-column="44" />
+        <state relative-caret-position="306">
+          <caret line="296" column="12" selection-start-line="296" selection-start-column="12" selection-end-line="296" selection-end-column="12" />
           <folding />
         </state>
       </provider>

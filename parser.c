@@ -141,6 +141,7 @@ void parser_init() {
 
     globalInitList = InitList(&globalInitList);
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
+    
 
 }
 
@@ -173,7 +174,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
     TList *list;
     list = InitList(&list);
     InsertFirst(list, INS_LABEL, NULL, NULL, NULL);
-    list->Act = list->First;
+    
     f->list = list;
 //    }
 
@@ -293,8 +294,9 @@ void starter() {
             }
         }
 
-        printf("koniec programu\n");
+<<<<<<< HEAD        printf("koniec programu\n");
         ret_error(0);
+
     }
     //dosli sme na koniec programu
 }
@@ -1133,4 +1135,6 @@ void parse() {
     parser_init();
     starter();
     parser_finish();
+    
+    
 }
