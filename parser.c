@@ -179,6 +179,8 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 //    }
 
     f->stack = stackInit();
+    f->numOfVars = 0;
+    f->numOfParams = 0;
     /*assign the table to the function*/
     f->defined = 0;
     f->name = tokenName;
@@ -294,7 +296,7 @@ void starter() {
             }
         }
 
-<<<<<<< HEAD        printf("koniec programu\n");
+        printf("koniec programu\n");
         ret_error(0);
 
     }
@@ -557,6 +559,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                 printf("som za variableDecl v token_type\n");
                 v->declared = 1;
                 v->position = f->numOfVars;
+                printf("pozicia premennej %s: %d\n", token_varID->data, v->position);
                 f->numOfVars++;
                 printf("som pred pridanim premennej do listu\n");
 
@@ -739,8 +742,14 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     printf("som za whileom\n");
 
     //store_function(f, &table);
+    f->numOfVars += f->numOfParams;
+
     printf("nazov tabulky: %s\n", table->name);
     printf("nazov funkcie: %s\n", tokenID->data);
+    printf("pocet parametrov funkcie %d\n", f->numOfParams);
+    printf("pocet premennych funkcie %d\n", f->numOfVars);
+    exit(1);
+
     node = BSTSearch(table->Root, tokenID->data);
     if(node == NULL){
         printf("nenasiel som %s v %s\n", tokenID->data, table->name);
