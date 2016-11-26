@@ -255,10 +255,66 @@ void math()
                         break;
                     }
                 case INS_CMP_GREATER:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d > var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d > var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i > var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i > var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_GREQUAL:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d >= var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d >= var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i >= var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i >= var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_EQUAL:
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d == var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d == var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i == var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i == var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
                 case INS_CMP_NOTEQUAL:
-                    default:printf("DEFAULT\n");
+                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+                    {
+                        result->type = VARTYPE_BOOLEAN;
+                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.d != var2->value.d;
+                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.d != var2->value.i;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                            result->value.b = var1->value.i != var2->value.d;
+                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                            result->value.b = var1->value.i != var2->value.i;
+                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        break;
+                    }
+                    default:printf("DEFAULT MATH INS\n");
                     break;
                 }
 }
