@@ -6,7 +6,9 @@
 /********************************************************************/
 #ifndef ial_h
 #define ial_h
-#include "defs.h"
+//#include "defs.h"
+#include "builtin.h"
+
 
 
 #define TRUE 1
@@ -38,13 +40,16 @@ struct tTable {
 };
 
 /* prototypy funkcí */
-
+char* sort(TVariable* s);
+int find(TVariable* s,TVariable* search);
 void BSTInit   (tTablePtr *);
 tTablePtr BSTSearch (tTablePtr RootPtr, char*);//
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of the node)
 void BSTDelete (tTablePtr *, char* key);
 void BSTDispose(tTablePtr *);
 void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
+void merge(char* s, char* left, int l_length, char* right, int r_length);
+void sorting(char* s, int length);
 
 
 #endif

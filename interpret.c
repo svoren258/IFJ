@@ -5,6 +5,7 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 #include "interpret.h"
+//#include "defs.h"
 
 TList *globalInitList;
 tTablePtr globTable;
