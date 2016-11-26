@@ -108,15 +108,57 @@ void math()
                 result = ins->add3;
                 int op = ins->operation;
                 ins = ins->next;
+                if(var1->name)printf("VAR1: %s\n",var1->name);
+                if(var2->name)printf("VAR1: %s\n",var2->name);
+                if(result->name)printf("VAR1: %s\n",result->name);
                 if((var1 == NULL) || (var2 == NULL) || (result == NULL))                
+                    ret_error(SEMANTIC_DEF_ERROR);
+                if(var1->defined == 0 || var2->defined == 0)
                     ret_error(SEMANTIC_DEF_ERROR);
                 if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
                     ret_error(SEMANTIC_TYPE_ERROR);
+                    
+                    
+                result->defined = 1;
                 if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
                 { 
-                    printf("STRING CONCATENATION\n");
+                    printf("%s %s\n",var1->value.s, var2->value.s);
+                    if(var1->type == VARTYPE_INTEGER)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%d", var1->value.i);    
+                        var1->value.s = buffer;
+                        
+                    }
+                    else if(var1->type == VARTYPE_DOUBLE)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%f", var1->value.d);    
+                        var1->value.s = buffer;
+                    }
+                    else if(var1->type == VARTYPE_BOOLEAN)
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                        
+                    if(var2->type == VARTYPE_INTEGER)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%d", var2->value.i);    
+                        var2->value.s = buffer;
+                    }
+                    else if(var2->type == VARTYPE_DOUBLE)
+                    {
+                        char buffer[100];
+                        snprintf(buffer, 10, "%f", var2->value.d);    
+                        var2->value.s = buffer;
+                    }    
+                    else if(var2->type == VARTYPE_BOOLEAN)
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    result->type = VARTYPE_STRING;printf("%s %s\n",var1->value.s, var2->value.s);
+                    result->value.s = strncpy(result->value.s, var1->value.s,100);line;
+                    result->value.s = strncat(result->value.s, var2->value.s, 100);
+                    return;
                 }
-                result->defined = 1;
+                
                 
                 switch(op)
                 {
@@ -359,6 +401,9 @@ int interpret()
             }
             
             case INS_ASSIGN:
+                var1 = ins->add1;
+                var2 = ins->add2;
+                var1->defined = 1;
                 ins = ins->next;
                 if(var1->type == VARTYPE_INTEGER)
                 {
@@ -399,9 +444,16 @@ int interpret()
             }
             
             case INS_JCMP:
-            {
+            {   
+                var1 = ins->add1;
+                
                 printf("JCMP\n");
-                ins = ins->add3;
+                if(var1->type != VARTYPE_BOOLEAN)
+                    ret_error(SEMANTIC_TYPE_ERROR);
+                if(var1->value.b == 1)
+                    ins = ins->add3;
+                else
+                    ins = ins->next;
                 continue;
             }
             

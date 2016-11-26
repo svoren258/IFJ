@@ -324,11 +324,10 @@ int simple_reduction()
             iStack_push(OP_NONTERM);
         }
         printStacks();
-        return 1;
     } 
     
     
-    else if(iStack_top() == OP_RROUND)
+    if(iStack_top() == OP_RROUND)
     {
         
         iStack_pop();
@@ -342,7 +341,6 @@ int simple_reduction()
                 {s("TRY REDUCTION (E) -> E\n");
                     iStack_pop();
                     iStack_push(OP_NONTERM);
-                    return 1;
                 }
                 else if(iStack_top() == OP_FUNC)//func(par) -> E
                 {s("TRY REDUCTION func(par) -> E\n");
@@ -363,7 +361,6 @@ int simple_reduction()
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
-                    return 1;
                 }
                 else
                 {
@@ -421,7 +418,6 @@ int simple_reduction()
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
                     iStack_push(OP_NONTERM);
-                    return 1;
                 }
             } 
             else 
@@ -439,7 +435,6 @@ int simple_reduction()
             iStack_pop();//(
             iStack_pop();//func
             iStack_push(OP_NONTERM);
-            return 1;
             //func call
         }
         else
@@ -450,7 +445,7 @@ int simple_reduction()
         printStacks();
     }
         
-    else if(iStack_top() == OP_NONTERM)//<E op E -> E
+    if(iStack_top() == OP_NONTERM)//<E op E -> E
     {
         iStack_pop();//E
         switch(iStack_top())
@@ -495,9 +490,7 @@ int simple_reduction()
         }
         
     }
-    line;
-    ret_error(SYNTAX_ERROR);
-    return 1;
+    return FALSE;
 }
 
 TVariable *generate_var(int assign)
