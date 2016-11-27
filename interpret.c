@@ -14,7 +14,8 @@ TListItem ins;
 TVariable *var1,*var2,*result;
 TStack *localStack, *globalStack;
 TFunction *function;
-tTablePtr functionTable;
+tTablePtr functionNode;
+tTablePtr classNode;
 
 
 void translate_listitem(TListItem ins)
@@ -118,61 +119,64 @@ TVariable *get_variable(char *name)
     topStack = stackTop(localStack);
     
     // varNode = BSTSearch(functionTable->Root, name);
-    var = get_var_from_table(functionTable,name);//varNode->data.v;
+    var = get_var_from_table(functionNode,name);//varNode->data.v;
     var = topStack->data[var->position];
-    printf("%s\n",var->name);
+    // printf("%s\n",var->name);
     
-    
-    // printf("%s %s\n",var->name,var->value.s);
-    // return var;
-    // printf("top:%d\n",topStack->top);
-    // if(function)
-    // {
-    //     topStack = stackTop(localStack);
-    //     printf("top %d\n",topStack->top);
-    //     classNode = BSTSearch(globTable, function->className);
-    //     funcNode = BSTSearch(classNode->Root, function->name);    
-    //     var = get_var_from_table(funcNode, name);
-    //     printf("varname:%s stacktop:%d\n",name,topStack->top);
-    //     return var;
-    // }
-    // else
-    // {
-    //     for(int i = 0; i <= globalStack->top; i++)
-    //     {
-    //         printf("%d\n",globalStack->top);
-    //         printf("varname:%s globstack:%d\n",name,globalStack->top);
-    //         TVariable *helper = globalStack->data[i];
-            
-    //         if(!strcmp(name, helper->name))
-    //         return helper;
-    //     }
+    if(var != NULL)
+    {
+        printf("FOUND VARIABLE %s %d\n",var->name, var->defined);
+        return var;
+    }
         
-    // }
     
+    topStack = stackTop(globalStack);
     
+    // varNode = BSTSearch(functionTable->Root, name);
+    var = get_var_from_table(classNode,name);//varNode->data.v;
+    var = topStack->data[var->position];
     
+    if(var != NULL)
+        return var;
+    else
+    {
+        line;
+        ret_error(SEMANTIC_DEF_ERROR);
+    }
+        
     return NULL;
 }
 
 void math()
 {
                 var1 = ins->add1;
-                // var1 = get_variable(var1->name);
+                if(var1->name)var1 = get_variable(var1->name);
                 var2 = ins->add2;
-                // var2 = get_variable(var2->name);
+                if(var2->name)var2 = get_variable(var2->name);
                 result = ins->add3;
                 int op = ins->operation;
                 ins = ins->next;
-                if(var1->name)printf("VAR1: %s\n",var1->name);
-                if(var2->name)printf("VAR1: %s\n",var2->name);
-                if(result->name)printf("VAR1: %s\n",result->name);
-                if((var1 == NULL) || (var2 == NULL) || (result == NULL))                
+                // if(var1->name)printf("VAR1: %s\n",var1->name);
+                // if(var2->name)printf("VAR1: %s\n",var2->name);
+                // if(result->name)printf("VAR1: %s\n",result->name);
+                if((var1 == NULL) || (var2 == NULL) || (result == NULL))  
+                {
+                    line;
                     ret_error(SEMANTIC_DEF_ERROR);
+                }
                 if(var1->defined == 0 || var2->defined == 0)
+                {
+                    if(var1->name)printf("%s def:%d 2\n",var1->name,var1->defined);
+                    if(var2->name)printf("%s def:%d 1\n",var2->name,var2->defined);
+                    line;
                     ret_error(SEMANTIC_DEF_ERROR);
+                }
                 if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
+                {
+                    line;
                     ret_error(SEMANTIC_TYPE_ERROR);
+                }
+                    
                     
                     
                 result->defined = 1;
@@ -192,7 +196,11 @@ void math()
                         var1->value.s = buffer;
                     }
                     else if(var1->type == VARTYPE_BOOLEAN)
+                    {
+                        line;
                         ret_error(SEMANTIC_TYPE_ERROR);
+                    }
+                        
                         
                     if(var2->type == VARTYPE_INTEGER)
                     {
@@ -207,7 +215,11 @@ void math()
                         var2->value.s = buffer;
                     }    
                     else if(var2->type == VARTYPE_BOOLEAN)
+                    {
+                        line;
                         ret_error(SEMANTIC_TYPE_ERROR);
+                    }
+                        
                     result->type = VARTYPE_STRING;
                     // printf("%s %s\n",var1->value.s, var2->value.s);
                     
@@ -437,7 +449,7 @@ int interpret()
     TStack *runStack = runFunc->data.f->stack;
     
     stackPush(localStack, runStack);
-    functionTable = runFunc;
+    functionNode = runFunc;
     
     
     TFunction * func;
@@ -480,6 +492,7 @@ int interpret()
                 if(var2->name)
                 var2 = get_variable(var2->name);
                 var1->defined = 1;
+                printf("variable assign %s %d\n",var1->name, var1->defined);
                 ins = ins->next;
                 if(var1->type == VARTYPE_INTEGER)
                 {
@@ -528,7 +541,11 @@ int interpret()
                 
                 printf("JCMP\n");
                 if(var1->type != VARTYPE_BOOLEAN)
+                {
+                    line;
                     ret_error(SEMANTIC_TYPE_ERROR);
+                }
+                    
                 if(var1->value.b == 1)
                     ins = ins->add3;
                 else
@@ -544,16 +561,25 @@ int interpret()
                 {
                     if(!strcmp(func->name,"print"))
                     {
-                        
+                        printf("IFJ PRINT STACKTOP:%d\n",func->stack->top);
                         print(func->stack->data[0]);
+                        stackPop(func->stack);
+                        
                     }
                     
                     ins = ins->next;
                     // printf("ifj16 func: %s\n",func->name);
                     continue;
                 }
-                tTablePtr classNode = BSTSearch(globTable, func->className);
-                globalStack = classNode->data.c->stack;
+                
+                
+                
+                
+                classNode = BSTSearch(globTable, func->className);
+                functionNode = BSTSearch(classNode->Root, func->name);
+                TStack *globStack = classNode->data.c->stack;
+                stackPush(globalStack, globStack);
+                
                 
                 
                 
