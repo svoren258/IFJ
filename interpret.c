@@ -14,6 +14,7 @@ TListItem ins;
 TVariable *var1,*var2,*result;
 TStack *localStack, *globalStack;
 TFunction *function;
+tTablePtr functionTable;
 
 
 void translate_listitem(TListItem ins)
@@ -109,35 +110,45 @@ void translate_listitem(TListItem ins)
 TVariable *get_variable(char *name)
 {
     TStack *topStack;
-    printf("%s\n",name);
-    
-    tTablePtr classNode;
-    tTablePtr funcNode;
+    // tTablePtr varNode;
+    // tTablePtr classNode;
+    // tTablePtr funcNode;
     TVariable *var;
-
-    if(function)
-    {
-        topStack = stackTop(localStack);
-        classNode = BSTSearch(globTable, function->className);
-        funcNode = BSTSearch(classNode->Root, function->name);    
-        var = get_var_from_table(funcNode, name);
-        printf("varname:%s stacktop:%d\n",name,topStack->top);
-        return var;
-    }
-    else
-    {
-        for(int i = 0; i <= globalStack->top; i++)
-        {printf("%d\n",globalStack->top);
-            printf("varname:%s globstack:%d\n",name,globalStack->top);
-            TVariable *helper = globalStack->data[i];
+    
+    topStack = stackTop(localStack);
+    
+    // varNode = BSTSearch(functionTable->Root, name);
+    var = get_var_from_table(functionTable,name);//varNode->data.v;
+    var = topStack->data[var->position];
+    printf("%s\n",var->name);
+    
+    
+    // printf("%s %s\n",var->name,var->value.s);
+    // return var;
+    // printf("top:%d\n",topStack->top);
+    // if(function)
+    // {
+    //     topStack = stackTop(localStack);
+    //     printf("top %d\n",topStack->top);
+    //     classNode = BSTSearch(globTable, function->className);
+    //     funcNode = BSTSearch(classNode->Root, function->name);    
+    //     var = get_var_from_table(funcNode, name);
+    //     printf("varname:%s stacktop:%d\n",name,topStack->top);
+    //     return var;
+    // }
+    // else
+    // {
+    //     for(int i = 0; i <= globalStack->top; i++)
+    //     {
+    //         printf("%d\n",globalStack->top);
+    //         printf("varname:%s globstack:%d\n",name,globalStack->top);
+    //         TVariable *helper = globalStack->data[i];
             
-            if(!strcmp(name, helper->name))
-            return helper;
-        }
+    //         if(!strcmp(name, helper->name))
+    //         return helper;
+    //     }
         
-    }
-    
-    
+    // }
     
     
     
@@ -411,13 +422,23 @@ void math()
 
 int interpret()
 {
+    printf("\n\n***INTERPRET BEGINING***\n\n");  
     ins = globalInitList->First;
+    
+    localStack = stackInit();
+    globalStack = stackInit();
     // tTablePtr ifj = BSTSearch(globTable, "ifj");
     // TFunction *func = get_func_from_table(ifj->Root,"find");
     
     tTablePtr globStack = BSTSearch(globTable, "Main");
     
     globalStack = globStack->data.c->stack;
+    tTablePtr runFunc = BSTSearch(globStack->Root, "run");
+    TStack *runStack = runFunc->data.f->stack;
+    
+    stackPush(localStack, runStack);
+    functionTable = runFunc;
+    
     
     TFunction * func;
     // tTablePtr pclass = BSTSearch(globTable, "Game");
@@ -428,7 +449,7 @@ int interpret()
     
     
     // ins = func->list->First;
-    printf("\n\n***INTERPRET BEGINING***\n\n");  
+    
     while(ins)
     {
         translate_listitem(ins);
