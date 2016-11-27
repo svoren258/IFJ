@@ -296,7 +296,7 @@ void starter() {
             }
         }
 
-        printf("koniec programu\n");
+        // printf("koniec programu\n");
         
         // ret_error(0);
 

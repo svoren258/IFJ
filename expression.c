@@ -83,7 +83,7 @@ int iStack_top()
         b = iStack->data[i]->data;
         return (b);
     }
-    line;
+    //line;
     return SIGN_FAIL;
 }
 
@@ -119,23 +119,23 @@ void print_list()
     if(thisFunction)
     {
         ins = thisFunction->list->First;
-        printf("Function list\n");
+        // printf("Function list\n");
     }
      
     else
     {
         ins = globalInitList->First;
-        printf("class list\n");
+        // printf("class list\n");
     }
     if(thisFunction)return;
     insert_instruction(list,create_instruction(INS_LABEL,NULL,NULL,NULL));
-    printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
+    // printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
     while(ins)
     {
-        printf("%d\n",ins->operation);
+        // printf("%d\n",ins->operation);
         ins = ins->next;
     }
-    printf("********************************END FUNCTION LIST**********************************\n");
+    // printf("********************************END FUNCTION LIST**********************************\n");
 }
 
 void printStacks()
@@ -292,16 +292,17 @@ TStack * push_params(int numOfParams)
     // functionCall = iStack->data[iStack->top]->ptr;
     TVariable *result = stackPop(oStack);
     if(!functionCall)
-    {line;
+    {//line;
         // printf("%s\n",functionCall->name);
-        line;
+        //line;
         ret_error(SYNTAX_ERROR);
     }
     else
     {
+        printStacks();
         for(int i = 0; i < numOfParams; i++)
         {
-            // TVariable *var = stackPop(oStack);
+            // TVariable *var = stackTop(oStack);
             // printf("%s\n",var->name);
             stackPush(paramStack, stackPop(oStack));
         }
@@ -370,7 +371,7 @@ int simple_reduction()
                 }
                 else
                 {
-                    line;ret_error(SYNTAX_ERROR);
+                    //line;ret_error(SYNTAX_ERROR);
                 }
             }
             else if(iStack_top() == OP_COMA)//func(par,par,...)
@@ -390,26 +391,25 @@ int simple_reduction()
                     }
                     else
                     {
-                        line;
+                        //line;
                         ret_error(SYNTAX_ERROR);
                     }
                     iStack_pop();
                 }
                 if(coma == 1)
                 {
-                    line;
+                    //line;
                     ret_error(SYNTAX_ERROR);
                 }
                 if(iStack_top() == OP_LROUND)
                     iStack_pop();
                 else
                 {
-                    line;
+                    //line;
                     ret_error(SYNTAX_ERROR);
                 }
                 if(iStack_top() == OP_FUNC)
                 {
-                    push_params(params);
                     iStack_pop();//func
                     iStack_pop();//< before func
                     //function call
@@ -428,7 +428,7 @@ int simple_reduction()
             } 
             else 
             {
-                line;
+                //line;
                 ret_error(SYNTAX_ERROR);
             }
             
@@ -445,7 +445,7 @@ int simple_reduction()
         }
         else
         {
-            line;
+            //line;
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
@@ -473,18 +473,18 @@ int simple_reduction()
                 TListItem ins = create_instruction(iStack_top(),var1,var2,result);
                 insert_instruction(list,ins);
                 stackPush(oStack,result);
-                printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
+                // printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
                 iStack_pop();
                 if(iStack_top() != OP_NONTERM)
                 {
-                    line;
+                    //line;
                     ret_error(SYNTAX_ERROR);
                 }
                 iStack_pop();//E
                 
                 if(iStack_top() >= 0 && iStack_top() <= 9)
                 {
-                    line;
+                    //line;
                     ret_error(SYNTAX_ERROR);
                 }
                 iStack_pop();//<
@@ -614,7 +614,7 @@ int tokenToType(Ttoken *token)
                         if((functionCall = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
                             new_function(TName, exprClass);//not gonna use return value from this or???
-                            line;
+                            //line;
                         }
                         functionCallTable = BSTSearch(exprClass->Root, TName);
                        // printf("%s\n",functionCallTable->name);
@@ -644,7 +644,7 @@ int tokenToType(Ttoken *token)
                 }
                 else
                 {
-                    line;
+                    //line;
                     ret_error(SYNTAX_ERROR);
                 }
             }
@@ -656,10 +656,10 @@ int tokenToType(Ttoken *token)
                 {
                     if((var = get_var_from_table(classContext, TName)) == NULL)
                     {
-                        line;
+                        //line;
                         ret_error(SEMANTIC_DEF_ERROR);
                     }
-                    // printf("%s\n",TName);line;line;
+                    // printf("%s\n",TName);//line;//line;
                 }}
                 stackPush(oStack, var);
                 // if(!var)s("*****************************************************\n");
@@ -678,7 +678,7 @@ int tokenToType(Ttoken *token)
     }
 
     printf("%s %d \n",token->data, token->type);
-    line;
+    //line;
     ret_error(SYNTAX_ERROR);
      return 0;
 }
@@ -731,7 +731,7 @@ void analysis(TVariable *var)
             case SIGN_LESS:
                 
                 //id -> E
-                printf("LESS: Ttype %d\n",TOKENTYPE);
+                // printf("LESS: Ttype %d\n",TOKENTYPE);
                 if(TOKENTYPE != OP_NONTERM)
                 {
                     
@@ -786,7 +786,7 @@ void analysis(TVariable *var)
                     }
                     else
                     {
-                        line;
+                        //line;
                         ret_error(SYNTAX_ERROR);
                     }
                 }
@@ -831,7 +831,7 @@ void analysis(TVariable *var)
                 break;
             token = get_token();
         }
-         if(end>70)
+         if(end>700)
          {
              break;
          }
@@ -840,7 +840,7 @@ void analysis(TVariable *var)
 
 void expression(TVariable *var)
 {
-    printf("**********************EXPRESSION**********************\n");
+    // printf("**********************EXPRESSION**********************\n");
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
@@ -864,6 +864,6 @@ void expression(TVariable *var)
         printStacks();
 
     // }
-    printf("********************END EXPRESSION*******************************\n");
+    // printf("********************END EXPRESSION*******************************\n");
     return;
 }

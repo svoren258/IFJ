@@ -5,9 +5,9 @@ class Main
     static void run()
     {
         String str1 = "wtf";
-        double a = 5 + b;
+        int a = 5;
         
-        Game.hello(str1, a);
+        // Game.hello(str1, a);
         str1 = "Toto je text";
         ifj16.print(a+"\n");
         
@@ -15,7 +15,7 @@ class Main
         str1 = str1 + ", toto jep okracovanie\n";
         
         ifj16.print(str1);
-        ifj16.print("Pozice retezce \"text\" v retezci str2: "+ 4+   "\n");
+        ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
         
         
         
@@ -25,12 +25,12 @@ class Main
     
 } // end of class Main
 
-class Game
-{
-    static void hello(String str1, int b)
-    {
-        int c = b;
-        str1 = "ZMeneny text";
-        ifj16.print(str1);
-    }
-}
+// class Game
+// {
+//     static void hello(String str1, int b)
+//     {
+//         int c = b;
+//         str1 = "ZMeneny text";
+//         ifj16.print(str1);
+//     }
+// }

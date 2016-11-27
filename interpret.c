@@ -110,7 +110,7 @@ void translate_listitem(TListItem ins)
 
 TVariable *get_variable(char *name)
 {
-    printf("FIND %s\n",name);
+    // printf("FIND %s\n",name);
     TStack *topStack;
     // tTablePtr varNode;
     // tTablePtr classNode;
@@ -123,9 +123,9 @@ TVariable *get_variable(char *name)
     var = get_var_from_table(functionNode,name);//varNode->data.v;
     if(var)
     {
-        printf("%d\n",topStack->top);
+        // printf("%d\n",topStack->top);
         var = topStack->data[var->position];
-        printf("%s %d\n",var->name,var->position);
+        // printf("%s %d\n",var->name,var->position);
     }
     
     // printf("%s\n",var->name);
@@ -134,7 +134,7 @@ TVariable *get_variable(char *name)
     
     if(var != NULL)
     {
-        printf("FOUND VARIABLE %s def:%d type:%d\n",var->name, var->defined, var->type);
+        // printf("FOUND VARIABLE %s def:%d type:%d\n",var->name, var->defined, var->type);
         return var;
     }
         
@@ -177,8 +177,7 @@ void math()
                 }
                 if(var1->defined == 0 || var2->defined == 0)
                 {
-                    if(var1->name)printf("%s def:%d 2\n",var1->name,var1->defined);
-                    if(var2->name)printf("%s def:%d 1\n",var2->name,var2->defined);
+                    
                     line;
                     ret_error(SEMANTIC_DEF_ERROR);
                 }
@@ -279,14 +278,14 @@ void math()
                             result->value.d = var1->value.d - var2->value.i;
                         if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.i - var2->value.d;
-                        printf("\tSUB RESULT:%g\t\n",result->value.d);
+                        // printf("\tSUB RESULT:%g\t\n",result->value.d);
                         break;
                     }
                     else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
                     {   
                         result->type = VARTYPE_INTEGER;
                         result->value.i = var1->value.i - var2->value.i;
-                        printf("\tSUB RESULT:%d\t\n",result->value.i);
+                        // printf("\tSUB RESULT:%d\t\n",result->value.i);
                         break;
                     }
                     else
@@ -305,14 +304,14 @@ void math()
                             result->value.d = var1->value.d * var2->value.i;
                         if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.i * var2->value.d;
-                        printf("\tMUL RESULT:%g\t\n",result->value.d);
+                        // printf("\tMUL RESULT:%g\t\n",result->value.d);
                         break;
                     }
                     else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
                     {   
                         result->type = VARTYPE_INTEGER;
                         result->value.i = var1->value.i * var2->value.i;
-                        printf("\tMUL RESULT:%d\t\n",result->value.i);
+                        // printf("\tMUL RESULT:%d\t\n",result->value.i);
                         break;
                     }
                     else
@@ -331,14 +330,14 @@ void math()
                             result->value.d = var1->value.d / var2->value.i;
                         if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.i / var2->value.d;
-                        printf("\tDIV RESULT:%g\t\n",result->value.d);
+                        // printf("\tDIV RESULT:%g\t\n",result->value.d);
                         break;
                     }
                     else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
                     {   
                         result->type = VARTYPE_INTEGER;
                         result->value.i = var1->value.i / var2->value.i;
-                        printf("\tDIV RESULT:%d\t\n",result->value.i);
+                        // printf("\tDIV RESULT:%d\t\n",result->value.i);
                         break;
                     }
                     else
@@ -359,7 +358,7 @@ void math()
                             result->value.b = var1->value.i < var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             {result->value.b = var1->value.i < var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
                 case INS_CMP_LEQUAL:
@@ -374,7 +373,7 @@ void math()
                             result->value.b = var1->value.i <= var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             result->value.b = var1->value.i <= var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
                 case INS_CMP_GREATER:
@@ -389,7 +388,7 @@ void math()
                             result->value.b = var1->value.i > var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             result->value.b = var1->value.i > var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
                 case INS_CMP_GREQUAL:
@@ -404,7 +403,7 @@ void math()
                             result->value.b = var1->value.i >= var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             result->value.b = var1->value.i >= var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
                 case INS_CMP_EQUAL:
@@ -419,7 +418,7 @@ void math()
                             result->value.b = var1->value.i == var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             result->value.b = var1->value.i == var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
                 case INS_CMP_NOTEQUAL:
@@ -434,10 +433,10 @@ void math()
                             result->value.b = var1->value.i != var2->value.d;
                         else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
                             result->value.b = var1->value.i != var2->value.i;
-                        printf("\tCOMPARE:%d\t\n",result->value.b);
+                        // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
-                    default:printf("DEFAULT MATH INS\n");
+                    default:ret_error(SEMANTIC_TYPE_ERROR);
                     break;
                 }
                 }
@@ -445,7 +444,7 @@ void math()
 
 int interpret()
 {
-    printf("\n\n***INTERPRET BEGINING***\n\n");  
+    // printf("\n\n***INTERPRET BEGINING***\n\n");  
     ins = globalInitList->First;
     
     localStack = stackInit();
@@ -477,8 +476,8 @@ int interpret()
     
     while(ins)
     {
-        translate_listitem(ins);
-        printf(" %d\n",ins->operation);
+        // translate_listitem(ins);
+        // printf(" %d\n",ins->operation);
         switch(ins->operation)
         {
             case INS_ADD:
@@ -555,7 +554,7 @@ int interpret()
             {   
                 var1 = ins->add1;
                 
-                printf("JCMP\n");
+                // printf("JCMP\n");
                 if(var1->type != VARTYPE_BOOLEAN)
                 {
                     line;
@@ -575,7 +574,7 @@ int interpret()
                 func = ins->add1;
                 function = func;
                 
-                printf("\t%s call\n",func->name);
+                // printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
                 {
@@ -608,7 +607,10 @@ int interpret()
                         
                         
                         print(var);
+                        // printf("%d\n",stack->top);
                         stackPop(localStack);
+                        stackPop(stack);
+                        
                         // printf("%d\n",localStack->top);
                     }
                     
@@ -640,13 +642,20 @@ int interpret()
                 TStack *locStack = ins->add2;//odkaz na zasobnik funkcie(origin zasobnik z parsera)
                 TStack *paramStack = ins->add1;//zasobnik parametrov, ktory sa do zasobniku funkcie nakopiruje
                 
-                for(int i=0; i <= paramStack->top; i++)
-                {
-                    TVariable *dest = locStack->data[i];
-                    TVariable *src  = paramStack->data[i];
-                    dest->value = src->value;
-                    dest->type = src->type;
-                }
+                
+                // tTablePtr helo = BSTSearch(globTable, "Game");
+                // helo = BSTSearch(helo->Root, "hello");
+                // TFunction *func = helo->data.f;//funkcia hello z Game
+                // printf("***params top%d %d\n",func->numOfParams,func->stack->top);//obsahuje len 1 premennu na zasobniku, mali by byt 2
+                // printf("\t\tparamstack top:%d locstack:%d\n",paramStack->top,locStack->top);
+                // //  TVariable *var = stackTop(paramStack);
+                //   TVariable *var1 = stackTop(locStack);
+                // //   stackPop(locStack);
+                //   printf("*****var on helo stack:%s %d\n",var1->name,var1->type);
+                
+                
+                // printf("%d\n",locStack->top);
+                
                 if(locStack->top <0)
                 {
                     for(int i=0; i <= paramStack->top; i++)
@@ -656,17 +665,24 @@ int interpret()
                         
                     }
                 }
+                else
+                {
+                    
+                    
+                    for(int i=0; i <= paramStack->top; i++)
+                    {
+                        TVariable *src = paramStack->data[i];
+                        // printf("%s\n",src->name);
+                        TVariable *dest = locStack->data[i];
+                        // printf("%s\n",dest->name);
+                        char *name = dest->name;
+                        dest = src;
+                        dest->name = name;
+                        
+                        
+                    }
+                }
                 
-                
-                tTablePtr helo = BSTSearch(globTable, "Game");
-                helo = BSTSearch(helo->Root, "hello");
-                TFunction *func = helo->data.f;//funkcia hello z Game
-                printf("***params top%d %d\n",func->numOfParams,func->stack->top);//obsahuje len 1 premennu na zasobniku, mali by byt 2
-                printf("\t\tparamstack top:%d locstack:%d\n",paramStack->top,locStack->top);
-                //  TVariable *var = stackTop(paramStack);
-                  TVariable *var1 = stackTop(locStack);
-                  stackPop(locStack);
-                  printf("*****var on helo stack:%s %d\n",var1->name,var1->type);
                 //   printf("%s",var->name);
                 /**************************************************/
                 //COPY STACK FOR BY VALUE FUNCTIONS NO BY REFRENCE  
