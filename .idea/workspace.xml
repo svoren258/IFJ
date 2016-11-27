@@ -13,7 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,23 +33,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parser.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="440" column="63" selection-start-line="439" selection-start-column="14" selection-end-line="440" selection-end-column="63" />
+            <state relative-caret-position="88">
+              <caret line="454" column="54" selection-start-line="454" selection-start-column="54" selection-end-line="454" selection-end-column="54" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="interpret.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="interpret.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interpret.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8460">
-              <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+            <state relative-caret-position="468">
+              <caret line="512" column="21" selection-start-line="512" selection-start-column="21" selection-end-line="514" selection-end-column="30" />
               <folding>
-                <marker date="1480247017410" expanded="true" signature="24261:24315" ph="{...}" />
+                <marker date="1480267670502" expanded="true" signature="24458:24512" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -152,7 +152,6 @@
         <option value="$PROJECT_DIR$/parser.h" />
         <option value="$PROJECT_DIR$/interpret.h" />
         <option value="$PROJECT_DIR$/main.c" />
-        <option value="$PROJECT_DIR$/interpret.c" />
         <option value="$PROJECT_DIR$/defs.h" />
         <option value="$PROJECT_DIR$/ial.c" />
         <option value="$PROJECT_DIR$/ial.h" />
@@ -162,6 +161,7 @@
         <option value="$PROJECT_DIR$/error.c" />
         <option value="$PROJECT_DIR$/java.java" />
         <option value="$PROJECT_DIR$/parser.c" />
+        <option value="$PROJECT_DIR$/interpret.c" />
       </list>
     </option>
   </component>
@@ -464,12 +464,12 @@
       <workItem from="1480024745700" duration="608000" />
       <workItem from="1480074041541" duration="5197000" />
       <workItem from="1480102305250" duration="8332000" />
-      <workItem from="1480169289393" duration="15524000" />
+      <workItem from="1480169289393" duration="18172000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="295448000" />
+    <option name="totallyTimeSpent" value="298096000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -790,24 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/error.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/error.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
-          <folding>
-            <element signature="e#427#445#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lex.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -824,16 +806,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interpret.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8460">
-          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
-          <folding>
-            <marker date="1480247017410" expanded="true" signature="24261:24315" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rozdeleni">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -842,11 +814,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/error.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
+          <folding>
+            <element signature="e#427#445#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/error.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="440" column="63" selection-start-line="439" selection-start-column="14" selection-end-line="440" selection-end-column="63" />
+        <state relative-caret-position="88">
+          <caret line="454" column="54" selection-start-line="454" selection-start-column="54" selection-end-line="454" selection-end-column="54" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpret.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="512" column="21" selection-start-line="512" selection-start-column="21" selection-end-line="514" selection-end-column="30" />
+          <folding>
+            <marker date="1480267670502" expanded="true" signature="24458:24512" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
