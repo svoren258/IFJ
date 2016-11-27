@@ -639,7 +639,10 @@ int interpret()
                 
                 for(int i=0; i <= paramStack->top; i++)
                 {
-                    locStack->data[i] = paramStack->data[i];
+                    TVariable *dest = locStack->data[i];
+                    TVariable *src  = paramStack->data[i];
+                    dest->value = src->value;
+                    dest->type = src->type;
                 }
                 if(locStack->top <0)
                 {
@@ -655,11 +658,12 @@ int interpret()
                 tTablePtr helo = BSTSearch(globTable, "Game");
                 helo = BSTSearch(helo->Root, "hello");
                 TFunction *func = helo->data.f;//funkcia hello z Game
-                printf("%d\n",func->stack->top);//obsahuje len 1 premennu na zasobniku, mali by byt 2
+                printf("***params top%d %d\n",func->numOfParams,func->stack->top);//obsahuje len 1 premennu na zasobniku, mali by byt 2
                 printf("\t\tparamstack top:%d locstack:%d\n",paramStack->top,locStack->top);
                 //  TVariable *var = stackTop(paramStack);
-                //   TVariable *var1 = stackTop(locStack);
-                //   printf("%d %d\n",var->type,var1->type);
+                  TVariable *var1 = stackTop(locStack);
+                  stackPop(locStack);
+                  printf("*****var on helo stack:%s %d\n",var1->name,var1->type);
                 //   printf("%s",var->name);
                 /**************************************************/
                 //COPY STACK FOR BY VALUE FUNCTIONS NO BY REFRENCE  

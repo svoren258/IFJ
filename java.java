@@ -7,7 +7,7 @@ class Main
         String str1 = "wtf";
         double a = 5 + b;
         
-        Game.hello(str1, b);
+        Game.hello(str1, a);
         str1 = "Toto je text";
         ifj16.print(a+"\n");
         

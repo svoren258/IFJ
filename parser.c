@@ -297,7 +297,7 @@ void starter() {
         }
 
         printf("koniec programu\n");
-        interpret();
+        
         // ret_error(0);
 
     }
@@ -1167,6 +1167,7 @@ void parse() {
 
     parser_init();
     starter();
+    interpret();
     parser_finish();
     
     
