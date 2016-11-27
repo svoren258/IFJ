@@ -430,13 +430,15 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     if(var->declared != 1){
         if(table->type == NODE_TYPE_CLASS){
-            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
-            insert_instruction(globalInitList, pushVar);
+            stackPush(table->data.c->stack, var);
+//            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
+//            insert_instruction(globalInitList, pushVar);
 
         }
         else if(table->type == NODE_TYPE_FUNCTION){
-            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
-            insert_instruction(table->data.f->list, pushVar);
+            stackPush(table->data.f->stack, var);
+//            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
+//            insert_instruction(table->data.f->list, pushVar);
 
         }
     }
