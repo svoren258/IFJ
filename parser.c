@@ -428,16 +428,19 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         //printf("varname: %s\n", var->name);
     }
 
-    if(table->type == NODE_TYPE_CLASS){
-        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
-        insert_instruction(globalInitList, pushVar);
+    if(var->declared != 1){
+        if(table->type == NODE_TYPE_CLASS){
+            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.c->stack, NULL);
+            insert_instruction(globalInitList, pushVar);
 
-    }
-    else if(table->type == NODE_TYPE_FUNCTION){
-        TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
-        insert_instruction(table->data.f->list, pushVar);
+        }
+        else if(table->type == NODE_TYPE_FUNCTION){
+            TListItem pushVar = create_instruction(INS_PUSH_VAR, var, table->data.f->stack, NULL);
+            insert_instruction(table->data.f->list, pushVar);
 
+        }
     }
+
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {
@@ -671,8 +674,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                     ////printf("nacitany token za unget: %s\n", token->data);
                     //printf("tablename: %s\n", fTable->name);
                     //printf("token_varID: %s\n", token_varID->data);
-                    node = BSTSearch(fTable->Root,
-                                     token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+                    node = BSTSearch(fTable->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
                     if (node == NULL) {
 
                         node = BSTSearch(table->Root, token_varID->data);
