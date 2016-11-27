@@ -537,6 +537,9 @@ int interpret()
                         ret_error(SEMANTIC_TYPE_ERROR);    
                     }
                     var1->value.s = var2->value.s;
+//                    printf("var1: %s, value1: %s\n", var1->name, var1->value.s);
+//                    printf("var2: %s, value2: %s\n", var2->name, var2->value.s);
+//                    exit(1);
                     continue;
                 }
                 line;
