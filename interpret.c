@@ -110,6 +110,7 @@ void translate_listitem(TListItem ins)
 
 TVariable *get_variable(char *name)
 {
+    printf("FIND %s\n",name);
     TStack *topStack;
     // tTablePtr varNode;
     // tTablePtr classNode;
@@ -120,21 +121,31 @@ TVariable *get_variable(char *name)
     
     // varNode = BSTSearch(functionTable->Root, name);
     var = get_var_from_table(functionNode,name);//varNode->data.v;
-    var = topStack->data[var->position];
+    if(var)
+    {
+        printf("%d\n",topStack->top);
+        var = topStack->data[var->position];
+        printf("%s %d\n",var->name,var->position);
+    }
+    
     // printf("%s\n",var->name);
+    
+    
     
     if(var != NULL)
     {
-        printf("FOUND VARIABLE %s %d\n",var->name, var->defined);
+        printf("FOUND VARIABLE %s def:%d type:%d\n",var->name, var->defined, var->type);
         return var;
     }
         
-    
+   
     topStack = stackTop(globalStack);
+     
+    var = get_var_from_table(classNode,name);//varNode->data.v;line;
     
-    // varNode = BSTSearch(functionTable->Root, name);
-    var = get_var_from_table(classNode,name);//varNode->data.v;
+        
     var = topStack->data[var->position];
+    
     
     if(var != NULL)
         return var;
@@ -242,14 +253,14 @@ void math()
                             result->value.d = var1->value.d + var2->value.i;
                         if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.i + var2->value.d;
-                        printf("\tADD RESULT:%g\t\n",result->value.d);
+                        // printf("\tADD RESULT:%g\t\n",result->value.d);
                         break;
                     }
                     else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
                     {   
                         result->type = VARTYPE_INTEGER;
                         result->value.i = var1->value.i + var2->value.i;
-                        printf("\tADD RESULT:%d\t\n",result->value.i);
+                        // printf("\tADD RESULT:%d\t\n",result->value.i);
                         break;
                     }
                     else
@@ -443,8 +454,10 @@ int interpret()
     // TFunction *func = get_func_from_table(ifj->Root,"find");
     
     tTablePtr globStack = BSTSearch(globTable, "Main");
+    classNode = globStack;
     
-    globalStack = globStack->data.c->stack;
+    stackPush(globalStack, globStack->data.c->stack);
+
     tTablePtr runFunc = BSTSearch(globStack->Root, "run");
     TStack *runStack = runFunc->data.f->stack;
     
@@ -488,11 +501,12 @@ int interpret()
                 var1 = ins->add1;
                 if(var1->name)
                 var1 = get_variable(var1->name);
+                
                 var2 = ins->add2;
                 if(var2->name)
                 var2 = get_variable(var2->name);
+                
                 var1->defined = 1;
-                printf("variable assign %s %d\n",var1->name, var1->defined);
                 ins = ins->next;
                 if(var1->type == VARTYPE_INTEGER)
                 {
@@ -524,7 +538,9 @@ int interpret()
                     }
                     var1->value.s = var2->value.s;
                     continue;
-                }printf("assigned\n");
+                }
+                line;
+                ret_error(SEMANTIC_DEF_ERROR);
             
             case INS_JMP:
             {
@@ -552,16 +568,45 @@ int interpret()
             
             case INS_CALL:
             {
+                
                 func = ins->add1;
                 function = func;
+                
+                // printf("\t%s call\n",func->name);
+                
+                if(strcmp(func->className, "ifj16"))
+                {
+                    
+                    classNode = BSTSearch(globTable, func->className);
+                    functionNode = BSTSearch(classNode->Root, func->name);
+                    TStack *globStack = classNode->data.c->stack;
+                    stackPush(globalStack, globStack);
+                }
+                
+                
+                
                 if(!strcmp(func->className, "ifj16"))
                 {
+                    TStack *stack = stackTop(localStack);
                     if(!strcmp(func->name,"print"))
                     {
-                        printf("IFJ PRINT STACKTOP:%d\n",func->stack->top);
-                        print(func->stack->data[0]);
-                        stackPop(func->stack);
                         
+                        TVariable *var = stackTop(stack);
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var->type == 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        
+                        
+                        print(var);
+                        stackPop(localStack);
+                        // printf("%d\n",localStack->top);
                     }
                     
                     ins = ins->next;
@@ -572,19 +617,15 @@ int interpret()
                 
                 
                 
-                classNode = BSTSearch(globTable, func->className);
-                functionNode = BSTSearch(classNode->Root, func->name);
-                TStack *globStack = classNode->data.c->stack;
-                stackPush(globalStack, globStack);
                 
                 
                 
                 
                 // ins = func->list->First->next->next;
                 // printf("%d\n",ins->operation);
-                printf("FUNC CALL: %s\n",func->name);
-                printf("CLASS: %s\n",func->className);
-                printf("stack: %d\n", func->stack->top);
+                // printf("FUNC CALL: %s\n",func->name);
+                // printf("CLASS: %s\n",func->className);
+                // printf("stack: %d\n", func->stack->top);
                 //printf("%d\n",ins->next->next->operation);
                 ins = func->list->First;
                
@@ -593,21 +634,43 @@ int interpret()
             
             case INS_PUSH_TABLE:
             {
-                TStack *locStack;
-                locStack = ins->add1;
-                    
+                TStack *locStack = ins->add2;//odkaz na zasobnik funkcie(origin zasobnik z parsera)
+                TStack *paramStack = ins->add1;//zasobnik parametrov, ktory sa do zasobniku funkcie nakopiruje
                 
+                for(int i=0; i <= paramStack->top; i++)
+                {
+                    locStack->data[i] = paramStack->data[i];
+                }
+                if(locStack->top <0)
+                {
+                    for(int i=0; i <= paramStack->top; i++)
+                    {
+                        stackPush(locStack,paramStack->data[i]);
+                        
+                        
+                    }
+                }
+                
+                
+                tTablePtr helo = BSTSearch(globTable, "Game");
+                helo = BSTSearch(helo->Root, "hello");
+                TFunction *func = helo->data.f;//funkcia hello z Game
+                printf("%d\n",func->stack->top);//obsahuje len 1 premennu na zasobniku, mali by byt 2
+                printf("\t\tparamstack top:%d locstack:%d\n",paramStack->top,locStack->top);
+                //  TVariable *var = stackTop(paramStack);
+                //   TVariable *var1 = stackTop(locStack);
+                //   printf("%d %d\n",var->type,var1->type);
+                //   printf("%s",var->name);
+                /**************************************************/
+                //COPY STACK FOR BY VALUE FUNCTIONS NO BY REFRENCE  
+                /****************************************************/
                 stackPush(localStack, locStack);
-                
                 
                 ins = ins->next;
                 continue;
             }
             
-            case INS_PUSH_VAR:
-                stackPush(ins->add2, ins->add1);
-                ins = ins->next;
-                continue;
+            
         }
         
         

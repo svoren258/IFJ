@@ -82,7 +82,7 @@ int  extendBuffer(TBuffer *s1, char c)
 
 void unget_token(int y)
 {
-	s("****Token wasu nget****\n");
+	//s("****Token wasu nget****\n");
 	for(int i = 0; i < y; i++)
 	{
 		if(ungetTokenIndex >= 1)
@@ -151,7 +151,7 @@ Ttoken *get_token(){
 	//printf("som v get_token\n");
 	if(ungetTokenIndex <= tokenStack->top && (ungetTokenIndex > -1))
 	{
-		printf("****next token is unget %s*****\n",token->data);
+	//	printf("****next token is unget %s*****\n",token->data);
 		token = getTokenFromStack();
 		tok;
 		return token;
