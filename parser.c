@@ -766,10 +766,14 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     // printf("pocet premennych funkcie %d\n", f->numOfVars);
     //exit(1);
 
+
+    //printf("som pred koncom funkcie\n");
+    TListItem retItem = create_instruction(INS_RET, NULL, NULL, NULL);
+    insert_instruction(f->list, retItem);
+
     node = BSTSearch(table->Root, tokenID->data);
-    if(node == NULL){
-        // printf("nenasiel som %s v %s\n", tokenID->data, table->name);
-    }
+
+
     // printf("nasiel som funkciu %s v tabulke triedy %s\n", tokenID->data, table->name);
     //printf("som za BSTSearch\n");
     node->data.f = f;
