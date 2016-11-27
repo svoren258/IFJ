@@ -572,7 +572,7 @@ int interpret()
                 func = ins->add1;
                 function = func;
                 
-                // printf("\t%s call\n",func->name);
+                printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
                 {
