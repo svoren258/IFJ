@@ -440,6 +440,16 @@ int simple_reduction()
             iStack_pop();//<
             iStack_pop();//(
             iStack_pop();//func
+            
+            result = generate_var(0);
+            result->name = "return";
+            stackPush(oStack, result);
+            TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
+            insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(0), functionCall->stack, NULL));
+            insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
+            insert_instruction(list,lab);
+            
+            
             iStack_push(OP_NONTERM);
             //func call
         }
@@ -449,6 +459,7 @@ int simple_reduction()
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
+        
     }
         
     if(iStack_top() == OP_NONTERM)//<E op E -> E

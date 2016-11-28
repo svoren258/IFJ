@@ -17,21 +17,23 @@ class Main
         str2 ="Text 2";
         
         
+
+        str1 = str1 + ", toto je pokracovanie\n";
+
         
         ifj16.print(str1);
         ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
         ifj16.print( "WUUT\n");
-        // ifj16.print("a = "+a+"\n");
-        Game.hello(str1, a, str2);
-        
-        // test();
-        
+        //ifj16.print("a = "+a+"\n");
+        //Game.hello(str1, a, str2);
+        test();
     } // end of static void run()
-    // static int test()
-    // {
-    //     int a = 3;
-    //     ifj16.print(a);
-    // }
+    static int test()
+    {
+        int a = 3;
+        ifj16.print(a);
+        return 0;
+    }
     
     
 } // end of class Main

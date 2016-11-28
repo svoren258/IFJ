@@ -475,8 +475,8 @@ int interpret()
     
     while(ins)
     {
-        // translate_listitem(ins);
-        // printf(" %d\n",ins->operation);
+        //  translate_listitem(ins);
+        //  printf(" %d\n",ins->operation);
         switch(ins->operation)
         {
             case INS_ADD:

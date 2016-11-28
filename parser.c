@@ -24,7 +24,7 @@ tTablePtr create_class_table(char *name, tTablePtr destTable)//navratova hodnota
     tTablePtr classTable;
     tTablePtr node = BSTSearch(destTable, name);
     if (node == NULL) {
-        //printf("vytvaram novu tabulku\n");
+        printf("vytvaram novu tabulku\n");
         //vytvorenie pointera
         TClass *class = malloc(sizeof(TClass));
         BSTInit(&classTable);//inicializacia(uzol = NULL)
@@ -151,8 +151,7 @@ void parser_finish() {
 }
 
 TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the space for a new function*/
-    //upravit prvy paramenter na char*
-    //printf("som v new_function\n");
+    printf("som v new_function\n");
 
     TFunction *f;
     f = malloc(sizeof(TFunction));
@@ -161,7 +160,7 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
     if (table->Root == NULL) {
         BSTRootNode(&table, &loc_table, tokenName);
     } else {
-        //printf("pridavam fuknciu do Rootu\n");
+        printf("pridavam fuknciu do Rootu\n");
         BSTInit(&loc_table);
         BSTInsert(&table->Root, &loc_table, tokenName);
     }
@@ -194,15 +193,15 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 }
 
 TVariable *new_variable(Ttoken *token, tTablePtr table) {
-    //printf("som v new_variable\n");
-    //printf("som v tabulke %s\n", table->name);
-    //printf("tokendata: %s\n", token->data);
+    printf("som v new_variable\n");
+    printf("som v tabulke %s\n", table->name);
+    printf("tokendata: %s\n", token->data);
 
     TVariable *v;
     v = malloc(sizeof(TVariable));
     tTablePtr new_var;
     if (table->Root == NULL) {
-        //printf("idem vytvarat novy root\n");
+        printf("idem vytvarat novy root\n");
         BSTRootNode(&table, &new_var, token->data);
         //printf("presiel som cez BSTRootNode\n");
     } else {
@@ -226,7 +225,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     }
 
     new_var->data.v = v;
-
+    printf("koncim varDecl\n");
     return v;
 
 }
@@ -234,10 +233,11 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
 /*--------------------automat-----------------------*/
 void starter() {
+    printf("som v starteri\n");
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
     while (token->type == KEYWORD_CLASS) {
-        //printf("som vo while class\n");
+        printf("som vo while class\n");
         if (token->type == KEYWORD_CLASS) {
             token = get_token();
             //printf("nacitany token: %s\n", token->data);
@@ -260,14 +260,14 @@ void starter() {
             if (token->type != TOKEN_L_CURLY) {
                 ret_error(SYNTAX_ERROR);
             }
-            //printf("tablename: %s\n", table->name);
+            printf("tablename: %s\n", table->name);
             token = get_token();
             //printf("nacitany token: %s\n", token->data);
             while (token->type == KEYWORD_STATIC) {
-                //printf("som vo while v starteri\n");
+                printf("som vo while v starteri\n");
                 token = get_token();
-                //printf("nacitany token: %s\n", token->data);
-                //printf("tablename: %s\n", table->name);
+                printf("nacitany token: %s\n", token->data);
+                printf("tablename: %s\n", table->name);
                 Declaration(table, token);
                 token = get_token();
                 //printf("nacitany token: %s\n", token->data);
@@ -299,7 +299,7 @@ void starter() {
             }
         }
 
-        // //printf("koniec programu\n");
+        printf("koniec programu\n");
         
         // ret_error(0);
 
@@ -318,7 +318,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
         ret_error(SYNTAX_ERROR);
     }
     if ((token->type == KEYWORD_BOOLEAN) || (token->type == KEYWORD_VOID)) {
-        //printf("som vo vetve VOID\n");
+        printf("som vo vetve VOID\n");
         type = token->data;
         token = get_token();
         //printf("nacitany token: %s\n", token->data);
@@ -327,7 +327,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
         }
         tokenID = token;
 
-        //printf("tablename: %s\n", table->name);
+        printf("tablename: %s\n", table->name);
 
         node = BSTSearch(table->Root, tokenID->data);
 
@@ -349,20 +349,20 @@ void Declaration(tTablePtr table, Ttoken *token) {
         //node = BSTSearch(table, tokenID->data);
         //node->defined = 1;
         f->defined = 1;
-        //printf("function %s is defined\n", f->name);
+        printf("function %s is defined\n", f->name);
     } else {
         type = token->data;   //typ premennej resp funkcie
         //printf("typ tokenu: %s\n", type);
-        //printf("som v else vetve\n");
+        printf("som v else vetve\n");
         token = get_token();
-        //printf("nacitany token: %s\n", token->data);
+        printf("nacitany token: %s\n", token->data);
         if (token->type != TOKEN_ID) {
             ret_error(SYNTAX_ERROR);
         }
 
         tokenID = token;
 
-        //printf("tablename: %s\n", table->name);
+        printf("tablename: %s\n", table->name);
 
         node = BSTSearch(table->Root, tokenID->data);
 
@@ -391,12 +391,13 @@ void Declaration(tTablePtr table, Ttoken *token) {
 //            TListItem pushVar = create_instruction(INS_PUSH_VAR, v, table->data.c->stack, NULL);
 //            insert_instruction(globalInitList, pushVar);
 
-            //printf("var %s is declared\n", v->name);
+            printf("var %s is declared\n", v->name);
         } else {
+            printf("som pred funcDef\n");
             TFunction *f = funcDef(table, tokenID, type);
             f->declared = 1;
             f->defined = 1;
-            //printf("function %s is defined\n", f->name);
+            printf("function %s is defined\n", f->name);
             //node = BSTSearch(table, tokenID->data);
             //node->defined = 1;
         }
@@ -404,7 +405,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
 }
 
 TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
-    //printf("som vo variableDecl\n");
+    printf("som vo variableDecl\n");
     
     TVariable *var;
     tTablePtr node = NULL;
@@ -416,7 +417,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     if (node == NULL) {
         //printf("som v ife\n");
         var = new_variable(tokenID, table);
-        //printf("som za new_var\n");
+        printf("som za new_var\n");
         if (!type) {
             var->type = VARTYPE_NULL;
         } else {
@@ -431,7 +432,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     } else {
         var = node->data.v;
-        //printf("varname: %s\n", var->name);
+        printf("som v else a varname je: %s\n", var->name);
     }
 
     if(var->declared != 1){
@@ -453,10 +454,10 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     //printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {
 
-        //printf("som v assign\n");
+        printf("som v assign\n");
         expression(var);
 
-        //printf("som za expr\n");
+        printf("som za expr\n");
         token = get_token();
         //printf("nacitany token: %s\n", token->data);
         if (token->type != TOKEN_SEM_CL) {
@@ -470,20 +471,20 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
     //store_variable(var, &table);
 
-    //printf("tablename: %s\n", table->name);
-    //printf("tokenID: %s\n", tokenID->data);
+    printf("tablename: %s\n", table->name);
+    printf("tokenID: %s\n", tokenID->data);
     node = BSTSearch(table->Root, tokenID->data);
 
     node->data.v = var;
     //node->type = NODE_TYPE_VARIABLE;
-    //printf("nacitany token pred koncom variableDecl: %s\n", token->data);
+    printf("nacitany token pred koncom variableDecl: %s\n", token->data);
 
     return var;
 }
 
 
 TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
-    //printf("som vo funcDef\n");
+    printf("som vo funcDef\n");
     TFunction *f;
     TVariable *v;
     TVariable *param;
@@ -492,18 +493,20 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     int paramsCount = 0;
 
     //char *type = NULL;
-    //printf("tablename: %s\n", table->name);
-    //printf("tokenID: %s\n", tokenID->data);
+    printf("tablename: %s\n", table->name);
+    printf("tokenID: %s\n", tokenID->data);
     node = BSTSearch(table->Root, tokenID->data);
     if (node == NULL) {
         f = new_function(tokenID->data, table);
+        printf("som za new_func\n");
     } else {
         f = node->data.f;
+        printf("nasiel som tabulku funkcie\n");
     }
 
     f->numOfVars = 0;
 
-    //printf("som za new_func\n");
+
     //stackPush(gStack, f);
     if (!(strcmp(funcType, "int"))) {
         f->params[paramsCount] = FUNCTYPE_INT;
@@ -545,7 +548,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
     f->numOfParams = paramsCount;
     f->numOfVars += f->numOfParams;
-    //printf("pocet parametrov: %d\n", f->numOfParams);
+    printf("pocet parametrov: %d\n", f->numOfParams);
 
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
@@ -562,27 +565,27 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
         switch (token->type) {  //volanie funkcii alebo priradovanie hodnot do premennych
             case TOKEN_TYPE: {
                 //deklaracie a definicie lokalnych premennych
-                //printf("som v switchi case token_type\n");
+                printf("som v switchi case token_type\n");
                 char *type = token->data;
 
                 token = get_token();
-                //printf("nacitany token: %s\n", token->data);
+                printf("nacitany token: %s\n", token->data);
                 if (token->type != TOKEN_ID) {
                     ret_error(SYNTAX_ERROR);
                 }
 
                 token_varID = token;
 
-                //printf("tablename: %s\n", fTable->name);
+                printf("tablename: %s\n", fTable->name);
 
-                //printf("tokenID: %s\n", token_varID->data);
+                printf("tokenID: %s\n", token_varID->data);
                 if ((BSTSearch(fTable->Root, token_varID->data))) {
                     line;
                     ret_error(SEMANTIC_DEF_ERROR);
                 }
 
                 v = variableDecl(fTable, token_varID, type);
-                //printf("som za variableDecl v token_type\n");
+                printf("som za variableDecl v token_type\n");
 
                 v->declared = 1;
                 v->position = f->numOfVars;
@@ -597,7 +600,6 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
 
                 //token = get_token();
-                ////printf("nacitany token: %s\n", token->data);
                 break;
             }
             case TOKEN_ID: {
@@ -683,7 +685,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                     //printf("nacitany token pred unget: %s\n", token->data);
                     unget_token(1);
 
-                    ////printf("nacitany token za unget: %s\n", token->data);
+
                     //printf("tablename: %s\n", fTable->name);
                     //printf("token_varID: %s\n", token_varID->data);
                     node = BSTSearch(fTable->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
@@ -691,9 +693,21 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
 
                         node = BSTSearch(table->Root, token_varID->data);
                         if (node == NULL) {
-                            line;
-                            ret_error(SEMANTIC_DEF_ERROR);
-
+                            //line;
+                            token = get_token();
+                            if (token->type == TOKEN_ASSIGN) {
+                               ret_error(SEMANTIC_DEF_ERROR);
+                            } else if (token->type == TOKEN_L_ROUND) {
+//                                TFunction *f = new_function(token_varID->data, table->Root);
+//                                f->declared = 1;
+                                unget_token(2);
+                                expression(NULL);
+                                token = get_token();
+                                //token = get_token();
+                                if (token->type != TOKEN_SEM_CL) {
+                                    ret_error(SYNTAX_ERROR);
+                                }
+                            }
                         } else {
                             token = get_token();
                             if (token->type == TOKEN_ASSIGN) {
@@ -717,6 +731,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
                                 ret_error(SYNTAX_ERROR);
                             }
                         }
+
                     } else {
                         //printf("som v else\n");
                         token = get_token();
@@ -1058,18 +1073,25 @@ void block_body(Ttoken *token) {
 
                     //printf("nacitany token pred unget: %s\n", token->data);
                     unget_token(1);
-
-                    ////printf("nacitany token za unget: %s\n", token->data);
-
                     //printf("token_varID: %s\n", token_varID->data);
-                    node = BSTSearch(funcContext->Root,
-                                     token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
+                    node = BSTSearch(funcContext->Root, token_varID->data);   //neexistuje staticka premmenna s nazvom token->data v danej triede
                     if (node == NULL) {
 
                         node = BSTSearch(classContext->Root, token_varID->data);
                         if (node == NULL) {
-                            line;
-                            ret_error(SEMANTIC_DEF_ERROR);
+                            //line;
+                            token = get_token();
+                            if (token->type == TOKEN_ASSIGN) {
+                                ret_error(SEMANTIC_DEF_ERROR);
+                            } else if (token->type == TOKEN_L_ROUND) {
+                                unget_token(2);
+                                expression(NULL);
+                                token = get_token();
+                                //token = get_token();
+                                if (token->type != TOKEN_SEM_CL) {
+                                    ret_error(SYNTAX_ERROR);
+                                }
+                            }
 
                         } else {
                             token = get_token();
