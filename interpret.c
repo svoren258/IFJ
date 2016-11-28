@@ -692,7 +692,7 @@ int interpret()
                     // printf("***LOCSTACK***\n");
                     for(int i=0; i <= paramStack->top; i++)
                     {
-                        TVariable *src = paramStack->data[i];
+                        TVariable *src = paramStack->data[paramStack->top - i];
                         // printf("%d\n",src->defined);
                         TVariable *dest = src;
                         locStack->data[i] = dest;
