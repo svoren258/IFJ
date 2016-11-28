@@ -5,32 +5,44 @@ class Main
     static void run()
     {
         String str1 = "wtf";
+        String str2;
         int a = 5;
         
-        // Game.hello(str1, a);
-        str1 = "Toto je text";
+        
+        str1 = "Text1";
         ifj16.print(a+"\n");
         
+        ifj16.print("Toto je este v pohode\n");
+        str2 ="Text 2";
+        // ifj16.print(a+"\n");
         
-        str1 = str1 + ", toto jep okracovanie\n";
         
         ifj16.print(str1);
         ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
+        ifj16.print( "WUUT\n");
+        ifj16.print("a = "+a+"\n");
+        Game.hello(str1, a, str2);
         
-        
-        
+        // test();
         
     } // end of static void run()
+    // static int test()
+    // {
+    //     int a = 3;
+    //     ifj16.print(a);
+    // }
     
     
 } // end of class Main
 
-// class Game
-// {
-//     static void hello(String str1, int b)
-//     {
-//         int c = b;
-//         str1 = "ZMeneny text";
-//         ifj16.print(str1);
-//     }
-// }
+class Game
+{
+    static int hello(String str1, int b, String str2)
+    {
+        int c = 4;
+        ifj16.print(str1 +"\n");
+        // str1 = "ZMeneny text";
+        // ifj16.print(str1);
+        return 1;
+    }
+}

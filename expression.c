@@ -83,7 +83,7 @@ int iStack_top()
         b = iStack->data[i]->data;
         return (b);
     }
-    //line;
+    line;
     return SIGN_FAIL;
 }
 
@@ -292,9 +292,9 @@ TStack * push_params(int numOfParams)
     // functionCall = iStack->data[iStack->top]->ptr;
     TVariable *result = stackPop(oStack);
     if(!functionCall)
-    {//line;
+    {line;
         // printf("%s\n",functionCall->name);
-        //line;
+        line;
         ret_error(SYNTAX_ERROR);
     }
     else
@@ -371,7 +371,7 @@ int simple_reduction()
                 }
                 else
                 {
-                    //line;ret_error(SYNTAX_ERROR);
+                    line;ret_error(SYNTAX_ERROR);
                 }
             }
             else if(iStack_top() == OP_COMA)//func(par,par,...)
@@ -391,21 +391,21 @@ int simple_reduction()
                     }
                     else
                     {
-                        //line;
+                        line;
                         ret_error(SYNTAX_ERROR);
                     }
                     iStack_pop();
                 }
                 if(coma == 1)
                 {
-                    //line;
+                    line;
                     ret_error(SYNTAX_ERROR);
                 }
                 if(iStack_top() == OP_LROUND)
                     iStack_pop();
                 else
                 {
-                    //line;
+                    line;
                     ret_error(SYNTAX_ERROR);
                 }
                 if(iStack_top() == OP_FUNC)
@@ -428,7 +428,7 @@ int simple_reduction()
             } 
             else 
             {
-                //line;
+                line;
                 ret_error(SYNTAX_ERROR);
             }
             
@@ -445,7 +445,7 @@ int simple_reduction()
         }
         else
         {
-            //line;
+            line;
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
@@ -477,14 +477,14 @@ int simple_reduction()
                 iStack_pop();
                 if(iStack_top() != OP_NONTERM)
                 {
-                    //line;
+                    line;
                     ret_error(SYNTAX_ERROR);
                 }
                 iStack_pop();//E
                 
                 if(iStack_top() >= 0 && iStack_top() <= 9)
                 {
-                    //line;
+                    line;
                     ret_error(SYNTAX_ERROR);
                 }
                 iStack_pop();//<
@@ -614,7 +614,7 @@ int tokenToType(Ttoken *token)
                         if((functionCall = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
                             new_function(TName, exprClass);//not gonna use return value from this or???
-                            //line;
+                            line;
                         }
                         functionCallTable = BSTSearch(exprClass->Root, TName);
                        // printf("%s\n",functionCallTable->name);
@@ -644,7 +644,7 @@ int tokenToType(Ttoken *token)
                 }
                 else
                 {
-                    //line;
+                    line;
                     ret_error(SYNTAX_ERROR);
                 }
             }
@@ -656,10 +656,10 @@ int tokenToType(Ttoken *token)
                 {
                     if((var = get_var_from_table(classContext, TName)) == NULL)
                     {
-                        //line;
+                        line;
                         ret_error(SEMANTIC_DEF_ERROR);
                     }
-                    // printf("%s\n",TName);//line;//line;
+                    // printf("%s\n",TName);line;line;
                 }}
                 stackPush(oStack, var);
                 // if(!var)s("*****************************************************\n");
@@ -678,7 +678,7 @@ int tokenToType(Ttoken *token)
     }
 
     printf("%s %d \n",token->data, token->type);
-    //line;
+    line;
     ret_error(SYNTAX_ERROR);
      return 0;
 }
@@ -786,7 +786,7 @@ void analysis(TVariable *var)
                     }
                     else
                     {
-                        //line;
+                        line;
                         ret_error(SYNTAX_ERROR);
                     }
                 }
