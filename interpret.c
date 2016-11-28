@@ -475,8 +475,8 @@ int interpret()
     
     while(ins)
     {
-        //  translate_listitem(ins);
-        //  printf(" %d\n",ins->operation);
+         translate_listitem(ins);
+         printf(" %d\n",ins->operation);
         switch(ins->operation)
         {
             case INS_ADD:
@@ -552,7 +552,7 @@ int interpret()
             case INS_JCMP:
             {   
                 var1 = ins->add1;
-                
+                printf("%d\n",var1->type);
                 // printf("JCMP\n");
                 if(var1->type != VARTYPE_BOOLEAN)
                 {
@@ -573,7 +573,7 @@ int interpret()
                 func = ins->add1;
                 function = func;
                 
-                // printf("\t%s call\n",func->name);
+                printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
                 {
@@ -583,6 +583,7 @@ int interpret()
                     TStack *globStack = classNode->data.c->stack;
                     stackPush(globalStack, globStack);
                     
+                    //push return var and next instr
                     TListItem returnIns = ins->add2;
                     TVariable *var = ins->add3;
                     TStack *topStack = stackTop(localStack);
@@ -725,10 +726,11 @@ int interpret()
             case INS_RET:
             {
                 TStack * topStack = stackTop(localStack);
-                TListItem instr = stackPop(topStack);
                 
-                TListItem nextIns = create_instruction(INS_JMP, instr, NULL, NULL);
-                ins = nextIns;
+                TListItem instr = stackPop(topStack);
+                // printf("%d\n",instr->operation);
+                // TListItem nextIns = create_instruction(INS_JMP, instr, NULL, NULL);
+                ins = instr;
                 // printf("%d\n",ins->operation);
                 stackPop(topStack);
             }

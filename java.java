@@ -8,6 +8,13 @@ class Main
         String str2;
         int a = 5;
         
+        if(a > 1)
+        {
+            ifj16.print("YES\n");
+        } else {
+            ifj16.print("NO\n");
+        }
+        
         ifj16.print(a+"\n");
         ifj16.print(a+"\n");
         str1 = "Text1";
@@ -18,20 +25,20 @@ class Main
         
         
 
-        str1 = str1 + ", toto je pokracovanie\n";
+        str1 = "Text 1";
 
         
         ifj16.print(str1);
         ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
         ifj16.print( "WUUT\n");
-        //ifj16.print("a = "+a+"\n");
-        //Game.hello(str1, a, str2);
+        // ifj16.print("a = "+a+"\n");
+        Game.hello(str1, a, str2);
         test();
     } // end of static void run()
     static int test()
     {
         int a = 3;
-        ifj16.print(a);
+        ifj16.print("test() + " a +" \n");
         return 0;
     }
     
@@ -44,7 +51,7 @@ class Game
     {
         int c = 4;
         
-        ifj16.print(str1 + b);
+        ifj16.print("hello() " + str1 + " " + b + " \n");
         // ifj16.print(str2 + b);
         // str1 = "ZMeneny text";
         // ifj16.print(str1);

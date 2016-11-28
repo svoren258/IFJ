@@ -484,6 +484,7 @@ int simple_reduction()
                 TListItem ins = create_instruction(iStack_top(),var1,var2,result);
                 insert_instruction(list,ins);
                 stackPush(oStack,result);
+                
                 // printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
                 iStack_pop();
                 if(iStack_top() != OP_NONTERM)
@@ -501,7 +502,9 @@ int simple_reduction()
                 iStack_pop();//<
                 iStack_push(OP_NONTERM);
                 printStacks();
+                
                 return TRUE;
+                
             default:
                 iStack_push(OP_NONTERM);
                 return FALSE;
@@ -816,7 +819,12 @@ void analysis(TVariable *var)
                 {
                     iStack_pop();    
                     if(var)
-                    insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    {
+                        insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                        printf("%d\n",var->type);    
+                    }
+                    
+                    
                     print_list();
                //     s("***********INS_ASSIGN************\n");
                     break;
