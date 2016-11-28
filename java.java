@@ -12,14 +12,12 @@ class Main
         ifj16.print(a+"\n");
         
         
-        str1 = str1 + ", toto jep okracovanie\n";
+        str1 = str1 + ", toto je pokracovanie\n";
         
         ifj16.print(str1);
         ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
         
-        
-        
-        
+
     } // end of static void run()
     
     
