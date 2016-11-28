@@ -62,7 +62,7 @@ TFunction *get_func_from_table(tTablePtr Table, char *name)
 
 TClass *get_class_from_table(tTablePtr Table, char *name)
 {
-    tTablePtr tree = BSTSearch(Table->Root, name);
+    tTablePtr tree = BSTSearch(Table, name);
     if(tree)
         return tree->data.c;
     return NULL;
