@@ -19,8 +19,13 @@ int find(TVariable* s, TVariable* search){
     char* str = s->value.s;
     char* search_str = search->value.s;
 
-    int size_s = length(str);
-    int size_search = length(search_str);
+    int size_s = strlen(str);
+    int size_search = strlen(search_str);
+    printf("size_s: %d\n", size_s);
+    printf("size_search: %d\n", size_search);
+    if(size_s < size_search)
+        return -1;
+
     if(size_search == 0)
         return 0;
     bool match = FALSE;
@@ -33,21 +38,32 @@ int find(TVariable* s, TVariable* search){
             prefix_t[k+1] = prefix_t[prefix_t[k+1]-1]+1;
         }
     }
+    for (int l = 0; l < size_search; ++l) {
+        printf("%d\n", prefix_t[l+1]);
+    }
 
-    for (int i = 0; i < size_s; ++i) {
-        for (int j = 0; j < size_search; ++j) {
-            if(str[i+j] == search_str[j])
-                match = TRUE;
-            else{
-                match = FALSE;
-                break;
-            }
+    int i = 0;
+    int j = 0;
+    while (i<size_s && j<size_search) {
+        if (str[i] == search_str[j]) {
+            match = TRUE;
+            printf("if true\n");
+            j++;
+            i++;
         }
-        if(match == TRUE) {
-            free(prefix_t);
-            return i;
+        else {
+            if(j == 0)
+                i++;
+            match = FALSE;
+            j = prefix_t[j + 1];
         }
     }
+
+        if(match == TRUE) {
+            free(prefix_t);
+            return i-size_search;
+        }
+
     free(prefix_t);
     return -1;
 }
