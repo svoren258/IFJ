@@ -116,9 +116,7 @@ TVariable *get_variable(char *name)
     // tTablePtr classNode;
     // tTablePtr funcNode;
     TVariable *var;
-    
     topStack = stackTop(localStack);
-    
     // varNode = BSTSearch(functionTable->Root, name);
     var = get_var_from_table(functionNode,name);//varNode->data.v;
     if(var)
@@ -164,6 +162,7 @@ void math()
                 if(var1->name)var1 = get_variable(var1->name);
                 var2 = ins->add2;
                 if(var2->name)var2 = get_variable(var2->name);
+                
                 result = ins->add3;
                 int op = ins->operation;
                 ins = ins->next;
@@ -190,59 +189,62 @@ void math()
                     
                     
                 result->defined = 1;
-                if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
-                { 
-                    if(var1->type == VARTYPE_INTEGER)
-                    {
-                        char buffer[100];
-                        snprintf(buffer, 10, "%d", var1->value.i);    
-                        var1->value.s = buffer;
-                        
-                    }
-                    else if(var1->type == VARTYPE_DOUBLE)
-                    {
-                        char buffer[100];
-                        snprintf(buffer, 10, "%f", var1->value.d);    
-                        var1->value.s = buffer;
-                    }
-                    else if(var1->type == VARTYPE_BOOLEAN)
-                    {
-                        line;
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                        
-                        
-                    if(var2->type == VARTYPE_INTEGER)
-                    {
-                        char buffer[100];
-                        snprintf(buffer, 10, "%d", var2->value.i);    
-                        var2->value.s = buffer;
-                    }
-                    else if(var2->type == VARTYPE_DOUBLE)
-                    {
-                        char buffer[100];
-                        snprintf(buffer, 10, "%f", var2->value.d);    
-                        var2->value.s = buffer;
-                    }    
-                    else if(var2->type == VARTYPE_BOOLEAN)
-                    {
-                        line;
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                        
-                    result->type = VARTYPE_STRING;
-                    // printf("%s %s\n",var1->value.s, var2->value.s);
-                    
-                    strncat(var1->value.s, var2->value.s, 100);
-                    result->value.s = var1->value.s;
-                    //strncpy(result->value.s, var1->value.s, 100);line;
-                    return;
-                }
+                
                 
                 
                 switch(op)
                 {
                 case INS_ADD:
+                
+                    if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
+                    { 
+                        if(var1->type == VARTYPE_INTEGER)
+                        {
+                            char buffer[100];
+                            snprintf(buffer, 10, "%d", var1->value.i);    
+                            var1->value.s = buffer;
+                            
+                        }
+                        else if(var1->type == VARTYPE_DOUBLE)
+                        {
+                            char buffer[100];
+                            snprintf(buffer, 10, "%f", var1->value.d);    
+                            var1->value.s = buffer;
+                        }
+                        else if(var1->type == VARTYPE_BOOLEAN)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                            
+                            
+                        if(var2->type == VARTYPE_INTEGER)
+                        {
+                            char buffer[100];
+                            snprintf(buffer, 10, "%d", var2->value.i);    
+                            var2->value.s = buffer;
+                        }
+                        else if(var2->type == VARTYPE_DOUBLE)
+                        {
+                            char buffer[100];
+                            snprintf(buffer, 10, "%f", var2->value.d);    
+                            var2->value.s = buffer;
+                        }    
+                        else if(var2->type == VARTYPE_BOOLEAN)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                            
+                        result->type = VARTYPE_STRING;
+                        // printf("%s %s\n",var1->value.s, var2->value.s);
+                        
+                        strncat(var1->value.s, var2->value.s, 100);
+                        result->value.s = var1->value.s;
+                        //strncpy(result->value.s, var1->value.s, 100);line;
+                        return;
+                    }
+                
                     if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
                     {
                         result->type = VARTYPE_DOUBLE;
@@ -444,7 +446,7 @@ void math()
 
 int interpret()
 {
-    // printf("\n\n***INTERPRET BEGINING***\n\n");  
+    printf("\n\n\t***INTERPRET BEGINING***\n\n");  
     ins = globalInitList->First;
     
     localStack = stackInit();
@@ -583,6 +585,12 @@ int interpret()
                     functionNode = BSTSearch(classNode->Root, func->name);
                     TStack *globStack = classNode->data.c->stack;
                     stackPush(globalStack, globStack);
+                    
+                    TListItem returnIns = ins->add2;
+                    TVariable *var = ins->add3;
+                    TStack *topStack = stackTop(localStack);
+                    stackPush(topStack,var);
+                    stackPush(topStack,returnIns);
                 }
                 
                 
@@ -653,34 +661,58 @@ int interpret()
                 // //   stackPop(locStack);
                 //   printf("*****var on helo stack:%s %d\n",var1->name,var1->type);
                 
-                
+                // printf("\n***pstack %d***\n",paramStack->top);
+                // for(int i=0; i <= paramStack->top; i++)
+                //     {
+                //         TVariable *var = paramStack->data[i];
+                        // if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
+                        // if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
+                        // if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
+                        // printf("Vartype: %d\n",var->type);
+                    // }
+                    // printf("*****end pstack*****\n");
                 // printf("%d\n",locStack->top);
                 
                 if(locStack->top <0)
                 {
+                    // printf("***LOCSTACK***\n");
                     for(int i=0; i <= paramStack->top; i++)
                     {
-                        stackPush(locStack,paramStack->data[i]);
                         
+                        stackPush(locStack,paramStack->data[i]);
+                        // TVariable *var = locStack->data[i];
+                        // if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
+                        // if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
+                        // if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
+                        // printf("Vartype: %d\n",var->type);
                         
                     }
+                    // printf("***END LOCSTACK***\n");
                 }
                 else
                 {
                     
-                    
+                    // printf("***LOCSTACK***\n");
                     for(int i=0; i <= paramStack->top; i++)
                     {
                         TVariable *src = paramStack->data[i];
-                        // printf("%s\n",src->name);
-                        TVariable *dest = locStack->data[i];
-                        // printf("%s\n",dest->name);
+                        // printf("%d\n",src->defined);
+                        TVariable *dest = src;
+                        locStack->data[i] = dest;
+                        // printf("%d\n",dest->defined);
                         char *name = dest->name;
                         dest = src;
                         dest->name = name;
                         
+                        // TVariable *var = locStack->data[i];
+                        // if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
+                        // if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
+                        // if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
+                        // printf("Vartype: %d\n",var->type);
+                        
                         
                     }
+                    // printf("***END LOCSTACK***\n");
                 }
                 
                 //   printf("%s",var->name);
@@ -691,6 +723,17 @@ int interpret()
                 
                 ins = ins->next;
                 continue;
+            }
+            
+            case INS_RET:
+            {
+                TStack * topStack = stackTop(localStack);
+                TListItem instr = stackPop(topStack);
+                
+                TListItem nextIns = create_instruction(INS_JMP, instr, NULL, NULL);
+                ins = nextIns;
+                // printf("%d\n",ins->operation);
+                stackPop(topStack);
             }
             
             
