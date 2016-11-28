@@ -141,18 +141,15 @@ TVariable *get_variable(char *name)
      
     var = get_var_from_table(classNode,name);//varNode->data.v;line;
     
-        
+    if(var != NULL)
     var = topStack->data[var->position];
     
     
     if(var != NULL)
         return var;
-    else
-    {
-        line;
-        ret_error(SEMANTIC_DEF_ERROR);
-    }
-        
+    
+    
+    
     return NULL;
 }
 
@@ -609,16 +606,16 @@ int interpret()
                         }
                         if(var->type == 0)
                         {
-                            line;
-                            ret_error(SEMANTIC_DEF_ERROR);
+                            printf("%s %d %s\n",var->name, var->position, var->value.s);
+                            // line;
+                            // ret_error(SEMANTIC_DEF_ERROR);
                         }
                         
-                        
                         print(var);
-                        // printf("%d\n",stack->top);
+                        
                         stackPop(localStack);
                         stackPop(stack);
-                        
+                        // printf("%d\n",stack->top);
                         // printf("%d\n",localStack->top);
                     }
                     
@@ -665,13 +662,13 @@ int interpret()
                 // for(int i=0; i <= paramStack->top; i++)
                 //     {
                 //         TVariable *var = paramStack->data[i];
-                        // if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
-                        // if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
-                        // if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
-                        // printf("Vartype: %d\n",var->type);
-                    // }
-                    // printf("*****end pstack*****\n");
-                // printf("%d\n",locStack->top);
+                //         if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
+                //         if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
+                //         if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
+                //         printf("Vartype: %d\n",var->type);
+                //     }
+                //     printf("*****end pstack*****\n");
+                // printf("LOCALSTACK:%d\n",locStack->top);
                 
                 if(locStack->top <0)
                 {
@@ -705,9 +702,9 @@ int interpret()
                         dest->name = name;
                         
                         // TVariable *var = locStack->data[i];
-                        // if(var->type==VARTYPE_STRING)printf("%s \t\tdef:%d ",var->value.s, var->defined);
-                        // if(var->type==VARTYPE_DOUBLE)printf("%g \t\tdef:%d ",var->value.d, var->defined);
-                        // if(var->type==VARTYPE_INTEGER)printf("%d \t\tdef:%d ",var->value.i, var->defined);
+                        // if(var->type==VARTYPE_STRING)printf("%d|%s \t\tdef:%d ",i,var->value.s, var->defined);
+                        // if(var->type==VARTYPE_DOUBLE)printf("%d|%g \t\tdef:%d ",i,var->value.d, var->defined);
+                        // if(var->type==VARTYPE_INTEGER)printf("%d|%d \t\tdef:%d ",i,var->value.i, var->defined);
                         // printf("Vartype: %d\n",var->type);
                         
                         
