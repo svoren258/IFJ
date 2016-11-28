@@ -195,18 +195,19 @@ void math()
                 
                     if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
                     { 
+                        char buffer1[100],buffer2[100];
+                        
                         if(var1->type == VARTYPE_INTEGER)
                         {
-                            char buffer[100];
-                            snprintf(buffer, 10, "%d", var1->value.i);    
-                            var1->value.s = buffer;
-                            
+                            snprintf(buffer1, 10, "%d", var1->value.i);    
                         }
                         else if(var1->type == VARTYPE_DOUBLE)
                         {
-                            char buffer[100];
-                            snprintf(buffer, 10, "%f", var1->value.d);    
-                            var1->value.s = buffer;
+                            snprintf(buffer1, 10, "%f", var1->value.d);    
+                        }
+                        else if(var1->type == VARTYPE_STRING)
+                        {
+                            strcpy(buffer1,var1->value.s);//buffer1 = var1->value.s;
                         }
                         else if(var1->type == VARTYPE_BOOLEAN)
                         {
@@ -214,31 +215,28 @@ void math()
                             ret_error(SEMANTIC_TYPE_ERROR);
                         }
                             
-                            
                         if(var2->type == VARTYPE_INTEGER)
                         {
-                            char buffer[100];
-                            snprintf(buffer, 10, "%d", var2->value.i);    
-                            var2->value.s = buffer;
+                            snprintf(buffer2, 10, "%d", var2->value.i);    
                         }
                         else if(var2->type == VARTYPE_DOUBLE)
                         {
-                            char buffer[100];
-                            snprintf(buffer, 10, "%f", var2->value.d);    
-                            var2->value.s = buffer;
+                            snprintf(buffer2, 10, "%f", var2->value.d);    
                         }    
+                        else if(var2->type == VARTYPE_STRING)
+                        {
+                            strcpy(buffer2, var2->value.s);
+                        }
                         else if(var2->type == VARTYPE_BOOLEAN)
                         {
                             line;
                             ret_error(SEMANTIC_TYPE_ERROR);
                         }
-                            
-                        result->type = VARTYPE_STRING;
-                        // printf("%s %s\n",var1->value.s, var2->value.s);
                         
-                        strncat(var1->value.s, var2->value.s, 100);
-                        result->value.s = var1->value.s;
-                        //strncpy(result->value.s, var1->value.s, 100);line;
+                        result->type = VARTYPE_STRING;
+                        result->value.s = malloc(sizeof(char)*(300));
+                        strcpy(result->value.s, buffer1);
+                        strcat(result->value.s, buffer2);
                         return;
                     }
                 
@@ -435,7 +433,7 @@ void math()
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
-                    default:ret_error(SEMANTIC_TYPE_ERROR);
+                    default:line;ret_error(SEMANTIC_TYPE_ERROR);
                     break;
                 }
                 }
@@ -458,10 +456,26 @@ int interpret()
 
     tTablePtr runFunc = BSTSearch(globStack->Root, "run");
     TStack *runStack = runFunc->data.f->stack;
+    TList * list = runFunc->data.f->list;
+    
+    TListItem  LItem= create_instruction(INS_LABEL,NULL,NULL,NULL);
+    insert_instruction(list, LItem);
+    stackPush(runStack, LItem);
+    
+    
     
     stackPush(localStack, runStack);
     functionNode = runFunc;
     
+    
+    // printf("run stack\n");
+    // for(int i = 0; i <= runStack->top; i++)
+    // {
+    //     printf("Param %d: ",i);
+    //     TVariable *var = runStack->data[i];
+    //     printf("%s\n",var->name);
+    // }
+    // printf("end of run stack\n\n\n\n");
     
     TFunction * func;
     // tTablePtr pclass = BSTSearch(globTable, "Game");
@@ -475,8 +489,8 @@ int interpret()
     
     while(ins)
     {
-         translate_listitem(ins);
-         printf(" %d\n",ins->operation);
+        //  translate_listitem(ins);
+        //  printf(" %d\n",ins->operation);
         switch(ins->operation)
         {
             case INS_ADD:
@@ -540,6 +554,26 @@ int interpret()
 //                    exit(1);
                     continue;
                 }
+                else if(var1->type == VARTYPE_BOOLEAN)
+                {
+                    if(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
+                    {
+                        line;
+                        ret_error(SEMANTIC_TYPE_ERROR);    
+                    }
+                    var1->value.b = var2->value.b;
+                    
+//                    printf("var2: %s, value2: %s\n", var2->name, var2->value.s);
+//                    exit(1);
+                    continue;
+                }
+                else if(var1->type == VARTYPE_NULL)
+                {
+                    var1->type = VARTYPE_BOOLEAN;
+                    var1->value.b = var2->value.b;
+                    // printf("compared  value1: %d\n", var1->value.b);
+                    continue;
+                }
                 line;
                 ret_error(SEMANTIC_DEF_ERROR);
             
@@ -552,7 +586,7 @@ int interpret()
             case INS_JCMP:
             {   
                 var1 = ins->add1;
-                printf("%d\n",var1->type);
+                // printf("\n\nJCMP:%d\n",var1->value.b);
                 // printf("JCMP\n");
                 if(var1->type != VARTYPE_BOOLEAN)
                 {
@@ -560,7 +594,7 @@ int interpret()
                     ret_error(SEMANTIC_TYPE_ERROR);
                 }
                     
-                if(var1->value.b == 1)
+                if(var1->value.b == 0)
                     ins = ins->add3;
                 else
                     ins = ins->next;
@@ -568,12 +602,14 @@ int interpret()
             }
             
             case INS_CALL:
-            {
+            {   
+                // ins = ins->next;
+                // continue;
                 
                 func = ins->add1;
                 function = func;
                 
-                printf("\t%s call\n",func->name);
+                // printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
                 {
@@ -584,9 +620,12 @@ int interpret()
                     stackPush(globalStack, globStack);
                     
                     //push return var and next instr
-                    TListItem returnIns = ins->add2;
-                    TVariable *var = ins->add3;
+                    TListItem returnIns = ins->add2;//next instruction
+                    
+                    TVariable *var = ins->add3;//save return value here
                     TStack *topStack = stackTop(localStack);
+                    // printf("RETURN INS:%d\n",returnIns->operation);
+                    // printf("Stack size : %d\n",topStack->top);
                     stackPush(topStack,var);
                     stackPush(topStack,returnIns);
                 }
@@ -624,12 +663,6 @@ int interpret()
                     // printf("ifj16 func: %s\n",func->name);
                     continue;
                 }
-                
-                
-                
-                
-                
-                
                 
                 
                 // ins = func->list->First->next->next;
@@ -725,16 +758,20 @@ int interpret()
             
             case INS_RET:
             {
-                TStack * topStack = stackTop(localStack);
+                //   ins = ins->next;
+                // continue;
                 
+                TStack * topStack = stackTop(localStack);
+                // printf("Stack size : %d\n",topStack->top);
                 TListItem instr = stackPop(topStack);
-                // printf("%d\n",instr->operation);
+                // printf("REAL RETURN INS%d\n",instr->operation);
                 // TListItem nextIns = create_instruction(INS_JMP, instr, NULL, NULL);
                 ins = instr;
-                // printf("%d\n",ins->operation);
-                stackPop(topStack);
+                stackPop(localStack);
+                continue;
             }
-            
+            default:
+            break;
             
         }
         

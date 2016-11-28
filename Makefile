@@ -3,7 +3,7 @@ CFLAGS= -Wall -Werror -pedantic
 
 
 all:
-	gcc -std=c99 $(FILES) $(CFLAGS) -o ifj
+	gcc -std=c99 -g $(FILES) $(CFLAGS) -o ifj
 	
 clean:
 	rm ifj

@@ -115,27 +115,29 @@ int iStack_get_sign()
 
 void print_list()
 {
+    #ifdef DEBUG
     TListItem ins;
     if(thisFunction)
     {
         ins = thisFunction->list->First;
-        // printf("Function list\n");
+        printf("Function list\n");
     }
      
     else
     {
         ins = globalInitList->First;
-        // printf("class list\n");
+        printf("class list\n");
     }
     if(thisFunction)return;
     insert_instruction(list,create_instruction(INS_LABEL,NULL,NULL,NULL));
-    // printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
+    printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
     while(ins)
     {
-        // printf("%d\n",ins->operation);
+        printf("%d\n",ins->operation);
         ins = ins->next;
     }
-    // printf("********************************END FUNCTION LIST**********************************\n");
+    printf("********************************END FUNCTION LIST**********************************\n");
+    #endif
 }
 
 void printStacks()
@@ -290,7 +292,7 @@ TStack * push_params(int numOfParams)
     // printf("function:%s \n",exprFunc->name);
     // printf("function:%s  in class: %s\n",exprFunc->name, exprClass->name);
     // functionCall = iStack->data[iStack->top]->ptr;
-    TVariable *result = stackPop(oStack);
+    // TVariable *result = stackPop(oStack);
     if(!functionCall)
     {line;
         // printf("%s\n",functionCall->name);
@@ -310,7 +312,8 @@ TStack * push_params(int numOfParams)
         // printf("Params: %d\n",paramStack->top);
         // printf("%s\n",functionCall->name);
     }
-    stackPush(oStack, result);
+    // stackPush(oStack, result);
+    // printf("I am here %s\n", functionCall->name);
     return paramStack;
 }
 
@@ -362,7 +365,7 @@ int simple_reduction()
                     
                     result = generate_var(0);
                     result->name = "return";
-                    stackPush(oStack, result);
+                    // stackPush(oStack, result);
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
@@ -418,7 +421,7 @@ int simple_reduction()
                     // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
                     result = generate_var(0);
                     result->name = "return";
-                    stackPush(oStack, result);
+                    // stackPush(oStack, result);
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
@@ -440,16 +443,6 @@ int simple_reduction()
             iStack_pop();//<
             iStack_pop();//(
             iStack_pop();//func
-            
-            result = generate_var(0);
-            result->name = "return";
-            stackPush(oStack, result);
-            TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
-            insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(0), functionCall->stack, NULL));
-            insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
-            insert_instruction(list,lab);
-            
-            
             iStack_push(OP_NONTERM);
             //func call
         }
@@ -459,7 +452,6 @@ int simple_reduction()
             ret_error(SYNTAX_ERROR);
         }
         printStacks();
-        
     }
         
     if(iStack_top() == OP_NONTERM)//<E op E -> E
@@ -484,8 +476,7 @@ int simple_reduction()
                 TListItem ins = create_instruction(iStack_top(),var1,var2,result);
                 insert_instruction(list,ins);
                 stackPush(oStack,result);
-                
-                // printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
+                printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
                 iStack_pop();
                 if(iStack_top() != OP_NONTERM)
                 {
@@ -502,9 +493,7 @@ int simple_reduction()
                 iStack_pop();//<
                 iStack_push(OP_NONTERM);
                 printStacks();
-                
                 return TRUE;
-                
             default:
                 iStack_push(OP_NONTERM);
                 return FALSE;
@@ -779,6 +768,15 @@ void analysis(TVariable *var)
                     simple_reduction();
                 if(token->type != TOKEN_SEM_CL)
                 {
+                    if( TOKENTYPE == OP_RROUND && brackets == -1 && iStack->top == 1)
+                    {
+                        iStack_pop();
+                        if(var)
+                        insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                        break;
+
+                    }
+                    
                     if( TOKENTYPE == OP_RROUND && brackets > -1)//add ) to the stack
                     {
                         iStack_push(OP_RROUND);
@@ -819,12 +817,7 @@ void analysis(TVariable *var)
                 {
                     iStack_pop();    
                     if(var)
-                    {
-                        insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
-                        printf("%d\n",var->type);    
-                    }
-                    
-                    
+                    insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
                     print_list();
                //     s("***********INS_ASSIGN************\n");
                     break;
@@ -850,7 +843,7 @@ void analysis(TVariable *var)
                 break;
             token = get_token();
         }
-         if(end>700)
+         if(end>70)
          {
              break;
          }
