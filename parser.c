@@ -970,7 +970,7 @@ void return_statement(tTablePtr table) {
     if (table->data.f->params[0] == FUNCTYPE_VOID) {
         retItem = create_instruction(INS_RET, NULL, NULL, NULL);
         if (token->type != TOKEN_SEM_CL) {
-            ret_error(SYNTAX_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
 
     } else {
