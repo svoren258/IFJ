@@ -23,18 +23,16 @@ class Main
         ifj16.print(str1);
         ifj16.print("Pozice retezce \"text\" v retezci str2: \n");
         ifj16.print( "WUUT\n");
-        ifj16.print("a = "+a+"\n");
-        Game.hello(str1, a, str2);
-
-        // test();
-        
-
+        //ifj16.print("a = "+a+"\n");
+        //Game.hello(str1, a, str2);
+        test();
     } // end of static void run()
-    // static int test()
-    // {
-    //     int a = 3;
-    //     ifj16.print(a);
-    // }
+    static int test()
+    {
+        int a = 3;
+        ifj16.print(a);
+        return 0;
+    }
     
     
 } // end of class Main
@@ -44,9 +42,9 @@ class Game
     static int hello(String str1, int b, String str2)
     {
         int c = 4;
-        ifj16.print(str1 +"\n");
-        // str1 = "ZMeneny text";
-        // ifj16.print(str1);
+        ifj16.print(str1 +c +"\n");
+        //str1 = "ZMeneny text";
+        //ifj16.print(str1);
         return 1;
     }
 }
