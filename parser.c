@@ -978,10 +978,13 @@ void return_statement(tTablePtr table) {
 
     } else {
         TVariable *ret = malloc(sizeof(TVariable));
+        ret->type = VARTYPE_NULL;
+        unget_token(1);
         retItem = create_instruction(INS_RET, ret, NULL, NULL);
         expression(ret);
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
+            line;
             ret_error(SYNTAX_ERROR);
         }
     }

@@ -10,7 +10,6 @@
 #include "builtin.h"
 
 
-
 #define TRUE 1
 #define FALSE 0
 
@@ -51,6 +50,6 @@ void BSTDispose(tTablePtr *);
 void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
 void merge(char* s, char* left, int l_length, char* right, int r_length);
 void sorting(char* s, int length);
-
+TStack * copyStack(TStack*);
 
 #endif

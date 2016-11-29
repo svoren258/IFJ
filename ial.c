@@ -325,3 +325,37 @@ void BSTDispose (tTablePtr *RootPtr) {
 			
 		}
 }
+
+TStack* copyStack(TStack* oldStack)
+{
+	TStack * newStack = stackInit();
+	
+	for(int i = 0; i <= oldStack->top; i++)
+	{
+		TVariable *var = oldStack->data[i];
+		TVariable *newVar = malloc(sizeof(TVariable));
+		// newVar->className = malloc(sizeof(char)*100);
+		// newVar->className[0] = '\0';
+		if(var->className)
+		{
+			newVar->className = malloc(sizeof(char)*100);
+			newVar->className = strcpy(newVar->className, var->className);
+		}
+		// newVar->name =		malloc(sizeof(char)*100);
+		// newVar->name[0] = '\0';
+		if(var->name)
+		{
+			newVar->name =		malloc(sizeof(char)*100);
+			newVar->name =		strcpy(newVar->name,var->name);
+		}
+		newVar->value = 	var->value;
+		newVar->type =		var->type;
+		newVar->position =	var->position;
+		newVar->constant =	var->constant;
+		newVar->defined =	var->defined;
+		newVar->declared =	var->declared;
+
+		stackPush(newStack, newVar);
+	}
+	return newStack;
+}

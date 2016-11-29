@@ -37,6 +37,7 @@ enum{
     INS_PUSH_VAR,//17
     INS_CALL,//18
     INS_PUSH_TABLE,//19
+    INS_EXIT,
 };
 
 #endif

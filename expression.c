@@ -365,11 +365,12 @@ int simple_reduction()
                     
                     result = generate_var(0);
                     result->name = "return";
-                    // stackPush(oStack, result);
+                    
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
+                    stackPush(oStack, result);
                     iStack_push(OP_NONTERM);
                 }
                 else
@@ -421,11 +422,12 @@ int simple_reduction()
                     // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
                     result = generate_var(0);
                     result->name = "return";
-                    // stackPush(oStack, result);
-                    TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
+                    
+                    TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);line;
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
+                    stackPush(oStack, result);
                     iStack_push(OP_NONTERM);
                 }
             } 
@@ -440,10 +442,21 @@ int simple_reduction()
         else if(iStack_top() == OP_LROUND)//func() -> E
         {
             //s("TRY REDUCTION func() -> E\n");
-            iStack_pop();//<
-            iStack_pop();//(
             iStack_pop();//func
-            iStack_push(OP_NONTERM);
+            iStack_pop();//< before func
+            //function call
+            
+            
+            // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
+            result = generate_var(0);
+            result->name = "return";
+            
+            TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
+            insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(0), functionCall->stack, NULL));
+            insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
+            insert_instruction(list,lab);
+            stackPush(oStack, result);
+            iStack_push(OP_NONTERM);;
             //func call
         }
         else
@@ -476,7 +489,7 @@ int simple_reduction()
                 TListItem ins = create_instruction(iStack_top(),var1,var2,result);
                 insert_instruction(list,ins);
                 stackPush(oStack,result);
-                printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
+                // printf("***********REDUCTION :E %d E***********\n", iStack_top());//OP
                 iStack_pop();
                 if(iStack_top() != OP_NONTERM)
                 {
@@ -727,7 +740,7 @@ void analysis(TVariable *var)
        
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
-       // printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
+        // printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
         // printf("%c\n",precedence_table[iStack_top_term()][TOKENTYPE]);
         switch(compare_priority(iStack_top_term()))
         {
@@ -817,7 +830,11 @@ void analysis(TVariable *var)
                 {
                     iStack_pop();    
                     if(var)
-                    insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                    {
+                        insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                        
+                    }
+                    
                     print_list();
                //     s("***********INS_ASSIGN************\n");
                     break;
@@ -833,7 +850,7 @@ void analysis(TVariable *var)
         
         if(( (token->type == TOKEN_SEM_CL) || (brackets==-1) ) && iStack->top == 0)
         {
-          //  s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
+            s("FINISHED EXPRESSION SUCCESFULLY!!!\n");
             return;//finished expression
         }
         
