@@ -317,7 +317,7 @@ TStack * push_params(int numOfParams)
     return paramStack;
 }
 
-int simple_reduction()
+int simple_reduction(TVariable *var)
 {//s("REDUCTION BEGIN\n");
     int params = 0;
     int coma = 0;
@@ -362,15 +362,18 @@ int simple_reduction()
                     //function call
                     
                     
-                    
-                    result = generate_var(0);
-                    result->name = "return";
+                    if(var)
+                    {
+                        result = generate_var(0);
+                        result->name = "return";    
+                        printf("\t\t\tLOL\n");
+                    }
                     
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
-                    stackPush(oStack, result);
+                    if(var)stackPush(oStack, result);
                     iStack_push(OP_NONTERM);
                 }
                 else
@@ -419,15 +422,17 @@ int simple_reduction()
                     //function call
                     
                     
-                    // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
-                    result = generate_var(0);
-                    result->name = "return";
+                    if(var)
+                    {
+                        result = generate_var(0);
+                        result->name = "return";    
+                    }
                     
                     TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);line;
                     insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(params), functionCall->stack, NULL));
                     insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
                     insert_instruction(list,lab);
-                    stackPush(oStack, result);
+                    if(var)stackPush(oStack, result);
                     iStack_push(OP_NONTERM);
                 }
             } 
@@ -448,14 +453,17 @@ int simple_reduction()
             
             
             // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
-            result = generate_var(0);
-            result->name = "return";
+            if(var)
+            {
+                result = generate_var(0);
+                result->name = "return";    
+            }
             
             TListItem lab = create_instruction(INS_LABEL, NULL,NULL,NULL);
             insert_instruction(list,create_instruction(INS_PUSH_TABLE, push_params(0), functionCall->stack, NULL));
             insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
             insert_instruction(list,lab);
-            stackPush(oStack, result);
+            if(var)stackPush(oStack, result);
             iStack_push(OP_NONTERM);;
             //func call
         }
@@ -778,14 +786,20 @@ void analysis(TVariable *var)
          //   printf("GREATER: Ttype %d\n",TOKENTYPE);
 //                if( brackets >= 0 )
 
-                    simple_reduction();
+                    simple_reduction(var);
                 if(token->type != TOKEN_SEM_CL)
                 {
                     if( TOKENTYPE == OP_RROUND && brackets == -1 && iStack->top == 1)
                     {
                         iStack_pop();
                         if(var)
-                        insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                        {
+                            #ifdef DEBUG
+                            printf("*************ASSIGN*************\n");
+                            #endif
+                            insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
+                        }
+                        
                         break;
 
                     }
@@ -831,12 +845,14 @@ void analysis(TVariable *var)
                     iStack_pop();    
                     if(var)
                     {
+                        #ifdef DEBUG
+                        printf("*************ASSIGN*************\n");
+                        #endif
                         insert_instruction(list, create_instruction(INS_ASSIGN,var,stackPop(oStack),NULL));
-                        
                     }
                     
                     print_list();
-               //     s("***********INS_ASSIGN************\n");
+                    
                     break;
                 }
             break;

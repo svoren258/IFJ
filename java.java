@@ -4,18 +4,21 @@ class Main
     static void run()
     {
         int b = 3 + 5;
-        int a = 3+4;
+        int a = 4+ 4;
+        String str1 = "String";
+        String str2 = "abc";
         
-        ifj16.print("a = "+ a + "\n");        
-        a = test(a, b);
-        ifj16.print("a now equals = " + a + "\n");
+        
+        str2 = ifj16.substr(str1, 1, 2);
+        
+        ifj16.print("a now equals = " + str2 + "\n");
     } // end of static void run()
-    static int test(int a, int b)
-    {
-        a = 5;
-        b = 6;
-        return (a+b);
-    }
+    // static int test(int a, int b)
+    // {
+    //     a = 5;
+    //     b = 6;
+    //     return (a + b - 1);
+    // }
     
     
 } // end of class Main

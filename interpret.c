@@ -129,6 +129,11 @@ TVariable *get_variable(char *name)
         printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
     }
     #endif
+    
+    
+   
+    
+    
     var = get_var_from_table(functionNode,name);//varNode->data.v;
     if(var)
     {
@@ -162,7 +167,7 @@ TVariable *get_variable(char *name)
     if(var != NULL)
         return var;
     
-    if(!strcmp(name, "return"))
+     if(!strcmp(name, "return"))
     {
         for(int i = 0; i <= topStack->top; i++)
         {
@@ -533,7 +538,7 @@ int interpret()
                 if(var1->name)
                 {
                     #ifdef DEBUG
-                    // printf("varname1: %s\n",var1->name);
+                    printf("varname1: %s\n",var1->name);
                     #endif
                     var1 = get_variable(var1->name);
                     #ifdef DEBUG
@@ -546,7 +551,7 @@ int interpret()
                 if(var2->name)
                 {
                     #ifdef DEBUG
-                    // printf("varname2: %s\n",var2->name);
+                    printf("varname2: %s\n",var2->name);
                     #endif
                     var2 = get_variable(var2->name);
                     #ifdef DEBUG
@@ -644,7 +649,11 @@ int interpret()
                 
                 func = ins->add1;
                 function = func;
-                
+                TVariable *result;
+                if(ins->add3)
+                {
+                    result = ins->add3;   
+                }
                 // printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
@@ -677,7 +686,6 @@ int interpret()
                     stackPop(localStack);
                     if(!strcmp(func->name,"print"))
                     {
-                        
                         TVariable *var = stackTop(stack);
                         if(var->name)
                         {
@@ -690,15 +698,116 @@ int interpret()
                         }
                         if(var->type == 0)
                         {
-                            printf("%s %d %s\n",var->name, var->position, var->value.s);
-                            // line;
-                            // ret_error(SEMANTIC_DEF_ERROR);
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        print(var);
+                    }
+                    if(!strcmp(func->name, "length"))
+                    {
+                        TVariable *var = stackTop(stack);
+                        
+                        if(var->name)
+                        {
+                            var = get_variable(var->name);
+                        }
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var->type != VARTYPE_STRING)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
                         }
                         
-                        print(var);
+                        if(result)
+                        {
+                            int lth = length(var->value.s);
+                            result->type = VARTYPE_INTEGER;
+                            result->value.i = lth;
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
                         
-                        stackPop(stack);
                     }
+                    if(!strcmp(func->name, "compare"))
+                    {
+                        TVariable *var1 = stackPop(stack);
+                        TVariable *var2 = stackTop(stack);
+                        
+                        if(var1->name)
+                        {
+                            var1 = get_variable(var1->name);
+                        }
+                        if(var2->name)
+                        {
+                            var2 = get_variable(var2->name);
+                        }
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var1->type != VARTYPE_STRING || var2->type != VARTYPE_STRING)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        
+                        if(result)
+                        {
+                            int lth = compare(var1->value.s,var2->value.s);
+                            result->type = VARTYPE_INTEGER;
+                            result->value.i = lth;
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
+                        
+                    }
+                    if(!strcmp(func->name, "substr"))
+                    {
+                        TVariable *var0 = stackPop(stack);
+                        TVariable *var1 = stackPop(stack);
+                        TVariable *var2 = stackTop(stack);
+                        
+                        if(var0->name)
+                        {
+                            var0 = get_variable(var0->name);
+                        }
+                        if(var1->name)
+                        {
+                            var1 = get_variable(var1->name);
+                        }
+                        if(var2->name)
+                        {
+                            var2 = get_variable(var2->name);
+                        }
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var0->type != VARTYPE_STRING || var1->type != VARTYPE_INTEGER || var2->type != VARTYPE_INTEGER )
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        
+                        if(result)
+                        {
+                            //char* lth = substr(var0->value.i, var1->value.i,var2->value.s);
+                            result->type = VARTYPE_STRING;
+                            result->value.s = malloc(sizeof(char)*100);
+                            result->value.s = strcpy(result->value.s, substr(var0->value.s, var1->value.i,var2->value.i));
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
+                        
+                    }
+                    stackPop(stack);
+                    /***end***/
                     
                     ins = ins->next;
                     // printf("ifj16 func: %s\n",func->name);
@@ -792,11 +901,16 @@ int interpret()
                 // printf("Stack size : %d\n",topStack->top);
                 TListItem instr = stackPop(topStack);
                 TVariable *result = ins->add1;
+                
+                
                 if(result)
                 {
                     result->name = malloc(sizeof(char)* 100);
                     strcpy(result->name, "return");
+                    topStack = stackTop(globalStack);
+                    stackPush(topStack,result);
                 }
+                
                 
                 // printf("REAL RETURN INS%d\n",instr->operation);
                 // TListItem nextIns = create_instruction(INS_JMP, instr, NULL, NULL);
@@ -804,8 +918,7 @@ int interpret()
                 
                 stackPop(functionNodesStack);
                 stackPop(localStack);
-                topStack = stackTop(globalStack);
-                stackPush(topStack,result);
+                
                 continue;
             }
             default:
