@@ -5,13 +5,13 @@ class Main
     {
         int b = 3 + 5;
         int a = 4+ 4;
-        String str1 = "String";
-        String str2 = "abc";
+        String str1 = "str1";
+        String str2 = "str2";
         
         
-        str2 = ifj16.substr(str1, 1, 2);
+        str1 = ifj16.readString();
         
-        ifj16.print("a now equals = " + str2 + "\n");
+        ifj16.print("a now equals = " + str1 + "\n");
     } // end of static void run()
     // static int test(int a, int b)
     // {

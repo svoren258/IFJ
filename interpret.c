@@ -806,6 +806,40 @@ int interpret()
                         }
                         
                     }
+                    if(!strcmp(func->name, "readDouble"))
+                    {
+                        if(result)
+                        {
+                            double lth = readDouble();
+                            result->type = VARTYPE_DOUBLE;
+                            result->value.d = lth;
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
+                    }
+                    if(!strcmp(func->name, "readInt"))
+                    {
+                        if(result)
+                        {
+                            int lth = readInt();
+                            result->type = VARTYPE_INTEGER;
+                            result->value.i = lth;
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
+                    }
+                    if(!strcmp(func->name, "readString"))
+                    {
+                        if(result)
+                        {
+                            result->type = VARTYPE_STRING;
+                            result->value.s = malloc(sizeof(char)*300);
+                            result->value.s = strcpy(result->value.s, readString());
+                            TStack * returnStack = stackTop(globalStack);
+                            stackPush(returnStack, result);
+                        }
+                    }
+                    
                     stackPop(stack);
                     /***end***/
                     
