@@ -6,11 +6,13 @@ for file in $(ls)
 do
 	if [ -d $file ]
 	then
+		echo "/*****************SECTION*****************/"
+		echo "\t\t***$file***"
 		cd $file
 		folder=$(pwd)
-		for test in $(ls | grep *.java)
+		for test in $(ls | grep .*.java)
 		do
-			echo $test test
+			echo $test
 			pathToFile=$(pwd)
 			cd $ifjPath ; ./ifj $pathToFile/$test > /dev/null 2>&1
 			out=$?
@@ -25,5 +27,7 @@ do
 			fi
 		done
 		cd ..
+		echo "\t\t***end $file***"
+		echo "/*******************END*******************/"
 	fi
 done
