@@ -71,7 +71,7 @@ void DisposeList (TList *L) {
 void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	
 	//create a pointer
-	struct TElem * first;
+	struct TElem * first = NULL;
 	
 	//alloc space for the data
 	if((first = malloc(sizeof(struct TElem))) == NULL)
@@ -197,15 +197,16 @@ void insert_instruction(TList *L, TListItem new)
 TListItem create_instruction(int op, void * add1, void * add2, void * add3)
 {
 		
-	struct TElem *new = NULL;
-	if((new = malloc(sizeof(struct TElem))) == NULL)
+	TListItem new;
+	new = malloc(sizeof(struct TElem));
+	if(!new)
 	{
 		//unsuccessful malloc, exit function
 		Error();
 		ret_error(INTERNAL_ERROR);
 		return NULL;
 	}
-	
+
 	new->operation = op;
 	new->add1 = add1;
 	new->add2 = add2;

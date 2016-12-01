@@ -189,6 +189,8 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	if( !(*RootPtr) )
 	{
 		(*new) = malloc(sizeof(struct tTable));
+		(*new)->type = NODE_TYPE_NULL;
+		(*new)->defined = 0;
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
@@ -297,17 +299,17 @@ void BSTDispose (tTablePtr *RootPtr) {
 				BSTDispose(&(*RootPtr)->Root);
 			}
 
-			if((*RootPtr)->data.v)
+			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
 			{
 				free((*RootPtr)->data.v);
 			}
 		
-			else if((*RootPtr)->data.f)
+			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
 			{
 				free((*RootPtr)->data.f);
 			}
 			
-			else if((*RootPtr)->data.c)
+			else if((*RootPtr)->type == NODE_TYPE_CLASS)
 			{
 				free((*RootPtr)->data.c);
 			}
@@ -341,6 +343,8 @@ TStack* copyStack(TStack* oldStack)
 	{
 		TVariable *var = oldStack->data[i];
 		TVariable *newVar = malloc(sizeof(TVariable));
+		newVar->name = NULL;
+		newVar->className = NULL;
 		if(var->className)
 		{
 			newVar->className = malloc(sizeof(char)*100);

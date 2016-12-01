@@ -527,7 +527,8 @@ TVariable *generate_var(int assign)
 {
     TVariable *var;
     var = malloc(sizeof(TVariable));
-  
+    var->name = NULL;
+    var->className = NULL;
     var->declared = 1;
     var->defined = 0;
     if(var)
