@@ -334,15 +334,11 @@ TStack* copyStack(TStack* oldStack)
 	{
 		TVariable *var = oldStack->data[i];
 		TVariable *newVar = malloc(sizeof(TVariable));
-		// newVar->className = malloc(sizeof(char)*100);
-		// newVar->className[0] = '\0';
 		if(var->className)
 		{
 			newVar->className = malloc(sizeof(char)*100);
 			newVar->className = strcpy(newVar->className, var->className);
 		}
-		// newVar->name =		malloc(sizeof(char)*100);
-		// newVar->name[0] = '\0';
 		if(var->name)
 		{
 			newVar->name =		malloc(sizeof(char)*100);
