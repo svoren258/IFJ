@@ -122,12 +122,12 @@ TVariable *get_variable(char *name)
     functionNode = stackTop(functionNodesStack);
     // varNode = BSTSearch(functionTable->Root, name);
     #ifdef DEBUG
-    printf("\n\nFIND var:%s",name);
-    printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
-    for(int i = 0; i < topStack->top; i++){
-        TVariable *var1 = topStack->data[i];
-        printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
-    }
+    // printf("\n\nFIND var:%s",name);
+    // printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
+    // for(int i = 0; i < topStack->top; i++){
+    //     TVariable *var1 = topStack->data[i];
+    //     printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
+    // }
     #endif
     
     
@@ -203,7 +203,7 @@ void math()
                     line;
                     ret_error(SEMANTIC_DEF_ERROR);
                 }
-                if(var1->defined == 0 || var2->defined == 0)
+                if( var2->defined == 0)
                 {
                     
                     line;
@@ -509,10 +509,10 @@ int interpret()
     
     while(ins)
     {
-        #ifdef DEBUG
-         translate_listitem(ins);
-         printf(" %d\n",ins->operation);
-         #endif
+        // #ifdef DEBUG
+        //  translate_listitem(ins);
+        //  printf(" %d\n",ins->operation);
+        //  #endif
         switch(ins->operation)
         {
             case INS_ADD:
@@ -649,11 +649,11 @@ int interpret()
                 
                 func = ins->add1;
                 function = func;
-                TVariable *result;
-                if(ins->add3)
-                {
-                    result = ins->add3;   
-                }
+                TVariable *result = ins->add3;
+                // if(ins->add3)
+                // {
+                //     result = ins->add3;   
+                // }
                 // printf("\t%s call\n",func->name);
                 
                 if(strcmp(func->className, "ifj16"))
@@ -811,6 +811,7 @@ int interpret()
                         if(result)
                         {
                             double lth = readDouble();
+                            result->defined = 1;
                             result->type = VARTYPE_DOUBLE;
                             result->value.d = lth;
                             TStack * returnStack = stackTop(globalStack);
@@ -823,6 +824,7 @@ int interpret()
                         {
                             int lth = readInt();
                             result->type = VARTYPE_INTEGER;
+                            result->defined = 1;
                             result->value.i = lth;
                             TStack * returnStack = stackTop(globalStack);
                             stackPush(returnStack, result);

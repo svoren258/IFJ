@@ -5,6 +5,7 @@ class Main
     {
         int b = 3 + 5;
         int a = 4+ 4;
+        double dob;
         String str1 = "str1";
         String str2 = "str2";
         

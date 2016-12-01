@@ -281,9 +281,6 @@ void printStacks()
         #endif
 }
 
-void generator(){
-    
-}
 
 TStack * push_params(int numOfParams)
 {
@@ -446,11 +443,13 @@ int simple_reduction(TVariable *var)
         
         else if(iStack_top() == OP_LROUND)//func() -> E
         {
+            // printStacks();
             //s("TRY REDUCTION func() -> E\n");
+            iStack_pop();// "("
             iStack_pop();//func
             iStack_pop();//< before func
             //function call
-            
+            // printStacks();exit(1);
             
             // printf("\t\t\tSTACK TOP%d\n",functionCall->stack->top);
             if(var)
@@ -464,7 +463,7 @@ int simple_reduction(TVariable *var)
             insert_instruction(list,create_instruction(INS_CALL, functionCall, lab, result));
             insert_instruction(list,lab);
             if(var)stackPush(oStack, result);
-            iStack_push(OP_NONTERM);;
+            iStack_push(OP_NONTERM);
             //func call
         }
         else
@@ -748,7 +747,7 @@ void analysis(TVariable *var)
        
         // printf("TT:%d  Token:%d\n",TOKENTYPE, token->type);
         // if(TOKENTYPE!=token->type);
-        // printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
+        printf("\nINPUT***tok= %s type= %d  itop= %d\n\n",token->data,TOKENTYPE ,iStack_top_term());
         // printf("%c\n",precedence_table[iStack_top_term()][TOKENTYPE]);
         switch(compare_priority(iStack_top_term()))
         {
@@ -762,8 +761,13 @@ void analysis(TVariable *var)
                     iStack_push (R_LESS);
                     iStack_push(TOKENTYPE);
                     if(TOKENTYPE == OP_FUNC)
+                    {
                         iStack->data[iStack->top]->ptr = functionCall;
+                        // exit(1);
+                    }
+                        
                     printStacks();
+                    
                 }
                 
                 else
@@ -805,7 +809,7 @@ void analysis(TVariable *var)
                     }
                     
                     if( TOKENTYPE == OP_RROUND && brackets > -1)//add ) to the stack
-                    {
+                    {line;
                         iStack_push(OP_RROUND);
                         printStacks();
                     }
@@ -876,8 +880,9 @@ void analysis(TVariable *var)
                 break;
             token = get_token();
         }
-         if(end>70)
+         if(end>20)
          {
+             exit(1);
              break;
          }
     }
