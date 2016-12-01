@@ -119,7 +119,7 @@ TVariable *get_variable(TVariable *findVar)
     functionNode = stackTop(functionNodesStack);//for getting positions of the variables in the stack
     
     #ifdef DEBUG
-    printf("\n\nFIND var:%s",name);
+    printf("\n\nFIND var:%s",findVar->name);
     printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
     for(int i = 0; i < topStack->top; i++){
         TVariable *var1 = topStack->data[i];
@@ -311,6 +311,7 @@ void math()
                     }
                     else
                     {
+                        printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
                         line;
                         ret_error(SEMANTIC_DEF_ERROR);
                     }
@@ -873,7 +874,7 @@ int interpret()
                         dest->name = name;
                     }
                 }
-                
+                line;
                 stackPush(localStack, locStack);
                 
                 ins = ins->next;

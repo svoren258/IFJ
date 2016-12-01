@@ -364,5 +364,15 @@ TStack* copyStack(TStack* oldStack)
 
 		stackPush(newStack, newVar);
 	}
+	for(int i = 0; i <= oldStack->top ; i++)
+	{
+		TVariable *var = oldStack->data[i];
+		printf("name:%s type:%d position:%d\n",var->name, var->type, var->position);
+	}
+	for(int i = 0; i <= newStack->top ; i++)
+	{
+		TVariable *var = newStack->data[i];
+		printf("name:%s type:%d position:%d\n",var->name, var->type, var->position);
+	}
 	return newStack;
 }

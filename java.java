@@ -9,8 +9,8 @@ class Main
         double dob;
         String str1 = "str1";
         String str2 = "str2";
+        test(a, b);
         
-        ifj16.print(a + "\n");        
         Game.play(str1, b , str2);    
         b = test(a,b);
         ifj16.print(b + "\n");
@@ -20,7 +20,14 @@ class Main
 
     static int test(int a, int b)
     {
-        a = a + 1;
+        a = a - 1;
+        if(a > 0)
+        {
+            test(a, b);    
+        }else{
+            return a;
+        }
+        
         return (a + b);
     }
     
