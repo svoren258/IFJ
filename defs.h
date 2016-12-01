@@ -20,7 +20,7 @@
 
 #include "lex.h"
 
-#define DEBUG
+// #define DEBUG
 
 #ifdef DEBUG
 #define dbl printf("Left debug\n")
@@ -115,6 +115,7 @@ struct new_var
 	char *name;
 	int type;
 	int position;
+	int constant;
 	int defined;
 	int declared;
 	union{

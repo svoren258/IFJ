@@ -168,6 +168,7 @@ void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K){
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
+		(*new)->Root = NULL;
 		(*RootPtr)->Root = (*new);
 
 		return;
@@ -188,9 +189,12 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	if( !(*RootPtr) )
 	{
 		(*new) = malloc(sizeof(struct tTable));
+		(*new)->type = NODE_TYPE_NULL;
+		(*new)->defined = 0;
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
+		(*new)->Root = NULL;
 		(*RootPtr) = (*new);
 
 		return;
@@ -281,47 +285,84 @@ void BSTDelete (tTablePtr *RootPtr, char* K) 		{
 
 
 } 
-void BSTCopy (tTablePtr Root)//copy from Root to dest all nodes
-{
-	if(Root)
-	printf("%s\n",Root->name);
-	
-	BSTCopy(Root->RPtr);
-	BSTCopy(Root->LPtr);
-	
-	if(Root)
-	{
-		line;
-	printf("copy; %s positiion:%d\n",Root->name,Root->data.v->position);
-		// BSTInsert(dest,Root, (*Root)->name);
-	}
-	
-}
+
 
 void BSTDispose (tTablePtr *RootPtr) {	
 		if(*RootPtr)
 		{
-			// if((*RootPtr)->Root)
-			// 	BSTDispose(&(*RootPtr));
 			
 			BSTDispose(&(*RootPtr)->RPtr);
 			BSTDispose(&(*RootPtr)->LPtr);
 
-			if((*RootPtr)->data.v)
+			if((*RootPtr)->Root)
 			{
-				TVariable *freeVar;
-				freeVar = (*RootPtr)->data.v;
-				free(freeVar);
+				BSTDispose(&(*RootPtr)->Root);
 			}
-	
+
+			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
+			{
+				free((*RootPtr)->data.v);
+			}
+		
+			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
+			{
+				free((*RootPtr)->data.f);
+			}
+			
+			else if((*RootPtr)->type == NODE_TYPE_CLASS)
+			{
+				free((*RootPtr)->data.c);
+			}
+		
 			if((*RootPtr))
 			{
 				// printf("Delete %s\n",(*RootPtr)->name);
 				free(*RootPtr);
 				(*RootPtr) = NULL;	
 			}
-			
-
-			
 		}
+}
+
+void freeVar(TVariable *var)
+{
+}
+
+void freeFunc(TFunction *func)
+{
+}
+
+void freeClass(TClass *cls)
+{
+}
+
+TStack* copyStack(TStack* oldStack)
+{
+	TStack * newStack = stackInit();
+	
+	for(int i = 0; i <= oldStack->top; i++)
+	{
+		TVariable *var = oldStack->data[i];
+		TVariable *newVar = malloc(sizeof(TVariable));
+		newVar->name = NULL;
+		newVar->className = NULL;
+		if(var->className)
+		{
+			newVar->className = malloc(sizeof(char)*100);
+			newVar->className = strcpy(newVar->className, var->className);
+		}
+		if(var->name)
+		{
+			newVar->name =		malloc(sizeof(char)*100);
+			newVar->name =		strcpy(newVar->name,var->name);
+		}
+		newVar->value = 	var->value;
+		newVar->type =		var->type;
+		newVar->position =	var->position;
+		newVar->constant =	var->constant;
+		newVar->defined =	var->defined;
+		newVar->declared =	var->declared;
+
+		stackPush(newStack, newVar);
+	}
+	return newStack;
 }

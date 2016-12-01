@@ -216,6 +216,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
     v->declared = 0;
     v->name = token->data;
+    v->className = NULL;
     v->type = VARTYPE_NULL;
     if (table->type == NODE_TYPE_CLASS) {
         v->className = table->name;
@@ -864,7 +865,7 @@ void ifelse_statement(tTablePtr table) {
     //printf("som v if_statement\n");
 
     TVariable *var = malloc(sizeof(TVariable));
-
+    var->name = NULL;
     TListItem endIf = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem endElse = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem cmp = create_instruction(INS_JCMP, var, NULL, endIf);
@@ -924,6 +925,7 @@ void ifelse_statement(tTablePtr table) {
 void while_statement(tTablePtr table) {
     //printf("som vo while_statement\n");
     TVariable *var = malloc(sizeof(TVariable));
+    var->name = NULL;
 
     TListItem startWhile = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem endWhile = create_instruction(INS_LABEL, NULL, NULL, NULL);
@@ -978,10 +980,14 @@ void return_statement(tTablePtr table) {
 
     } else {
         TVariable *ret = malloc(sizeof(TVariable));
+        ret->name = NULL;
+        ret->type = VARTYPE_NULL;
+        unget_token(1);
         retItem = create_instruction(INS_RET, ret, NULL, NULL);
         expression(ret);
         token = get_token();
         if (token->type != TOKEN_SEM_CL) {
+            line;
             ret_error(SYNTAX_ERROR);
         }
     }

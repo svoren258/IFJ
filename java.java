@@ -1,8 +1,10 @@
 /* Program 3: Prace s retezci a vestavenymi funkcemi */
 class Main
 {
+    static int c = 4;
     static void run()
     {
+
         int b = 0;
         String str1 = "Text 1";
         String str2 = "Text 2";
@@ -38,9 +40,25 @@ class Main
         ifj16.print("\n");
         ifj16.print("\n");
 
+
+        int b = 3 + 5;
+        int a = 4+ c;
+        double dob;
+        String str1 = "str1";
+        String str2 = "str2";
+        
+        ifj16.print(a + "\n");        
+        Game.play(str1, b , str2);    
+        b = test(a,b);
+        ifj16.print(b + "\n");
+
     } // end of static void run()
+
+    
+
     static int test(int a, int b)
     {
+
 
         int a = 3;
 
@@ -53,6 +71,10 @@ class Main
         ifj16.print(2);
         return 1;
 
+
+        a = a + 1;
+        return (a + b);
+
     }
     
     
@@ -60,8 +82,10 @@ class Main
 
 class Game
 {
-    static int hello(String str1, int b, String str2)
+    static int c = 2;
+    static int play(String str1, int b, String str2)
     {
+
 
         int c = 4;
 
@@ -81,6 +105,11 @@ class Game
         ifj16.print(1);
 
         return 1;
+
+        ifj16.print("play()\n");
+        ifj16.print(str2+"\n");
+        return (1 + 3);
+
     }
     
     
