@@ -484,7 +484,7 @@ int interpret()
     TStack *runStack = runFuncNode->data.f->stack;
     TList * list = runFuncNode->data.f->list;
     
-    TListItem  LItem= create_instruction(INS_LABEL,NULL,NULL,NULL);
+    TListItem  LItem = create_instruction(INS_LABEL,NULL,NULL,NULL);
     insert_instruction(list, LItem);
     stackPush(runStack, LItem);
     
