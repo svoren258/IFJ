@@ -168,6 +168,7 @@ void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K){
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
+		(*new)->Root = NULL;
 		(*RootPtr)->Root = (*new);
 
 		return;
@@ -191,6 +192,7 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
+		(*new)->Root = NULL;
 		(*RootPtr) = (*new);
 
 		return;
@@ -281,49 +283,54 @@ void BSTDelete (tTablePtr *RootPtr, char* K) 		{
 
 
 } 
-void BSTCopy (tTablePtr Root)//copy from Root to dest all nodes
-{
-	if(Root)
-	printf("%s\n",Root->name);
-	
-	BSTCopy(Root->RPtr);
-	BSTCopy(Root->LPtr);
-	
-	if(Root)
-	{
-		line;
-	printf("copy; %s positiion:%d\n",Root->name,Root->data.v->position);
-		// BSTInsert(dest,Root, (*Root)->name);
-	}
-	
-}
+
 
 void BSTDispose (tTablePtr *RootPtr) {	
 		if(*RootPtr)
 		{
-			// if((*RootPtr)->Root)
-			// 	BSTDispose(&(*RootPtr));
 			
 			BSTDispose(&(*RootPtr)->RPtr);
 			BSTDispose(&(*RootPtr)->LPtr);
 
+			if((*RootPtr)->Root)
+			{
+				BSTDispose(&(*RootPtr)->Root);
+			}
+
 			if((*RootPtr)->data.v)
 			{
-				TVariable *freeVar;
-				freeVar = (*RootPtr)->data.v;
-				free(freeVar);
+				free((*RootPtr)->data.v);
 			}
-	
+		
+			else if((*RootPtr)->data.f)
+			{
+				free((*RootPtr)->data.f);
+			}
+			
+			else if((*RootPtr)->data.c)
+			{
+				free((*RootPtr)->data.c);
+			}
+		
 			if((*RootPtr))
 			{
 				// printf("Delete %s\n",(*RootPtr)->name);
 				free(*RootPtr);
 				(*RootPtr) = NULL;	
 			}
-			
-
-			
 		}
+}
+
+void freeVar(TVariable *var)
+{
+}
+
+void freeFunc(TFunction *func)
+{
+}
+
+void freeClass(TClass *cls)
+{
 }
 
 TStack* copyStack(TStack* oldStack)

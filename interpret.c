@@ -113,80 +113,68 @@ void translate_listitem(TListItem ins)
 TVariable *get_variable(TVariable *findVar)
 {
     
-    printf("Find var: %s\n",findVar->name);
-    TVariable *var;
-    TStack *topStack = stackTop(localStack);
-    functionNode = stackTop(functionNodesStack);
-    // varNode = BSTSearch(functionTable->Root, name);
+    // printf("Find var: %s\n",findVar->name);
+    TVariable *var;//stack to be returned
+    TStack *topStack = stackTop(localStack);//for local variables
+    functionNode = stackTop(functionNodesStack);//for getting positions of the variables in the stack
     
     #ifdef DEBUG
-    // printf("\n\nFIND var:%s",name);
-    // printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
-    // for(int i = 0; i < topStack->top; i++){
-    //     TVariable *var1 = topStack->data[i];
-    //     printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
-    // }
+    printf("\n\nFIND var:%s",name);
+    printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
+    for(int i = 0; i < topStack->top; i++){
+        TVariable *var1 = topStack->data[i];
+        printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
+    }
     #endif
     
     
-    
-     if(!strcmp(findVar->name, "return"))
+    //First look for the return variable
+    if(!strcmp(findVar->name, "return"))
     {
-        for(int i = 0; i <= returnStack->top; i++)
+        for(int i = returnStack->top; i >= 0; i--)
         {
             var = returnStack->data[i];
             if(!strcmp(var->name, "return"))
             {
                 stackPop(returnStack);
-                return var;    
+                return var;//returns basically the last return variable
             }
             
         }
     }
     
    
-    
-    var = get_var_from_table(functionNode,findVar->name);//varNode->data.v;
+    //Looking for a local variable
+    var = get_var_from_table(functionNode,findVar->name);//get the variable structure
     if(var)
     {
-        var = topStack->data[var->position];
+        var = topStack->data[var->position];//fidn variable on the position
     }
-    
-    
-    
-    // printf("%s\n",var->name);
-    
-    
-    
     if(var != NULL)
     {
-        // printf("FOUND VARIABLE %s def:%d type:%d\n",var->name, var->defined, var->type);
-        return var;
+        return var;//return the variable
     }
+
         
-   
-    topStack = stackTop(globalStack);
-    
-    tTablePtr  fullClassIdentifier = BSTSearch(globTable, findVar->className);
+    //Looking for a global variable
+    tTablePtr  fullClassIdentifier = BSTSearch(globTable, findVar->className);//node of the class
     if(!fullClassIdentifier)
     {
         printf("int.c 156\n");
         exit(1);
     }
     
-    var = get_var_from_table(fullClassIdentifier,findVar->name);//varNode->data.v;line;
-    topStack = fullClassIdentifier->data.c->stack;
+    //Looking for a global variable outside the current class
+    var = get_var_from_table(fullClassIdentifier,findVar->name);//variable structure
+    topStack = fullClassIdentifier->data.c->stack;//find in the global stack
     
     if(var != NULL)
         var = topStack->data[var->position];
     
     if(var != NULL)
         return var;
-    
-    
-   
-    
-    
+
+    //This should never happen    
     return NULL;
 }
 

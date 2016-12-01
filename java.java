@@ -5,7 +5,7 @@ class Main
     static void run()
     {
         int b = 3 + 5;
-        int a = 4+ Game.c;
+        int a = 4+ c;
         double dob;
         String str1 = "str1";
         String str2 = "str2";
@@ -32,9 +32,8 @@ class Game
     static int c = 2;
     static int play(String str1, int b, String str2)
     {
-        ifj16.print("\n\nplay()\n");
-        ifj16.print(str2);
-        ifj16.print("\n\n");
+        ifj16.print("play()\n");
+        ifj16.print(str2+"\n");
         return (1 + 3);
     }
     

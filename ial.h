@@ -41,7 +41,6 @@ struct tTable {
 /* prototypy funkcí */
 char* sort(TVariable* s);
 int find(TVariable* s,TVariable* search);
-void BSTCopy (tTablePtr Root);
 void BSTInit   (tTablePtr *);
 tTablePtr BSTSearch (tTablePtr RootPtr, char*);//
 void BSTInsert (tTablePtr *, tTablePtr *, char* key);//(Table, new node, name of the node)
@@ -51,5 +50,9 @@ void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K);
 void merge(char* s, char* left, int l_length, char* right, int r_length);
 void sorting(char* s, int length);
 TStack * copyStack(TStack*);
+
+void freeVar(TVariable *var);
+void freeFunc(TFunction *func);
+void freeClass(TClass *cls);
 
 #endif
