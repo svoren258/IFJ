@@ -12,7 +12,7 @@
 #include "interpret.h"
 
 TList *globalInitList;
-tTablePtr funcContext;
+tTablePtr funcContext = NULL;
 tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
 Ttoken *token;//globalna premenna struktury token - do nej sa priradzuje vysledok get_token();
@@ -62,7 +62,7 @@ TFunction *get_func_from_table(tTablePtr Table, char *name)
 
 TClass *get_class_from_table(tTablePtr Table, char *name)
 {
-    tTablePtr tree = BSTSearch(Table->Root, name);
+    tTablePtr tree = BSTSearch(Table, name);
     if(tree)
         return tree->data.c;
     return NULL;
@@ -141,13 +141,10 @@ void parser_init() {
 
     globalInitList = InitList(&globalInitList);
     InsertFirst(globalInitList, INS_LABEL, NULL, NULL, NULL);
-    
-
 }
 
 void parser_finish() {
     BSTDispose(&globTable);
-
 }
 
 TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the space for a new function*/
@@ -165,7 +162,6 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
         BSTInsert(&table->Root, &loc_table, tokenName);
     }
     loc_table->type = NODE_TYPE_FUNCTION;
-
 
 //    TStack *stack = stackInit();
     //printf("som pred listom\n");
@@ -208,11 +204,8 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
         BSTInit(&new_var);
         BSTInsert(&table->Root, &new_var, token->data);
     }
-    new_var->type = NODE_TYPE_VARIABLE;
 
-    //new_var->name = token->data;
-    //BSTInit(&new_var);
-    //BSTInsert(&table, &new_var, token->data);
+    new_var->type = NODE_TYPE_VARIABLE;
 
     v->declared = 0;
     v->name = token->data;
@@ -228,7 +221,6 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     new_var->data.v = v;
     //printf("koncim varDecl\n");
     return v;
-
 }
 
 
@@ -349,6 +341,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
         TFunction *f = funcDef(table, tokenID, type);
         //node = BSTSearch(table, tokenID->data);
         //node->defined = 1;
+        f->declared = 1;
         f->defined = 1;
         //printf("function %s is defined\n", f->name);
     } else {
@@ -459,7 +452,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 
         //printf("som v assign\n");
         expression(var);
-
+        var->defined = 1;
         //printf("som za expr\n");
         token = get_token();
         //printf("nacitany token: %s\n", token->data);
@@ -493,6 +486,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     TVariable *param;
     Ttoken *token_varID;
     tTablePtr node;
+    classContext = table;
     int paramsCount = 0;
 
     //char *type = NULL;
@@ -506,6 +500,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
         f = node->data.f;
         //printf("nasiel som tabulku funkcie\n");
     }
+
 
     f->numOfVars = 0;
 
@@ -530,8 +525,10 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     //f = stackTop(gStack);
 
     tTablePtr fTable = BSTSearch(table->Root, tokenID->data);
-    classContext = table;
-    funcContext = fTable;
+    if(fTable != NULL && fTable->type == NODE_TYPE_FUNCTION){
+        funcContext = fTable;
+    }
+
     token = get_token();
 
     while (token->type != TOKEN_R_ROUND) {
@@ -824,16 +821,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
         line;
         ret_error(SEMANTIC_DEF_ERROR);
     }
-    //char *type = token->data;
-    if (!(strcmp(token->data, "int"))) {
-        f->params[numOfParam] = VARTYPE_INTEGER;
-    } else if (!(strcmp(token->data, "double"))) {
-        f->params[numOfParam] = VARTYPE_DOUBLE;
-    } else if (!(strcmp(token->data, "String"))) {
-        f->params[numOfParam] = VARTYPE_STRING;
-    } else {
-        f->params[numOfParam] = VARTYPE_NULL;
-    }
+    char *type = token->data;
 
     Ttoken *tokenID = get_token();
     //printf("tokenID: %s\n", tokenID->data);
@@ -850,6 +838,19 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
         ret_error(SEMANTIC_DEF_ERROR);
         //var = node->data.v;
     }
+    if (!(strcmp(type, "int"))) {
+        var->type = VARTYPE_INTEGER;
+        f->params[numOfParam] = VARTYPE_INTEGER;
+    } else if (!(strcmp(type, "double"))) {
+        var->type = VARTYPE_DOUBLE;
+        f->params[numOfParam] = VARTYPE_DOUBLE;
+    } else if (!(strcmp(type, "String"))) {
+        var->type = VARTYPE_STRING;
+        f->params[numOfParam] = VARTYPE_STRING;
+    } else {
+        var->type = VARTYPE_NULL;
+    }
+
     var->declared = 1;
     var->position = numOfParam - 1;
     //printf("pozicia parametra %s: %d\n", tokenID->data, var->position);
@@ -977,7 +978,7 @@ void return_statement(tTablePtr table) {
     if (table->data.f->params[0] == FUNCTYPE_VOID) {
         retItem = create_instruction(INS_RET, NULL, NULL, NULL);
         if (token->type != TOKEN_SEM_CL) {
-            ret_error(SYNTAX_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
 
     } else {

@@ -39,7 +39,7 @@ typedef struct {
                                                    /* Funkce pro implementaci */
                                                /* Functions to be implemented */
 void insert_instruction(TList *L, TListItem new);
-TListItem create_instruction(int op,void * add1,void * add2,void * add3);
+TListItem create_instruction(int op, void * add1,void * add2,void * add3);
 
 TList* InitList ();
 void DisposeList (TList *);
