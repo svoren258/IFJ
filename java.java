@@ -20,13 +20,9 @@ class Main
 
     static int test(int a, int b)
     {
+        int c = 3;
         a = a - 1;
-        if(a > 0)
-        {
-            test(a, b);    
-        }else{
-            return a;
-        }
+        
         
         return (a + b);
     }

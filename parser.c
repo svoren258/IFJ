@@ -419,6 +419,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         //printf("som v ife\n");
         var = new_variable(tokenID, table);
         //printf("som za new_var\n");
+
         if (!type) {
             var->type = VARTYPE_NULL;
         } else {
@@ -429,6 +430,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
             } else if (!(strcmp(type, "String"))) {
                 var->type = VARTYPE_STRING;
             }
+            // printf("\t\tTHIS IS VAR TYPE%d of %s\n",var->type,var->name);
         }
 
     } else {

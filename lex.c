@@ -159,7 +159,7 @@ Ttoken *get_token(){
 	
 	int state = STATE_INIT;
 	int c;
-	
+	int octal = 0;
 	
 	// if(buffer)
 	// {
@@ -510,59 +510,7 @@ Ttoken *get_token(){
 				return token;
 				
 			}
-			
-			// case STATE_PLUS:
-			// {
-			// 	if( c == '+')
-			// 	{
-			// 		extendBuffer(buffer, c);
-			// 		state		= STATE_INC;
-			// 		token->type = TOKEN_INC;
-			// 		break;
-			// 	}
-			// 	state = STATE_END;
-			// 	break;
-				
-			// }
-			
-			// case STATE_MINUS:
-			// {
-			// 	if( c == '-' )
-			// 	{
-			// 		extendBuffer(buffer, c);
-			// 		state		= STATE_DEC;
-			// 		token->type = TOKEN_DEC;
-			// 		break;
-			// 	}
-			// 	state = STATE_END;
-			// 	break;
-				
-			// }
-			
-			// case STATE_INC:
-			// {
-			// 	if( c == ';' )
-			// 	{
-			// 		ungetc(c, file);
-			// 		state = STATE_END;
-			// 		break;
-			// 	}
-			// 	line
-			// 	ret_error(SYNTAX_ERROR);
-			// }
-			
-			// case STATE_DEC:
-			// {
-			// 	if( c == ';' )
-			// 	{
-			// 		ungetc(c, file);
-			// 		state = STATE_END;
-			// 		break;
-			// 	}
-			// 	line
-			// 	ret_error(SYNTAX_ERROR);
-			// }
-			
+
 			case STATE_DIV:
 			{
 				if( c == '/' )
@@ -684,6 +632,12 @@ Ttoken *get_token(){
 			
 			case STATE_STRING_DOUBLE:
 			{
+				
+				if( c == '\n' )
+				{
+					line;
+					ret_error(LEX_ERROR);
+				}
 				if( c == '\\')
 				{
 					state = STATE_ASCII_DOUBLE;
@@ -703,28 +657,7 @@ Ttoken *get_token(){
 				ret_error(SYNTAX_ERROR);
 				////////NOT SURE
 			}
-			
-			// case STATE_STRING_SINGLE:
-			// {
-				
-			// 	if( c == '\\' )
-			// 	{
-			// 		state = STATE_ASCII_SINGLE;
-			// 		break;
-			// 	}
-			// 	if( c != '\'' )
-			// 	{
-			// 		extendBuffer(buffer, c);
-			// 		break;
-			// 	}
-				
-			// 	token->type = TOKEN_STRING;
-			// 	token->data = buffer->data;
-			// 	return token;
-			// 	line;
-			// 	ret_error(SYNTAX_ERROR);
-			// 	////////NOT SURE
-			// }
+
 			case STATE_ASCII_SINGLE:
 			{
 				switch(c)
@@ -780,12 +713,42 @@ Ttoken *get_token(){
 						extendBuffer(buffer, '\\');
 						state = STATE_STRING_DOUBLE;
 						break;
+					case '0':
+					case '1':
+					case '2':
+					case '3':
+						extendBuffer(buffer, c);
+						state = STATE_OCTAL;
+						octal++;
+						break;
 					default:
 						ret_error(LEX_ERROR);
 				}
 				break;
 			}
-			
+
+			case STATE_OCTAL:
+				if(octal >= 4)
+					ret_error(LEX_ERROR);
+				if(c >= 48 && c <= 55)
+				{
+					if(octal == 2)
+					{
+						if(c >= 49 && c <= 55)
+						{
+							extendBuffer(buffer, c);
+							state = STATE_STRING_DOUBLE;
+							break;
+						} else {
+							ret_error(LEX_ERROR);
+						}
+					}
+					extendBuffer(buffer, c);
+
+					octal++;
+					break;
+				}
+				ret_error(LEX_ERROR);
 			
 			
 			default:

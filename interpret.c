@@ -311,7 +311,7 @@ void math()
                     }
                     else
                     {
-                        printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
+                        // printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
                         line;
                         ret_error(SEMANTIC_DEF_ERROR);
                     }
