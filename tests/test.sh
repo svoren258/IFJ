@@ -14,17 +14,26 @@ do
 		do
 			echo $test
 			pathToFile=$(pwd)
-			cd $ifjPath ; ./ifj $pathToFile/$test > /dev/null 2>&1
+			cd $ifjPath ; ./ifj $pathToFile/$test > $pathToFile/${test%.*}.rout 2>/dev/null
 			out=$?
 			cd $folder
-			echo -n $out  > ${test%.*}.real
-			DIFF=$(diff ${test%.*}.correct ${test%.*}.real)
-			echo REAL:$(cat ${test%.*}.real) EXPECTED:$(cat ${test%.*}.correct)
+			echo -n $out  > ${test%.*}.rcode
+			
+			DIFF=$(diff ${test%.*}.ecode ${test%.*}.rcode)
+			echo REAL:$(cat ${test%.*}.rcode) EXPECTED:$(cat ${test%.*}.ecode)
 			if [ "$DIFF" = "" ]
 			then
-				echo CORRECT
+				echo "RETURN VALUE CORRECT"
 			else
-				echo WRONG
+				echo "return value wrong"
+			fi
+			
+			DIFF=$(diff ${test%.*}.eout ${test%.*}.rout)
+			if [ "$DIFF" = "" ]
+			then
+				echo "STDOUT CORRECT"
+			else
+				echo "STDOUT INCORRECT"
 			fi
 		done
 		cd ..
