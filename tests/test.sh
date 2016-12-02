@@ -26,8 +26,9 @@ do
 				echo "RETURN VALUE CORRECT"
 			else
 				echo "return value wrong"
+				continue
 			fi
-			
+				
 			DIFF=$(diff ${test%.*}.eout ${test%.*}.rout)
 			if [ "$DIFF" = "" ]
 			then
@@ -35,6 +36,7 @@ do
 			else
 				echo "STDOUT INCORRECT"
 			fi
+			echo "\n"
 		done
 		cd ..
 		echo "\t\t***end $file***"
