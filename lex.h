@@ -36,6 +36,7 @@ int isKeyword(TBuffer*);
 void lexFinish();
 void lexStart();
 void unget_token(int);
+Ttoken * newToken();
 
 
 //char *printToken();

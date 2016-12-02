@@ -881,9 +881,9 @@ void ifelse_statement(tTablePtr table) {
         ret_error(SYNTAX_ERROR);
     }
     //printf("som v ife pred expr\n");
-    printf("If statement\n");
+    // printf("If statement\n");
     expression(var);
-    printf("If statement\n");
+    // printf("If statement\n");
     //printf("som v ife za expr\n");
 
 

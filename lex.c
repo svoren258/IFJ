@@ -110,6 +110,12 @@ void pushToken(Ttoken * token)
 	
 }
 
+Ttoken * newToken()
+{
+	Ttoken * newtoken = malloc(sizeof(Ttoken));
+	return newtoken;
+}
+
 Ttoken * getTokenFromStack()
 {
 	 //printf("Ungetindex:%d\n",ungetTokenIndex);
@@ -153,7 +159,7 @@ Ttoken *get_token(){
 	{
 	//	printf("****next token is unget %s*****\n",token->data);
 		token = getTokenFromStack();
-		tok;
+		// tok;
 		return token;
 	}
 	
@@ -167,7 +173,7 @@ Ttoken *get_token(){
 	// 	free(let);
 	// 	free(buffer);	
 	// }
-	token = malloc(sizeof(Ttoken));
+	token = newToken();
 	bufferInit(buffer);
 	
 	
@@ -402,7 +408,7 @@ Ttoken *get_token(){
 			case STATE_FUT_DOUBLE_E:
 			{
 				if(c == '+' || c == '-' || isdigit(c))
-				{printf("HEY\n");
+				{
 					extendBuffer(buffer, c);
 					state = STATE_DOUBLE_E;
 					break;
@@ -437,7 +443,7 @@ Ttoken *get_token(){
 					break;
 				}
 				if(buffer->data[buffer->used-1] < 48 || buffer->data[buffer->used-1] > 57)
-				{printf("%c\n",c);
+				{
 					line;
 					ret_error(LEX_ERROR);
 				}

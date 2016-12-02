@@ -55,6 +55,8 @@ void iStack_push(int val)
 }
 void iStack_init()
 {
+    
+    iStack = NULL;
     iStack = malloc(sizeof(TIStack));
 
     iStack->top = -1;
@@ -116,27 +118,27 @@ int iStack_get_sign()
 void print_list()
 {
     #ifdef DEBUG
-    TListItem ins;
-    if(thisFunction)
-    {
-        ins = thisFunction->list->First;
-        //printf("Function list\n");
-    }
+    // TListItem ins;
+    // if(thisFunction)
+    // {
+    //     ins = thisFunction->list->First;
+    //     //printf("Function list\n");
+    // }
      
-    else
-    {
-        ins = globalInitList->First;
-        //printf("class list\n");
-    }
-    if(thisFunction)return;
-    insert_instruction(list,create_instruction(INS_LABEL,NULL,NULL,NULL));
-    //printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
-    while(ins)
-    {
-        //printf("%d\n",ins->operation);
-        ins = ins->next;
-    }
-    //printf("********************************END FUNCTION LIST**********************************\n");
+    // else
+    // {
+    //     ins = globalInitList->First;
+    //     //printf("class list\n");
+    // }
+    // if(thisFunction)return;
+    // insert_instruction(list,create_instruction(INS_LABEL,NULL,NULL,NULL));
+    // //printf("*******************************THE WHOLE FUNCTION LIST******************************\n");
+    // // while(ins)
+    // // {
+    // //     //printf("%d\n",ins->operation);
+    // //     ins = ins->next;
+    // // }
+    // //printf("********************************END FUNCTION LIST**********************************\n");
     #endif
 }
 
@@ -302,7 +304,7 @@ TStack * push_params(int numOfParams)
         for(int i = 0; i < numOfParams; i++)
         {
             // TVariable *var = stackTop(oStack);
-            // //printf("%s\n",var->name);
+            // printf("%s\n",var->name);
             stackPush(paramStack, stackPop(oStack));
         }
         // //printf("********************\n******************\n****************\n");
@@ -535,6 +537,7 @@ TVariable *generate_var(int assign)
     {
         var->type = VARTYPE_NULL;
     }
+    
     if(assign == 1)
     {
         
@@ -602,6 +605,7 @@ int tokenToType(Ttoken *token)
         case TOKEN_R_ROUND:
             return OP_RROUND;
         case TOKEN_ID:
+            
             TName = token->data;
             CName = token->data;
             token = get_token();
@@ -779,8 +783,10 @@ void analysis(TVariable *var)
                         iStack_push(TOKENTYPE);
                 }
                 //
-                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING || TOKEN_E || TOKEN_DOUBLE_E)
+                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING || token->type == TOKEN_E || token->type == TOKEN_DOUBLE_E)
                 {
+                    // printf("%d\n",token->type);
+                    // tok;
                     TVariable *var = generate_var(1);
                     stackPush(oStack, var);
                 }
@@ -889,25 +895,29 @@ void analysis(TVariable *var)
     }
 }
 
+
+
 void expression(TVariable *var)
 {
     // //printf("**********************EXPRESSION**********************\n");
+
+    
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
-    
+    // printf("begin\n");
     if(funcContext)thisFunction = get_func_from_table(classContext, funcContext->name);
     
     if(thisFunction == NULL)
     {
-        printf("WRITING TO GLOBALLIST\n");
+        // printf("WRITING TO GLOBALLIST\n");
         list = globalInitList;
     }
         
     else
     {
         
-        printf("WRITING TO FUNCTION LIST of %s!\n",thisFunction->name);
+        // printf("WRITING TO FUNCTION LIST of %s!\n",thisFunction->name);
         list = thisFunction->list;
     }
     // //printf("%s\n",thisFunction->name);
@@ -915,7 +925,7 @@ void expression(TVariable *var)
         analysis(var);
         unget_token(1);
         printStacks();
-
+    // printf("end\n");
     // }
     // //printf("********************END EXPRESSION*******************************\n");
     return;

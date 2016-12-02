@@ -123,7 +123,7 @@ TVariable *get_variable(TVariable *findVar)
     printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
     for(int i = 0; i < topStack->top; i++){
         TVariable *var1 = topStack->data[i];
-        printf("%d var:%s pos:%d\n",i, var1->name,var1->position);
+        printf("%d var:%s pos:%d type:%d\n",i, var1->name,var1->position,var1->type);
     }
     #endif
     
@@ -466,7 +466,9 @@ void math()
 
 int interpret()
 {
+    #ifdef DEBUG
     printf("\n\n\t***INTERPRET BEGINING***\n\n");  
+    #endif
     ins = globalInitList->First;
     
     localStack = stackInit();
@@ -874,7 +876,7 @@ int interpret()
                         dest->name = name;
                     }
                 }
-                line;
+                
                 stackPush(localStack, locStack);
                 
                 ins = ins->next;
