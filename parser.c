@@ -449,7 +449,6 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
     if (token->type == TOKEN_ASSIGN) {
-
         //printf("som v assign\n");
         expression(var);
         var->defined = 1;
@@ -793,7 +792,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     // //printf("pocet premennych funkcie %d\n", f->numOfVars);
     //exit(1);
 
-
+        
     //printf("som pred koncom funkcie\n");
     TListItem retItem = create_instruction(INS_RET, NULL, NULL, NULL);
     insert_instruction(f->list, retItem);
@@ -807,6 +806,7 @@ TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
     //node->type = NODE_TYPE_FUNCTION;
     //node->defined = 1;
     //stackPop(gStack);
+    funcContext = NULL;
     return f;
     //...
 }
@@ -818,6 +818,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
     TFunction *f = table->data.f;
     TVariable *var;
     if (token->type != TOKEN_TYPE) {
+        tok;
         line;
         ret_error(SEMANTIC_DEF_ERROR);
     }
@@ -881,9 +882,9 @@ void ifelse_statement(tTablePtr table) {
         ret_error(SYNTAX_ERROR);
     }
     //printf("som v ife pred expr\n");
-    printf("If statement\n");
+    // printf("If statement\n");
     expression(var);
-    printf("If statement\n");
+    // printf("If statement\n");
     //printf("som v ife za expr\n");
 
 
@@ -940,6 +941,9 @@ void while_statement(tTablePtr table) {
     if (token->type != TOKEN_L_ROUND) {
         ret_error(SYNTAX_ERROR);
     }
+    //must jump before the compare isntruction in order to work properly
+    insert_instruction(table->data.f->list, startWhile);
+    
     //printf("som pred expr vo while_statement\n");
     expression(var);
     //printf("som za expr vo while_statement\n");
@@ -954,8 +958,7 @@ void while_statement(tTablePtr table) {
         ret_error(SYNTAX_ERROR);
     }
 
-    insert_instruction(table->data.f->list, startWhile);
-
+    
     insert_instruction(table->data.f->list, cmp);
 
     token = get_token();

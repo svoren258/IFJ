@@ -20,7 +20,7 @@
 
 #include "lex.h"
 
- #define DEBUG
+ //#define DEBUG
 
 #ifdef DEBUG
 #define dbl printf("Left debug\n")

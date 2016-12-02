@@ -301,17 +301,17 @@ void BSTDispose (tTablePtr *RootPtr) {
 
 			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
 			{
-				free((*RootPtr)->data.v);
+				freeVar((*RootPtr)->data.v);
 			}
 		
 			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
 			{
-				free((*RootPtr)->data.f);
+				freeFunc((*RootPtr)->data.f);
 			}
 			
 			else if((*RootPtr)->type == NODE_TYPE_CLASS)
 			{
-				free((*RootPtr)->data.c);
+				freeClass((*RootPtr)->data.c);
 			}
 		
 			if((*RootPtr))
@@ -325,14 +325,23 @@ void BSTDispose (tTablePtr *RootPtr) {
 
 void freeVar(TVariable *var)
 {
+	if(var->type == VARTYPE_STRING)
+	{
+		char* string = var->value.s;
+		free(string);
+	}
+	// printf("FREE VAR\n");
 }
 
 void freeFunc(TFunction *func)
 {
+	free(func);
+	// printf("FREE FUNC\n");
 }
 
 void freeClass(TClass *cls)
 {
+	// printf("FREE CLASS\n");
 }
 
 TStack* copyStack(TStack* oldStack)

@@ -110,6 +110,12 @@ void pushToken(Ttoken * token)
 	
 }
 
+Ttoken * newToken()
+{
+	Ttoken * newtoken = malloc(sizeof(Ttoken));
+	return newtoken;
+}
+
 Ttoken * getTokenFromStack()
 {
 	 //printf("Ungetindex:%d\n",ungetTokenIndex);
@@ -153,7 +159,7 @@ Ttoken *get_token(){
 	{
 	//	printf("****next token is unget %s*****\n",token->data);
 		token = getTokenFromStack();
-		tok;
+		// tok;
 		return token;
 	}
 	
@@ -167,7 +173,7 @@ Ttoken *get_token(){
 	// 	free(let);
 	// 	free(buffer);	
 	// }
-	token = malloc(sizeof(Ttoken));
+	token = newToken();
 	bufferInit(buffer);
 	
 	
@@ -401,13 +407,14 @@ Ttoken *get_token(){
 
 			case STATE_FUT_DOUBLE_E:
 			{
-				if(c == '+' || c == '-')
+				if(c == '+' || c == '-' || isdigit(c))
 				{
 					extendBuffer(buffer, c);
 					state = STATE_DOUBLE_E;
 					break;
 				}
-				break;
+				
+				ret_error(LEX_ERROR);
 			}
 
 			case STATE_FUT_E:
@@ -418,26 +425,30 @@ Ttoken *get_token(){
 					state = STATE_E;
 					break;
 				}
+				if(isdigit(c))
+				{
+					extendBuffer(buffer, c);
+					state = STATE_E;
+					break;
+				}
+				ret_error(LEX_ERROR);
 				break;
 			}
 			
 			case STATE_DOUBLE_E:
 			{
-				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
-				{
-					line;
-					ret_error(LEX_ERROR);
-				}
 				if( isdigit(c) )
 				{
 					extendBuffer(buffer, c);
 					break;
 				}
-				if( isalpha(c) )
+				if(buffer->data[buffer->used-1] < 48 || buffer->data[buffer->used-1] > 57)
 				{
 					line;
-					ret_error(SYNTAX_ERROR);
+					ret_error(LEX_ERROR);
 				}
+				
+
 				ungetc(c, file);
 				token->type = TOKEN_DOUBLE_E;
 				token->data = buffer->data;
@@ -459,7 +470,7 @@ Ttoken *get_token(){
 					line;
 					ret_error(SYNTAX_ERROR);
 				}
-				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
+				if(buffer->data[buffer->used-1] < 48 || buffer->data[buffer->used-1] > 57)
 				{
 					line;
 					ret_error(LEX_ERROR);
