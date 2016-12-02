@@ -382,7 +382,7 @@ Ttoken *get_token(){
 				if( c == 'e' )
 				{
 					extendBuffer(buffer, c);
-					state = STATE_E;
+					state = STATE_FUT_E;
 					break;
 				}
 				if( isalpha(c) )
@@ -390,6 +390,7 @@ Ttoken *get_token(){
 					line;
 					ret_error(LEX_ERROR);
 				}
+
 				ungetc(c, file);
 				token->data = buffer->data;
 				token->type = TOKEN_INT;
@@ -397,9 +398,36 @@ Ttoken *get_token(){
 				return token;
 		
 			}
-			
-			case STATE_DEC_E:
+
+			case STATE_FUT_DOUBLE_E:
 			{
+				if(c == '+' || c == '-')
+				{
+					extendBuffer(buffer, c);
+					state = STATE_DOUBLE_E;
+					break;
+				}
+				break;
+			}
+
+			case STATE_FUT_E:
+			{
+				if(c == '+' || c == '-')
+				{
+					extendBuffer(buffer, c);
+					state = STATE_E;
+					break;
+				}
+				break;
+			}
+			
+			case STATE_DOUBLE_E:
+			{
+				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
+				{
+					line;
+					ret_error(LEX_ERROR);
+				}
 				if( isdigit(c) )
 				{
 					extendBuffer(buffer, c);
@@ -411,11 +439,13 @@ Ttoken *get_token(){
 					ret_error(SYNTAX_ERROR);
 				}
 				ungetc(c, file);
-				token->type = TOKEN_DEC_E;
+				token->type = TOKEN_DOUBLE_E;
 				token->data = buffer->data;
 				pushToken(token);
 				return token;
 			}
+
+
 			
 			case STATE_E:
 			{
@@ -428,6 +458,11 @@ Ttoken *get_token(){
 				{
 					line;
 					ret_error(SYNTAX_ERROR);
+				}
+				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
+				{
+					line;
+					ret_error(LEX_ERROR);
 				}
 				ungetc(c, file);
 				token->type = TOKEN_E;
@@ -451,9 +486,10 @@ Ttoken *get_token(){
 						line;
 						ret_error(SYNTAX_ERROR);
 					}
-					state = STATE_DEC_E;
+					state = STATE_FUT_DOUBLE_E;
 					break;
 				}
+				
 				ungetc(c,file);
 				token->type = TOKEN_DOUBLE;
 				token->data = buffer->data;

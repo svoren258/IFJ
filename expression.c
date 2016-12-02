@@ -539,7 +539,7 @@ TVariable *generate_var(int assign)
     {
         
         var->defined = 1;
-        if(token->type == TOKEN_INT)
+        if(token->type == TOKEN_INT || token->type == TOKEN_E)
         {
             var->type = VARTYPE_INTEGER;
             var->value.i = atoi(token->data);
@@ -551,7 +551,7 @@ TVariable *generate_var(int assign)
             var->value.s = token->data;
         }
             
-        else if(token->type == TOKEN_DOUBLE)
+        else if(token->type == TOKEN_DOUBLE || token->type ==  TOKEN_DOUBLE_E )
         {
             var->type = VARTYPE_DOUBLE;
             var->value.d = strtod(token->data,NULL);
