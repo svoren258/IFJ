@@ -623,6 +623,7 @@ int interpret()
             case INS_JCMP:
             {   
                 var1 = ins->add1;
+                // printf("\tJCMP:%d\n",var1->value.b);
                 // printf("\n\nJCMP:%d\n",var1->value.b);
                 // printf("JCMP\n");
                 if(var1->type != VARTYPE_BOOLEAN)

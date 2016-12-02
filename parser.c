@@ -941,6 +941,9 @@ void while_statement(tTablePtr table) {
     if (token->type != TOKEN_L_ROUND) {
         ret_error(SYNTAX_ERROR);
     }
+    //must jump before the compare isntruction in order to work properly
+    insert_instruction(table->data.f->list, startWhile);
+    
     //printf("som pred expr vo while_statement\n");
     expression(var);
     //printf("som za expr vo while_statement\n");
@@ -955,8 +958,7 @@ void while_statement(tTablePtr table) {
         ret_error(SYNTAX_ERROR);
     }
 
-    insert_instruction(table->data.f->list, startWhile);
-
+    
     insert_instruction(table->data.f->list, cmp);
 
     token = get_token();
