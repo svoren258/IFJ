@@ -401,13 +401,14 @@ Ttoken *get_token(){
 
 			case STATE_FUT_DOUBLE_E:
 			{
-				if(c == '+' || c == '-')
-				{
+				if(c == '+' || c == '-' || isdigit(c))
+				{printf("HEY\n");
 					extendBuffer(buffer, c);
 					state = STATE_DOUBLE_E;
 					break;
 				}
-				break;
+				
+				ret_error(LEX_ERROR);
 			}
 
 			case STATE_FUT_E:
@@ -430,21 +431,18 @@ Ttoken *get_token(){
 			
 			case STATE_DOUBLE_E:
 			{
-				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
-				{
-					line;
-					ret_error(LEX_ERROR);
-				}
 				if( isdigit(c) )
 				{
 					extendBuffer(buffer, c);
 					break;
 				}
-				if( isalpha(c) )
-				{
+				if(buffer->data[buffer->used-1] < 48 || buffer->data[buffer->used-1] > 57)
+				{printf("%c\n",c);
 					line;
-					ret_error(SYNTAX_ERROR);
+					ret_error(LEX_ERROR);
 				}
+				
+
 				ungetc(c, file);
 				token->type = TOKEN_DOUBLE_E;
 				token->data = buffer->data;
