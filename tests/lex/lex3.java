@@ -2,7 +2,7 @@ class Main
 {
 	static void run()
 	{
-		double a = 3e2;		
+		double a = 33e2;		
 		double b = 3e+2;		
 		double c = 3e-2;
 		

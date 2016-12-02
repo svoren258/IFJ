@@ -15,13 +15,13 @@ do
 			echo $test
 			pathToFile=$(pwd)
 			cd $ifjPath ; ./ifj $pathToFile/$test > $pathToFile/${test%.*}.rout 2>/dev/null
-			out=$?
+			rout=$?
 			cd $folder
 			# echo -n $out  > ${test%.*}.rcode
 			
-			DIFF=$(diff ${test%.*}.ecode $out)
+			eout=$(cat ${test%.*}.ecode)
 			echo REAL:$(cat ${test%.*}.rcode) EXPECTED:$(cat ${test%.*}.ecode)
-			if [ "$DIFF" = "" ]
+			if [ $rout = $eout ]
 			then
 				echo "RETURN VALUE CORRECT"
 			else

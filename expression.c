@@ -66,7 +66,7 @@ double literal_double(char* s){
     char* str2 = (char*) malloc(1);
     int in = 0;
  
-    for (int j = i+1; s[j] != EOF; ++j) {
+    for (int j = i+1; s[j] != '\0'; ++j) {
         str2 = (char*) realloc(str2, in+1);
         str2[in] = s[j];
         in++;
@@ -91,19 +91,19 @@ double literal_double(char* s){
 }
  
 int literal_int(char* s){
-    char* str = (char*) malloc(1);
+    char* str = malloc(sizeof(char)*100);
     int i;
     for (i = 0; s[i] != 'e' ; ++i) {
         str = (char*) realloc(str, i+1);
         str[i] = s[i];
     }
- 
+    
     int result = atoi(str);
  
     char* str2 = (char*) malloc(1);
     int in = 0;
  
-    for (int j = i+1; s[j] != EOF; ++j) {
+    for (int j = i+1; s[j] != '\0'; ++j) {
         str2 = (char*) realloc(str2, in+1);
         str2[in] = s[j];
         in++;
@@ -614,12 +614,16 @@ TVariable *generate_var(int assign)
     
     if(assign == 1)
     {
-        printf("E???%s\n",token->data);
         var->defined = 1;
         if(token->type == TOKEN_INT || token->type == TOKEN_E)
         {
             var->type = VARTYPE_INTEGER;
             var->value.i = atoi(token->data);
+            if( token->type ==  TOKEN_E)
+            {
+                var->type = VARTYPE_DOUBLE;
+                var->value.i = literal_int(token->data);
+            }
         }
             
         else if(token->type == TOKEN_STRING)
@@ -633,7 +637,7 @@ TVariable *generate_var(int assign)
             if( token->type ==  TOKEN_DOUBLE_E)
             {
                 var->type = VARTYPE_DOUBLE;
-                var->value.d = atof(token->data);
+                var->value.d = literal_double(token->data);
             }
             var->type = VARTYPE_DOUBLE;
             var->value.d = strtod(token->data,NULL);
