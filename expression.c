@@ -901,7 +901,7 @@ void expression(TVariable *var)
 {
     // //printf("**********************EXPRESSION**********************\n");
 
-    
+    thisFunction = NULL;
     oStack = stackInit();
     iStack_init();
     helper = malloc(sizeof(Ttoken));
