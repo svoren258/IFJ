@@ -42,7 +42,7 @@ void ret_error(int error){
             fprintf(stderr,"Internal error on line %d!\n",token->lineNumber);
             break;
     }
-    printf("error number: %d\n", error);
+    // printf("error number: %d\n", error);
     exit(error);
 
 }
