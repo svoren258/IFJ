@@ -466,7 +466,7 @@ Ttoken *get_token(){
 					line;
 					ret_error(SYNTAX_ERROR);
 				}
-				if(buffer->data[buffer->used-1] < 48 && buffer->data[buffer->used-1] > 57)
+				if(buffer->data[buffer->used-1] < 48 || buffer->data[buffer->used-1] > 57)
 				{
 					line;
 					ret_error(LEX_ERROR);

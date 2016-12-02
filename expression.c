@@ -779,7 +779,7 @@ void analysis(TVariable *var)
                         iStack_push(TOKENTYPE);
                 }
                 //
-                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING)
+                if(token->type == TOKEN_INT || token->type == TOKEN_DOUBLE || token->type == TOKEN_STRING || TOKEN_E || TOKEN_DOUBLE_E)
                 {
                     TVariable *var = generate_var(1);
                     stackPush(oStack, var);
