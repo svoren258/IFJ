@@ -287,7 +287,8 @@ void BSTDelete (tTablePtr *RootPtr, char* K) 		{
 } 
 
 
-void BSTDispose (tTablePtr *RootPtr) {	
+void BSTDispose (tTablePtr *RootPtr) 
+{	
 		if(*RootPtr)
 		{
 			
