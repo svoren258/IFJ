@@ -900,12 +900,14 @@ void expression(TVariable *var)
     
     if(thisFunction == NULL)
     {
-    
+        printf("WRITING TO GLOBALLIST\n");
         list = globalInitList;
     }
         
     else
     {
+        
+        printf("WRITING TO FUNCTION LIST of %s!\n",thisFunction->name);
         list = thisFunction->list;
     }
     // //printf("%s\n",thisFunction->name);
