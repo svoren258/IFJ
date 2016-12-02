@@ -19,6 +19,7 @@ do
 			cd $folder
 			echo -n $out  > ${test%.*}.real
 			DIFF=$(diff ${test%.*}.correct ${test%.*}.real)
+			echo REAL:$(cat ${test%.*}.real) EXPECTED:$(cat ${test%.*}.correct)
 			if [ "$DIFF" = "" ]
 			then
 				echo CORRECT

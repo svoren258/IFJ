@@ -7,4 +7,5 @@ all:
 	
 clean:
 	rm ifj
-
+test:
+	cd tests;sh test.sh;cd ..

@@ -418,6 +418,13 @@ Ttoken *get_token(){
 					state = STATE_E;
 					break;
 				}
+				if(isdigit(c))
+				{
+					extendBuffer(buffer, c);
+					state = STATE_E;
+					break;
+				}
+				ret_error(LEX_ERROR);
 				break;
 			}
 			
