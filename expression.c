@@ -540,7 +540,7 @@ TVariable *generate_var(int assign)
     
     if(assign == 1)
     {
-        
+        printf("E???%s\n",token->data);
         var->defined = 1;
         if(token->type == TOKEN_INT || token->type == TOKEN_E)
         {
@@ -556,6 +556,11 @@ TVariable *generate_var(int assign)
             
         else if(token->type == TOKEN_DOUBLE || token->type ==  TOKEN_DOUBLE_E )
         {
+            if( token->type ==  TOKEN_DOUBLE_E)
+            {
+                var->type = VARTYPE_DOUBLE;
+                var->value.d = atof(token->data);
+            }
             var->type = VARTYPE_DOUBLE;
             var->value.d = strtod(token->data,NULL);
         }
