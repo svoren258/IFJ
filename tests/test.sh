@@ -17,9 +17,9 @@ do
 			cd $ifjPath ; ./ifj $pathToFile/$test > $pathToFile/${test%.*}.rout 2>/dev/null
 			out=$?
 			cd $folder
-			echo -n $out  > ${test%.*}.rcode
+			# echo -n $out  > ${test%.*}.rcode
 			
-			DIFF=$(diff ${test%.*}.ecode ${test%.*}.rcode)
+			DIFF=$(diff ${test%.*}.ecode $out)
 			echo REAL:$(cat ${test%.*}.rcode) EXPECTED:$(cat ${test%.*}.ecode)
 			if [ "$DIFF" = "" ]
 			then

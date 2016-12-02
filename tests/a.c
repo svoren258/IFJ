@@ -1,6 +1,5 @@
 int main(){
-		  double a = 2e3;
-		  double b = 2.5 + a;
-		  printf("%g\n",b);
+		  int a = 2e3;
+		  printf("%d\n",a);
 		  return 1;
 }

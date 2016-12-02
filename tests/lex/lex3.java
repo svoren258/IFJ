@@ -9,7 +9,7 @@ class Main
 		double d = 3.2e2;		
 		double e = 3.2e+2;		
 		double f = 3.2e-2;		
-		
+		ifj16.print(a);
 
 	}
 }
