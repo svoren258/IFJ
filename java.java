@@ -5,7 +5,7 @@ class Main
     static void run()
     {
 
-        int b = 0;
+        //int b = 0;
         String str1 = "Text 1";
         String str2 = "Text 2";
         ifj16.print("Toto je este v pohode\n");
@@ -29,10 +29,10 @@ class Main
         // ifj16.print("a = "+a+"\n");
 
 
-        Game.hello(str1, a, str2);
+        //Game.hello(str1, a, str2);
         test();
 
-        Game.hello(str1, b, str2);
+        //Game.hello(str1, b, str2);
         test(4, 3);
         int a = 4;
         ifj16.print("\nb = "+ a + a + "\n");
