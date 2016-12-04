@@ -71,6 +71,7 @@ typedef struct new_class TClass;
 struct new_class
 {
 	int numOfVars;
+	int defined;
 	TStack *stack;
 };
 

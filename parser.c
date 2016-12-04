@@ -33,6 +33,7 @@ tTablePtr create_class_table(char *name, tTablePtr destTable)//navratova hodnota
         classTable->type = NODE_TYPE_CLASS;
         classTable->name = name;
         class->numOfVars = 0;
+        class->defined = 0;
         class->stack = stackInit();
         classTable->data.c = class;
         return classTable;
@@ -238,15 +239,14 @@ void starter() {
                 ret_error(SYNTAX_ERROR);
             }
 
-            tTablePtr table = create_class_table(token->data, globTable);
-            classContext = table;
+            tTablePtr classTable = create_class_table(token->data, globTable);
+            classContext = classTable;
             funcContext = NULL;
-            tTablePtr node = BSTSearch(globTable, token->data);
-            if (node->defined == 1) {
+//            tTablePtr classTable = BSTSearch(globTable, token->data);
+            if (classTable->data.c->defined == 1) {
                 line;
                 ret_error(SEMANTIC_DEF_ERROR);
             }
-            node->defined = 1;
 
             token = get_token();
     //printf("nacitany token: %s\n", token->data);
@@ -261,7 +261,7 @@ void starter() {
                 token = get_token();
                 //printf("nacitany token: %s\n", token->data);
                 //printf("tablename: %s\n", table->name);
-                Declaration(table, token);
+                Declaration(classTable, token);
                 token = get_token();
                 //printf("nacitany token: %s\n", token->data);
             }
@@ -271,6 +271,7 @@ void starter() {
             //zistime, ci su vsetky premenne danej triedy definovane
 
             token = get_token();
+            classTable->data.c->defined = 1;
             //printf("nacitany token: %s\n", token->data);
         } else {
             ret_error(SYNTAX_ERROR);

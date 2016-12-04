@@ -12,25 +12,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex1.rcode~HEAD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex1.rcode~e5c8004595635f4bf3782cfd14558f10e9004945" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex2.rcode~HEAD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex2.rcode~e5c8004595635f4bf3782cfd14558f10e9004945" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex3.rcode~HEAD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/lex/lex3.rcode~e5c8004595635f4bf3782cfd14558f10e9004945" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ial.c" afterPath="$PROJECT_DIR$/ial.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lex.c" afterPath="$PROJECT_DIR$/lex.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/a.c" afterPath="$PROJECT_DIR$/tests/a.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.eout" afterPath="$PROJECT_DIR$/tests/lex/lex2.eout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.java" afterPath="$PROJECT_DIR$/tests/lex/lex2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.rout" afterPath="$PROJECT_DIR$/tests/lex/lex2.rout" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.eout" afterPath="$PROJECT_DIR$/tests/lex/lex3.eout" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.java" afterPath="$PROJECT_DIR$/tests/lex/lex3.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.rout" afterPath="$PROJECT_DIR$/tests/lex/lex3.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test.sh" afterPath="$PROJECT_DIR$/tests/test.sh" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,21 +39,61 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
+            <state relative-caret-position="-3618">
+              <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lex1.eout" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/lex/lex1.eout">
+      <file leaf-file-name="lex3.rout" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/lex/lex3.rout">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lex3.rcode" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/lex/lex3.rcode">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lex3.eout" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/lex/lex3.eout">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lex3.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/lex/lex3.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="defs.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/defs.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="73" column="16" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -100,21 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lex2.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lex2.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/lex/lex2.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
               <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sem3.rout" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/sem/sem3.rout">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -157,13 +176,14 @@
         <option value="$PROJECT_DIR$/tests/sem/sem3.correct" />
         <option value="$PROJECT_DIR$/tests/synt/assign.java" />
         <option value="$PROJECT_DIR$/tests/sem/sem2.java" />
-        <option value="$PROJECT_DIR$/defs.h" />
         <option value="$PROJECT_DIR$/assign.java" />
         <option value="$PROJECT_DIR$/tests/sem/sem3.eout" />
         <option value="$PROJECT_DIR$/tests/sem/sem3.java" />
         <option value="$PROJECT_DIR$/tests/lex/lex1.rout" />
-        <option value="$PROJECT_DIR$/parser.c" />
         <option value="$PROJECT_DIR$/tests/lex/lex2.java" />
+        <option value="$PROJECT_DIR$/defs.h" />
+        <option value="$PROJECT_DIR$/tests/lex/lex3.rout" />
+        <option value="$PROJECT_DIR$/parser.c" />
       </list>
     </option>
   </component>
@@ -528,15 +548,16 @@
       <workItem from="1480661684846" duration="95000" />
       <workItem from="1480680553622" duration="599000" />
       <workItem from="1480681841602" duration="2420000" />
-      <workItem from="1480849902520" duration="744000" />
+      <workItem from="1480849902520" duration="3096000" />
+      <workItem from="1480876870016" duration="387000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="332889000" />
+    <option name="totallyTimeSpent" value="335628000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15648286" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -545,7 +566,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6694491" sideWeight="0.5149031" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87979966" sideWeight="0.48509687" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6694491" sideWeight="0.48509687" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -593,27 +614,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rozdeleni">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/error.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/parser.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -720,13 +720,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assign.java" />
     <entry file="file://$PROJECT_DIR$/tests/sem/sem2.correct" />
-    <entry file="file://$PROJECT_DIR$/defs.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/sem/sem2.real" />
     <entry file="file://$PROJECT_DIR$/java.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -778,13 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/lex/lex3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/lex/lex1.rcode~e5c8004595635f4bf3782cfd14558f10e9004945" />
     <entry file="file://$PROJECT_DIR$/tests/lex/lex1.rcode~HEAD" />
     <entry file="file://$PROJECT_DIR$/tests/lex/lex2.rout">
@@ -822,19 +808,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parser.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="271" column="0" selection-start-line="271" selection-start-column="0" selection-end-line="271" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/lex/lex1.eout">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -842,7 +819,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -850,7 +826,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -882,6 +857,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lex/lex3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lex/lex3.rcode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lex/lex3.eout">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/lex/lex3.rout">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/defs.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="73" column="16" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parser.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3618">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
           <folding />
         </state>
       </provider>

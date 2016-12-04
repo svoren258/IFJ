@@ -77,12 +77,10 @@ double literal_double(char* s){
     for (int k = 0; k < exponent; ++k) {
         number = number * 10;
     }
- 
+    
     if(sign == 1)
         number = 1/number;
- 
     result = result * number;
- 
     free(str);
     free(str2);
  
@@ -622,7 +620,8 @@ TVariable *generate_var(int assign)
             if( token->type ==  TOKEN_E)
             {
                 var->type = VARTYPE_DOUBLE;
-                var->value.i = literal_int(token->data);
+                var->value.d = literal_double(token->data);
+                return var;
             }
         }
             
@@ -636,11 +635,14 @@ TVariable *generate_var(int assign)
         {
             if( token->type ==  TOKEN_DOUBLE_E)
             {
+                
                 var->type = VARTYPE_DOUBLE;
                 var->value.d = literal_double(token->data);
+                return var;
             }
             var->type = VARTYPE_DOUBLE;
             var->value.d = strtod(token->data,NULL);
+            
         }
     }
     return var;

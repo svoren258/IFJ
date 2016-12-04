@@ -580,9 +580,9 @@ int interpret()
                     // printf("varname1: %s\n",var1->name);
                     #endif
                     var1 = get_variable(var1);
-                    #ifdef DEBUG
-                    // printf("varname1: %s\n",var1->name);
-                    #endif
+                    // #ifdef DEBUG
+                    // printf("varname1: %s %d\n",var1->name,var1->type);
+                    // #endif
                 }
                 
                 
@@ -620,7 +620,7 @@ int interpret()
                         line;
                         ret_error(SEMANTIC_TYPE_ERROR);    
                     }
-                    var1->value.i = var2->value.i ? var2->value.i : var2->value.d;
+                    var1->value.i = (var2->type == VARTYPE_INTEGER) ? var2->value.i : var2->value.d;
                     continue;
                 }
                 else if(var1->type == VARTYPE_DOUBLE)
@@ -630,14 +630,13 @@ int interpret()
                         line;
                         ret_error(SEMANTIC_TYPE_ERROR);    
                     }
-                    var1->value.d = var2->value.i ? var2->value.i : var2->value.d;
+                    var1->value.d = (var2->type == VARTYPE_INTEGER) ? var2->value.i : var2->value.d;
                     continue;
                 }
                 else if(var1->type == VARTYPE_STRING)
                 {
                     if(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE || var2->type == VARTYPE_BOOLEAN)
                     {
-                        printf("%s %d", var1->name, var1->type);
                         line;
                         ret_error(SEMANTIC_TYPE_ERROR);    
                     }
@@ -737,6 +736,8 @@ int interpret()
                             line;
                             ret_error(SEMANTIC_DEF_ERROR);
                         }
+                        // if(var->type == VARTYPE_DOUBLE)printf("\nNUM:%g\n",var->value.d);
+                        // printf("VARTYPE: %d\n",var->type);4
                         print(var);
                     }
                     if(!strcmp(func->name, "length"))
@@ -910,6 +911,12 @@ int interpret()
                         TVariable *src = paramStack->data[paramStack->top - i];
                         TVariable *dest = locStack->data[i];
                         // printf("%d\n",src->defined);
+                        if(src->type != dest->type)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        
                         char *name = dest->name;
                         dest = src;
                         dest->position = i;
