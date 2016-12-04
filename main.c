@@ -16,7 +16,7 @@
 Ttoken *token;
 FILE *file;
 TBuffer * buffer;
-
+TStack* varStack;
 int main(int argc, char **argv)
 {
 	if(argc != 2)
@@ -38,6 +38,8 @@ int main(int argc, char **argv)
     // expression(var);
     // interpret();
     
+    
+    finish_expression();
     lexFinish();
 	return 0;
 }

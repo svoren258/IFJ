@@ -85,6 +85,7 @@ void parser_init() {
 
     //vytvorenie uzlov pre vstavane funkcie v tabulke vstavanych funkcii
     tTablePtr ifj16Table = create_class_table("ifj16", globTable);
+    ifj16Table->data.c->defined = 1;
 
     TFunction *readInt = new_function("readInt", ifj16Table);
     readInt->numOfParams = 0;

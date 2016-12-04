@@ -112,42 +112,49 @@ void translate_listitem(TListItem ins)
 
 int is_everything_defined(tTablePtr *RootPtr)
 {	
+    // printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
+    
 		if(*RootPtr)
 		{
+// 			printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
 			
-			BSTDispose(&(*RootPtr)->RPtr);
-			BSTDispose(&(*RootPtr)->LPtr);
+            if(!is_everything_defined(&(*RootPtr)->RPtr))
+			    return FALSE;
+			if(!is_everything_defined(&(*RootPtr)->LPtr))
+		        return FALSE;
+		        
+
 
 			if((*RootPtr)->Root)
 			{
-				BSTDispose(&(*RootPtr)->Root);
+				if(!is_everything_defined(&(*RootPtr)->Root))
+    			    return FALSE;
 			}
 
 			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
 			{
 				if((*RootPtr)->data.v->defined == 0)
 				    return FALSE;
+				    // printf("VAriable ok\n");
 			}
 		
 			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
 			{
 				if((*RootPtr)->data.f->defined == 0)
 				    return FALSE;
+				    // printf("func ok %d\n",(*RootPtr)->data.f->defined);
 			}
 			
 			else if((*RootPtr)->type == NODE_TYPE_CLASS)
 			{
 				// 	if((*RootPtr)->data.c->defined == 0)
-				if((*RootPtr)->defined == 0)
+				if((*RootPtr)->data.c->defined == 0)
 				    return FALSE;
+				    // printf("class ok\n");
+				
 			}
 		
-// 			if((*RootPtr))
-// 			{
-// 				// printf("Delete %s\n",(*RootPtr)->name);
-// 				free(*RootPtr);
-// 				(*RootPtr) = NULL;	
-// 			}
+
 		}
 		return TRUE;
 }
@@ -972,6 +979,24 @@ int interpret()
     }
       
       
-    if(!is_everything_defined(&globTable))ret_error(SEMANTIC_DEF_ERROR);
+      
+    if(!is_everything_defined(&globTable))
+    {
+        line;
+        ret_error(SEMANTIC_DEF_ERROR);
+    }
+        
+//     ins = globalInitList->First;
+//     TListItem nextIns;
+    
+//     while(ins)
+// 	{
+// 		nextIns = ins->next;
+// 		free(ins);
+// 		if(nextIns)
+// 			ins = nextIns;
+// 		else
+// 			break;
+// 	}
     return 1;
 }

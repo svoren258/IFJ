@@ -317,7 +317,6 @@ void BSTDispose (tTablePtr *RootPtr)
 		
 			if((*RootPtr))
 			{
-				// printf("Delete %s\n",(*RootPtr)->name);
 				free(*RootPtr);
 				(*RootPtr) = NULL;	
 			}
@@ -336,12 +335,41 @@ void freeVar(TVariable *var)
 
 void freeFunc(TFunction *func)
 {
+	
+	// TList *list = func->list;
+	// TListItem ins = list->First;
+	// TListItem nextIns = NULL;
+	// while(ins)
+	// {
+	// 	nextIns = ins->next;
+	// 	if(ins)
+	// 	free(ins);
+	// 	if(nextIns)
+	// 		ins = nextIns;
+	// 	else
+	// 		break;
+	// }
+	
+	// for(int i = func->stack->top; i >=0; i--)
+	// {
+	// 	TVariable *var = func->stack->data[i];
+	// 	if(var)
+	// 	free(var);
+	// }
+	// free(func->list);
+	// free(func->stack);
 	free(func);
 	// printf("FREE FUNC\n");
 }
 
 void freeClass(TClass *cls)
 {
+	for(int i = cls->stack->top; i >=0; i--)
+	{
+		TVariable *var = cls->stack->data[i];
+		free(var);
+	}
+	free(cls->stack);
 	// printf("FREE CLASS\n");
 }
 

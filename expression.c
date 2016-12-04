@@ -33,6 +33,7 @@ char precedence_table[TABLESIZE][TABLESIZE] =
 
 TStack *oStack;
 TIStack * iStack;
+TStack *varStack;
 Ttoken *token, *helper;
 tTablePtr globTable;
 tTablePtr exprFunc;
@@ -47,11 +48,13 @@ tTablePtr functionCallTable;
 int TOKENTYPE;
 
 double literal_double(char* s){
-    char* str = (char*) malloc(1);
+    char* str = malloc(sizeof(char));
+    str[0] = '\0';
     int i;
     for (i = 0; s[i] != 'e' ; ++i) {
-        str = (char*) realloc(str, i+1);
+        str =  realloc(str, sizeof(char)*(i+1)*8);
         str[i] = s[i];
+        str[i+1] = '\0';
     }
  
     double result = atof(str);
@@ -63,12 +66,13 @@ double literal_double(char* s){
     } else if(s[i+1] == '+')
         i++;
  
-    char* str2 = (char*) malloc(1);
+    char* str2 = malloc(sizeof(char));
     int in = 0;
  
     for (int j = i+1; s[j] != '\0'; ++j) {
-        str2 = (char*) realloc(str2, in+1);
+        str2 = (char*) realloc(str2, sizeof(char)*(in+1)*8);
         str2[in] = s[j];
+        str2[in+1] = '\0';
         in++;
     }
     int exponent = atoi(str2);
@@ -88,35 +92,6 @@ double literal_double(char* s){
  
 }
  
-int literal_int(char* s){
-    char* str = malloc(sizeof(char)*100);
-    int i;
-    for (i = 0; s[i] != 'e' ; ++i) {
-        str = (char*) realloc(str, i+1);
-        str[i] = s[i];
-    }
-    
-    int result = atoi(str);
- 
-    char* str2 = (char*) malloc(1);
-    int in = 0;
- 
-    for (int j = i+1; s[j] != '\0'; ++j) {
-        str2 = (char*) realloc(str2, in+1);
-        str2[in] = s[j];
-        in++;
-    }
-    int exponent = atoi(str2);
- 
-    for (int k = 0; k < exponent; ++k) {
-        result = result * 10;
-    }
- 
-    free(str);
-    free(str2);
- 
-    return result;
-}
 
 void iStack_push(int val)
 {
@@ -128,7 +103,6 @@ void iStack_push(int val)
 void iStack_init()
 {
     
-    iStack = NULL;
     iStack = malloc(sizeof(TIStack));
 
     iStack->top = -1;
@@ -166,7 +140,9 @@ int iStack_pop()
     if(iStack->top >= 0)
     {
         int ret = iStack->data[iStack->top]->data;
-        iStack->data[iStack->top] = '\0';
+        TIData *data = iStack->data[iStack->top];
+        free(data);
+        // iStack->data[iStack->top] = '\0';
         iStack->top--;
         return ret;
     }
@@ -601,6 +577,7 @@ TVariable *generate_var(int assign)
 {
     TVariable *var;
     var = malloc(sizeof(TVariable));
+    stackPush(varStack, var);
     var->name = NULL;
     var->className = NULL;
     var->declared = 1;
@@ -981,35 +958,56 @@ void analysis(TVariable *var)
 }
 
 
+void finish_expression()
+{
+    for(int i = 0; i<=varStack->top; i++)
+    {
+        TVariable *var= varStack->data[i];
+        free(var);
+    }
+    for(int i = 0; i<=iStack->top; i++)
+    {
+        TIData *var= iStack->data[i];
+        free(var);
+    }
+    free(iStack);
+    free(varStack);
+}
 
 void expression(TVariable *var)
 {
     // //printf("**********************EXPRESSION**********************\n");
 
     thisFunction = NULL;
-    oStack = stackInit();
+    if(!oStack)oStack = stackInit();
+    if(!varStack)varStack = stackInit();
     iStack_init();
-    helper = malloc(sizeof(Ttoken));
+    if(!helper)helper = malloc(sizeof(Ttoken));
     // printf("begin\n");
     if(funcContext)thisFunction = get_func_from_table(classContext, funcContext->name);
     
     if(thisFunction == NULL)
     {
-        // printf("WRITING TO GLOBALLIST\n");
         list = globalInitList;
     }
         
     else
     {
-        
-        // printf("WRITING TO FUNCTION LIST of %s!\n",thisFunction->name);
         list = thisFunction->list;
     }
     // //printf("%s\n",thisFunction->name);
 
-        analysis(var);
-        unget_token(1);
-        printStacks();
+    analysis(var);
+    unget_token(1);
+    printStacks();
+    
+    // for(int i = 0; i<=iStack->top; i++)
+    // {
+    //     TIData *var= iStack->data[i];
+    //     free(var);
+    // }
+    // if(iStack)free(iStack);
+    // free(helper);
     // printf("end\n");
     // }
     // //printf("********************END EXPRESSION*******************************\n");

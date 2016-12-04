@@ -34,7 +34,7 @@ TVariable *generate_var();
 int isFunctionCall();
 int isFunctionFullNameCall();
 int isFullNameVar();
-
+void finish_expression();
 
 
 enum{
