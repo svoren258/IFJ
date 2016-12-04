@@ -110,6 +110,49 @@ void translate_listitem(TListItem ins)
         }
 }
 
+int is_everything_defined(tTablePtr *RootPtr)
+{	
+		if(*RootPtr)
+		{
+			
+			BSTDispose(&(*RootPtr)->RPtr);
+			BSTDispose(&(*RootPtr)->LPtr);
+
+			if((*RootPtr)->Root)
+			{
+				BSTDispose(&(*RootPtr)->Root);
+			}
+
+			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
+			{
+				if((*RootPtr)->data.v->defined == 0)
+				    return FALSE;
+			}
+		
+			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
+			{
+				if((*RootPtr)->data.f->defined == 0)
+				    return FALSE;
+			}
+			
+			else if((*RootPtr)->type == NODE_TYPE_CLASS)
+			{
+				// 	if((*RootPtr)->data.c->defined == 0)
+				if((*RootPtr)->defined == 0)
+				    return FALSE;
+			}
+		
+// 			if((*RootPtr))
+// 			{
+// 				// printf("Delete %s\n",(*RootPtr)->name);
+// 				free(*RootPtr);
+// 				(*RootPtr) = NULL;	
+// 			}
+		}
+		return TRUE;
+}
+
+
 TVariable *get_variable(TVariable *findVar)
 {
     
@@ -921,5 +964,7 @@ int interpret()
         ins = ins->next;
     }
       
+      
+    if(!is_everything_defined(&globTable))ret_error(SEMANTIC_DEF_ERROR);
     return 1;
 }

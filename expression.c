@@ -46,6 +46,80 @@ TList * list;
 tTablePtr functionCallTable;
 int TOKENTYPE;
 
+double literal_double(char* s){
+    char* str = (char*) malloc(1);
+    int i;
+    for (i = 0; s[i] != 'e' ; ++i) {
+        str = (char*) realloc(str, i+1);
+        str[i] = s[i];
+    }
+ 
+    double result = atof(str);
+    int sign = 0;
+ 
+    if(s[i+1] == '-') {
+        sign = 1;
+        i++;
+    } else if(s[i+1] == '+')
+        i++;
+ 
+    char* str2 = (char*) malloc(1);
+    int in = 0;
+ 
+    for (int j = i+1; s[j] != '\0'; ++j) {
+        str2 = (char*) realloc(str2, in+1);
+        str2[in] = s[j];
+        in++;
+    }
+    int exponent = atoi(str2);
+    double number = 1;
+ 
+    for (int k = 0; k < exponent; ++k) {
+        number = number * 10;
+    }
+ 
+    if(sign == 1)
+        number = 1/number;
+ 
+    result = result * number;
+ 
+    free(str);
+    free(str2);
+ 
+    return result;
+ 
+}
+ 
+int literal_int(char* s){
+    char* str = malloc(sizeof(char)*100);
+    int i;
+    for (i = 0; s[i] != 'e' ; ++i) {
+        str = (char*) realloc(str, i+1);
+        str[i] = s[i];
+    }
+    
+    int result = atoi(str);
+ 
+    char* str2 = (char*) malloc(1);
+    int in = 0;
+ 
+    for (int j = i+1; s[j] != '\0'; ++j) {
+        str2 = (char*) realloc(str2, in+1);
+        str2[in] = s[j];
+        in++;
+    }
+    int exponent = atoi(str2);
+ 
+    for (int k = 0; k < exponent; ++k) {
+        result = result * 10;
+    }
+ 
+    free(str);
+    free(str2);
+ 
+    return result;
+}
+
 void iStack_push(int val)
 {
     TIData* newdata  = malloc(sizeof(TIData));
@@ -540,12 +614,16 @@ TVariable *generate_var(int assign)
     
     if(assign == 1)
     {
-        
         var->defined = 1;
         if(token->type == TOKEN_INT || token->type == TOKEN_E)
         {
             var->type = VARTYPE_INTEGER;
             var->value.i = atoi(token->data);
+            if( token->type ==  TOKEN_E)
+            {
+                var->type = VARTYPE_DOUBLE;
+                var->value.i = literal_int(token->data);
+            }
         }
             
         else if(token->type == TOKEN_STRING)
@@ -556,6 +634,11 @@ TVariable *generate_var(int assign)
             
         else if(token->type == TOKEN_DOUBLE || token->type ==  TOKEN_DOUBLE_E )
         {
+            if( token->type ==  TOKEN_DOUBLE_E)
+            {
+                var->type = VARTYPE_DOUBLE;
+                var->value.d = literal_double(token->data);
+            }
             var->type = VARTYPE_DOUBLE;
             var->value.d = strtod(token->data,NULL);
         }

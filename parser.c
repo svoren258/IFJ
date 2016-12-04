@@ -268,6 +268,8 @@ void starter() {
             if (token->type != TOKEN_R_CURLY) {
                 ret_error(SYNTAX_ERROR);
             }
+            //zistime, ci su vsetky premenne danej triedy definovane
+
             token = get_token();
             //printf("nacitany token: %s\n", token->data);
         } else {

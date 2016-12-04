@@ -497,6 +497,7 @@ Ttoken *get_token(){
 						line;
 						ret_error(SYNTAX_ERROR);
 					}
+					extendBuffer(buffer, c);
 					state = STATE_FUT_DOUBLE_E;
 					break;
 				}
