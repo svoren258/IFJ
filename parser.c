@@ -247,6 +247,7 @@ void starter() {
                 line;
                 ret_error(SEMANTIC_DEF_ERROR);
             }
+            classTable->data.c->defined = 1;
 
             token = get_token();
     //printf("nacitany token: %s\n", token->data);
@@ -271,7 +272,6 @@ void starter() {
             //zistime, ci su vsetky premenne danej triedy definovane
 
             token = get_token();
-            classTable->data.c->defined = 1;
             //printf("nacitany token: %s\n", token->data);
         } else {
             ret_error(SYNTAX_ERROR);
