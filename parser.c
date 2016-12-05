@@ -240,6 +240,9 @@ void starter() {
     //printf("som v starteri\n");
     token = get_token();
     //printf("nacitany token: %s\n", token->data);
+    if(token->type != KEYWORD_CLASS){
+        ret_error(SYNTAX_ERROR);
+    }
     while (token->type == KEYWORD_CLASS) {
     //printf("som vo while class\n");
         if (token->type == KEYWORD_CLASS) {
