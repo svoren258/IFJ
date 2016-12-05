@@ -290,7 +290,11 @@ void starter() {
             ret_error(SYNTAX_ERROR);
         }
     }
-    if (token->type == TOKEN_EOF) {
+    if(token->type != TOKEN_EOF){
+        ret_error(SYNTAX_ERROR);
+    }
+    else
+    {
         tTablePtr node = BSTSearch(globTable, "Main");
         if(node == NULL){
             line;
