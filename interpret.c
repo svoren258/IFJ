@@ -435,6 +435,10 @@ void math()
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
                 case INS_CMP_LEQUAL:
                     if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
                     {
@@ -449,6 +453,10 @@ void math()
                             result->value.b = var1->value.i <= var2->value.i;
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
+                    }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
                     }
                 case INS_CMP_GREATER:
                     if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
@@ -465,6 +473,10 @@ void math()
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
                 case INS_CMP_GREQUAL:
                     if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
                     {
@@ -479,6 +491,10 @@ void math()
                             result->value.b = var1->value.i >= var2->value.i;
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
+                    }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
                     }
                 case INS_CMP_EQUAL:
                     if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
@@ -495,6 +511,10 @@ void math()
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
                     }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
                 case INS_CMP_NOTEQUAL:
                     if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
                     {
@@ -509,6 +529,10 @@ void math()
                             result->value.b = var1->value.i != var2->value.i;
                         // printf("\tCOMPARE:%d\t\n",result->value.b);
                         break;
+                    }
+                    else
+                    {
+                        ret_error(SEMANTIC_TYPE_ERROR);
                     }
                     default:line;ret_error(SEMANTIC_TYPE_ERROR);
                     break;
