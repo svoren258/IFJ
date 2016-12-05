@@ -111,52 +111,52 @@ void translate_listitem(TListItem ins)
 }
 
 int is_everything_defined(tTablePtr *RootPtr)
-{	
+{   
     // printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
     
-		if(*RootPtr)
-		{
-// 			printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
-			
+        if(*RootPtr)
+        {
+//          printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
+            
             if(!is_everything_defined(&(*RootPtr)->RPtr))
-			    return FALSE;
-			if(!is_everything_defined(&(*RootPtr)->LPtr))
-		        return FALSE;
-		        
+                return FALSE;
+            if(!is_everything_defined(&(*RootPtr)->LPtr))
+                return FALSE;
+                
 
 
-			if((*RootPtr)->Root)
-			{
-				if(!is_everything_defined(&(*RootPtr)->Root))
-    			    return FALSE;
-			}
+            if((*RootPtr)->Root)
+            {
+                if(!is_everything_defined(&(*RootPtr)->Root))
+                    return FALSE;
+            }
 
-			if((*RootPtr)->type == NODE_TYPE_VARIABLE)
-			{
-				if((*RootPtr)->data.v->defined == 0)
-				    return FALSE;
-				    // printf("VAriable ok\n");
-			}
-		
-			else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
-			{
-				if((*RootPtr)->data.f->defined == 0)
-				    return FALSE;
-				    // printf("func ok %d\n",(*RootPtr)->data.f->defined);
-			}
-			
-			else if((*RootPtr)->type == NODE_TYPE_CLASS)
-			{
-				// 	if((*RootPtr)->data.c->defined == 0)
-				if((*RootPtr)->data.c->defined == 0)
-				    return FALSE;
-				    // printf("class ok\n");
-				
-			}
-		
+            if((*RootPtr)->type == NODE_TYPE_VARIABLE)
+            {
+                if((*RootPtr)->data.v->defined == 0)
+                    return FALSE;
+                    // printf("VAriable ok\n");
+            }
+        
+            else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
+            {
+                if((*RootPtr)->data.f->defined == 0)
+                    return FALSE;
+                    // printf("func ok %d\n",(*RootPtr)->data.f->defined);
+            }
+            
+            else if((*RootPtr)->type == NODE_TYPE_CLASS)
+            {
+                //  if((*RootPtr)->data.c->defined == 0)
+                if((*RootPtr)->data.c->defined == 0)
+                    return FALSE;
+                    // printf("class ok\n");
+                
+            }
+        
 
-		}
-		return TRUE;
+        }
+        return TRUE;
 }
 
 
@@ -244,12 +244,12 @@ void math()
                 if((var1 == NULL) || (var2 == NULL) || (result == NULL))  
                 {
                     line;
-                    ret_error(SEMANTIC_DEF_ERROR);
+                    ret_error(UNINIT_VAR_ERROR);
                 }
                 if( var2->defined == 0)
                 {
                     line;
-                    ret_error(SEMANTIC_DEF_ERROR);
+                    ret_error(UNINIT_VAR_ERROR);
                 }
                 if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
                 {
@@ -336,7 +336,7 @@ void math()
                     else
                     {
                         line;
-                        ret_error(SEMANTIC_DEF_ERROR);
+                        ret_error(UNINIT_VAR_ERROR);
                     }
                     break;
                 case INS_SUB:
@@ -363,7 +363,7 @@ void math()
                     {
                         // printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
                         line;
-                        ret_error(SEMANTIC_DEF_ERROR);
+                        ret_error(UNINIT_VAR_ERROR);
                     }
                     break;
                 case INS_MUL:
@@ -389,12 +389,14 @@ void math()
                     else
                     {
                         line;
-                        ret_error(SEMANTIC_DEF_ERROR);
+                        ret_error(UNINIT_VAR_ERROR);
                     }
                     break;
                 case INS_DIV:
                     if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
                     {
+                        if(var2->value.d == 0 || var2->value.i == 0)
+                            ret_error(ZERO_DIV_ERROR);
                         result->type = VARTYPE_DOUBLE;
                         if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.d / var2->value.d;
@@ -415,7 +417,7 @@ void math()
                     else
                     {
                         line;
-                        ret_error(SEMANTIC_DEF_ERROR);
+                        ret_error(UNINIT_VAR_ERROR);
                     }
 
                 case INS_CMP_LESS:
@@ -609,7 +611,7 @@ int interpret()
                 if(var1 == NULL || var2 == NULL)
                 {
                     line;
-                    ret_error(SEMANTIC_DEF_ERROR);
+                    ret_error(UNINIT_VAR_ERROR);
                 }
                 
                 
@@ -661,7 +663,7 @@ int interpret()
                     continue;
                 }
                 line;
-                ret_error(SEMANTIC_DEF_ERROR);
+                ret_error(UNINIT_VAR_ERROR);
             
             case INS_JMP:
             {
@@ -763,7 +765,7 @@ int interpret()
                         if(var->type != VARTYPE_STRING)
                         {
                             line;
-                            ret_error(SEMANTIC_DEF_ERROR);
+                            ret_error(SEMANTIC_TYPE_ERROR);
                         }
                         
                         if(result)
@@ -797,7 +799,7 @@ int interpret()
                         if(var1->type != VARTYPE_STRING || var2->type != VARTYPE_STRING)
                         {
                             line;
-                            ret_error(SEMANTIC_DEF_ERROR);
+                            ret_error(SEMANTIC_TYPE_ERROR);
                         }
                         
                         if(result)
@@ -836,7 +838,7 @@ int interpret()
                         if(var0->type != VARTYPE_STRING || var1->type != VARTYPE_INTEGER || var2->type != VARTYPE_INTEGER )
                         {
                             line;
-                            ret_error(SEMANTIC_DEF_ERROR);
+                            ret_error(SEMANTIC_TYPE_ERROR);
                         }
                         
                         if(result)
@@ -990,13 +992,13 @@ int interpret()
 //     TListItem nextIns;
     
 //     while(ins)
-// 	{
-// 		nextIns = ins->next;
-// 		free(ins);
-// 		if(nextIns)
-// 			ins = nextIns;
-// 		else
-// 			break;
-// 	}
+//  {
+//      nextIns = ins->next;
+//      free(ins);
+//      if(nextIns)
+//          ins = nextIns;
+//      else
+//          break;
+//  }
     return 1;
 }
