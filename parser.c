@@ -27,6 +27,9 @@ tTablePtr create_class_table(char *name, tTablePtr destTable)//navratova hodnota
         //printf("vytvaram novu tabulku\n");
         //vytvorenie pointera
         TClass *class = malloc(sizeof(TClass));
+        if(class == NULL){
+            ret_error(INTERNAL_ERROR);
+        }
         BSTInit(&classTable);//inicializacia(uzol = NULL)
         BSTInsert(&destTable, &classTable, name);//pridanie uzlu do tabulky a nastavenie atributu - name
         classTable = BSTSearch(destTable, name);
@@ -154,6 +157,9 @@ TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the sp
 
     TFunction *f;
     f = malloc(sizeof(TFunction));
+    if(f == NULL){
+        ret_error(INTERNAL_ERROR);
+    }
 
     tTablePtr loc_table;
     if (table->Root == NULL) {
@@ -197,6 +203,9 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
 
     TVariable *v;
     v = malloc(sizeof(TVariable));
+    if(v == NULL){
+        ret_error(INTERNAL_ERROR);
+    }
     tTablePtr new_var;
     if (table->Root == NULL) {
         //printf("idem vytvarat novy root\n");
@@ -873,6 +882,9 @@ void ifelse_statement(tTablePtr table) {
     //printf("som v if_statement\n");
 
     TVariable *var = malloc(sizeof(TVariable));
+    if(var == NULL){
+        ret_error(INTERNAL_ERROR);
+    }
     var->name = NULL;
     TListItem endIf = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem endElse = create_instruction(INS_LABEL, NULL, NULL, NULL);
@@ -933,6 +945,9 @@ void ifelse_statement(tTablePtr table) {
 void while_statement(tTablePtr table) {
     //printf("som vo while_statement\n");
     TVariable *var = malloc(sizeof(TVariable));
+    if(var == NULL){
+        ret_error(INTERNAL_ERROR);
+    }
     var->name = NULL;
 
     TListItem startWhile = create_instruction(INS_LABEL, NULL, NULL, NULL);
@@ -990,6 +1005,9 @@ void return_statement(tTablePtr table) {
 
     } else {
         TVariable *ret = malloc(sizeof(TVariable));
+        if(ret == NULL){
+            ret_error(INTERNAL_ERROR);
+        }
         ret->name = NULL;
         ret->type = VARTYPE_NULL;
         unget_token(1);

@@ -29,7 +29,10 @@ int find(TVariable* s, TVariable* search){
     if(size_search == 0)
         return 0;
     bool match = FALSE;
-    int* prefix_t = malloc((size_search+1)* sizeof(int));
+    int *prefix_t = malloc((size_search+1)* sizeof(int));
+	if(prefix_t == NULL){
+		ret_error(INTERNAL_ERROR);
+	}
 
     prefix_t[0] = -1;
     for (int k = 0; k < size_search; ++k) {
@@ -84,12 +87,18 @@ void sorting(char* s, int length){
 
 
     int mid = length/2;
-    char* left = (char*) malloc(mid);
+    char *left = (char*) malloc(mid);
+	if(left == NULL){
+		ret_error(INTERNAL_ERROR);
+	}
     for (int i = 0; i < mid; ++i) {
         left[i] = s[i];
     }
 
-    char* right = (char*) malloc(length-mid);
+    char *right = (char*) malloc(length-mid);
+	if(right == NULL){
+		ret_error(INTERNAL_ERROR);
+	}
     for (int j = mid; j < length; ++j) {
         right[j-mid] = s[j];
     }
@@ -165,6 +174,9 @@ void BSTRootNode(tTablePtr *RootPtr, tTablePtr *new, char *K){
 	if( !(*new) )
 	{
 		(*new) = malloc(sizeof(struct tTable));
+		if((*new) == NULL){
+			ret_error(INTERNAL_ERROR);
+		}
 		(*new)->name = K;
 		(*new)->LPtr = NULL;
 		(*new)->RPtr = NULL;
@@ -189,6 +201,9 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	if( !(*RootPtr) )
 	{
 		(*new) = malloc(sizeof(struct tTable));
+		if((*new) == NULL){
+			ret_error(INTERNAL_ERROR);
+		}
 		(*new)->type = NODE_TYPE_NULL;
 		(*new)->defined = 0;
 		(*new)->name = K;
@@ -381,17 +396,26 @@ TStack* copyStack(TStack* oldStack)
 	{
 		TVariable *var = oldStack->data[i];
 		TVariable *newVar = malloc(sizeof(TVariable));
+		if(newVar == NULL){
+			ret_error(INTERNAL_ERROR);
+		}
 		newVar->name = NULL;
 		newVar->className = NULL;
 		if(var->className)
 		{
 			newVar->className = malloc(sizeof(char)*100);
+			if(newVar->className == NULL){
+				ret_error(INTERNAL_ERROR);
+			}
 			newVar->className = strcpy(newVar->className, var->className);
 		}
 		if(var->name)
 		{
-			newVar->name =		malloc(sizeof(char)*100);
-			newVar->name =		strcpy(newVar->name,var->name);
+			newVar->name = malloc(sizeof(char)*100);
+			if(newVar->name == NULL){
+				ret_error(INTERNAL_ERROR);
+			}
+			newVar->name = strcpy(newVar->name,var->name);
 		}
 		newVar->value = 	var->value;
 		newVar->type =		var->type;

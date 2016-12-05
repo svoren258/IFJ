@@ -12,7 +12,6 @@
 #include "parser.h"
 #include "interpret.h"
 
-//#define FILE_ERROR 5
 Ttoken *token;
 FILE *file;
 TBuffer * buffer;
@@ -21,15 +20,15 @@ int main(int argc, char **argv)
 {
 	if(argc != 2)
 	{
-		fprintf(stderr, "Wrong number of arguments! Use 1\n");
-		return EXIT_FAILURE;
+		//fprintf(stderr, "Wrong number of arguments! Use 1\n");
+		ret_error(INTERNAL_ERROR);
 	}
 	file = fopen(argv[1], "r");
 
 	if(!file)
 	{ 
-		fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
-		return EXIT_FAILURE; 
+		//fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);
+		ret_error(INTERNAL_ERROR);
 	}
 
 	lexStart();
