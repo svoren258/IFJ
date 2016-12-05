@@ -608,7 +608,7 @@ int interpret()
                     #endif
                 }
                 
-                if(var1 == NULL || var2 == NULL)
+                if(var1 == NULL || var2 == NULL || var2->defined == 0)
                 {
                     line;
                     ret_error(UNINIT_VAR_ERROR);
