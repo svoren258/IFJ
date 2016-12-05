@@ -29,6 +29,7 @@ TList * InitList () {
 
 	TList * list;
 	list = malloc(sizeof(TList));
+	if(!list)ret_error(INTERNAL_ERROR);
 
 	//initialize the empty list
 	list->First = NULL;
@@ -76,8 +77,8 @@ void InsertFirst (TList *L, int operation, void* ad1, void *ad2, void *ad3) {
 	//alloc space for the data
 	if((first = malloc(sizeof(struct TElem))) == NULL)
 	{//allocation unsuccessful
-		Error();
-		return;
+		ret_error(INTERNAL_ERROR);
+		
 	}
 
 	
@@ -202,9 +203,7 @@ TListItem create_instruction(int op, void * add1, void * add2, void * add3)
 	if(!new)
 	{
 		//unsuccessful malloc, exit function
-		Error();
 		ret_error(INTERNAL_ERROR);
-		return NULL;
 	}
 
 	new->operation = op;
@@ -223,9 +222,7 @@ TListItem PostInsert (TList *L, int op, void *add1, void *add2, void *add3) {
 	if((new = malloc(sizeof(struct TElem))) == NULL)
 	{
 		//unsuccessful malloc, exit function
-		Error();
 		ret_error(INTERNAL_ERROR);
-		return NULL;
 	}
 	//malloc successful, assign data
 	new->operation = op;

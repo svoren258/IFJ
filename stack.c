@@ -28,7 +28,7 @@ TStack* stackInit () {
 	//if stack does not exist, exit function
 	TStack * s;
 	s =  malloc(sizeof(TStack));
-	
+	if(!s)ret_error(INTERNAL_ERROR);
 	
 	if(!s)
 	{
@@ -38,6 +38,7 @@ TStack* stackInit () {
 	//set the stack top to starting position
 	s->capacity = 10;
 	s->data = malloc(sizeof(void*) * s->capacity);
+	if(!s->data)ret_error(INTERNAL_ERROR);
 	s->top = -1;
 	return s;
 
@@ -84,6 +85,7 @@ void stackPush ( TStack* s, void *data ) {
 	if(s->top > s->capacity)
 	{
 		s->data = realloc(s->data, sizeof(void *) * s->capacity * 2);
+		if(!s->data)ret_error(INTERNAL_ERROR);
 		s->capacity = s->capacity * 2;
 	}
 
