@@ -5,6 +5,7 @@
 /*Loginy řešitelů: xkisel02, xsvore01, xrudik00, xroman10, xchudy04 */
 /********************************************************************/
 // #include "defs.h"
+#include "error.h"
 
 #ifndef _STACK_H_
 #define _STACK_H_

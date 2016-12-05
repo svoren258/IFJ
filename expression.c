@@ -49,10 +49,12 @@ int TOKENTYPE;
 
 double literal_double(char* s){
     char* str = malloc(sizeof(char));
+    if(!str)ret_error(INTERNAL_ERROR);
     str[0] = '\0';
     int i;
     for (i = 0; s[i] != 'e' ; ++i) {
         str =  realloc(str, sizeof(char)*(i+1)*8);
+        if(!str)ret_error(INTERNAL_ERROR);
         str[i] = s[i];
         str[i+1] = '\0';
     }
@@ -67,10 +69,12 @@ double literal_double(char* s){
         i++;
  
     char* str2 = malloc(sizeof(char));
+    if(!str2)ret_error(INTERNAL_ERROR);
     int in = 0;
  
     for (int j = i+1; s[j] != '\0'; ++j) {
         str2 = (char*) realloc(str2, sizeof(char)*(in+1)*8);
+        if(!str)ret_error(INTERNAL_ERROR);
         str2[in] = s[j];
         str2[in+1] = '\0';
         in++;
@@ -96,6 +100,7 @@ double literal_double(char* s){
 void iStack_push(int val)
 {
     TIData* newdata  = malloc(sizeof(TIData));
+    if(!newdata)ret_error(INTERNAL_ERROR);
     iStack->top++;
     iStack->data[iStack->top] = newdata;
     iStack->data[iStack->top]->data = val;
@@ -104,6 +109,7 @@ void iStack_init()
 {
     
     iStack = malloc(sizeof(TIStack));
+    if(!iStack)ret_error(INTERNAL_ERROR);
 
     iStack->top = -1;
     iStack_push(OP_DOLAR);
@@ -577,6 +583,7 @@ TVariable *generate_var(int assign)
 {
     TVariable *var;
     var = malloc(sizeof(TVariable));
+    if(!var)ret_error(INTERNAL_ERROR);
     stackPush(varStack, var);
     var->name = NULL;
     var->className = NULL;
@@ -983,6 +990,7 @@ void expression(TVariable *var)
     if(!varStack)varStack = stackInit();
     iStack_init();
     if(!helper)helper = malloc(sizeof(Ttoken));
+    if(!helper)ret_error(INTERNAL_ERROR);
     // printf("begin\n");
     if(funcContext)thisFunction = get_func_from_table(classContext, funcContext->name);
     

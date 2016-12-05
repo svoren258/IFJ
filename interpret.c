@@ -309,6 +309,7 @@ void math()
                         
                         result->type = VARTYPE_STRING;
                         result->value.s = malloc(sizeof(char)*(300));
+                        if(!result->value.s)ret_error(INTERNAL_ERROR);
                         strcpy(result->value.s, buffer1);
                         strcat(result->value.s, buffer2);
                         return;
@@ -869,6 +870,7 @@ int interpret()
                         {
                             result->type = VARTYPE_STRING;
                             result->value.s = malloc(sizeof(char)*100);
+                            if(!result->value.s)ret_error(INTERNAL_ERROR);
                             result->value.s = strcpy(result->value.s, substr(var0->value.s, var1->value.i,var2->value.i));
                             result->defined = 1;
                             stackPush(returnStack, result);
@@ -905,6 +907,7 @@ int interpret()
                         {
                             result->type = VARTYPE_STRING;
                             result->value.s = malloc(sizeof(char)*300);
+                            if(!result->value.s)ret_error(INTERNAL_ERROR);
                             result->value.s = strcpy(result->value.s, readString());
                             result->defined = 1;
                             stackPush(returnStack, result);
@@ -981,6 +984,7 @@ int interpret()
                 if(result)
                 {
                     result->name = malloc(sizeof(char)* 100);
+                    if(!result->name)ret_error(INTERNAL_ERROR);
                     strcpy(result->name, "return");
                     stackPush(returnStack,result);
                 }

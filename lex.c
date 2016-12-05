@@ -52,7 +52,7 @@ int bufferInit()
 {
     buffer = malloc(sizeof(TBuffer));
     if ((buffer->data = (char*) malloc(STR_LEN_INC)) == NULL)
-      return STR_ERROR;
+      ret_error(INTERNAL_ERROR);
    buffer->data[0] = '\0';
    buffer->used = 0;
    buffer->capacity = STR_LEN_INC;
@@ -116,7 +116,9 @@ void pushToken(Ttoken * token)
 Ttoken * newToken()
 {
     Ttoken * newtoken = malloc(sizeof(Ttoken));
+    if(!newtoken)ret_error(INTERNAL_ERROR);
     newtoken->data = malloc(sizeof(char));
+    if(!newtoken->data)ret_error(INTERNAL_ERROR);
     newtoken->data[0] = '\0';
     return newtoken;
 }
@@ -145,7 +147,10 @@ void lexStart()
     if(!tokenStack)
         tokenStack = stackInit();
     if(!token)      
+    {
         token = malloc(sizeof(Ttoken));
+        if(!token)ret_error(INTERNAL_ERROR);
+    }
     if(!buffer)
         bufferInit();
 }
@@ -240,6 +245,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_L_CURLY;
                     
                     pushToken(token);
@@ -249,6 +255,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_R_CURLY;
                     pushToken(token);
                     return token;
@@ -257,6 +264,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_L_ROUND;
                     pushToken(token);
                     return token;
@@ -265,6 +273,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_R_ROUND;
                     pushToken(token);
                     return token;
@@ -273,6 +282,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_L_SQUARE;
                     pushToken(token);
                     return token;
@@ -281,6 +291,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_R_SQUARE;
                     pushToken(token);
                     return token;
@@ -289,6 +300,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_DOT;
                     pushToken(token);
                     return token;
@@ -297,6 +309,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_PLUS;
                     pushToken(token);
                     return token;
@@ -305,6 +318,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_MINUS;
                     pushToken(token);
                     return token;
@@ -314,6 +328,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_MUL;
                     pushToken(token);
                     return token;
@@ -329,6 +344,7 @@ Ttoken *get_token(){
                 {
                     extendBuffer(buffer, c);
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     token->type = TOKEN_SEM_CL;
                     pushToken(token);
                     return token;
@@ -376,6 +392,7 @@ Ttoken *get_token(){
                     extendBuffer(buffer, c);
                     token->type = TOKEN_COLON;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
                     return token;
                 }
@@ -415,6 +432,7 @@ Ttoken *get_token(){
 
                 ungetc(c, file);
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 token->type = TOKEN_INT;
                 pushToken(token);
                 return token;
@@ -468,6 +486,7 @@ Ttoken *get_token(){
                 ungetc(c, file);
                 token->type = TOKEN_DOUBLE_E;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
             }
@@ -494,6 +513,7 @@ Ttoken *get_token(){
                 ungetc(c, file);
                 token->type = TOKEN_E;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
             }
@@ -521,6 +541,7 @@ Ttoken *get_token(){
                 ungetc(c,file);
                 token->type = TOKEN_DOUBLE;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
                 line;
@@ -546,6 +567,7 @@ Ttoken *get_token(){
                         case KEYWORD_DOUBLE:
                         case KEYWORD_STRING:
                             token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                            if(!token->data)ret_error(INTERNAL_ERROR);
                             token->type = TOKEN_TYPE;
                             return token;
                     }
@@ -560,6 +582,7 @@ Ttoken *get_token(){
                         case KEYWORD_DOUBLE:
                         case KEYWORD_STRING:
                             token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                            if(!token->data)ret_error(INTERNAL_ERROR);
                             token->type = TOKEN_TYPE;
                             pushToken(token);
                             
@@ -569,6 +592,7 @@ Ttoken *get_token(){
 
                 
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 ungetc(c, file);
                 pushToken(token);
                 return token;
@@ -589,6 +613,7 @@ Ttoken *get_token(){
                 }
                 ungetc(c, file);
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
                 
@@ -635,12 +660,14 @@ Ttoken *get_token(){
                     extendBuffer(buffer, c);
                     token->type = TOKEN_LE_EQ;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
                     return token;
                 }
                 ungetc(c, file);
                 token->type = TOKEN_LESS;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
             }
@@ -652,12 +679,14 @@ Ttoken *get_token(){
                     extendBuffer(buffer, c);
                     token->type = TOKEN_GR_EQ;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
                     return token;
                 }
                 ungetc(c, file);
                 token->type = TOKEN_GREATER;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
             }
@@ -669,12 +698,14 @@ Ttoken *get_token(){
                     extendBuffer(buffer, c);
                     token->type = TOKEN_EQUALS;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
                     return token;
                 }
                 ungetc(c, file);
                 token->type = TOKEN_ASSIGN;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
             }
@@ -686,6 +717,7 @@ Ttoken *get_token(){
                     extendBuffer(buffer, c);
                     token->type = TOKEN_NOT_EQ;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
                     return token;
                 }
@@ -715,6 +747,7 @@ Ttoken *get_token(){
                 
                 token->type = TOKEN_STRING;
                 token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                if(!token->data)ret_error(INTERNAL_ERROR);
                 pushToken(token);
                 return token;
                 line;
