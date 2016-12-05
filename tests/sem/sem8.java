@@ -6,5 +6,7 @@ class Main{
         if(a > word){
             ifj16.print(word);
         }
+        else{
+        }
     }
 }
