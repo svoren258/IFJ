@@ -807,9 +807,11 @@ Ttoken *get_token(){
                             buffer->data[buffer->used-2] = '\0';
                             buffer->used = buffer->used - 2;
                             // printf(" c o:%s  \n",buffer->data);
+                            octal = 0;
                             state = STATE_STRING_DOUBLE;
                             break;
                         } else {
+                            line;
                             ret_error(LEX_ERROR);
                         }
                     }
