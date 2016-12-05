@@ -956,9 +956,9 @@ void analysis(TVariable *var)
                 break;
             token = get_token();
         }
-         if(end>20)
+         if(end>100)
          {
-             exit(1);
+             ret_error(SYNTAX_ERROR);
              break;
          }
     }
