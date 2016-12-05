@@ -393,10 +393,10 @@ void math()
                     }
                     break;
                 case INS_DIV:
+                if(var2->value.d == 0 || var2->value.i == 0)
+                            ret_error(ZERO_DIV_ERROR);
                     if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
                     {
-                        if(var2->value.d == 0 || var2->value.i == 0)
-                            ret_error(ZERO_DIV_ERROR);
                         result->type = VARTYPE_DOUBLE;
                         if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
                             result->value.d = var1->value.d / var2->value.d;
@@ -915,11 +915,14 @@ int interpret()
                 {
                     
                     // printf("***LOCSTACK***\n");
-                    for(int i=0; i <= paramStack->top; i++)
+                    for(int i=0; i <= locStack->top; i++)
                     {
                         TVariable *src = paramStack->data[paramStack->top - i];
                         TVariable *dest = locStack->data[i];
                         // printf("%d\n",src->defined);
+                        // printf("%d %d\n",src->type, dest->type);
+                        if(locStack->top != paramStack->top)
+                            ret_error(SEMANTIC_TYPE_ERROR);
                         if(src->type != dest->type)
                         {
                             line;
