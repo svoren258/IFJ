@@ -5,5 +5,5 @@ class Main{
     }
 }
 class Game{
-    static int x = 1;
+
 }
