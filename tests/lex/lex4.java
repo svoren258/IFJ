@@ -1,7 +1,10 @@
-//chyba v programe v ramci lexikalnej analyzy
+//TEST while
 class Main{
-	static string s;
 	static void run(){
-		s = "ahoj";
+		int x = 0;
+		while(x < 10){
+		    ifj16.print(x + "\n");
+		    x = x + 1;
+		}
 	}
 }
