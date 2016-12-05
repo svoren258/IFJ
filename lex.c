@@ -801,6 +801,12 @@ Ttoken *get_token(){
                         if(c >= 49 && c <= 55)
                         {
                             extendBuffer(buffer, c);
+                            // printf("|%c|%c|%c|%c|\n",buffer->data[buffer->used-3],buffer->data[buffer->used-2],buffer->data[buffer->used-1],buffer->data[buffer->used]);
+                            int o = 8*8*(-48+(buffer->data[buffer->used-3])) + 8*(-48+(buffer->data[buffer->used-2])) + (-48+buffer->data[buffer->used-1]);
+                            buffer->data[buffer->used-3] = o;
+                            buffer->data[buffer->used-2] = '\0';
+                            buffer->used = buffer->used - 2;
+                            // printf(" c o:%s  \n",buffer->data);
                             state = STATE_STRING_DOUBLE;
                             break;
                         } else {

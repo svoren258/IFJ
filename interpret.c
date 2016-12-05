@@ -880,6 +880,7 @@ int interpret()
                         if(result)
                         {
                             double lth = readDouble();
+                            if(lth == -1)ret_error(INPUT_READ_ERROR);
                             result->defined = 1;
                             result->type = VARTYPE_DOUBLE;
                             result->value.d = lth;
@@ -891,6 +892,7 @@ int interpret()
                         if(result)
                         {
                             int lth = readInt();
+                            if(lth == -1)ret_error(INPUT_READ_ERROR);
                             result->type = VARTYPE_INTEGER;
                             result->defined = 1;
                             result->value.i = lth;
