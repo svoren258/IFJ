@@ -893,6 +893,7 @@ void ifelse_statement(tTablePtr table) {
         ret_error(INTERNAL_ERROR);
     }
     var->name = NULL;
+    var->type = 0;
     TListItem endIf = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem endElse = create_instruction(INS_LABEL, NULL, NULL, NULL);
     TListItem cmp = create_instruction(INS_JCMP, var, NULL, endIf);

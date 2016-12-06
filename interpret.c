@@ -423,12 +423,15 @@ void math()
 
     case INS_CMP_LESS:
         if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-        {
+        {//printf("\t%g %d\n",var1->value.d, var2->value.i);
             result->type = VARTYPE_BOOLEAN;
             if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
                 result->value.b = var1->value.d < var2->value.d;
             else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+            {
                 result->value.b = var1->value.d < var2->value.i;
+                // printf("computed:%d\n",result->value.b);
+            }
             else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
                 result->value.b = var1->value.i < var2->value.d;
             else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
@@ -686,7 +689,7 @@ int interpret()
                     }
                     var1->value.b = var2->value.b;
                     continue;
-                }
+                }printf("%d\n",var1->type);
                 line;
                 ret_error(UNINIT_VAR_ERROR);
             
