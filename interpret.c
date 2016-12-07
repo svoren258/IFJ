@@ -689,7 +689,7 @@ int interpret()
                     }
                     var1->value.b = var2->value.b;
                     continue;
-                }printf("%d\n",var1->type);
+                }
                 line;
                 ret_error(UNINIT_VAR_ERROR);
             
