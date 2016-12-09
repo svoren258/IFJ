@@ -11,6 +11,7 @@
 #include "lex.h"
 #include "parser.h"
 #include "interpret.h"
+#include <unistd.h>
 
 Ttoken *token;
 FILE *file;
@@ -23,8 +24,10 @@ int main(int argc, char **argv)
 		//fprintf(stderr, "Wrong number of arguments! Use 1\n");
 		ret_error(INTERNAL_ERROR);
 	}
+	
+	
 	file = fopen(argv[1], "r");
-
+	
 	if(!file)
 	{ 
 		//fprintf(stderr, "nejde otevrit soubor %s\n",argv[1]);

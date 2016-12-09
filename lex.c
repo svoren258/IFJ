@@ -296,15 +296,15 @@ Ttoken *get_token(){
                     pushToken(token);
                     return token;
                 }
-                // if( c == '.' )
-                // {
-                //     extendBuffer(buffer, c);
-                //     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
-                //     if(!token->data)ret_error(INTERNAL_ERROR);
-                //     token->type = TOKEN_DOT;
-                //     pushToken(token);
-                //     return token;
-                // }
+                if( c == '.' )
+                {
+                    extendBuffer(buffer, c);
+                    token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                    if(!token->data)ret_error(INTERNAL_ERROR);
+                    token->type = TOKEN_DOT;
+                    pushToken(token);
+                    return token;
+                }
                 if( c == '+' )
                 {
                     extendBuffer(buffer, c);
@@ -695,8 +695,7 @@ Ttoken *get_token(){
             {
                 if( c == '=' )
                 {
-                    extendBuffer(buffer, c);
-                    token->type = TOKEN_EQUALS;
+                     token->type = TOKEN_EQUALS;
                     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
                     if(!token->data)ret_error(INTERNAL_ERROR);
                     pushToken(token);
@@ -755,36 +754,6 @@ Ttoken *get_token(){
                 ////////NOT SURE
             }
 
-            // case STATE_ASCII_SINGLE:
-            // {
-            //     switch(c)
-            //     {
-            //         case 'n':
-            //             extendBuffer(buffer, '\n');
-            //             state = STATE_STRING_SINGLE;
-            //             break;
-            //         case 't':
-            //             extendBuffer(buffer, '\t');
-            //             state = STATE_STRING_SINGLE;
-            //             break;
-            //         // case '\'':
-            //         //  extendBuffer(buffer, '\'');
-            //         //  state = STATE_STRING_SINGLE;
-            //         //  break;
-            //         case '"':
-            //             extendBuffer(buffer, '"');
-            //             state = STATE_STRING_SINGLE;
-            //             break;
-            //         case '\\':
-            //             extendBuffer(buffer, '\\');
-            //             state = STATE_STRING_SINGLE;
-            //             break;
-            //         // case OCTAL!!!!!!!!
-            //         default:
-            //             ret_error(LEX_ERROR);
-            //     }
-            //     break;
-            // }
             
             case STATE_ASCII_DOUBLE:
             {

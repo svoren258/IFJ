@@ -756,9 +756,12 @@ int interpret()
                 {
                     TStack *stack = stackTop(localStack);
                     stackPop(localStack);
+                
                     if(!strcmp(func->name,"print"))
                     {
                         TVariable *var = stackTop(stack);
+                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -780,7 +783,8 @@ int interpret()
                     if(!strcmp(func->name, "length"))
                     {
                         TVariable *var = stackTop(stack);
-                        
+                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -810,7 +814,8 @@ int interpret()
                     {
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        
+                        if(!var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var1->name)
                         {
                             var1 = get_variable(var1);
@@ -845,7 +850,8 @@ int interpret()
                         TVariable *var0 = stackPop(stack);
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        
+                        if(!var0 || !var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var0->defined == 0 || var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var0->name)
                         {
                             var0 = get_variable(var0);

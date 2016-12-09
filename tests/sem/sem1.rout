@@ -1,0 +1,14 @@
+
+
+	***INTERPRET BEGINING***
+
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_ASSIGN  14
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:1
+***FILE: interpret.c  LINE: 657***

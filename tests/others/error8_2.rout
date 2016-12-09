@@ -1,0 +1,19 @@
+
+
+	***INTERPRET BEGINING***
+
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:b
+Function call: run stacktop:0
+0 var:b pos:0 type:1
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:b pos:0 type:1
+***FILE: interpret.c  LINE: 251***

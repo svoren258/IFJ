@@ -1,0 +1,105 @@
+
+
+	***INTERPRET BEGINING***
+
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_ASSIGN  14
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_CMP_NOTEQUAL  9
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_LABEL  15
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+0
+INS_LABEL  15
+INS_LABEL  15
+INS_CMP_EQUAL  8
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+1
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_GREATER  6
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_LABEL  15
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+0
+INS_LABEL  15
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+1
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LEQUAL  5
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+1
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_GREQUAL  7
+
+
+FIND var:a
+Function call: run stacktop:0
+0 var:a pos:0 type:2
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+INS_PUSH_TABLE  19
+INS_CALL  18
+1
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_RET  16
+INS_LABEL  15
