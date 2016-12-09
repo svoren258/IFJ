@@ -296,15 +296,15 @@ Ttoken *get_token(){
                     pushToken(token);
                     return token;
                 }
-                if( c == '.' )
-                {
-                    extendBuffer(buffer, c);
-                    token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
-                    if(!token->data)ret_error(INTERNAL_ERROR);
-                    token->type = TOKEN_DOT;
-                    pushToken(token);
-                    return token;
-                }
+                // if( c == '.' )
+                // {
+                //     extendBuffer(buffer, c);
+                //     token->data = realloc(token->data, sizeof(char)*(int)strlen(buffer->data)*8);strcpy(token->data,buffer->data);
+                //     if(!token->data)ret_error(INTERNAL_ERROR);
+                //     token->type = TOKEN_DOT;
+                //     pushToken(token);
+                //     return token;
+                // }
                 if( c == '+' )
                 {
                     extendBuffer(buffer, c);
