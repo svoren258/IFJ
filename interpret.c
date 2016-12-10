@@ -165,17 +165,20 @@ TVariable *get_variable(TVariable *findVar)
     
     // printf("Find var: %s\n",findVar->name);
     TVariable *var;//stack to be returned
-    TStack *topStack = stackTop(localStack);//for local variables
+    TStack *topStack;//for local variables
+    if(localStack->top>=0)
+    topStack = stackTop(localStack);
+    if(functionNodesStack->top >= 0)
     functionNode = stackTop(functionNodesStack);//for getting positions of the variables in the stack
     
-    #ifdef DEBUG
-    printf("\n\nFIND var:%s",findVar->name);
-    printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
-    for(int i = 0; i < topStack->top; i++){
-        TVariable *var1 = topStack->data[i];
-        printf("%d var:%s pos:%d type:%d\n",i, var1->name,var1->position,var1->type);
-    }
-    #endif
+    // #ifdef DEBUG
+    // printf("\n\nFIND var:%s",findVar->name);
+    // printf("\nFunction call: %s stacktop:%d\n",functionNode->name,functionNodesStack->top);
+    // for(int i = 0; i < topStack->top; i++){
+    //     TVariable *var1 = topStack->data[i];
+    //     printf("%d var:%s pos:%d type:%d\n",i, var1->name,var1->position,var1->type);
+    // }
+    // #endif
     
     
     //First look for the return variable
@@ -193,25 +196,28 @@ TVariable *get_variable(TVariable *findVar)
         }
     }
     
-   
-    //Looking for a local variable
-    var = get_var_from_table(functionNode,findVar->name);//get the variable structure
-    if(var)
+   if(functionNode)
     {
-        var = topStack->data[var->position];//fidn variable on the position
+        //Looking for a local variable
+        var = get_var_from_table(functionNode,findVar->name);//get the variable structure
+        if(var)
+        {
+            // printf(" first %s\n",var->name);
+            var = topStack->data[var->position];//fidn variable on the position
+        }
+        if(var)
+        {
+            return var;//return the variable
+        } 
     }
-    if(var != NULL)
-    {
-        return var;//return the variable
-    }
-
+    
+    // printf("first?\n");
         
     //Looking for a global variable
     tTablePtr  fullClassIdentifier = BSTSearch(globTable, findVar->className);//node of the class
     if(!fullClassIdentifier)
     {
-        printf("int.c 156\n");
-        exit(1);
+        ret_error(10);
     }
     
     //Looking for a global variable outside the current class
@@ -337,7 +343,7 @@ void math()
         else
         {
             line;
-            ret_error(UNINIT_VAR_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
         break;
     case INS_SUB:
@@ -364,7 +370,7 @@ void math()
         {
             // printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
             line;
-            ret_error(UNINIT_VAR_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
         break;
     case INS_MUL:
@@ -390,7 +396,7 @@ void math()
         else
         {
             line;
-            ret_error(UNINIT_VAR_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
         break;
     case INS_DIV:
@@ -418,7 +424,7 @@ void math()
         else
         {
             line;
-            ret_error(UNINIT_VAR_ERROR);
+            ret_error(SEMANTIC_TYPE_ERROR);
         }
 
     case INS_CMP_LESS:
@@ -550,6 +556,7 @@ int interpret()
     printf("\n\n\t***INTERPRET BEGINING***\n\n");  
     #endif
     ins = globalInitList->First;
+    functionNode = NULL;
     
     localStack = stackInit();
     globalStack = stackInit();
@@ -572,9 +579,6 @@ int interpret()
     stackPush(runStack, LItem);
     
     
-    stackPush(functionNodesStack, runFuncNode);
-    stackPush(localStack, runStack);
-    functionNode = stackTop(functionNodesStack);
     
 
     
@@ -609,7 +613,7 @@ int interpret()
             
             case INS_ASSIGN:
                 
-            
+                if(!ins->add1 || !ins->add2)ret_error(SEMANTIC_DEF_ERROR);
                 var1 = ins->add1;
                 if(var1->name)
                 {
@@ -635,8 +639,8 @@ int interpret()
                     // printf("return %d\n",var2->value.i);
                     #endif
                 }
-                
-                if(var1 == NULL || var2 == NULL || var2->defined == 0)
+                if(!var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                if( var2->defined == 0)
                 {
                     line;
                     ret_error(UNINIT_VAR_ERROR);
@@ -651,7 +655,7 @@ int interpret()
                 }
                 if(var1->type == VARTYPE_INTEGER)
                 {
-                    
+                    // printf("to%s assign %d\n",var1->name, var2->value.i);
                     if(var2->type == VARTYPE_STRING || var2->type == VARTYPE_BOOLEAN)
                     {
                         line;
@@ -730,7 +734,18 @@ int interpret()
                 // {
                 //     result = ins->add3;   
                 // }
-                // printf("\t%s call\n",func->name);
+                //  printf("\t%s %s call\n",func->name,func->className);
+                
+                if(!strcmp(func->className,"Main") && !strcmp(func->name,"run"))
+                {//printf("LOOOL\n");
+                    tTablePtr globStack = BSTSearch(globTable, "Main");
+                    tTablePtr runFuncNode = BSTSearch(globStack->Root, "run");
+                    TStack *runStack = runFuncNode->data.f->stack;
+                    stackPush(functionNodesStack, runFuncNode);
+                    stackPush(localStack, runStack);
+                    functionNode = stackTop(functionNodesStack);
+                }
+                
                 
                 if(strcmp(func->className, "ifj16"))
                 {
@@ -743,7 +758,6 @@ int interpret()
                     
                     //push return var and next instr
                     TListItem returnIns = ins->add2;//next instruction
-                    
                     
                     TStack *topStack = stackTop(localStack);
                     // stackPush(topStack,var);
@@ -1055,12 +1069,15 @@ int interpret()
             case INS_RET:
             {
                 TStack * topStack = stackTop(localStack);
+                TFunction *currFunc = functionNode->data.f;
+                // printf("%s\n",currFunc->name);
                 TListItem instr = stackPop(topStack);
                 TVariable *result = ins->add1;
-                TFunction *currFunc = functionNode->data.f;
+                
                 
                 if(result)
                 {
+                    // printf("%d %d\n",currFunc->params[0],result->type);
                     if(currFunc->params[0] != result->type)
                     {
                         line;
@@ -1076,7 +1093,8 @@ int interpret()
                     stackPush(returnStack,result);
                 } else {
                     if(currFunc->params[0] != FUNCTYPE_VOID)
-                    {printf("%d\n",currFunc->params[0]);
+                    {
+                        // printf("%d\n",currFunc->params[0]);
                         line;
                         ret_error(SEMANTIC_TYPE_ERROR);
                     }

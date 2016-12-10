@@ -964,16 +964,24 @@ void analysis(TVariable *var)
 
 void finish_expression()
 {
-    for(int i = 0; i<=varStack->top; i++)
+    if(varStack)
     {
-        TVariable *var= varStack->data[i];
-        free(var);
+        for(int i = 0; i<=varStack->top; i++)
+        {
+            TVariable *var= varStack->data[i];
+            free(var);
+        }    
     }
-    for(int i = 0; i<=iStack->top; i++)
+    
+    if(iStack)
     {
-        TIData *var= iStack->data[i];
-        free(var);
+        for(int i = 0; i<=iStack->top; i++)
+        {
+            TIData *var= iStack->data[i];
+            free(var);
+        }    
     }
+    
     free(iStack);
     free(varStack);
 }

@@ -308,7 +308,7 @@ void starter() {
             }
             else{
                 //printf("pridavam run\n");
-                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
+                TListItem run = create_instruction(INS_CALL, node->data.f, NULL, NULL);
                 insert_instruction(globalInitList, run);
             }
         }
