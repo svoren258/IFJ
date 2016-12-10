@@ -1,10 +1,345 @@
+
+
+	***INTERPRET BEGINING***
+
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 0
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 1
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 2
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 3
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 4
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 5
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 6
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 7
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 8
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 9
+INS_LABEL  15
+INS_ADD  0
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_JMP  12
+INS_LABEL  15
+INS_CMP_LESS  4
+
+
+FIND var:x
+Function call: run stacktop:0
+0 var:x pos:0 type:1
+INS_ASSIGN  14
+INS_JCMP  10
+INS_LABEL  15
+INS_RET  16
+INS_LABEL  15

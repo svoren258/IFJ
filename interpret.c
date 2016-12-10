@@ -230,315 +230,318 @@ TVariable *get_variable(TVariable *findVar)
 
 void math()
 {
-                var1 = ins->add1;
-                if(var1->name)var1 = get_variable(var1);
-                var2 = ins->add2;
-                if(var2->name)var2 = get_variable(var2);
+    var1 = ins->add1;
+    if(var1->name)var1 = get_variable(var1);
+    var2 = ins->add2;
+    if(var2->name)var2 = get_variable(var2);
+    
+    result = ins->add3;
+    int op = ins->operation;
+    ins = ins->next;
+    // if(var1->name)printf("VAR1: %s\n",var1->name);
+    // if(var2->name)printf("VAR1: %s\n",var2->name);
+    // if(result->name)printf("VAR1: %s\n",result->name);
+    if((var1 == NULL) || (var2 == NULL) || (result == NULL))  
+    {
+        line;
+        ret_error(UNINIT_VAR_ERROR);
+    }
+    if( var2->defined == 0)
+    {
+        line;
+        ret_error(UNINIT_VAR_ERROR);
+    }
+    if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
+    {
+        line;
+        ret_error(SEMANTIC_TYPE_ERROR);
+    }
+        
+        
+        
+    result->defined = 1;
+    
+    
+    
+    switch(op)
+    {
+    case INS_ADD:
+    
+        if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
+        { 
+            char buffer1[100],buffer2[100];
+            
+            if(var1->type == VARTYPE_INTEGER)
+            {
+                snprintf(buffer1, 10, "%d", var1->value.i);    
+            }
+            else if(var1->type == VARTYPE_DOUBLE)
+            {
+                snprintf(buffer1, 10, "%f", var1->value.d);    
+            }
+            else if(var1->type == VARTYPE_STRING)
+            {
+                strcpy(buffer1,var1->value.s);//buffer1 = var1->value.s;
+            }
+            else if(var1->type == VARTYPE_BOOLEAN)
+            {
+                line;
+                ret_error(SEMANTIC_TYPE_ERROR);
+            }
                 
-                result = ins->add3;
-                int op = ins->operation;
-                ins = ins->next;
-                // if(var1->name)printf("VAR1: %s\n",var1->name);
-                // if(var2->name)printf("VAR1: %s\n",var2->name);
-                // if(result->name)printf("VAR1: %s\n",result->name);
-                if((var1 == NULL) || (var2 == NULL) || (result == NULL))  
-                {
-                    line;
-                    ret_error(UNINIT_VAR_ERROR);
-                }
-                if( var2->defined == 0)
-                {
-                    line;
-                    ret_error(UNINIT_VAR_ERROR);
-                }
-                if(var1->type == VARTYPE_BOOLEAN || var2->type == VARTYPE_BOOLEAN)
-                {
-                    line;
-                    ret_error(SEMANTIC_TYPE_ERROR);
-                }
-                    
-                    
-                    
-                result->defined = 1;
-                
-                
-                
-                switch(op)
-                {
-                case INS_ADD:
-                
-                    if(var1->type == VARTYPE_STRING || var2->type == VARTYPE_STRING)
-                    { 
-                        char buffer1[100],buffer2[100];
-                        
-                        if(var1->type == VARTYPE_INTEGER)
-                        {
-                            snprintf(buffer1, 10, "%d", var1->value.i);    
-                        }
-                        else if(var1->type == VARTYPE_DOUBLE)
-                        {
-                            snprintf(buffer1, 10, "%f", var1->value.d);    
-                        }
-                        else if(var1->type == VARTYPE_STRING)
-                        {
-                            strcpy(buffer1,var1->value.s);//buffer1 = var1->value.s;
-                        }
-                        else if(var1->type == VARTYPE_BOOLEAN)
-                        {
-                            line;
-                            ret_error(SEMANTIC_TYPE_ERROR);
-                        }
-                            
-                        if(var2->type == VARTYPE_INTEGER)
-                        {
-                            snprintf(buffer2, 10, "%d", var2->value.i);    
-                        }
-                        else if(var2->type == VARTYPE_DOUBLE)
-                        {
-                            snprintf(buffer2, 10, "%f", var2->value.d);    
-                        }    
-                        else if(var2->type == VARTYPE_STRING)
-                        {
-                            strcpy(buffer2, var2->value.s);
-                        }
-                        else if(var2->type == VARTYPE_BOOLEAN)
-                        {
-                            line;
-                            ret_error(SEMANTIC_TYPE_ERROR);
-                        }
-                        
-                        result->type = VARTYPE_STRING;
-                        result->value.s = malloc(sizeof(char)*(300));
-                        if(!result->value.s)ret_error(INTERNAL_ERROR);
-                        strcpy(result->value.s, buffer1);
-                        strcat(result->value.s, buffer2);
-                        return;
-                    }
-                
-                    if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
-                    {
-                        result->type = VARTYPE_DOUBLE;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.d + var2->value.d;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.d = var1->value.d + var2->value.i;
-                        if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.i + var2->value.d;
-                        // printf("\tADD RESULT:%g\t\n",result->value.d);
-                        break;
-                    }
-                    else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
-                    {   
-                        result->type = VARTYPE_INTEGER;
-                        result->value.i = var1->value.i + var2->value.i;
-                        // printf("\tADD RESULT:%d\t\n",result->value.i);
-                        break;
-                    }
-                    else
-                    {
-                        line;
-                        ret_error(UNINIT_VAR_ERROR);
-                    }
-                    break;
-                case INS_SUB:
-                    if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
-                    {
-                        result->type = VARTYPE_DOUBLE;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.d - var2->value.d;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.d = var1->value.d - var2->value.i;
-                        if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.i - var2->value.d;
-                        // printf("\tSUB RESULT:%g\t\n",result->value.d);
-                        break;
-                    }
-                    else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
-                    {   
-                        result->type = VARTYPE_INTEGER;
-                        result->value.i = var1->value.i - var2->value.i;
-                        // printf("\tSUB RESULT:%d\t\n",result->value.i);
-                        break;
-                    }
-                    else
-                    {
-                        // printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
-                        line;
-                        ret_error(UNINIT_VAR_ERROR);
-                    }
-                    break;
-                case INS_MUL:
-                    if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
-                    {
-                        result->type = VARTYPE_DOUBLE;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.d * var2->value.d;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.d = var1->value.d * var2->value.i;
-                        if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.i * var2->value.d;
-                        // printf("\tMUL RESULT:%g\t\n",result->value.d);
-                        break;
-                    }
-                    else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
-                    {   
-                        result->type = VARTYPE_INTEGER;
-                        result->value.i = var1->value.i * var2->value.i;
-                        // printf("\tMUL RESULT:%d\t\n",result->value.i);
-                        break;
-                    }
-                    else
-                    {
-                        line;
-                        ret_error(UNINIT_VAR_ERROR);
-                    }
-                    break;
-                case INS_DIV:
-                if(var2->value.d == 0 || var2->value.i == 0)
-                            ret_error(ZERO_DIV_ERROR);
-                    if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
-                    {
-                        result->type = VARTYPE_DOUBLE;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.d / var2->value.d;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.d = var1->value.d / var2->value.i;
-                        if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.d = var1->value.i / var2->value.d;
-                        // printf("\tDIV RESULT:%g\t\n",result->value.d);
-                        break;
-                    }
-                    else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
-                    {   
-                        result->type = VARTYPE_INTEGER;
-                        result->value.i = var1->value.i / var2->value.i;
-                        // printf("\tDIV RESULT:%d\t\n",result->value.i);
-                        break;
-                    }
-                    else
-                    {
-                        line;
-                        ret_error(UNINIT_VAR_ERROR);
-                    }
+            if(var2->type == VARTYPE_INTEGER)
+            {
+                snprintf(buffer2, 10, "%d", var2->value.i);    
+            }
+            else if(var2->type == VARTYPE_DOUBLE)
+            {
+                snprintf(buffer2, 10, "%f", var2->value.d);    
+            }    
+            else if(var2->type == VARTYPE_STRING)
+            {
+                strcpy(buffer2, var2->value.s);
+            }
+            else if(var2->type == VARTYPE_BOOLEAN)
+            {
+                line;
+                ret_error(SEMANTIC_TYPE_ERROR);
+            }
+            
+            result->type = VARTYPE_STRING;
+            result->value.s = malloc(sizeof(char)*(300));
+            if(!result->value.s)ret_error(INTERNAL_ERROR);
+            strcpy(result->value.s, buffer1);
+            strcat(result->value.s, buffer2);
+            return;
+        }
+    
+        if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
+        {
+            result->type = VARTYPE_DOUBLE;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.d + var2->value.d;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.d = var1->value.d + var2->value.i;
+            if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.i + var2->value.d;
+            // printf("\tADD RESULT:%g\t\n",result->value.d);
+            break;
+        }
+        else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
+        {   
+            result->type = VARTYPE_INTEGER;
+            result->value.i = var1->value.i + var2->value.i;
+            // printf("\tADD RESULT:%d\t\n",result->value.i);
+            break;
+        }
+        else
+        {
+            line;
+            ret_error(UNINIT_VAR_ERROR);
+        }
+        break;
+    case INS_SUB:
+        if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
+        {
+            result->type = VARTYPE_DOUBLE;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.d - var2->value.d;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.d = var1->value.d - var2->value.i;
+            if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.i - var2->value.d;
+            // printf("\tSUB RESULT:%g\t\n",result->value.d);
+            break;
+        }
+        else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
+        {   
+            result->type = VARTYPE_INTEGER;
+            result->value.i = var1->value.i - var2->value.i;
+            // printf("\tSUB RESULT:%d\t\n",result->value.i);
+            break;
+        }
+        else
+        {
+            // printf("%s %d %s %d\n",var1->name, var1->type, var2->name, var2->type);
+            line;
+            ret_error(UNINIT_VAR_ERROR);
+        }
+        break;
+    case INS_MUL:
+        if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
+        {
+            result->type = VARTYPE_DOUBLE;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.d * var2->value.d;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.d = var1->value.d * var2->value.i;
+            if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.i * var2->value.d;
+            // printf("\tMUL RESULT:%g\t\n",result->value.d);
+            break;
+        }
+        else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
+        {   
+            result->type = VARTYPE_INTEGER;
+            result->value.i = var1->value.i * var2->value.i;
+            // printf("\tMUL RESULT:%d\t\n",result->value.i);
+            break;
+        }
+        else
+        {
+            line;
+            ret_error(UNINIT_VAR_ERROR);
+        }
+        break;
+    case INS_DIV:
+    if(var2->value.d == 0 || var2->value.i == 0)
+                ret_error(ZERO_DIV_ERROR);
+        if(var1->type == VARTYPE_DOUBLE || var2->type == VARTYPE_DOUBLE)
+        {
+            result->type = VARTYPE_DOUBLE;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.d / var2->value.d;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.d = var1->value.d / var2->value.i;
+            if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.d = var1->value.i / var2->value.d;
+            // printf("\tDIV RESULT:%g\t\n",result->value.d);
+            break;
+        }
+        else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
+        {   
+            result->type = VARTYPE_INTEGER;
+            result->value.i = var1->value.i / var2->value.i;
+            // printf("\tDIV RESULT:%d\t\n",result->value.i);
+            break;
+        }
+        else
+        {
+            line;
+            ret_error(UNINIT_VAR_ERROR);
+        }
 
-                case INS_CMP_LESS:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d < var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d < var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i < var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            {result->value.b = var1->value.i < var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                case INS_CMP_LEQUAL:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d <= var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d <= var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i <= var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.i <= var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                case INS_CMP_GREATER:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d > var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d > var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i > var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.i > var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                case INS_CMP_GREQUAL:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d >= var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d >= var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i >= var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.i >= var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                case INS_CMP_EQUAL:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d == var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d == var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i == var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.i == var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                case INS_CMP_NOTEQUAL:
-                    if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
-                    {
-                        result->type = VARTYPE_BOOLEAN;
-                        if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.d != var2->value.d;
-                        else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.d != var2->value.i;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
-                            result->value.b = var1->value.i != var2->value.d;
-                        else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
-                            result->value.b = var1->value.i != var2->value.i;
-                        // printf("\tCOMPARE:%d\t\n",result->value.b);
-                        break;
-                    }
-                    else
-                    {
-                        ret_error(SEMANTIC_TYPE_ERROR);
-                    }
-                    default:line;ret_error(SEMANTIC_TYPE_ERROR);
-                    break;
-                }
-                }
+    case INS_CMP_LESS:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {//printf("\t%g %d\n",var1->value.d, var2->value.i);
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d < var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+            {
+                result->value.b = var1->value.d < var2->value.i;
+                // printf("computed:%d\n",result->value.b);
+            }
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i < var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                {result->value.b = var1->value.i < var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+    case INS_CMP_LEQUAL:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d <= var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.d <= var2->value.i;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i <= var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.i <= var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+    case INS_CMP_GREATER:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d > var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.d > var2->value.i;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i > var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.i > var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+    case INS_CMP_GREQUAL:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d >= var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.d >= var2->value.i;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i >= var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.i >= var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+    case INS_CMP_EQUAL:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d == var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.d == var2->value.i;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i == var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.i == var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+    case INS_CMP_NOTEQUAL:
+        if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
+        {
+            result->type = VARTYPE_BOOLEAN;
+            if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.d != var2->value.d;
+            else if(var1->type == VARTYPE_DOUBLE     && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.d != var2->value.i;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_DOUBLE)
+                result->value.b = var1->value.i != var2->value.d;
+            else if(var1->type == VARTYPE_INTEGER    && var2->type == VARTYPE_INTEGER)
+                result->value.b = var1->value.i != var2->value.i;
+            // printf("\tCOMPARE:%d\t\n",result->value.b);
+            break;
+        }
+        else
+        {
+            ret_error(SEMANTIC_TYPE_ERROR);
+        }
+        default:line;ret_error(SEMANTIC_TYPE_ERROR);
+        break;
+        }
+    }
 }
 
 int interpret()
@@ -753,9 +756,12 @@ int interpret()
                 {
                     TStack *stack = stackTop(localStack);
                     stackPop(localStack);
+                
                     if(!strcmp(func->name,"print"))
                     {
                         TVariable *var = stackTop(stack);
+                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -777,7 +783,8 @@ int interpret()
                     if(!strcmp(func->name, "length"))
                     {
                         TVariable *var = stackTop(stack);
-                        
+                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -807,7 +814,8 @@ int interpret()
                     {
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        
+                        if(!var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var1->name)
                         {
                             var1 = get_variable(var1);
@@ -842,7 +850,8 @@ int interpret()
                         TVariable *var0 = stackPop(stack);
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        
+                        if(!var0 || !var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var0->defined == 0 || var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var0->name)
                         {
                             var0 = get_variable(var0);

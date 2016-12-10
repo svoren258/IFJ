@@ -1,1 +1,69 @@
+
+
+	***INTERPRET BEGINING***
+
+INS_LABEL  15
+INS_JMP  12
+INS_LABEL  15
+INS_ASSIGN  14
+
+
+FIND var:firstname
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+INS_ASSIGN  14
+
+
+FIND var:surname
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
+
+
+FIND var:firstname
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+
+
+FIND var:surname
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+INS_LABEL  15
+INS_ASSIGN  14
+
+
+FIND var:result
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+
+
+FIND var:return
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+INS_ADD  0
+
+
+FIND var:result
+Function call: run stacktop:0
+0 var:firstname pos:0 type:3
+1 var:surname pos:1 type:3
+2 var:result pos:2 type:1
+INS_PUSH_TABLE  19
+INS_CALL  18
 -1
+INS_LABEL  15
+INS_RET  16
+INS_LABEL  15

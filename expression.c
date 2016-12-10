@@ -52,7 +52,7 @@ double literal_double(char* s){
     if(!str)ret_error(INTERNAL_ERROR);
     str[0] = '\0';
     int i;
-    for (i = 0; s[i] != 'e' ; ++i) {
+    for (i = 0; s[i] != 'e' && s[i] != 'E'  ; ++i) {
         str =  realloc(str, sizeof(char)*(i+1)*8);
         if(!str)ret_error(INTERNAL_ERROR);
         str[i] = s[i];
@@ -589,10 +589,7 @@ TVariable *generate_var(int assign)
     var->className = NULL;
     var->declared = 1;
     var->defined = 0;
-    if(var)
-    {
-        var->type = VARTYPE_NULL;
-    }
+    var->type = VARTYPE_NULL;
     
     if(assign == 1)
     {
@@ -710,7 +707,7 @@ int tokenToType(Ttoken *token)
                         }
                         if((functionCall = get_func_from_table(exprClass, TName)) == NULL)//this func might be defined in another class later
                         {
-                            new_function(TName, exprClass);//not gonna use return value from this or???
+                            functionCall = new_function(TName, exprClass);//not gonna use return value from this or???
                             //line;
                         }
                         functionCallTable = BSTSearch(exprClass->Root, TName);
@@ -956,9 +953,9 @@ void analysis(TVariable *var)
                 break;
             token = get_token();
         }
-         if(end>20)
+         if(end>100)
          {
-             exit(1);
+             ret_error(SYNTAX_ERROR);
              break;
          }
     }
