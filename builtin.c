@@ -36,6 +36,9 @@ int compare(char* s1,char* s2){
 }
 
 char* substr(char* s,int i,int n){
+    if(i > length(s) || n > (length(s)-i))
+	ret_error(OTHER_RUNTIME_ERROR);
+
     char* substr;
     substr = (char *) malloc(n);
     for (int j = 0; j < n; ++j) {
