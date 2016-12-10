@@ -246,7 +246,7 @@ void math()
         line;
         ret_error(UNINIT_VAR_ERROR);
     }
-    if( var2->defined == 0)
+    if( var1->defined == 0 || var2->defined == 0)
     {
         line;
         ret_error(UNINIT_VAR_ERROR);
@@ -886,6 +886,72 @@ int interpret()
                         }
                         
                     }
+                    if(!strcmp(func->name, "find"))
+                    {
+                        TVariable *var0 = stackPop(stack);
+                        TVariable *var1 = stackPop(stack);
+                        if(!var0 || !var1)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var0->defined == 0 || var1->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(var0->name)
+                        {
+                            var0 = get_variable(var0);
+                        }
+                        if(var1->name)
+                        {
+                            var1 = get_variable(var1);
+                        }
+                       
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var0->type != VARTYPE_STRING || var1->type != VARTYPE_STRING  )
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        
+                        if(result)
+                        {
+                            result->type = VARTYPE_INTEGER;
+                            result->value.i = find(var0, var1);
+                            result->defined = 1;
+                            stackPush(returnStack, result);
+                        }
+                        
+                    }
+                    if(!strcmp(func->name, "sort"))
+                    {
+                        TVariable *var = stackTop(stack);
+                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(var->name)
+                        {
+                            var = get_variable(var);
+                        }
+                        if(stack->top != 0)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        if(var->type != VARTYPE_STRING)
+                        {
+                            line;
+                            ret_error(SEMANTIC_TYPE_ERROR);
+                        }
+                        
+                        if(result)
+                        {
+                            result->type = VARTYPE_STRING;
+                            result->value.s = malloc(sizeof(char)*300);
+                            if(!result->value.s)ret_error(INTERNAL_ERROR);
+                            result->value.s = strcpy(result->value.s, sort(var));
+                            result->defined = 1;
+                            stackPush(returnStack, result);
+                        }
+                        
+                    }
                     if(!strcmp(func->name, "readDouble"))
                     {
                         if(result)
@@ -961,6 +1027,8 @@ int interpret()
                         // printf("%d %d\n",src->type, dest->type);
                         if(locStack->top != paramStack->top)
                             ret_error(SEMANTIC_TYPE_ERROR);
+                        if(src->defined == 0)
+                            ret_error(UNINIT_VAR_ERROR);
                         if(src->type != dest->type)
                         {
                             line;
@@ -989,13 +1057,29 @@ int interpret()
                 TStack * topStack = stackTop(localStack);
                 TListItem instr = stackPop(topStack);
                 TVariable *result = ins->add1;
+                TFunction *currFunc = functionNode->data.f;
                 
                 if(result)
                 {
+                    if(currFunc->params[0] != result->type)
+                    {
+                        line;
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
                     result->name = malloc(sizeof(char)* 100);
-                    if(!result->name)ret_error(INTERNAL_ERROR);
+                    if(!result->name)
+                    {
+                        line;
+                        ret_error(INTERNAL_ERROR);
+                    }
                     strcpy(result->name, "return");
                     stackPush(returnStack,result);
+                } else {
+                    if(currFunc->params[0] != FUNCTYPE_VOID)
+                    {printf("%d\n",currFunc->params[0]);
+                        line;
+                        ret_error(SEMANTIC_TYPE_ERROR);
+                    }
                 }
 
                 ins = instr;

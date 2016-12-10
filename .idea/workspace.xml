@@ -12,37 +12,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/java.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ifj_tester" afterPath="$PROJECT_DIR$/ifj_tester" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/comparetest.rout" afterPath="$PROJECT_DIR$/tests/builtin/comparetest.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/lengthtest.rout" afterPath="$PROJECT_DIR$/tests/builtin/lengthtest.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/substrtest.rout" afterPath="$PROJECT_DIR$/tests/builtin/substrtest.rout" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/java.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex.rout" afterPath="$PROJECT_DIR$/tests/lex/lex.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex1.rout" afterPath="$PROJECT_DIR$/tests/lex/lex1.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.rout" afterPath="$PROJECT_DIR$/tests/lex/lex2.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.rout" afterPath="$PROJECT_DIR$/tests/lex/lex3.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex4.rout" afterPath="$PROJECT_DIR$/tests/lex/lex4.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex5.rout" afterPath="$PROJECT_DIR$/tests/lex/lex5.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.ecode" afterPath="$PROJECT_DIR$/tests/lex/lex6.ecode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.eout" afterPath="$PROJECT_DIR$/tests/lex/lex6.eout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.rout" afterPath="$PROJECT_DIR$/tests/lex/lex6.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/others/error8.rout" afterPath="$PROJECT_DIR$/tests/others/error8.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/others/error8_2.rout" afterPath="$PROJECT_DIR$/tests/others/error8_2.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/others/error9.rout" afterPath="$PROJECT_DIR$/tests/others/error9.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem1.rout" afterPath="$PROJECT_DIR$/tests/sem/sem1.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem3.rout" afterPath="$PROJECT_DIR$/tests/sem/sem3.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem4.rout" afterPath="$PROJECT_DIR$/tests/sem/sem4.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem6.rout" afterPath="$PROJECT_DIR$/tests/sem/sem6.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem8.rout" afterPath="$PROJECT_DIR$/tests/sem/sem8.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem9.rout" afterPath="$PROJECT_DIR$/tests/sem/sem9.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt2.rout" afterPath="$PROJECT_DIR$/tests/synt/synt2.rout" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.ecode" afterPath="$PROJECT_DIR$/tests/synt/synt8.ecode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.java" afterPath="$PROJECT_DIR$/tests/synt/synt8.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex2.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex3.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex4.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex4.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex5.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex5.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex6.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem4.rcode" afterPath="$PROJECT_DIR$/tests/sem/sem4.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt2.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt2.rcode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt8.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.rout" afterPath="$PROJECT_DIR$/tests/synt/synt8.rout" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" afterPath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/zinterpreter/int1.rout" afterPath="$PROJECT_DIR$/tests/zinterpreter/int1.rout" />
     </list>
@@ -64,7 +48,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="parser.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-3548">
@@ -74,18 +58,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="defs.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/defs.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1566">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lex6.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/lex/lex6.java">
+      <file leaf-file-name="synt8.rcode" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rcode">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -94,18 +68,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="synt8.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/synt/synt8.java">
+      <file leaf-file-name="int1.rcode" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.rcode">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="java.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/java.java">
+      <file leaf-file-name="defs.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/defs.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1566">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding>
+                <marker date="1481376299425" expanded="false" signature="605:669" ph="..." />
+                <marker date="1481376299425" expanded="false" signature="876:925" ph="..." />
+                <marker date="1481376299425" expanded="true" signature="1089:1156" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1169:1206" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1259:1308" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1364:1550" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1557:1680" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1687:1775" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1828:1990" ph="{...}" />
+                <marker date="1481376299425" expanded="true" signature="1937:1982" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="synt8.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/synt/synt8.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
               <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
@@ -154,16 +149,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -172,8 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tests/lex/lex4.java" />
-        <option value="$PROJECT_DIR$/tests/lex/lex4.ecode" />
         <option value="$PROJECT_DIR$/tests/lex/lex4.eout" />
         <option value="$PROJECT_DIR$/tests/lex/lex4.rcode" />
         <option value="$PROJECT_DIR$/tests/others/error8_2.ecode" />
@@ -223,6 +206,8 @@
         <option value="$PROJECT_DIR$/tests/synt/synt8.ecode" />
         <option value="$PROJECT_DIR$/java.java" />
         <option value="$PROJECT_DIR$/parser.c" />
+        <option value="$PROJECT_DIR$/tests/synt/synt8.rcode" />
+        <option value="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" />
       </list>
     </option>
   </component>
@@ -234,9 +219,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1366" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="y" value="27" />
+    <option name="width" value="1366" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -670,24 +655,24 @@
       <workItem from="1480681841602" duration="2420000" />
       <workItem from="1480849902520" duration="3096000" />
       <workItem from="1480876870016" duration="15554000" />
-      <workItem from="1481361189991" duration="6182000" />
+      <workItem from="1481361189991" duration="6339000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356977000" />
+    <option name="totallyTimeSpent" value="357134000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1366" y="0" width="1920" height="1080" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1107595" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15648286" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20788912" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6694491" sideWeight="0.5149031" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.48509687" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4490818" sideWeight="0.48509687" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -735,20 +720,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt2.ecode">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/synt/synt2.eout">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -1021,14 +992,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1045,42 +1008,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.eout">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/error.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.ecode">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rout">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1096,8 +1027,19 @@
     <entry file="file://$PROJECT_DIR$/defs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1566">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <marker date="1481376299425" expanded="false" signature="605:669" ph="..." />
+            <marker date="1481376299425" expanded="false" signature="876:925" ph="..." />
+            <marker date="1481376299425" expanded="true" signature="1089:1156" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1169:1206" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1259:1308" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1364:1550" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1557:1680" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1687:1775" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1828:1990" ph="{...}" />
+            <marker date="1481376299425" expanded="true" signature="1937:1982" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1105,6 +1047,62 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3548">
           <caret line="259" column="43" selection-start-line="259" selection-start-column="36" selection-end-line="259" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rout">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.eout">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.ecode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rcode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.rcode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
