@@ -251,8 +251,9 @@ void starter() {
             if (token->type != TOKEN_ID) {
                 ret_error(SYNTAX_ERROR);
             }
+            char *className = token->data;
 
-            tTablePtr classTable = create_class_table(token->data, globTable);
+            tTablePtr classTable = create_class_table(className, globTable);
             classContext = classTable;
             funcContext = NULL;
 //            tTablePtr classTable = BSTSearch(globTable, token->data);
