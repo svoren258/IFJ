@@ -191,6 +191,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     new_var->type = NODE_TYPE_VARIABLE;
 
     v->declared = 0;
+    v->fullNameCall = 0;
     v->name = token->data;
     v->className = NULL;
     v->type = VARTYPE_NULL;
@@ -254,8 +255,9 @@ void starter() {
             node = BSTSearch(node->Root, "run");
             if (node == NULL) { line;
                 ret_error(SEMANTIC_DEF_ERROR);
-            } else {
-                TListItem run = create_instruction(INS_JMP, NULL, NULL, node->data.f->list->First);
+            }
+            else{
+                TListItem run = create_instruction(INS_CALL, node->data.f, NULL, NULL);
                 insert_instruction(globalInitList, run);
             }
         }
@@ -268,8 +270,7 @@ void Declaration(tTablePtr table, Ttoken *token) {
     char *type = NULL;
 
 
-    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type !=
-                                                                             KEYWORD_VOID))) {  //TOKEN_TYPE <= int, string, double; TOKEN_BOOL plati len pre funkciu
+    if ((token->type != TOKEN_TYPE) && ((token->type != KEYWORD_BOOLEAN) && (token->type != KEYWORD_VOID))) {
         ret_error(SYNTAX_ERROR);
     }
     if ((token->type == KEYWORD_BOOLEAN) || (token->type == KEYWORD_VOID)) {
@@ -320,8 +321,6 @@ void Declaration(tTablePtr table, Ttoken *token) {
             v->declared = 1;
             v->position = table->data.c->numOfVars;
             table->data.c->numOfVars++;
-
-            printf("var %s is declared\n", v->name);
         } else {
             TFunction *f = funcDef(table, tokenID, type);
             f->declared = 1;
@@ -378,7 +377,6 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
 }
 
 TFunction *funcDef(tTablePtr table, Ttoken *tokenID, char *funcType) {
-    printf("som vo funcDef\n");
     TFunction *f;
     TVariable *v;
     TVariable *param;
@@ -915,7 +913,6 @@ void block_body(Ttoken *token) {
         token = get_token();
     }
 }
-
 /*--------------------/automat-----------------------*/
 
 void parse() {

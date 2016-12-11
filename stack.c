@@ -17,6 +17,7 @@ void stackError ( int error_code ){
 **
 ** TUTO FUNKCI, PROSÍME, NEUPRAVUJTE!
 */
+	// ret_error(INTERNAL_ERROR);
 	static const char* SERR_STRINGS[MAX_SERR+1] = {"Unknown error","Stack error: INIT","Stack error: PUSH","Stack error: TOP"};
 	if ( error_code <= 0 || error_code > MAX_SERR )
 		error_code = 0;

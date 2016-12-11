@@ -13,7 +13,27 @@
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/builtin.c" afterPath="$PROJECT_DIR$/builtin.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ial.c" afterPath="$PROJECT_DIR$/ial.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.c" afterPath="$PROJECT_DIR$/stack.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex2.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex3.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex4.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex4.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex5.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex5.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex6.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem4.rcode" afterPath="$PROJECT_DIR$/tests/sem/sem4.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt2.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt2.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt8.rcode" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" afterPath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,8 +56,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1476">
-              <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
+            <state relative-caret-position="315">
+              <caret line="914" column="1" selection-start-line="914" selection-start-column="1" selection-end-line="914" selection-end-column="1" />
               <folding>
                 <element signature="e#427#446#0" expanded="true" />
               </folding>
@@ -49,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/stack.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-324">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -58,8 +78,8 @@
       <file leaf-file-name="synt8.rcode" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rcode">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="18">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -69,7 +89,7 @@
         <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.rcode">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -79,18 +99,18 @@
         <entry file="file://$PROJECT_DIR$/defs.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="18">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding>
-                <marker date="1481376299425" expanded="false" signature="605:669" ph="..." />
-                <marker date="1481376299425" expanded="false" signature="876:925" ph="..." />
-                <marker date="1481376299425" expanded="true" signature="1089:1156" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1169:1206" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1259:1308" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1364:1550" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1557:1680" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1687:1775" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1828:1990" ph="{...}" />
-                <marker date="1481376299425" expanded="true" signature="1937:1982" ph="{...}" />
+                <marker date="1481460364683" expanded="false" signature="605:669" ph="..." />
+                <marker date="1481460364683" expanded="false" signature="876:925" ph="..." />
+                <marker date="1481460364683" expanded="true" signature="1089:1156" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1169:1206" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1259:1308" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1364:1550" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1557:1680" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1687:1775" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1828:2009" ph="{...}" />
+                <marker date="1481460364683" expanded="true" signature="1956:2001" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -653,12 +673,12 @@
       <workItem from="1480849902520" duration="3096000" />
       <workItem from="1480876870016" duration="15554000" />
       <workItem from="1481361189991" duration="7004000" />
-      <workItem from="1481458979383" duration="1331000" />
+      <workItem from="1481458979383" duration="1613000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="359130000" />
+    <option name="totallyTimeSpent" value="359412000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -991,18 +1011,18 @@
     <entry file="file://$PROJECT_DIR$/defs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding>
-            <marker date="1481376299425" expanded="false" signature="605:669" ph="..." />
-            <marker date="1481376299425" expanded="false" signature="876:925" ph="..." />
-            <marker date="1481376299425" expanded="true" signature="1089:1156" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1169:1206" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1259:1308" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1364:1550" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1557:1680" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1687:1775" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1828:1990" ph="{...}" />
-            <marker date="1481376299425" expanded="true" signature="1937:1982" ph="{...}" />
+            <marker date="1481460364683" expanded="false" signature="605:669" ph="..." />
+            <marker date="1481460364683" expanded="false" signature="876:925" ph="..." />
+            <marker date="1481460364683" expanded="true" signature="1089:1156" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1169:1206" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1259:1308" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1364:1550" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1557:1680" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1687:1775" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1828:2009" ph="{...}" />
+            <marker date="1481460364683" expanded="true" signature="1956:2001" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1041,8 +1061,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/synt/synt8.rcode">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="18">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1057,7 +1077,7 @@
     <entry file="file://$PROJECT_DIR$/tests/zinterpreter/int1.rcode">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1065,15 +1085,15 @@
     <entry file="file://$PROJECT_DIR$/stack.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-324">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1476">
-          <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
+        <state relative-caret-position="315">
+          <caret line="914" column="1" selection-start-line="914" selection-start-column="1" selection-end-line="914" selection-end-column="1" />
           <folding>
             <element signature="e#427#446#0" expanded="true" />
           </folding>

@@ -107,6 +107,7 @@ typedef struct new_var TVariable;
 struct new_var 
 {
 	char *className;
+	int fullNameCall;
 	char *name;
 	int type;
 	int position;
