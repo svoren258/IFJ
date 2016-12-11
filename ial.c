@@ -41,9 +41,6 @@ int find(TVariable* s, TVariable* search){
             prefix_t[k+1] = prefix_t[prefix_t[k+1]-1]+1;
         }
     }
-    for (int l = 0; l < size_search; ++l) {
-        printf("%d\n", prefix_t[l+1]);
-    }
 
     //samotne vyhladavanie v retazci
     int i = 0;
@@ -52,7 +49,6 @@ int find(TVariable* s, TVariable* search){
         //zhoda
 	if (str[i] == search_str[j]) {
             match = TRUE;
-            printf("if true\n");
             j++;
             i++;
         }

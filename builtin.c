@@ -6,6 +6,7 @@
 #include "builtin.h"
 #include "defs.h"
 
+//porovnanie 2 retazcov
 int compare(char* s1,char* s2){
     unsigned long int n = 0;
 
@@ -14,7 +15,7 @@ int compare(char* s1,char* s2){
     }else{
         n = strlen(s2);
     }
-
+    //porovnavanie jednotlivych prvkov
     for (int i = 0; i < n; ++i) {
         if(s1[i] < s2[i]) {
             return -1;
@@ -24,7 +25,7 @@ int compare(char* s1,char* s2){
             }
     }
 
-
+    //v pripade ze sa doteraz zhodovali, vrati kratsi retazec
     if(strlen(s1) < strlen(s2)){
         return -1;
     }
@@ -35,6 +36,7 @@ int compare(char* s1,char* s2){
     return 0;
 }
 
+//podretazec retazca s na indexe i, o dlzke n
 char* substr(char* s,int i,int n){
     if(i > length(s) || n > (length(s)-i))
 	ret_error(OTHER_RUNTIME_ERROR);
@@ -65,6 +67,7 @@ int length(char* str){
     return size;
 }
 
+//citanie hodnoty double zo vstupu
 double readDouble(){
     int c;
     char *str;
@@ -76,12 +79,12 @@ double readDouble(){
         if(c == EOF)
             break;
         if((!isdigit(c)) && (c != '.'))
-            return -1;
+            ret_error(10);
         if(c == '.'){
             if(bodka == FALSE)
-                bodka = TRUE;
+                bodka = TRUE; //poistenie proti viacerym bodkam vo vstupe
             else
-                return -1;
+                ret_error(10);
         }
 
         str = (char *) realloc(str, (i + 2));
@@ -104,7 +107,7 @@ int readInt(){
         if(c == EOF)
             break;
         if(!isdigit(c))
-            return -1;
+            ret_error(10);
 
         str = (char *) realloc(str, (i + 2));
         str[i++] = c;
