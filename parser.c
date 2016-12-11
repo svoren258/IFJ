@@ -787,7 +787,14 @@ void block_body(Ttoken *token) {
                     token = get_token();
                     if (token->type == TOKEN_ASSIGN) {
                         unget_token(1);
-                        variableDecl(tableOfClass, token_varID, NULL);
+                        node = BSTSearch(funcContext, tokenID->data);
+                        if(node == NULL){ line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        else{
+                            expression(node->data.v);
+                        }
+                        token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
                         }
