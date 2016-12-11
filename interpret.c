@@ -443,7 +443,7 @@ void math()
         else if(var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_INTEGER)
         {   
             result->type = VARTYPE_INTEGER;
-            result->value.i = var1->value.i / var2->value.i;
+            result->value.i = var1->value.i % var2->value.i;
             // printf("\tDIV RESULT:%d\t\n",result->value.i);
             break;
         }
@@ -453,6 +453,23 @@ void math()
             ret_error(SEMANTIC_TYPE_ERROR);
         }
 
+    case INS_CMP_LESS:
+    case INS_CMP_LEQUAL:
+    case INS_CMP_GREATER:
+    case INS_CMP_GREQUAL:
+    case INS_CMP_EQUAL:
+    case INS_CMP_NOTEQUAL:
+    if(var1->type == VARTYPE_DOUBLE && var2->type == VARTYPE_INTEGER)
+    {
+        var2->type = VARTYPE_DOUBLE;
+        var2->value.d = var2->value.i;
+    } 
+    else if (var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_DOUBLE)
+    {   
+        var1->type = VARTYPE_DOUBLE;
+        var1->value.d = var1->value.i;
+    }
+    
     case INS_CMP_LESS:
         if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
         {//printf("\t%g %d\n",var1->value.d, var2->value.i);

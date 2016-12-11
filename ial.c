@@ -15,6 +15,7 @@
 // 		return new_node;
 // }
 
+//Knuth-Morris-Prattov algoritmus na vyhladavanie podretazca v retazci
 int find(TVariable* s, TVariable* search){
     char* str = s->value.s;
     char* search_str = search->value.s;
@@ -22,11 +23,12 @@ int find(TVariable* s, TVariable* search){
     int size_s = strlen(str);
     int size_search = strlen(search_str);
     if(size_s < size_search)
-        return -1;
+        ret_error(10);
 
     if(size_search == 0)
         return 0;
     bool match = FALSE;
+    //vytvorenie pola prefixov
     int *prefix_t = malloc((size_search+1)* sizeof(int));
 	if(prefix_t == NULL){
 		ret_error(INTERNAL_ERROR);
@@ -39,19 +41,20 @@ int find(TVariable* s, TVariable* search){
             prefix_t[k+1] = prefix_t[prefix_t[k+1]-1]+1;
         }
     }
-    for (int l = 0; l < size_search; ++l) {
-        // printf("%d\n", prefix_t[l+1]);
-    }
 
+
+    //samotne vyhladavanie v retazci
     int i = 0;
     int j = 0;
     while (i<size_s && j<size_search) {
-        if (str[i] == search_str[j]) {
+        //zhoda
+	if (str[i] == search_str[j]) {
             match = TRUE;
-            // printf("if true\n");
+
             j++;
             i++;
         }
+	//nezhoda
         else {
             if(j == 0)
                 i++;
@@ -68,7 +71,7 @@ int find(TVariable* s, TVariable* search){
     free(prefix_t);
     return -1;
 }
-
+//list-merge sort algoritmus na zoradenie retazca
 char* sort(TVariable* s){
     char* str = s->value.s;
 
@@ -83,7 +86,7 @@ void sorting(char* s, int length){
     if(length <= 1)
         return;
 
-
+    //delenie retazca na dve casti
     int mid = length/2;
     char *left = (char*) malloc(mid);
 	if(left == NULL){
@@ -108,6 +111,7 @@ void sorting(char* s, int length){
     free(right);
 
 }
+//spajanie + zoradovanie retazcov
 void merge(char* s, char* left, int l_length, char* right, int r_length){
     int i = 0;
     int j = 0;
@@ -122,6 +126,7 @@ void merge(char* s, char* left, int l_length, char* right, int r_length){
             j++;
         }
     }
+    //doplnenie retazca
     if (i < l_length){
         while (i < l_length) {
             s[i + j] = left[i];
@@ -138,8 +143,8 @@ void merge(char* s, char* left, int l_length, char* right, int r_length){
 
 void BSTInit (tTablePtr *RootPtr) {
 
-	(*RootPtr) = NULL;	
-}	
+	(*RootPtr) = NULL;
+}
 
 
 
