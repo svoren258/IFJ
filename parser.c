@@ -630,7 +630,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
     } else {
         var->type = VARTYPE_NULL;
     }
-
+    var->defined = 1;
     var->declared = 1;
     var->position = numOfParam - 1;
     node = BSTSearch(table->Root, tokenID->data);

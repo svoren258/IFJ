@@ -116,7 +116,7 @@ int is_everything_defined(tTablePtr *RootPtr)
     
         if(*RootPtr)
         {
-//          printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
+        //  printf("name %s type %d\n",(*RootPtr)->name,(*RootPtr)->type);
             
             if(!is_everything_defined(&(*RootPtr)->RPtr))
                 return FALSE;
@@ -134,14 +134,25 @@ int is_everything_defined(tTablePtr *RootPtr)
             if((*RootPtr)->type == NODE_TYPE_VARIABLE)
             {
                 if((*RootPtr)->data.v->defined == 0)
+                {
+                    #ifdef DEBUG
+                    printf("NOT DEF%s\n",(*RootPtr)->data.v->name);
+                    #endif
                     return FALSE;
+                }
+                    
                     // printf("VAriable ok\n");
             }
         
             else if((*RootPtr)->type == NODE_TYPE_FUNCTION)
             {
                 if((*RootPtr)->data.f->defined == 0)
+                    {
+                        #ifdef DEBUG
+                    printf("NOT DEF%s\n",(*RootPtr)->data.f->name);
+                    #endif
                     return FALSE;
+                }
                     // printf("func ok %d\n",(*RootPtr)->data.f->defined);
             }
             
@@ -149,7 +160,12 @@ int is_everything_defined(tTablePtr *RootPtr)
             {
                 //  if((*RootPtr)->data.c->defined == 0)
                 if((*RootPtr)->data.c->defined == 0)
+                {
+                    #ifdef DEBUG
+                    printf("NOT DEF%s\n",(*RootPtr)->name);
+                    #endif
                     return FALSE;
+                }
                     // printf("class ok\n");
                 
             }
@@ -166,8 +182,10 @@ TVariable *get_variable(TVariable *findVar)
     // printf("Find var: %s\n",findVar->name);
     TVariable *var;//stack to be returned
     TStack *topStack;//for local variables
-    if(localStack->top>=0)
+    if (localStack->top>=0)
     topStack = stackTop(localStack);
+    else
+    functionNode=NULL;
     if(functionNodesStack->top >= 0)
     functionNode = stackTop(functionNodesStack);//for getting positions of the variables in the stack
     
@@ -190,6 +208,7 @@ TVariable *get_variable(TVariable *findVar)
             if(!strcmp(var->name, "return"))
             {
                 stackPop(returnStack);
+                
                 return var;//returns basically the last return variable
             }
             
@@ -202,6 +221,7 @@ TVariable *get_variable(TVariable *findVar)
         //Looking for a local variable
         if(functionNode)
         {
+            
             var = get_var_from_table(functionNode,findVar->name);//get the variable structure
             if(var)
             {
@@ -222,7 +242,7 @@ TVariable *get_variable(TVariable *findVar)
     tTablePtr  fullClassIdentifier = BSTSearch(globTable, findVar->className);//node of the class
     if(!fullClassIdentifier)
     {
-        ret_error(10);
+        ret_error(3);
     }
     
     //Looking for a global variable outside the current class
@@ -791,7 +811,7 @@ int interpret()
                 {
                     TStack *stack = stackTop(localStack);
                     stackPop(localStack);
-                
+                    
                     if(!strcmp(func->name,"print"))
                     {
                         TVariable *var = stackTop(stack);
@@ -870,7 +890,11 @@ int interpret()
                             line;
                             ret_error(SEMANTIC_DEF_ERROR);
                         }
-                        if(var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(var1->defined == 0 || var2->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(var1->name)
                         {
                             var1 = get_variable(var1);
@@ -910,7 +934,11 @@ int interpret()
                             line;
                             ret_error(SEMANTIC_DEF_ERROR);
                         }
-                        if(var0->defined == 0 || var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(var0->defined == 0 || var1->defined == 0 || var2->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(var0->name)
                         {
                             var0 = get_variable(var0);
@@ -954,7 +982,7 @@ int interpret()
                             line;
                             ret_error(SEMANTIC_DEF_ERROR);
                         }
-                        if(var0->defined == 0 || var1->defined == 0)ret_error(UNINIT_VAR_ERROR);
+
                         if(var0->name)
                         {
                             var0 = get_variable(var0);
@@ -963,8 +991,12 @@ int interpret()
                         {
                             var1 = get_variable(var1);
                         }
-                       
-                        if(stack->top != 0)
+                        if(var0->defined == 0 || var1->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }                       
+                        if(stack->top != -1)
                         {
                             line;
                             ret_error(SEMANTIC_TYPE_ERROR);
@@ -992,7 +1024,11 @@ int interpret()
                             line;
                             ret_error(SEMANTIC_DEF_ERROR);
                         }
-                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(var->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -1094,7 +1130,10 @@ int interpret()
                         // printf("%d %d\n",src->type, dest->type);
                         // printf("%s\n",src->name);
                         if(src->defined == 0)
+                        {
+                            line;
                             ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(!src || !dest)ret_error(SEMANTIC_TYPE_ERROR);
                         
                         if(src->type != dest->type)

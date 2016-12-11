@@ -40,7 +40,7 @@ int find(TVariable* s, TVariable* search){
         }
     }
     for (int l = 0; l < size_search; ++l) {
-        printf("%d\n", prefix_t[l+1]);
+        // printf("%d\n", prefix_t[l+1]);
     }
 
     int i = 0;
@@ -48,7 +48,7 @@ int find(TVariable* s, TVariable* search){
     while (i<size_s && j<size_search) {
         if (str[i] == search_str[j]) {
             match = TRUE;
-            printf("if true\n");
+            // printf("if true\n");
             j++;
             i++;
         }
@@ -217,7 +217,7 @@ void BSTInsert (tTablePtr* RootPtr, tTablePtr* new, char *K)	{
 	
 	if( !strcmp(K, (*RootPtr)->name) )
 	{
-		printf("%s already exists %s %d\n",K, __FILE__, __LINE__);
+		// printf("%s already exists %s %d\n",K, __FILE__, __LINE__);
 		return;
 	}
 

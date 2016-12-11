@@ -20,7 +20,7 @@
 
 #include "lex.h"
 
-  //#define DEBUG
+  #define DEBUG
 
 #ifdef DEBUG
 #define line printf("***FILE: %s  LINE: %d***\n",__FILE__, __LINE__)

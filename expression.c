@@ -884,6 +884,7 @@ void analysis(TVariable *var)
                     // printf("%d\n",token->type);
                     // tok;
                     TVariable *var = generate_var(1);
+                    
                     stackPush(oStack, var);
                 }
             
@@ -997,6 +998,7 @@ void analysis(TVariable *var)
         }
          if(end>100)
          {
+             line;
              ret_error(SYNTAX_ERROR);
              break;
          }
@@ -1052,7 +1054,7 @@ void expression(TVariable *var)
     }
     // //printf("%s\n",thisFunction->name);
 
-    analysis(var);
+    analysis(var);printf("UNGET %s\n",token->data);
     unget_token(1);
     printStacks();
     
