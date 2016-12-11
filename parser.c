@@ -672,7 +672,6 @@ void ifelse_statement(tTablePtr table) {
     insert_instruction(table->data.f->list, cmp);
 
     token = get_token();
-
     block_body(token);
 
     insert_instruction(table->data.f->list, jmp);
@@ -880,15 +879,16 @@ void block_body(Ttoken *token) {
                         if (token->type == TOKEN_ASSIGN) {
                             unget_token(1);
                             variableDecl(funcContext, token_varID, NULL);
+                            unget_token(1);
                             token = get_token();
-                            if (token->type != TOKEN_SEM_CL) {
+                            if (token->type != TOKEN_SEM_CL) { line;
                                 ret_error(SYNTAX_ERROR);
                             }
                         } else if (token->type == TOKEN_L_ROUND) {
                             unget_token(2);
                             expression(NULL);
                             token = get_token();
-                            if (token->type != TOKEN_SEM_CL) {
+                            if (token->type != TOKEN_SEM_CL) { line;
                                 ret_error(SYNTAX_ERROR);
                             }
                         } else {
