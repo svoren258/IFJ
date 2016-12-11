@@ -28,17 +28,17 @@ int find(TVariable* s, TVariable* search){
     if(size_search == 0)
         return 0;
     bool match = FALSE;
-    //vytvorenie pola prefixov
-    int *prefix_t = malloc((size_search+1)* sizeof(int));
-	if(prefix_t == NULL){
+    //vytvorenie fail vektoru
+    int *fail_v = malloc((size_search+1)* sizeof(int));
+	if(fail_v == NULL){
 		ret_error(INTERNAL_ERROR);
 	}
 
-    prefix_t[0] = -1;
+    fail_v[0] = -1;
     for (int k = 0; k < size_search; ++k) {
-        prefix_t[k+1] = prefix_t[k] + 1;
-        while((prefix_t[k+1] > 0) && (search_str[k] != search_str[prefix_t[k+1]-1])) {
-            prefix_t[k+1] = prefix_t[prefix_t[k+1]-1]+1;
+        fail_v[k+1] = fail_v[k] + 1;
+        while((fail_v[k+1] > 0) && (search_str[k] != search_str[fail_v[k+1]-1])) {
+            fail_v[k+1] = fail_v[fail_v[k+1]-1]+1;
         }
     }
 
@@ -59,16 +59,16 @@ int find(TVariable* s, TVariable* search){
             if(j == 0)
                 i++;
             match = FALSE;
-            j = prefix_t[j + 1];
+            j = fail_v[j + 1];
         }
     }
 
         if(match == TRUE) {
-            free(prefix_t);
+            free(fail_v);
             return i-size_search;
         }
 
-    free(prefix_t);
+    free(fail_v);
     return -1;
 }
 //list-merge sort algoritmus na zoradenie retazca
