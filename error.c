@@ -12,37 +12,37 @@ void ret_error(int error){
     switch(error)
     {
         case(LEX_ERROR):
-            fprintf(stderr,"Lexical error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Lexical error on line !\n");
             break;
         case(SYNTAX_ERROR):
-            fprintf(stderr,"Syntax error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Syntax error on line !\n");
             break;
         case(SEMANTIC_DEF_ERROR):
-            fprintf(stderr,"Semantic definition error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Semantic definition error on line !\n");
             break;
         case(SEMANTIC_TYPE_ERROR):
-            fprintf(stderr,"Semantic type error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Semantic type error on line !\n");
             break;
         case(SEMANTIC_OTHER_ERROR):
-            fprintf(stderr,"Semantic error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Semantic error on line !\n");
             break;
         case(INPUT_READ_ERROR):
-            fprintf(stderr,"Error while input reading on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Error while input reading on line !\n");
             break;
         case(UNINIT_VAR_ERROR):
-            fprintf(stderr,"Uninitialized variable on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Uninitialized variable on line !\n");
             break;
         case(ZERO_DIV_ERROR):
-            fprintf(stderr,"Division by zero on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Division by zero on line !\n");
             break;
         case(OTHER_RUNTIME_ERROR):
-            fprintf(stderr,"Runtime error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Runtime error on line !\n");
             break;
         case(INTERNAL_ERROR):
-            fprintf(stderr,"Internal error on line %d!\n",token->lineNumber);
+            fprintf(stderr,"Internal error on line !\n");
             break;
     }
-    // printf("error number: %d\n", error);
+    // printf("error number: \n", error);
     exit(error);
 
 }

@@ -340,6 +340,9 @@ void BSTDispose (tTablePtr *RootPtr)
 			}
 		}
 }
+/******************************************************************************/
+/**********************END OF CONTROLLED PART OF IAL.C*************************/
+/******************************************************************************/
 
 void freeVar(TVariable *var)
 {
@@ -382,11 +385,11 @@ void freeFunc(TFunction *func)
 
 void freeClass(TClass *cls)
 {
-	for(int i = cls->stack->top; i >=0; i--)
-	{
-		TVariable *var = cls->stack->data[i];
-		free(var);
-	}
+	// for(int i = cls->stack->top; i >=0; i--)
+	// {
+	// 	TVariable *var = cls->stack->data[i];
+	// 	// free(var);
+	// }
 	free(cls->stack);
 	// printf("FREE CLASS\n");
 }
