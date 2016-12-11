@@ -162,7 +162,7 @@ int is_everything_defined(tTablePtr *RootPtr)
 
 TVariable *get_variable(TVariable *findVar)
 {
-    
+    // printf("FIND:%s %d\n",findVar->name, findVar->fullNameCall);
     // printf("Find var: %s\n",findVar->name);
     TVariable *var;//stack to be returned
     TStack *topStack;//for local variables
@@ -196,22 +196,27 @@ TVariable *get_variable(TVariable *findVar)
         }
     }
     
-   if(functionNode)
+    
+    if(findVar->fullNameCall == 0)
     {
         //Looking for a local variable
-        var = get_var_from_table(functionNode,findVar->name);//get the variable structure
-        if(var)
+        if(functionNode)
         {
-            // printf(" first %s\n",var->name);
-            var = topStack->data[var->position];//fidn variable on the position
+            var = get_var_from_table(functionNode,findVar->name);//get the variable structure
+            if(var)
+            {
+                // printf(" first %s\n",var->name);
+                var = topStack->data[var->position];//fidn variable on the position
+            }
+            if(var)
+            {
+                return var;//return the variable
+            } 
         }
-        if(var)
-        {
-            return var;//return the variable
-        } 
+        
     }
     
-    // printf("first?\n");
+    
         
     //Looking for a global variable
     tTablePtr  fullClassIdentifier = BSTSearch(globTable, findVar->className);//node of the class
@@ -229,6 +234,7 @@ TVariable *get_variable(TVariable *findVar)
     
     if(var != NULL)
         return var;
+    
 
     //This should never happen    
     return NULL;
@@ -237,9 +243,9 @@ TVariable *get_variable(TVariable *findVar)
 void math()
 {
     var1 = ins->add1;
-    if(var1->name)var1 = get_variable(var1);
+    // if(var1->name)var1 = get_variable(var1);
     var2 = ins->add2;
-    if(var2->name)var2 = get_variable(var2);
+    // if(var2->name)var2 = get_variable(var2);
     
     result = ins->add3;
     int op = ins->operation;
@@ -447,6 +453,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     case INS_CMP_LEQUAL:
@@ -466,6 +473,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     case INS_CMP_GREATER:
@@ -485,6 +493,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     case INS_CMP_GREQUAL:
@@ -504,6 +513,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     case INS_CMP_EQUAL:
@@ -523,6 +533,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     case INS_CMP_NOTEQUAL:
@@ -542,6 +553,7 @@ void math()
         }
         else
         {
+            line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
         default:line;ret_error(SEMANTIC_TYPE_ERROR);
@@ -613,7 +625,11 @@ int interpret()
             
             case INS_ASSIGN:
                 
-                if(!ins->add1 || !ins->add2)ret_error(SEMANTIC_DEF_ERROR);
+                if(!ins->add1 || !ins->add2)
+                {
+                    line;
+                    ret_error(SEMANTIC_DEF_ERROR);
+                }
                 var1 = ins->add1;
                 if(var1->name)
                 {
@@ -639,7 +655,12 @@ int interpret()
                     // printf("return %d\n",var2->value.i);
                     #endif
                 }
-                if(!var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                if(!var1 || !var2)
+                {
+                    // printf("%s %s\n",var1->name,var2->name);
+                    line;
+                    ret_error(SEMANTIC_DEF_ERROR);
+                }
                 if( var2->defined == 0)
                 {
                     line;
@@ -774,8 +795,16 @@ int interpret()
                     if(!strcmp(func->name,"print"))
                     {
                         TVariable *var = stackTop(stack);
-                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
-                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(!var)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        if(var->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -797,8 +826,16 @@ int interpret()
                     if(!strcmp(func->name, "length"))
                     {
                         TVariable *var = stackTop(stack);
-                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
-                        if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
+                        if(!var)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
+                        if(var->defined == 0)
+                        {
+                            line;
+                            ret_error(UNINIT_VAR_ERROR);
+                        }
                         if(var->name)
                         {
                             var = get_variable(var);
@@ -828,7 +865,11 @@ int interpret()
                     {
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        if(!var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(!var1 || !var2)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
                         if(var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var1->name)
                         {
@@ -864,7 +905,11 @@ int interpret()
                         TVariable *var0 = stackPop(stack);
                         TVariable *var1 = stackPop(stack);
                         TVariable *var2 = stackTop(stack);
-                        if(!var0 || !var1 || !var2)ret_error(SEMANTIC_DEF_ERROR);
+                        if(!var0 || !var1 || !var2)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
                         if(var0->defined == 0 || var1->defined == 0 || var2->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var0->name)
                         {
@@ -904,7 +949,11 @@ int interpret()
                     {
                         TVariable *var0 = stackPop(stack);
                         TVariable *var1 = stackPop(stack);
-                        if(!var0 || !var1)ret_error(SEMANTIC_DEF_ERROR);
+                        if(!var0 || !var1)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
                         if(var0->defined == 0 || var1->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var0->name)
                         {
@@ -938,7 +987,11 @@ int interpret()
                     if(!strcmp(func->name, "sort"))
                     {
                         TVariable *var = stackTop(stack);
-                        if(!var)ret_error(SEMANTIC_DEF_ERROR);
+                        if(!var)
+                        {
+                            line;
+                            ret_error(SEMANTIC_DEF_ERROR);
+                        }
                         if(var->defined == 0)ret_error(UNINIT_VAR_ERROR);
                         if(var->name)
                         {
@@ -1031,18 +1084,19 @@ int interpret()
                 }
                 else
                 {
-                    
+                    // if(paramStack->top != )
                     // printf("***LOCSTACK***\n");
-                    for(int i=0; i <= locStack->top; i++)
+                    for(int i=0; i <= paramStack->top; i++)
                     {
                         TVariable *src = paramStack->data[paramStack->top - i];
                         TVariable *dest = locStack->data[i];
                         // printf("%d\n",src->defined);
                         // printf("%d %d\n",src->type, dest->type);
-                        if(locStack->top != paramStack->top)
-                            ret_error(SEMANTIC_TYPE_ERROR);
+                        // printf("%s\n",src->name);
                         if(src->defined == 0)
                             ret_error(UNINIT_VAR_ERROR);
+                        if(!src || !dest)ret_error(SEMANTIC_TYPE_ERROR);
+                        
                         if(src->type != dest->type)
                         {
                             line;
@@ -1094,7 +1148,7 @@ int interpret()
                 } else {
                     if(currFunc->params[0] != FUNCTYPE_VOID)
                     {
-                        // printf("%d\n",currFunc->params[0]);
+                        
                         line;
                         ret_error(SEMANTIC_TYPE_ERROR);
                     }
@@ -1105,6 +1159,8 @@ int interpret()
                 stackPop(functionNodesStack);
                 stackPop(localStack);
                 stackPop(globalStack);
+                if(functionNodesStack->top >= 0)functionNode = stackTop(functionNodesStack);
+                else functionNode = NULL;
                 
                 continue;
             }

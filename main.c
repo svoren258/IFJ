@@ -25,7 +25,6 @@ int main(int argc, char **argv)
 		ret_error(INTERNAL_ERROR);
 	}
 	
-	
 	file = fopen(argv[1], "r");
 	
 	if(!file)

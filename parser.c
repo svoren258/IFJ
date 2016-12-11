@@ -219,6 +219,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     new_var->type = NODE_TYPE_VARIABLE;
 
     v->declared = 0;
+    v->fullNameCall = 0;
     v->name = token->data;
     v->className = NULL;
     v->type = VARTYPE_NULL;
