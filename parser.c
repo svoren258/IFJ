@@ -191,6 +191,7 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     new_var->type = NODE_TYPE_VARIABLE;
 
     v->declared = 0;
+    v->defined = 0;
     v->fullNameCall = 0;
     v->name = token->data;
     v->className = NULL;
@@ -632,6 +633,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
     }
 
     var->declared = 1;
+    var->defined = 1;
     var->position = numOfParam - 1;
     node = BSTSearch(table->Root, tokenID->data);
     node->data.v = var;

@@ -12,28 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/builtin.c" afterPath="$PROJECT_DIR$/builtin.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/defs.h" afterPath="$PROJECT_DIR$/defs.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expression.c" afterPath="$PROJECT_DIR$/expression.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ial.c" afterPath="$PROJECT_DIR$/ial.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpret.c" afterPath="$PROJECT_DIR$/interpret.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stack.c" afterPath="$PROJECT_DIR$/stack.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/comparetest.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/lengthtest.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" afterPath="$PROJECT_DIR$/tests/builtin/substrtest.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex2.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex2.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex3.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex3.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex4.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex4.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex5.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex5.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/lex/lex6.rcode" afterPath="$PROJECT_DIR$/tests/lex/lex6.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/sem/sem4.rcode" afterPath="$PROJECT_DIR$/tests/sem/sem4.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt2.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt2.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/synt/synt8.rcode" afterPath="$PROJECT_DIR$/tests/synt/synt8.rcode" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" afterPath="$PROJECT_DIR$/tests/zinterpreter/int1.rcode" />
     </list>
     <ignored path="projekt-IFJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,8 +35,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="914" column="1" selection-start-line="914" selection-start-column="1" selection-end-line="914" selection-end-column="1" />
+            <state relative-caret-position="210">
+              <caret line="635" column="21" selection-start-line="635" selection-start-column="21" selection-end-line="635" selection-end-column="21" />
               <folding>
                 <element signature="e#427#446#0" expanded="true" />
               </folding>
@@ -673,12 +652,12 @@
       <workItem from="1480849902520" duration="3096000" />
       <workItem from="1480876870016" duration="15554000" />
       <workItem from="1481361189991" duration="7004000" />
-      <workItem from="1481458979383" duration="1613000" />
+      <workItem from="1481458979383" duration="2391000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="359412000" />
+    <option name="totallyTimeSpent" value="360190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -1092,8 +1071,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="914" column="1" selection-start-line="914" selection-start-column="1" selection-end-line="914" selection-end-column="1" />
+        <state relative-caret-position="210">
+          <caret line="635" column="21" selection-start-line="635" selection-start-column="21" selection-end-line="635" selection-end-column="21" />
           <folding>
             <element signature="e#427#446#0" expanded="true" />
           </folding>
