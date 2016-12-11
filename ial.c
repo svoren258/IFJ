@@ -21,8 +21,6 @@ int find(TVariable* s, TVariable* search){
 
     int size_s = strlen(str);
     int size_search = strlen(search_str);
-    printf("size_s: %d\n", size_s);
-    printf("size_search: %d\n", size_search);
     if(size_s < size_search)
         return -1;
 
