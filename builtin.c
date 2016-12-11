@@ -73,7 +73,7 @@ double readDouble(){
     char *str;
     int i = 0;
     bool bodka = FALSE;
-    str = (char *) malloc(1);
+    str = (char *) malloc(sizeof(char)*8);
 
     while((c = getchar()) != '\n'){
         if(c == EOF)
@@ -87,8 +87,9 @@ double readDouble(){
                 ret_error(10);
         }
 
-        str = (char *) realloc(str, (i + 2));
+        str = (char *) realloc(str, (sizeof(char))*8*(i+1));
         str[i++] = c;
+        str[i] = '\0';
     }
     double cislo = atof(str);
 
@@ -101,7 +102,7 @@ int readInt(){
     int c;
     char *str;
     int i = 0;
-    str = (char *) malloc(1);
+    str = (char *) malloc(sizeof(char)*8);
 
     while((c = getchar()) != '\n'){
         if(c == EOF)
@@ -109,8 +110,9 @@ int readInt(){
         if(!isdigit(c))
             ret_error(10);
 
-        str = (char *) realloc(str, (i + 2));
+        str = (char *) realloc(str, (sizeof(char))*8*(i+1));
         str[i++] = c;
+        str[i] = '\0';
     }
     int cislo = atoi(str);
 
@@ -125,14 +127,15 @@ char* readString(){
     int c;
     char *str;
     int i = 0;
-    str = (char *) malloc(1);
+    str = (char *) malloc(sizeof(char)*8);
 
     while((c = getchar()) != '\n') {
         if(c == EOF)
             break;
-        str = (char *) realloc(str, (i+2));
+        str = (char *) realloc(str, (sizeof(char))*8*(i+1));
 
         str[i++] = c;
+        str[i] = '\0';
     }
 
 return str;

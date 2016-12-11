@@ -1054,7 +1054,7 @@ void expression(TVariable *var)
     }
     // //printf("%s\n",thisFunction->name);
 
-    analysis(var);printf("UNGET %s\n",token->data);
+    analysis(var);
     unget_token(1);
     printStacks();
     

@@ -293,7 +293,25 @@ void math()
         
     result->defined = 1;
     
-    
+    switch(op)
+    {
+        case INS_CMP_LESS:
+        case INS_CMP_LEQUAL:
+        case INS_CMP_GREATER:
+        case INS_CMP_GREQUAL:
+        case INS_CMP_EQUAL:
+        case INS_CMP_NOTEQUAL:
+        if(var1->type == VARTYPE_DOUBLE && var2->type == VARTYPE_INTEGER)
+        {
+            var2->type = VARTYPE_DOUBLE;
+            var2->value.d = var2->value.i;
+        } 
+        else if (var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_DOUBLE)
+        {   
+            var1->type = VARTYPE_DOUBLE;
+            var1->value.d = var1->value.i;
+        }
+    }
     
     switch(op)
     {
@@ -305,11 +323,11 @@ void math()
             
             if(var1->type == VARTYPE_INTEGER)
             {
-                snprintf(buffer1, 10, "%d", var1->value.i);    
+                snprintf(buffer1, 20, "%d", var1->value.i);    
             }
             else if(var1->type == VARTYPE_DOUBLE)
             {
-                snprintf(buffer1, 10, "%f", var1->value.d);    
+                snprintf(buffer1, 20, "%f", var1->value.d);    
             }
             else if(var1->type == VARTYPE_STRING)
             {
@@ -323,11 +341,11 @@ void math()
                 
             if(var2->type == VARTYPE_INTEGER)
             {
-                snprintf(buffer2, 10, "%d", var2->value.i);    
+                snprintf(buffer2, 20, "%d", var2->value.i);    
             }
             else if(var2->type == VARTYPE_DOUBLE)
             {
-                snprintf(buffer2, 10, "%f", var2->value.d);    
+                snprintf(buffer2, 20, "%f", var2->value.d);    
             }    
             else if(var2->type == VARTYPE_STRING)
             {
@@ -453,22 +471,7 @@ void math()
             ret_error(SEMANTIC_TYPE_ERROR);
         }
 
-    case INS_CMP_LESS:
-    case INS_CMP_LEQUAL:
-    case INS_CMP_GREATER:
-    case INS_CMP_GREQUAL:
-    case INS_CMP_EQUAL:
-    case INS_CMP_NOTEQUAL:
-    if(var1->type == VARTYPE_DOUBLE && var2->type == VARTYPE_INTEGER)
-    {
-        var2->type = VARTYPE_DOUBLE;
-        var2->value.d = var2->value.i;
-    } 
-    else if (var1->type == VARTYPE_INTEGER && var2->type == VARTYPE_DOUBLE)
-    {   
-        var1->type = VARTYPE_DOUBLE;
-        var1->value.d = var1->value.i;
-    }
+    
     
     case INS_CMP_LESS:
         if((var1->type == VARTYPE_INTEGER|| var1->type == VARTYPE_DOUBLE) &&(var2->type == VARTYPE_INTEGER || var2->type == VARTYPE_DOUBLE))
