@@ -139,7 +139,6 @@ void parser_finish() {
 }
 
 TFunction *new_function(char *tokenName, tTablePtr table) {    /*allocate the space for a new function*/
-
     TFunction *f;
     f = malloc(sizeof(TFunction));
     if (f == NULL) {
@@ -194,11 +193,13 @@ TVariable *new_variable(Ttoken *token, tTablePtr table) {
     v->defined = 0;
     v->fullNameCall = 0;
     v->name = token->data;
-    v->className = NULL;
     v->type = VARTYPE_NULL;
     if (table->type == NODE_TYPE_CLASS) {
         v->className = table->name;
     } else if (table->type == NODE_TYPE_FUNCTION) {
+        if(!strcmp(token->data, table->name)){ line;
+            ret_error(SEMANTIC_DEF_ERROR);
+        }
         v->className = table->data.f->className;
     }
     new_var->data.v = v;
@@ -609,7 +610,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
     char *type = token->data;
 
     Ttoken *tokenID = get_token();
-    if (tokenID->type != TOKEN_ID) {
+    if (tokenID->type != TOKEN_ID) { line;
         ret_error(SYNTAX_ERROR);
     }
 
@@ -642,7 +643,7 @@ TVariable *params(tTablePtr fTable, Ttoken *token, int numOfParam) { //spracovan
 
 void ifelse_statement(tTablePtr table) {
     TVariable *var = malloc(sizeof(TVariable));
-    if (var == NULL) {
+    if (var == NULL) { line;
         ret_error(INTERNAL_ERROR);
     }
     var->name = NULL;
@@ -653,18 +654,18 @@ void ifelse_statement(tTablePtr table) {
     TListItem jmp = create_instruction(INS_JMP, NULL, NULL, endElse);
 
     token = get_token();
-    if (token->type != TOKEN_L_ROUND) {
+    if (token->type != TOKEN_L_ROUND) { line;
         ret_error(SYNTAX_ERROR);
     }
 
     expression(var);
 
     token = get_token();
-    if (token->type != TOKEN_R_ROUND) {
+    if (token->type != TOKEN_R_ROUND) { line;
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
-    if (token->type != TOKEN_L_CURLY) {
+    if (token->type != TOKEN_L_CURLY) { line;
         ret_error(SYNTAX_ERROR);
     }
 
@@ -677,11 +678,11 @@ void ifelse_statement(tTablePtr table) {
     insert_instruction(table->data.f->list, jmp);
 
     token = get_token();
-    if (token->type != KEYWORD_ELSE) {
+    if (token->type != KEYWORD_ELSE) { line;
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
-    if (token->type != TOKEN_L_CURLY) {
+    if (token->type != TOKEN_L_CURLY) { line;
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
@@ -695,7 +696,7 @@ void ifelse_statement(tTablePtr table) {
 
 void while_statement(tTablePtr table) {
     TVariable *var = malloc(sizeof(TVariable));
-    if (var == NULL) {
+    if (var == NULL) { line;
         ret_error(INTERNAL_ERROR);
     }
     var->name = NULL;
@@ -706,7 +707,7 @@ void while_statement(tTablePtr table) {
     TListItem jmp = create_instruction(INS_JMP, NULL, NULL, startWhile);
 
     token = get_token();
-    if (token->type != TOKEN_L_ROUND) {
+    if (token->type != TOKEN_L_ROUND) { line;
         ret_error(SYNTAX_ERROR);
     }
     //must jump before the compare instruction in order to work properly
@@ -715,11 +716,11 @@ void while_statement(tTablePtr table) {
     expression(var);
 
     token = get_token();
-    if (token->type != TOKEN_R_ROUND) {
+    if (token->type != TOKEN_R_ROUND) { line;
         ret_error(SYNTAX_ERROR);
     }
     token = get_token();
-    if (token->type != TOKEN_L_CURLY) {
+    if (token->type != TOKEN_L_CURLY) { line;
         ret_error(SYNTAX_ERROR);
     }
 
@@ -740,12 +741,12 @@ void return_statement(tTablePtr table) {
     token = get_token();
     if (table->data.f->params[0] == FUNCTYPE_VOID) {
         retItem = create_instruction(INS_RET, NULL, NULL, NULL);
-        if (token->type != TOKEN_SEM_CL) {
+        if (token->type != TOKEN_SEM_CL) { line;
             ret_error(SEMANTIC_TYPE_ERROR);
         }
     } else {
         TVariable *ret = malloc(sizeof(TVariable));
-        if (ret == NULL) {
+        if (ret == NULL) { line;
             ret_error(INTERNAL_ERROR);
         }
         ret->name = NULL;
