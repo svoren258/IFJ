@@ -9,7 +9,7 @@
 #include "expression.h"
 #include "interpret.h"
 
-TList *globalInitList;
+        TList *globalInitList;
 tTablePtr funcContext = NULL;
 tTablePtr classContext;
 tTablePtr globTable;//v nej su tabulky tried | v kazdej tabulke triedy su jej funkcie a glob premenne.
@@ -366,7 +366,7 @@ TVariable *variableDecl(tTablePtr table, Ttoken *tokenID, char *type) {
         expression(var);
         var->defined = 1;
         token = get_token();
-        if (token->type != TOKEN_SEM_CL) {
+        if (token->type != TOKEN_SEM_CL) {  line;
             ret_error(SYNTAX_ERROR);
         }
 
@@ -787,13 +787,7 @@ void block_body(Ttoken *token) {
                     token = get_token();
                     if (token->type == TOKEN_ASSIGN) {
                         unget_token(1);
-                        node = BSTSearch(funcContext, tokenID->data);
-                        if(node == NULL){ line;
-                            ret_error(SEMANTIC_DEF_ERROR);
-                        }
-                        else{
-                            expression(node->data.v);
-                        }
+                        variableDecl(tableOfClass, token_varID, NULL);
                         token = get_token();
                         if (token->type != TOKEN_SEM_CL) {
                             ret_error(SYNTAX_ERROR);
@@ -801,7 +795,7 @@ void block_body(Ttoken *token) {
                     } else if (token->type == TOKEN_L_ROUND) {
                         node = BSTSearch(tableOfClass->Root, token_varID->data);
 
-                        if ((node == NULL) && (strcmp(className, "ifj16"))) {
+                        if ((node == NULL) && ((strcmp(className, "ifj16")) != 0)) {
                             TFunction *f = new_function(token_varID->data, tableOfClass);
                             f->declared = 1;
                             unget_token(4);
@@ -886,7 +880,6 @@ void block_body(Ttoken *token) {
                         if (token->type == TOKEN_ASSIGN) {
                             unget_token(1);
                             variableDecl(funcContext, token_varID, NULL);
-                            unget_token(1);
                             token = get_token();
                             if (token->type != TOKEN_SEM_CL) {
                                 ret_error(SYNTAX_ERROR);

@@ -12,6 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdb5627-ec0a-4967-b5dd-2df604223537" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parser.c" afterPath="$PROJECT_DIR$/parser.c" />
     </list>
     <ignored path="projekt-IFJ.iws" />
@@ -35,8 +36,8 @@
       <file leaf-file-name="parser.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="796" column="44" selection-start-line="796" selection-start-column="44" selection-end-line="796" selection-end-column="44" />
+            <state relative-caret-position="391">
+              <caret line="789" column="62" selection-start-line="789" selection-start-column="62" selection-end-line="789" selection-end-column="62" />
               <folding>
                 <element signature="e#427#446#0" expanded="true" />
               </folding>
@@ -728,12 +729,12 @@
       <workItem from="1480849902520" duration="3096000" />
       <workItem from="1480876870016" duration="15554000" />
       <workItem from="1481361189991" duration="7004000" />
-      <workItem from="1481458979383" duration="4886000" />
+      <workItem from="1481458979383" duration="6947000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="362685000" />
+    <option name="totallyTimeSpent" value="364746000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
@@ -1151,8 +1152,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/parser.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="796" column="44" selection-start-line="796" selection-start-column="44" selection-end-line="796" selection-end-column="44" />
+        <state relative-caret-position="391">
+          <caret line="789" column="62" selection-start-line="789" selection-start-column="62" selection-end-line="789" selection-end-column="62" />
           <folding>
             <element signature="e#427#446#0" expanded="true" />
           </folding>
