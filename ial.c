@@ -9,7 +9,7 @@
 //#include "builtin.h"
 //#include "defs.h"
 // tTablePtr BSTPrepare (tTablePtr new_node){
-	
+
 // 	new_node = malloc(sizeof(struct tTable));
 // 	if(new_node)
 // 		return new_node;
